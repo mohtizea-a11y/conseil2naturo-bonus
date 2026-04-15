@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>L'eau — Le pilier oublié · Conseil2Naturo</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap');
+
+  :root {
+    --green-deep: #1E3A1A;
+    --green-mid: #3D6B35;
+    --green-sage: #6B9B5E;
+    --green-light: #C8DFC2;
+    --green-pale: #EDF5EA;
+    --gold: #B8860B;
+    --gold-light: #D4A820;
+    --gold-pale: #FDF5DC;
+    --cream: #FAFAF5;
+    --text: #1A2E18;
+    --text2: #4A6A42;
+    --white: #FFFFFF;
+    --blue: #2A6D8A;
+    --blue-light: #A8D4E6;
+    --blue-pale: #EBF5FA;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--text); }
+
+  .header {
+    background: linear-gradient(135deg, #1A3A4A 0%, #2A6D8A 100%);
+    padding: 2.5rem 2rem 2rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 70% 30%, rgba(168,212,230,0.12) 0%, transparent 60%);
+  }
+  .header-tag {
+    display: inline-block;
+    background: rgba(212,168,32,0.2);
+    border: 1px solid rgba(212,168,32,0.4);
+    color: var(--gold-light);
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 0.3rem 1rem;
+    border-radius: 20px;
+    margin-bottom: 1rem;
+    position: relative;
+  }
+  .header h1 { font-family: 'Playfair Display', serif; font-size: 2.2rem; color: var(--white); line-height: 1.2; margin-bottom: 0.5rem; position: relative; }
+  .header h1 span { color: var(--gold-light); }
+  .header p { color: var(--blue-light); font-size: 0.9rem; max-width: 520px; margin: 0 auto; font-style: italic; position: relative; }
+
+  .container { max-width: 900px; margin: 0 auto; padding: 0 1.5rem 3rem; }
+
+  .intro-box {
+    background: linear-gradient(135deg, #1A3A4A, #2A6D8A);
+    border-radius: 12px;
+    padding: 1.5rem 2rem;
+    margin: 2rem 0 1.5rem;
+    color: var(--blue-light);
+    font-size: 0.92rem;
+    line-height: 1.7;
+  }
+  .intro-box strong { color: var(--gold-light); }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    color: var(--green-deep);
+    margin: 2.5rem 0 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--blue-light);
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  /* TABS */
+  .tabs { display: flex; gap: 0.5rem; margin: 1.5rem 0 1rem; flex-wrap: wrap; }
+  .tab-btn {
+    padding: 0.55rem 1.2rem;
+    border-radius: 20px;
+    border: 1.5px solid var(--blue-light);
+    background: white;
+    color: var(--text2);
+    font-size: 0.85rem;
+    font-family: 'DM Sans', sans-serif;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .tab-btn:hover, .tab-btn.active {
+    background: #1A3A4A;
+    border-color: #1A3A4A;
+    color: white;
+    font-weight: 500;
+  }
+  .tab-content { display: none; animation: fadeIn 0.3s ease; }
+  .tab-content.active { display: block; }
+  @keyframes fadeIn { from { opacity:0; transform:translateY(4px); } to { opacity:1; transform:translateY(0); } }
+
+  /* CHIFFRES CLÉS */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+    margin: 1.5rem 0;
+  }
+  .stat-card {
+    background: white;
+    border: 1px solid var(--blue-light);
+    border-radius: 12px;
+    padding: 1.2rem;
+    text-align: center;
+  }
+  .stat-icon { font-size: 2rem; margin-bottom: 0.4rem; }
+  .stat-num { font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--blue); line-height: 1; }
+  .stat-label { font-size: 0.8rem; color: var(--text2); margin-top: 0.3rem; line-height: 1.4; }
+
+  /* RÔLES EAU */
+  .roles-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1rem;
+    margin: 1.5rem 0;
+  }
+  .role-card {
+    background: white;
+    border: 1px solid var(--blue-light);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .role-header {
+    padding: 0.8rem 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    background: linear-gradient(135deg, #1A3A4A, #2A6D8A);
+    color: white;
+    font-weight: 500;
+    font-size: 0.92rem;
+  }
+  .role-icon { font-size: 1.4rem; }
+  .role-body { padding: 0.9rem 1.2rem; }
+  .role-desc { font-size: 0.85rem; color: var(--text2); line-height: 1.6; }
+
+  /* BESOINS */
+  .besoin-section {
+    background: white;
+    border: 1px solid var(--blue-light);
+    border-radius: 12px;
+    overflow: hidden;
+    margin: 1.5rem 0;
+  }
+  .besoin-header {
+    background: linear-gradient(135deg, #1A3A4A, #2A6D8A);
+    padding: 1rem 1.5rem;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05rem;
+    color: white;
+  }
+  .besoin-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 0;
+  }
+  .besoin-item {
+    padding: 1rem 1.2rem;
+    border-right: 1px solid var(--blue-pale);
+    border-bottom: 1px solid var(--blue-pale);
+  }
+  .besoin-item:last-child { border-right: none; }
+  .besoin-profil { font-weight: 500; color: var(--blue); font-size: 0.88rem; margin-bottom: 0.3rem; }
+  .besoin-qte { font-family: 'Playfair Display', serif; font-size: 1.6rem; color: var(--green-deep); }
+  .besoin-unite { font-size: 0.78rem; color: var(--text2); }
+  .besoin-note { font-size: 0.78rem; color: var(--text2); margin-top: 0.3rem; line-height: 1.3; font-style: italic; }
+
+  /* CALCULATEUR */
+  .calc-section {
+    background: white;
+    border: 1px solid var(--blue-light);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+  }
+  .calc-title { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: var(--green-deep); margin-bottom: 0.5rem; }
+  .calc-sub { font-size: 0.83rem; color: var(--text2); margin-bottom: 1.2rem; }
+  .calc-row { display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem; flex-wrap: wrap; }
+  .calc-label { font-size: 0.85rem; color: var(--text2); min-width: 180px; }
+  .calc-input {
+    padding: 0.5rem 0.8rem;
+    border: 1.5px solid var(--blue-light);
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    width: 100px;
+    color: var(--text);
+  }
+  .calc-input:focus { outline: none; border-color: var(--blue); }
+  .calc-unit { font-size: 0.82rem; color: var(--text2); }
+  .calc-result {
+    background: var(--blue-pale);
+    border: 1px solid var(--blue-light);
+    border-radius: 10px;
+    padding: 1rem 1.2rem;
+    margin-top: 0.5rem;
+  }
+  .calc-result-num { font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--blue); }
+  .calc-result-label { font-size: 0.85rem; color: var(--text2); margin-top: 0.2rem; }
+  .calc-result-detail { font-size: 0.8rem; color: var(--text2); margin-top: 0.5rem; font-style: italic; }
+
+  /* QUELLE EAU */
+  .eau-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1rem;
+    margin: 1.5rem 0;
+  }
+  .eau-card {
+    background: white;
+    border: 1px solid var(--blue-light);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .eau-header {
+    padding: 0.7rem 1.1rem;
+    font-weight: 500;
+    font-size: 0.9rem;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .eau-note-tag {
+    margin-left: auto;
+    font-size: 0.72rem;
+    background: rgba(255,255,255,0.2);
+    padding: 0.15rem 0.5rem;
+    border-radius: 8px;
+  }
+  .eau-body { padding: 0.9rem 1.1rem; }
+  .eau-pros, .eau-cons { list-style: none; margin-bottom: 0.5rem; }
+  .eau-pros li, .eau-cons li {
+    font-size: 0.82rem;
+    padding: 0.2rem 0 0.2rem 1.2rem;
+    position: relative;
+    color: var(--text2);
+    border-bottom: 1px solid var(--blue-pale);
+    line-height: 1.4;
+  }
+  .eau-pros li:last-child, .eau-cons li:last-child { border-bottom: none; }
+  .eau-pros li::before { content: '✓'; color: var(--green-sage); position: absolute; left: 0; }
+  .eau-cons li::before { content: '○'; color: #E8A820; position: absolute; left: 0; font-size: 0.7rem; top: 0.3rem; }
+
+  /* URINES TRACKER */
+  .urine-scale {
+    background: white;
+    border: 1px solid var(--blue-light);
+    border-radius: 12px;
+    overflow: hidden;
+    margin: 1.5rem 0;
+  }
+  .urine-header {
+    background: linear-gradient(135deg, #1A3A4A, #2A6D8A);
+    padding: 0.9rem 1.5rem;
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    color: white;
+  }
+  .urine-body { padding: 1.2rem 1.5rem; }
+  .urine-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--blue-pale);
+  }
+  .urine-row:last-child { border-bottom: none; }
+  .urine-color {
+    width: 48px; height: 24px;
+    border-radius: 20px;
+    flex-shrink: 0;
+    border: 1px solid rgba(0,0,0,0.08);
+  }
+  .urine-label { font-size: 0.82rem; color: var(--text); font-weight: 500; min-width: 100px; }
+  .urine-interp { font-size: 0.8rem; color: var(--text2); flex: 1; }
+  .urine-status { font-size: 0.75rem; font-weight: 500; padding: 0.15rem 0.5rem; border-radius: 8px; flex-shrink: 0; }
+  .status-ok { background: var(--green-pale); color: var(--green-mid); }
+  .status-warn { background: var(--gold-pale); color: var(--gold); }
+  .status-bad { background: #FFF0F0; color: #C04040; }
+
+  /* JOURNAL */
+  .journal-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.3rem;
+    margin: 1rem 0;
+  }
+  .jour-header {
+    text-align: center;
+    font-size: 0.7rem;
+    color: var(--text2);
+    font-weight: 500;
+    padding: 0.3rem;
+  }
+  .jour-cell {
+    background: white;
+    border: 1px solid var(--blue-light);
+    border-radius: 8px;
+    padding: 0.5rem 0.3rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .jour-cell:hover { border-color: var(--blue); }
+  .jour-cell.done { background: var(--blue-pale); border-color: var(--blue); }
+  .jour-num { font-size: 0.72rem; color: var(--text2); margin-bottom: 0.3rem; }
+  .jour-glasses { display: flex; flex-wrap: wrap; gap: 2px; justify-content: center; }
+  .glass-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--blue-light);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .glass-dot.filled { background: var(--blue); }
+
+  .footer {
+    background: linear-gradient(135deg, #1A3A4A, #2A6D8A);
+    color: var(--blue-light);
+    text-align: center;
+    padding: 2rem;
+    margin-top: 2rem;
+    font-size: 0.85rem;
+  }
+  .footer strong { color: var(--gold-light); }
+
+  @media (max-width: 600px) {
+    .header h1 { font-size: 1.7rem; }
+    .journal-grid { grid-template-columns: repeat(4, 1fr); }
+    .besoin-grid { grid-template-columns: 1fr 1fr; }
+    .calc-row { flex-direction: column; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-tag">Conseil2Naturo · Bonus · L'hydratation</div>
+  <h1>L'eau — <span>le pilier oublié</span><br>de ta santé</h1>
+  <p>Sans eau, rien ne fonctionne. Et pourtant c'est souvent le dernier levier qu'on pense à optimiser.</p>
+</div>
+
+<div class="container">
+
+  <div class="intro-box">
+    <strong>Ce que dit la science.</strong> Le cerveau contient environ 80% d'eau. Une déshydratation de seulement 1 à 2% peut déjà réduire la concentration, altérer l'humeur, créer de la fatigue et des maux de tête. Et pourtant dans toutes les conversations sur l'alimentation anti-inflammatoire — l'eau est la grande absente.
+  </div>
+
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('roles', this)">💧 Rôles de l'eau</button>
+    <button class="tab-btn" onclick="switchTab('combien', this)">📏 Combien boire</button>
+    <button class="tab-btn" onclick="switchTab('quelle', this)">🔍 Quelle eau choisir</button>
+    <button class="tab-btn" onclick="switchTab('signes', this)">🌡️ Signes d'hydratation</button>
+    <button class="tab-btn" onclick="switchTab('journal', this)">📅 Mon suivi</button>
+  </div>
+
+  <!-- TAB 1 : RÔLES -->
+  <div class="tab-content active" id="tab-roles">
+
+    <div class="section-title">💧 Ce que l'eau fait vraiment dans ton corps</div>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon">🧠</div>
+        <div class="stat-num">80%</div>
+        <div class="stat-label">d'eau dans le cerveau — l'organe le plus hydraté</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">💧</div>
+        <div class="stat-num">60-70%</div>
+        <div class="stat-label">du poids corporel est de l'eau</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">⚡</div>
+        <div class="stat-num">-2%</div>
+        <div class="stat-label">de déshydratation suffit à altérer la concentration et l'humeur</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">🏃</div>
+        <div class="stat-num">-20%</div>
+        <div class="stat-label">de performances physiques avec 2% de déshydratation</div>
+      </div>
+    </div>
+
+    <div class="roles-grid">
+      <div class="role-card">
+        <div class="role-header"><span class="role-icon">🌡️</span>Réguler la température</div>
+        <div class="role-body">
+          <div class="role-desc">L'eau agit comme un climatiseur naturel. Elle aide le corps à maintenir une température stable même quand il fait chaud ou que tu bouges. Elle protège aussi les reins, très sensibles à la chaleur et à la déshydratation.</div>
+        </div>
+      </div>
+      <div class="role-card">
+        <div class="role-header"><span class="role-icon">🚛</span>Transporter les nutriments</div>
+        <div class="role-body">
+          <div class="role-desc">L'eau est le véhicule de tous les nutriments dans le sang. Vitamines, minéraux, glucose, oxygène — tout voyage dans l'eau. Sans hydratation suffisante, même les meilleurs aliments ne sont pas bien transportés jusqu'aux cellules.</div>
+        </div>
+      </div>
+      <div class="role-card">
+        <div class="role-header"><span class="role-icon">🧹</span>Éliminer les déchets</div>
+        <div class="role-body">
+          <div class="role-desc">Les reins filtrent environ 200 litres de sang par jour — mais ils ont besoin d'eau pour fonctionner. Sans hydratation suffisante, les déchets métaboliques s'accumulent. C'est une source directe d'inflammation chronique.</div>
+        </div>
+      </div>
+      <div class="role-card">
+        <div class="role-header"><span class="role-icon">🛡️</span>Protéger les articulations</div>
+        <div class="role-body">
+          <div class="role-desc">Le liquide synovial qui lubrifie les articulations est composé en grande partie d'eau. Une déshydratation chronique peut contribuer aux douleurs articulaires — souvent confondues avec une inflammation d'origine alimentaire.</div>
+        </div>
+      </div>
+      <div class="role-card">
+        <div class="role-header"><span class="role-icon">🧬</span>Soutenir la digestion</div>
+        <div class="role-body">
+          <div class="role-desc">L'eau participe à la production de la salive, de l'acide gastrique, du mucus intestinal. Elle facilite le transit et évite la constipation. Un intestin bien hydraté est un intestin moins inflammé.</div>
+        </div>
+      </div>
+      <div class="role-card">
+        <div class="role-header"><span class="role-icon">🌊</span>Réguler la glycémie</div>
+        <div class="role-body">
+          <div class="role-desc">Une hydratation insuffisante peut augmenter la concentration de glucose dans le sang. Le corps libère alors de la vasopressine — une hormone qui stimule la production de glycogène par le foie et peut aggraver la résistance à l'insuline.</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="background:var(--blue-pale); border-left:3px solid var(--blue); padding:0.9rem 1.2rem; border-radius:0 10px 10px 0; margin:1.5rem 0; font-size:0.88rem; color:var(--text2); line-height:1.6;">
+      <strong style="color:#1A3A4A; display:block; margin-bottom:0.3rem;">💡 Ce que disait Alexis Carrel, Prix Nobel de médecine</strong>
+      "Tant que les cellules sont correctement nourries, hydratées et débarrassées de leurs déchets, elles continuent de vivre." Il a maintenu un cœur de poulet en vie pendant plus d'un an en laboratoire — simplement en renouvelant les liquides qui l'entouraient.
+    </div>
+
+  </div>
+
+  <!-- TAB 2 : COMBIEN -->
+  <div class="tab-content" id="tab-combien">
+
+    <div class="section-title">📏 Combien boire selon ton profil</div>
+
+    <div class="besoin-section">
+      <div class="besoin-header">💧 Besoins quotidiens selon le profil</div>
+      <div class="besoin-grid">
+        <div class="besoin-item">
+          <div class="besoin-profil">Femme adulte</div>
+          <div class="besoin-qte">1,5 - 2<span style="font-size:0.9rem;"> L</span></div>
+          <div class="besoin-note">En dehors des repas · Hors activité intense</div>
+        </div>
+        <div class="besoin-item">
+          <div class="besoin-profil">Activité sportive</div>
+          <div class="besoin-qte">+0,5 - 1<span style="font-size:0.9rem;"> L</span></div>
+          <div class="besoin-note">Par heure d'effort en plus du besoin de base</div>
+        </div>
+        <div class="besoin-item">
+          <div class="besoin-profil">Forte chaleur</div>
+          <div class="besoin-qte">+0,5<span style="font-size:0.9rem;"> L</span></div>
+          <div class="besoin-note">Les pertes par transpiration augmentent significativement</div>
+        </div>
+        <div class="besoin-item">
+          <div class="besoin-profil">Allaitement</div>
+          <div class="besoin-qte">+0,5 - 1<span style="font-size:0.9rem;"> L</span></div>
+          <div class="besoin-note">La production de lait augmente les besoins hydriques</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Calculateur -->
+    <div class="calc-section">
+      <div class="calc-title">🧮 Calcule ton besoin personnalisé</div>
+      <div class="calc-sub">Formule de base : 30-35 ml d'eau par kg de poids corporel</div>
+
+      <div class="calc-row">
+        <div class="calc-label">Mon poids</div>
+        <input type="number" class="calc-input" id="poids" placeholder="65" min="40" max="150" oninput="calcEau()">
+        <span class="calc-unit">kg</span>
+      </div>
+
+      <div class="calc-row">
+        <div class="calc-label">Activité physique aujourd'hui</div>
+        <select class="calc-input" id="activite" style="width:160px;" onchange="calcEau()">
+          <option value="0">Sédentaire</option>
+          <option value="0.5">Légère (marche)</option>
+          <option value="1">Modérée (sport 1h)</option>
+          <option value="1.5">Intense (sport 2h+)</option>
+        </select>
+      </div>
+
+      <div class="calc-row">
+        <div class="calc-label">Il fait chaud ?</div>
+        <select class="calc-input" id="chaleur" style="width:160px;" onchange="calcEau()">
+          <option value="0">Non</option>
+          <option value="0.3">Un peu (20-25°C)</option>
+          <option value="0.5">Oui (25°C+)</option>
+        </select>
+      </div>
+
+      <div class="calc-result" id="calc-result" style="display:none;">
+        <div class="calc-result-num" id="calc-num">0 L</div>
+        <div class="calc-result-label">à boire aujourd'hui</div>
+        <div class="calc-result-detail" id="calc-detail"></div>
+      </div>
+
+      <div style="background:var(--blue-pale); border-radius:8px; padding:0.8rem 1rem; margin-top:1rem; font-size:0.82rem; color:#1A3A4A; line-height:1.5;">
+        ⚠️ <strong>Important :</strong> Cette quantité inclut l'eau des aliments (environ 20% de nos apports). Elle ne signifie pas boire cette quantité en plus de ce que tu manges. Les fruits, légumes, soupes et infusions comptent dans ton hydratation totale.
+      </div>
+    </div>
+
+    <div class="section-title">⏰ Comment répartir sur la journée</div>
+
+    <div style="background:white; border:1px solid var(--blue-light); border-radius:12px; overflow:hidden; margin:1rem 0;">
+      <div style="background:linear-gradient(135deg, #1A3A4A, #2A6D8A); padding:0.8rem 1.5rem; color:white; font-weight:500;">Répartition idéale de l'hydratation</div>
+      <div style="padding:0;">
+        <div style="display:grid; grid-template-columns:100px 1fr; border-bottom:1px solid var(--blue-pale); padding:0.7rem 1.2rem; align-items:center; gap:1rem;">
+          <div style="font-weight:500; color:var(--blue); font-size:0.85rem;">Au réveil</div>
+          <div style="font-size:0.83rem; color:var(--text2);">1 grand verre d'eau tiède à jeun (300-400ml) — réhydrater après la nuit et soutenir le transit</div>
+        </div>
+        <div style="display:grid; grid-template-columns:100px 1fr; border-bottom:1px solid var(--blue-pale); padding:0.7rem 1.2rem; align-items:center; gap:1rem;">
+          <div style="font-weight:500; color:var(--blue); font-size:0.85rem;">Matin</div>
+          <div style="font-size:0.83rem; color:var(--text2);">2 à 3 verres entre le réveil et le déjeuner — thé vert, infusion ou eau plate</div>
+        </div>
+        <div style="display:grid; grid-template-columns:100px 1fr; border-bottom:1px solid var(--blue-pale); padding:0.7rem 1.2rem; align-items:center; gap:1rem;">
+          <div style="font-weight:500; color:var(--blue); font-size:0.85rem;">Repas</div>
+          <div style="font-size:0.83rem; color:var(--text2);">Boire peu pendant le repas (dilue les enzymes digestives) — 1 verre maximum. Boire avant ou après.</div>
+        </div>
+        <div style="display:grid; grid-template-columns:100px 1fr; border-bottom:1px solid var(--blue-pale); padding:0.7rem 1.2rem; align-items:center; gap:1rem;">
+          <div style="font-weight:500; color:var(--blue); font-size:0.85rem;">Après-midi</div>
+          <div style="font-size:0.83rem; color:var(--text2);">2 à 3 verres — souvent la période où on oublie de boire. Pose une bouteille en vue.</div>
+        </div>
+        <div style="display:grid; grid-template-columns:100px 1fr; padding:0.7rem 1.2rem; align-items:center; gap:1rem;">
+          <div style="font-weight:500; color:var(--blue); font-size:0.85rem;">Soir</div>
+          <div style="font-size:0.83rem; color:var(--text2);">Réduire progressivement après 19h pour ne pas perturber le sommeil — infusion apaisante possible</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- TAB 3 : QUELLE EAU -->
+  <div class="tab-content" id="tab-quelle">
+
+    <div class="section-title">🔍 Quelle eau choisir au quotidien</div>
+
+    <div class="eau-grid">
+
+      <div class="eau-card">
+        <div class="eau-header" style="background:linear-gradient(135deg,#2A6D8A,#1A3A4A);">
+          <span>🚰</span> Eau du robinet
+          <span class="eau-note-tag">Variable</span>
+        </div>
+        <div class="eau-body">
+          <ul class="eau-pros">
+            <li>Gratuite, accessible, sans plastique</li>
+            <li>Contrôlée par les autorités sanitaires</li>
+            <li>Faible empreinte écologique</li>
+          </ul>
+          <ul class="eau-cons">
+            <li>Contient chlore, résidus de médicaments, nitrates selon les zones</li>
+            <li>Qualité très variable selon les régions</li>
+            <li>Vieilles canalisations = plomb possible</li>
+          </ul>
+          <div style="font-size:0.78rem; color:var(--blue); margin-top:0.5rem; font-weight:500;">→ Solution : filtre à charbon actif ou osmoseur</div>
+        </div>
+      </div>
+
+      <div class="eau-card">
+        <div class="eau-header" style="background:linear-gradient(135deg,#3D6B35,#1E3A1A);">
+          <span>🔵</span> Eau filtrée
+          <span class="eau-note-tag" style="background:rgba(255,255,255,0.3);">Recommandée</span>
+        </div>
+        <div class="eau-body">
+          <ul class="eau-pros">
+            <li>Élimine le chlore, les métaux lourds, certains résidus</li>
+            <li>Plus économique que l'eau en bouteille sur le long terme</li>
+            <li>Pas de plastique</li>
+          </ul>
+          <ul class="eau-cons">
+            <li>Filtre à charbon actif : économique, efficace pour le chlore</li>
+            <li>Osmoseur : plus complet mais élimine aussi les minéraux — à reminéraliser</li>
+            <li>Changer les filtres régulièrement</li>
+          </ul>
+          <div style="font-size:0.78rem; color:var(--green-mid); margin-top:0.5rem; font-weight:500;">→ Option la plus équilibrée santé + écologie</div>
+        </div>
+      </div>
+
+      <div class="eau-card">
+        <div class="eau-header" style="background:linear-gradient(135deg,#B8860B,#8B6508);">
+          <span>🏔️</span> Eau minérale en bouteille
+          <span class="eau-note-tag">Occasionnel</span>
+        </div>
+        <div class="eau-body">
+          <ul class="eau-pros">
+            <li>Composition constante et garantie</li>
+            <li>Riche en minéraux selon la source</li>
+            <li>Hépar/Contrex : riches en calcium et magnésium</li>
+          </ul>
+          <ul class="eau-cons">
+            <li>Plastique — perturbateurs endocriniens possibles si bouteille chauffée</li>
+            <li>Coûteuse et polluante sur le long terme</li>
+            <li>Verre préférable si possible</li>
+          </ul>
+          <div style="font-size:0.78rem; color:var(--gold); margin-top:0.5rem; font-weight:500;">→ Hépar ou Contrex en cure si déficit en calcium/magnésium</div>
+        </div>
+      </div>
+
+      <div class="eau-card">
+        <div class="eau-header" style="background:linear-gradient(135deg,#5B4A8A,#3D2E6B);">
+          <span>🌿</span> Infusions & alternatives</div>
+        <div class="eau-body">
+          <ul class="eau-pros">
+            <li>Thé vert : antioxydants + hydratation (compte dans l'apport)</li>
+            <li>Eau citronnée tiède le matin : stimule le foie et le transit</li>
+            <li>Bouillon de légumes : minéraux + hydratation</li>
+          </ul>
+          <ul class="eau-cons">
+            <li>Café et alcool : diurétiques — à compenser avec de l'eau</li>
+            <li>Jus de fruits : hydratent mais apportent du sucre — avec modération</li>
+            <li>Boissons sucrées : ne remplacent pas l'eau</li>
+          </ul>
+          <div style="font-size:0.78rem; color:#5B4A8A; margin-top:0.5rem; font-weight:500;">→ Les infusions sans sucre comptent dans tes apports journaliers</div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- TAB 4 : SIGNES -->
+  <div class="tab-content" id="tab-signes">
+
+    <div class="section-title">🌡️ Les signes d'une bonne hydratation</div>
+
+    <div class="urine-scale">
+      <div class="urine-header">🎨 La couleur de tes urines — le meilleur indicateur</div>
+      <div class="urine-body">
+        <div class="urine-row">
+          <div class="urine-color" style="background:#F5F0D8;"></div>
+          <div class="urine-label">Très clair / blanc</div>
+          <div class="urine-interp">Tu bois peut-être trop — dilution des électrolytes. Pas d'urgence mais inutile de forcer.</div>
+          <div class="urine-status status-warn">Sur-hydratation</div>
+        </div>
+        <div class="urine-row">
+          <div class="urine-color" style="background:#F5EDB0;"></div>
+          <div class="urine-label">Jaune très pâle</div>
+          <div class="urine-interp">Hydratation optimale. C'est exactement ce qu'on cherche.</div>
+          <div class="urine-status status-ok">Parfait ✓</div>
+        </div>
+        <div class="urine-row">
+          <div class="urine-color" style="background:#E8D070;"></div>
+          <div class="urine-label">Jaune clair</div>
+          <div class="urine-interp">Bonne hydratation. Légèrement en dessous de l'optimal mais tout va bien.</div>
+          <div class="urine-status status-ok">Bien ✓</div>
+        </div>
+        <div class="urine-row">
+          <div class="urine-color" style="background:#C8A030;"></div>
+          <div class="urine-label">Jaune foncé</div>
+          <div class="urine-interp">Hydratation insuffisante. Bois un grand verre d'eau maintenant.</div>
+          <div class="urine-status status-warn">Boire plus</div>
+        </div>
+        <div class="urine-row">
+          <div class="urine-color" style="background:#8B6008;"></div>
+          <div class="urine-label">Ambre / Brun</div>
+          <div class="urine-interp">Déshydratation importante. Bois immédiatement et vérifier si c'est récurrent.</div>
+          <div class="urine-status status-bad">Urgent</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="background:var(--blue-pale); border-radius:10px; padding:0.9rem 1.2rem; margin:1rem 0; font-size:0.83rem; color:#1A3A4A;">
+      ⚠️ <strong>Exception :</strong> La première urine du matin est souvent plus foncée — c'est normal. Les reins ont travaillé toute la nuit. En revanche si tes urines restent foncées toute la journée — augmente ton hydratation.
+    </div>
+
+    <div class="section-title">⚠️ Signes de déshydratation à connaître</div>
+
+    <div style="display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:0.8rem; margin:1rem 0;">
+      <div style="background:white; border:1px solid var(--blue-light); border-radius:10px; padding:0.8rem 1rem; font-size:0.83rem; color:var(--text2);">💤 Fatigue et somnolence inexpliquées</div>
+      <div style="background:white; border:1px solid var(--blue-light); border-radius:10px; padding:0.8rem 1rem; font-size:0.83rem; color:var(--text2);">🧠 Maux de tête et migraines</div>
+      <div style="background:white; border:1px solid var(--blue-light); border-radius:10px; padding:0.8rem 1rem; font-size:0.83rem; color:var(--text2);">🌫️ Brouillard mental et difficultés de concentration</div>
+      <div style="background:white; border:1px solid var(--blue-light); border-radius:10px; padding:0.8rem 1rem; font-size:0.83rem; color:var(--text2);">😤 Irritabilité et sautes d'humeur</div>
+      <div style="background:white; border:1px solid var(--blue-light); border-radius:10px; padding:0.8rem 1rem; font-size:0.83rem; color:var(--text2);">🚽 Constipation et transit lent</div>
+      <div style="background:white; border:1px solid var(--blue-light); border-radius:10px; padding:0.8rem 1rem; font-size:0.83rem; color:var(--text2);">🦴 Douleurs articulaires accentuées</div>
+      <div style="background:white; border:1px solid var(--blue-light); border-radius:10px; padding:0.8rem 1rem; font-size:0.83rem; color:var(--text2);">🔥 Brûlures d'estomac</div>
+      <div style="background:white; border:1px solid var(--blue-light); border-radius:10px; padding:0.8rem 1rem; font-size:0.83rem; color:var(--text2);">💫 Vertiges en se levant</div>
+    </div>
+
+  </div>
+
+  <!-- TAB 5 : JOURNAL -->
+  <div class="tab-content" id="tab-journal">
+
+    <div class="section-title">📅 Mon suivi d'hydratation — 4 semaines</div>
+
+    <div style="background:linear-gradient(135deg,#1A3A4A,#2A6D8A); border-radius:12px; padding:1.2rem 1.5rem; margin:1rem 0; color:var(--blue-light); font-size:0.88rem; line-height:1.6;">
+      <strong style="color:var(--gold-light);">Comment utiliser ce tracker :</strong> Clique sur les gouttes bleues pour cocher tes verres d'eau. Objectif — 8 verres par jour minimum. Coche le jour quand tu as atteint ton objectif.
+    </div>
+
+    <div style="display:flex; gap:1rem; margin-bottom:1.5rem; flex-wrap:wrap;">
+      <div style="background:white; border:1px solid var(--blue-light); border-radius:10px; padding:1rem 1.5rem; text-align:center; flex:1; min-width:120px;">
+        <div style="font-family:'Playfair Display',serif; font-size:2rem; color:var(--blue);" id="total-verres">0</div>
+        <div style="font-size:0.78rem; color:var(--text2);">verres aujourd'hui</div>
+      </div>
+      <div style="background:white; border:1px solid var(--blue-light); border-radius:10px; padding:1rem 1.5rem; text-align:center; flex:1; min-width:120px;">
+        <div style="font-family:'Playfair Display',serif; font-size:2rem; color:var(--green-mid);" id="total-jours">0</div>
+        <div style="font-size:0.78rem; color:var(--text2);">jours objectif atteint</div>
+      </div>
+      <div style="background:white; border:1px solid var(--blue-light); border-radius:10px; padding:1rem 1.5rem; text-align:center; flex:1; min-width:120px;">
+        <div style="font-family:'Playfair Display',serif; font-size:2rem; color:var(--gold);" id="streak">0</div>
+        <div style="font-size:0.78rem; color:var(--text2);">jours consécutifs</div>
+      </div>
+    </div>
+
+    <div id="journal-container"></div>
+
+    <div style="background:white; border:1px solid var(--blue-light); border-radius:12px; padding:1.2rem 1.5rem; margin:1.5rem 0;">
+      <div style="font-family:'Playfair Display',serif; font-size:1rem; color:var(--green-deep); margin-bottom:0.8rem;">📝 Mes observations</div>
+      <textarea style="width:100%; border:1px solid var(--blue-light); border-radius:8px; padding:0.8rem; font-family:'DM Sans',sans-serif; font-size:0.85rem; resize:vertical; min-height:80px; background:var(--blue-pale);" placeholder="Est-ce que je me sens plus énergique ? Moins de maux de tête ? Transit amélioré ? Notes tout ce que tu remarques..."></textarea>
+    </div>
+
+  </div>
+
+</div>
+
+<div class="footer">
+  <strong>Conseil2Naturo</strong> · Angélique · Naturopathe fonctionnelle & holistique<br>
+  <span style="font-size:0.78rem; opacity:0.7; margin-top:0.3rem; display:block;">Ce document est un outil d'accompagnement. Il ne remplace pas un suivi personnalisé.</span>
+</div>
+
+<script>
+function switchTab(id, btn) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// CALCULATEUR
+function calcEau() {
+  const poids = parseFloat(document.getElementById('poids').value);
+  const activite = parseFloat(document.getElementById('activite').value);
+  const chaleur = parseFloat(document.getElementById('chaleur').value);
+  if (!poids || poids < 30) { document.getElementById('calc-result').style.display = 'none'; return; }
+  const base = poids * 0.032;
+  const total = base + activite + chaleur;
+  const totalR = Math.round(total * 10) / 10;
+  const glasses = Math.round(totalR / 0.25);
+  document.getElementById('calc-result').style.display = 'block';
+  document.getElementById('calc-num').textContent = totalR + ' L';
+  document.getElementById('calc-detail').textContent = `Soit environ ${glasses} verres de 25cl · Dont ${Math.round(base*10)/10}L de base + ${Math.round((activite+chaleur)*10)/10}L pour l'activité/chaleur`;
+}
+
+// JOURNAL
+let glassState = {};
+
+function buildJournal() {
+  const container = document.getElementById('journal-container');
+  const semaines = ['Semaine 1', 'Semaine 2', 'Semaine 3', 'Semaine 4'];
+  const jours = ['L', 'M', 'M', 'J', 'V', 'S', 'D'];
+
+  semaines.forEach((sem, si) => {
+    const card = document.createElement('div');
+    card.style.cssText = 'background:white; border:1px solid var(--blue-light); border-radius:12px; overflow:hidden; margin-bottom:1rem;';
+    const header = document.createElement('div');
+    header.style.cssText = 'background:linear-gradient(135deg,#1A3A4A,#2A6D8A); padding:0.7rem 1.2rem; color:white; font-weight:500; font-size:0.9rem;';
+    header.textContent = sem;
+    card.appendChild(header);
+
+    const body = document.createElement('div');
+    body.style.cssText = 'padding:1rem; display:grid; grid-template-columns:repeat(7,1fr); gap:0.5rem;';
+
+    jours.forEach((j, ji) => {
+      const dayKey = `s${si}-d${ji}`;
+      const cell = document.createElement('div');
+      cell.style.cssText = 'text-align:center;';
+      cell.innerHTML = `
+        <div style="font-size:0.7rem; color:var(--text2); margin-bottom:0.3rem; font-weight:500;">${j}</div>
+        <div style="display:flex; flex-direction:column; align-items:center; gap:2px;" id="glasses-${dayKey}"></div>
+      `;
+      const glassesContainer = cell.querySelector(`#glasses-${dayKey}`);
+
+      for (let g = 0; g < 8; g++) {
+        const gKey = `${dayKey}-g${g}`;
+        const dot = document.createElement('div');
+        dot.style.cssText = `width:12px; height:12px; border-radius:50%; border:1.5px solid var(--blue-light); background:${glassState[gKey] ? '#2A6D8A' : 'white'}; cursor:pointer; transition:all 0.15s;`;
+        dot.onclick = () => {
+          glassState[gKey] = !glassState[gKey];
+          dot.style.background = glassState[gKey] ? '#2A6D8A' : 'white';
+          updateStats();
+        };
+        glassesContainer.appendChild(dot);
+      }
+      body.appendChild(cell);
+    });
+    card.appendChild(body);
+    container.appendChild(card);
+  });
+}
+
+function updateStats() {
+  const todayKey = 's0-d0';
+  let todayCount = 0;
+  for (let g = 0; g < 8; g++) {
+    if (glassState[`${todayKey}-g${g}`]) todayCount++;
+  }
+  document.getElementById('total-verres').textContent = todayCount;
+  let totalDays = 0;
+  for (let s = 0; s < 4; s++) {
+    for (let d = 0; d < 7; d++) {
+      let dayCount = 0;
+      for (let g = 0; g < 8; g++) {
+        if (glassState[`s${s}-d${d}-g${g}`]) dayCount++;
+      }
+      if (dayCount >= 6) totalDays++;
+    }
+  }
+  document.getElementById('total-jours').textContent = totalDays;
+  document.getElementById('streak').textContent = Math.min(totalDays, 7);
+}
+
+buildJournal();
+</script>
+</body>
+</html>

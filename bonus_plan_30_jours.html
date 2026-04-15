@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mon Plan 30 Jours Anti-Inflammatoire — Conseil2Naturo</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap');
+
+  :root {
+    --green-deep: #1E3A1A;
+    --green-mid: #3D6B35;
+    --green-sage: #6B9B5E;
+    --green-light: #C8DFC2;
+    --green-pale: #EDF5EA;
+    --gold: #B8860B;
+    --gold-light: #D4A820;
+    --gold-pale: #FDF5DC;
+    --cream: #FAFAF5;
+    --text: #1A2E18;
+    --text2: #4A6A42;
+    --white: #FFFFFF;
+    --red: #C04040;
+    --red-pale: #FFF0F0;
+    --s1: #2D5A27;
+    --s2: #3D6B35;
+    --s3: #B8860B;
+    --s4: #1E3A1A;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--text); }
+
+  /* HEADER */
+  .header {
+    background: var(--green-deep);
+    padding: 2.5rem 2rem 2rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '';
+    position: absolute;
+    top: -40%; left: -10%;
+    width: 120%; height: 180%;
+    background: radial-gradient(ellipse at 60% 40%, rgba(107,155,94,0.12) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .header-tag {
+    display: inline-block;
+    background: rgba(212,168,32,0.2);
+    border: 1px solid rgba(212,168,32,0.4);
+    color: var(--gold-light);
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 0.3rem 1rem;
+    border-radius: 20px;
+    margin-bottom: 1rem;
+  }
+  .header h1 { font-family: 'Playfair Display', serif; font-size: 2.4rem; color: var(--white); line-height: 1.2; margin-bottom: 0.5rem; }
+  .header h1 span { color: var(--gold-light); }
+  .header p { color: var(--green-light); font-size: 0.9rem; max-width: 520px; margin: 0 auto; font-style: italic; }
+
+  .container { max-width: 920px; margin: 0 auto; padding: 0 1.5rem 3rem; }
+
+  /* PROGRESSION GLOBALE */
+  .global-progress {
+    background: var(--green-deep);
+    border-radius: 14px;
+    padding: 1.8rem 2rem;
+    margin: 2rem 0 1.5rem;
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .gp-score {
+    text-align: center;
+    flex-shrink: 0;
+  }
+  .gp-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 3.5rem;
+    color: var(--gold-light);
+    line-height: 1;
+  }
+  .gp-num span { font-size: 1.4rem; color: var(--green-light); }
+  .gp-label { font-size: 0.78rem; color: var(--green-light); margin-top: 0.2rem; }
+  .gp-info { flex: 1; min-width: 200px; }
+  .gp-title { color: var(--white); font-family: 'Playfair Display', serif; font-size: 1.1rem; margin-bottom: 0.6rem; }
+  .gp-bar-wrap { background: rgba(255,255,255,0.1); border-radius: 10px; height: 14px; margin-bottom: 0.5rem; }
+  .gp-bar { height: 14px; border-radius: 10px; background: linear-gradient(90deg, var(--green-sage), var(--gold-light)); transition: width 0.4s; }
+  .gp-msg { color: var(--green-light); font-size: 0.85rem; font-style: italic; }
+
+  /* TABS */
+  .tabs { display: flex; gap: 0.5rem; margin: 1.5rem 0 1rem; flex-wrap: wrap; }
+  .tab-btn {
+    padding: 0.55rem 1.2rem;
+    border-radius: 20px;
+    border: 1.5px solid var(--green-light);
+    background: white;
+    color: var(--text2);
+    font-size: 0.85rem;
+    font-family: 'DM Sans', sans-serif;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .tab-btn:hover, .tab-btn.active {
+    background: var(--green-deep);
+    border-color: var(--green-deep);
+    color: white;
+    font-weight: 500;
+  }
+  .tab-content { display: none; animation: fadeIn 0.3s ease; }
+  .tab-content.active { display: block; }
+  @keyframes fadeIn { from { opacity:0; transform:translateY(4px); } to { opacity:1; transform:translateY(0); } }
+
+  /* SEMAINE CARD */
+  .semaine-card {
+    background: white;
+    border: 1px solid var(--green-light);
+    border-radius: 14px;
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+  }
+  .semaine-header {
+    padding: 1rem 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .sem-badge {
+    background: rgba(255,255,255,0.2);
+    border: 1px solid rgba(255,255,255,0.3);
+    padding: 0.3rem 0.8rem;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    color: white;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    flex-shrink: 0;
+  }
+  .sem-title { color: white; font-family: 'Playfair Display', serif; font-size: 1.15rem; flex: 1; }
+  .sem-progress { color: rgba(255,255,255,0.8); font-size: 0.82rem; flex-shrink: 0; }
+  .semaine-body { padding: 1.2rem 1.5rem; }
+
+  /* ACTION ITEM */
+  .action-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1rem;
+    border-radius: 10px;
+    margin-bottom: 0.8rem;
+    border: 1px solid var(--green-light);
+    background: white;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .action-item:hover { border-color: var(--green-sage); transform: translateX(3px); }
+  .action-item.done { background: var(--green-pale); border-color: var(--green-sage); }
+  .action-check {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    border: 2px solid var(--green-light);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.85rem;
+    flex-shrink: 0;
+    color: transparent;
+    background: white;
+    transition: all 0.2s;
+    margin-top: 2px;
+  }
+  .action-item.done .action-check {
+    background: var(--green-sage);
+    border-color: var(--green-sage);
+    color: white;
+  }
+  .action-icon { font-size: 1.5rem; flex-shrink: 0; }
+  .action-content { flex: 1; }
+  .action-num { font-size: 0.7rem; color: var(--gold); font-weight: 500; text-transform: uppercase; letter-spacing: 0.08em; }
+  .action-title { font-weight: 500; color: var(--text); font-size: 0.95rem; margin: 2px 0; }
+  .action-desc { font-size: 0.83rem; color: var(--text2); line-height: 1.5; }
+  .action-tip {
+    background: var(--green-pale);
+    border-left: 3px solid var(--green-sage);
+    padding: 0.4rem 0.7rem;
+    border-radius: 0 5px 5px 0;
+    font-size: 0.78rem;
+    color: var(--text2);
+    margin-top: 0.5rem;
+  }
+  .action-tip strong { color: var(--green-deep); }
+
+  /* JOURS TRACKER */
+  .jours-tracker {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--green-pale);
+  }
+  .jours-label { font-size: 0.8rem; color: var(--text2); margin-bottom: 0.5rem; }
+  .jours-dots { display: flex; gap: 0.3rem; flex-wrap: wrap; }
+  .jour-dot {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    border: 1.5px solid var(--green-light);
+    background: white;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.72rem;
+    color: var(--text2);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .jour-dot:hover { border-color: var(--green-sage); }
+  .jour-dot.done { background: var(--green-mid); border-color: var(--green-mid); color: white; font-size: 0.85rem; }
+
+  /* BILAN TERRAIN */
+  .bilan-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin: 1.5rem 0;
+  }
+  .bilan-col {
+    background: white;
+    border: 1px solid var(--green-light);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .bilan-header {
+    padding: 0.8rem 1.2rem;
+    font-weight: 500;
+    font-size: 0.92rem;
+    color: white;
+  }
+  .bilan-header.avant { background: var(--red); }
+  .bilan-header.apres { background: var(--green-deep); }
+  .bilan-items { padding: 0.8rem 1.2rem; }
+  .bilan-item { margin-bottom: 0.9rem; }
+  .bilan-label-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.25rem;
+  }
+  .bilan-sym { font-size: 0.82rem; color: var(--text); }
+  .bilan-val { font-size: 0.82rem; font-weight: 600; }
+  .bilan-bar-wrap { background: var(--green-pale); border-radius: 4px; height: 8px; }
+  .bilan-bar { height: 8px; border-radius: 4px; transition: width 0.5s; }
+  .bilan-slider {
+    width: 100%;
+    -webkit-appearance: none;
+    height: 5px;
+    border-radius: 3px;
+    background: var(--green-light);
+    outline: none;
+    cursor: pointer;
+    margin-top: 0.3rem;
+  }
+  .bilan-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid white;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+  }
+
+  /* COMPARAISON */
+  .comparaison-section {
+    background: white;
+    border: 1px solid var(--green-light);
+    border-radius: 12px;
+    overflow: hidden;
+    margin: 1.5rem 0;
+  }
+  .comp-header {
+    background: var(--green-deep);
+    padding: 1rem 1.5rem;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05rem;
+    color: white;
+  }
+  .comp-body { padding: 1.2rem 1.5rem; }
+  .comp-item { margin-bottom: 1rem; }
+  .comp-label { font-size: 0.83rem; color: var(--text2); margin-bottom: 0.4rem; }
+  .comp-bars { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
+  .comp-bar-row { display: flex; align-items: center; gap: 0.5rem; }
+  .comp-bar-label { font-size: 0.72rem; color: var(--text2); width: 45px; flex-shrink: 0; }
+  .comp-bar-wrap { flex: 1; background: var(--green-pale); border-radius: 4px; height: 10px; }
+  .comp-bar-fill { height: 10px; border-radius: 4px; transition: width 0.5s; }
+  .comp-score { font-size: 0.78rem; font-weight: 600; width: 28px; text-align: right; }
+  .diff-badge {
+    display: inline-block;
+    font-size: 0.72rem;
+    padding: 0.15rem 0.5rem;
+    border-radius: 10px;
+    font-weight: 500;
+    margin-left: 0.5rem;
+  }
+  .diff-pos { background: var(--green-pale); color: var(--green-mid); }
+  .diff-neg { background: var(--red-pale); color: var(--red); }
+  .diff-neu { background: var(--gold-pale); color: var(--gold); }
+
+  /* BOUSSOLE */
+  .boussole-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1rem;
+    margin: 1.5rem 0;
+  }
+  .boussole-card {
+    background: white;
+    border: 1px solid var(--green-light);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .boussole-header {
+    padding: 0.8rem 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .boussole-icon { font-size: 1.4rem; }
+  .boussole-title { font-weight: 500; color: white; font-size: 0.9rem; }
+  .boussole-body { padding: 0.8rem 1.2rem; }
+  .boussole-rule {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    padding: 0.3rem 0;
+    font-size: 0.83rem;
+    color: var(--text2);
+    border-bottom: 1px solid var(--green-pale);
+    line-height: 1.4;
+  }
+  .boussole-rule:last-child { border-bottom: none; }
+  .boussole-rule::before { content: '✓'; color: var(--green-sage); flex-shrink: 0; margin-top: 1px; }
+
+  /* NOTES */
+  .notes-area {
+    width: 100%;
+    border: 1px solid var(--green-light);
+    border-radius: 8px;
+    padding: 0.8rem 1rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    color: var(--text);
+    resize: vertical;
+    background: var(--green-pale);
+    min-height: 80px;
+  }
+  .notes-area:focus { outline: none; border-color: var(--green-sage); }
+
+  /* FOOTER */
+  .footer {
+    background: var(--green-deep);
+    color: var(--green-light);
+    text-align: center;
+    padding: 2rem;
+    margin-top: 2rem;
+    font-size: 0.85rem;
+  }
+  .footer strong { color: var(--gold-light); }
+
+  @media (max-width: 600px) {
+    .header h1 { font-size: 1.8rem; }
+    .bilan-grid { grid-template-columns: 1fr; }
+    .global-progress { flex-direction: column; text-align: center; }
+    .comp-bars { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-tag">Conseil2Naturo · Module 6 · Document bonus final</div>
+  <h1>Mon plan <span>30 jours</span><br>anti-inflammatoire</h1>
+  <p>12 actions progressives · Bilan de terrain avant/après · Ta boussole pour la vie</p>
+</div>
+
+<div class="container">
+
+  <!-- PROGRESSION GLOBALE -->
+  <div class="global-progress">
+    <div class="gp-score">
+      <div class="gp-num" id="gp-num">0<span>/12</span></div>
+      <div class="gp-label">actions intégrées</div>
+    </div>
+    <div class="gp-info">
+      <div class="gp-title">🌱 Ma progression sur 30 jours</div>
+      <div class="gp-bar-wrap">
+        <div class="gp-bar" id="gp-bar" style="width:0%"></div>
+      </div>
+      <div class="gp-msg" id="gp-msg">Commence par cocher tes premières actions 🌿</div>
+    </div>
+  </div>
+
+  <!-- TABS -->
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('plan', this)">📅 Mon plan 30 jours</button>
+    <button class="tab-btn" onclick="switchTab('bilan', this)">📊 Bilan avant/après</button>
+    <button class="tab-btn" onclick="switchTab('boussole', this)">🧭 Ma boussole anti-inflam</button>
+  </div>
+
+  <!-- TAB 1 : PLAN -->
+  <div class="tab-content active" id="tab-plan">
+
+    <!-- SEMAINE 1 -->
+    <div class="semaine-card">
+      <div class="semaine-header" style="background:var(--s1);">
+        <div class="sem-badge">SEMAINE 1</div>
+        <div class="sem-title">Les fondations — commencer simplement</div>
+        <div class="sem-progress" id="s1-prog">0/3</div>
+      </div>
+      <div class="semaine-body">
+        <p style="font-size:0.85rem; color:var(--text2); margin-bottom:1rem; font-style:italic;">3 changements seulement cette semaine. La régularité prime sur la perfection.</p>
+        <div id="s1-actions"></div>
+        <div class="jours-tracker">
+          <div class="jours-label">📅 Jours de la semaine cochés (coche quand tu respectes tes 3 actions) :</div>
+          <div class="jours-dots" id="s1-dots"></div>
+        </div>
+        <div style="margin-top:1rem;">
+          <label style="font-size:0.82rem; color:var(--text2); display:block; margin-bottom:0.4rem;">📝 Notes semaine 1</label>
+          <textarea class="notes-area" placeholder="Ce que j'observe, mes difficultés, mes réussites..."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEMAINE 2 -->
+    <div class="semaine-card">
+      <div class="semaine-header" style="background:var(--s2);">
+        <div class="sem-badge">SEMAINE 2</div>
+        <div class="sem-title">Ajouter les fibres et les rituels</div>
+        <div class="sem-progress" id="s2-prog">0/3</div>
+      </div>
+      <div class="semaine-body">
+        <p style="font-size:0.85rem; color:var(--text2); margin-bottom:1rem; font-style:italic;">Tu gardes les 3 premières habitudes + tu ajoutes ces 3 nouvelles.</p>
+        <div id="s2-actions"></div>
+        <div class="jours-tracker">
+          <div class="jours-label">📅 Jours de la semaine cochés :</div>
+          <div class="jours-dots" id="s2-dots"></div>
+        </div>
+        <div style="margin-top:1rem;">
+          <label style="font-size:0.82rem; color:var(--text2); display:block; margin-bottom:0.4rem;">📝 Notes semaine 2</label>
+          <textarea class="notes-area" placeholder="Est-ce que ça change quelque chose dans ma digestion, mon énergie ?"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEMAINE 3 -->
+    <div class="semaine-card">
+      <div class="semaine-header" style="background:var(--s3);">
+        <div class="sem-badge">SEMAINE 3</div>
+        <div class="sem-title">L'assiette et la chrononutrition</div>
+        <div class="sem-progress" id="s3-prog">0/3</div>
+      </div>
+      <div class="semaine-body">
+        <p style="font-size:0.85rem; color:var(--text2); margin-bottom:1rem; font-style:italic;">Tu gardes les 6 premières habitudes + tu travailles sur l'assiette et les horaires.</p>
+        <div id="s3-actions"></div>
+        <div class="jours-tracker">
+          <div class="jours-label">📅 Jours de la semaine cochés :</div>
+          <div class="jours-dots" id="s3-dots"></div>
+        </div>
+        <div style="margin-top:1rem;">
+          <label style="font-size:0.82rem; color:var(--text2); display:block; margin-bottom:0.4rem;">📝 Notes semaine 3</label>
+          <textarea class="notes-area" placeholder="Ma digestion, mon sommeil, mon énergie, ma peau..."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEMAINE 4 -->
+    <div class="semaine-card">
+      <div class="semaine-header" style="background:var(--s4);">
+        <div class="sem-badge">SEMAINE 4</div>
+        <div class="sem-title">Consolider et observer</div>
+        <div class="sem-progress" id="s4-prog">0/3</div>
+      </div>
+      <div class="semaine-body">
+        <p style="font-size:0.85rem; color:var(--text2); margin-bottom:1rem; font-style:italic;">Pas de nouveau geste cette semaine — tu consolides tout et tu observes les changements.</p>
+        <div id="s4-actions"></div>
+        <div class="jours-tracker">
+          <div class="jours-label">📅 Jours de la semaine cochés :</div>
+          <div class="jours-dots" id="s4-dots"></div>
+        </div>
+        <div style="margin-top:1rem;">
+          <label style="font-size:0.82rem; color:var(--text2); display:block; margin-bottom:0.4rem;">📝 Mon bilan final semaine 4</label>
+          <textarea class="notes-area" style="min-height:100px;" placeholder="Ce qui a le plus changé · Ce qui est encore difficile · Ce que je veux garder pour toujours · Ce que je veux approfondir..."></textarea>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- TAB 2 : BILAN -->
+  <div class="tab-content" id="tab-bilan">
+
+    <div style="background:var(--green-deep); border-radius:12px; padding:1.5rem 2rem; margin:1.5rem 0; color:var(--green-light); font-size:0.92rem; line-height:1.7;">
+      <strong style="color:var(--gold-light);">Comment utiliser ce bilan :</strong> Remplis d'abord la colonne "Avant" au début du mois (Jour 1). Puis reviens remplir la colonne "Après" à la fin des 30 jours. La comparaison s'affiche automatiquement.
+    </div>
+
+    <div class="bilan-grid">
+      <!-- AVANT -->
+      <div class="bilan-col">
+        <div class="bilan-header avant">📊 Avant — Jour 1</div>
+        <div class="bilan-items" id="bilan-avant"></div>
+      </div>
+      <!-- APRÈS -->
+      <div class="bilan-col">
+        <div class="bilan-header apres">📊 Après — Jour 30</div>
+        <div class="bilan-items" id="bilan-apres"></div>
+      </div>
+    </div>
+
+    <!-- COMPARAISON -->
+    <div class="comparaison-section">
+      <div class="comp-header">📈 Ma comparaison avant / après — 30 jours d'anti-inflammatoire</div>
+      <div class="comp-body" id="comp-body"></div>
+    </div>
+
+    <!-- Score global bilan -->
+    <div style="background:var(--green-deep); border-radius:12px; padding:1.5rem; margin:1.5rem 0; text-align:center;">
+      <div style="font-family:'Playfair Display',serif; color:var(--gold-light); font-size:1.1rem; margin-bottom:0.8rem;">🌿 Ton score inflammatoire global</div>
+      <div style="display:flex; gap:2rem; justify-content:center; align-items:center; flex-wrap:wrap;">
+        <div>
+          <div style="font-family:'Playfair Display',serif; font-size:2.5rem; color:var(--gold-light);" id="score-avant-total">—</div>
+          <div style="font-size:0.8rem; color:var(--green-light);">Avant (sur 100)</div>
+        </div>
+        <div style="font-size:2rem; color:var(--green-light);">→</div>
+        <div>
+          <div style="font-family:'Playfair Display',serif; font-size:2.5rem; color:var(--gold-light);" id="score-apres-total">—</div>
+          <div style="font-size:0.8rem; color:var(--green-light);">Après (sur 100)</div>
+        </div>
+        <div>
+          <div style="font-family:'Playfair Display',serif; font-size:2.5rem; color:var(--gold-light);" id="score-diff">—</div>
+          <div style="font-size:0.8rem; color:var(--green-light);" id="score-diff-label">points de différence</div>
+        </div>
+      </div>
+      <div style="font-size:0.85rem; color:var(--green-light); margin-top:0.8rem; font-style:italic;" id="score-interpretation">Remplis le bilan pour voir ta progression</div>
+    </div>
+
+  </div>
+
+  <!-- TAB 3 : BOUSSOLE -->
+  <div class="tab-content" id="tab-boussole">
+
+    <div style="background:var(--green-deep); border-radius:12px; padding:1.5rem 2rem; margin:1.5rem 0; color:var(--green-light); font-size:0.92rem; line-height:1.7;">
+      <strong style="color:var(--gold-light);">Ta boussole pour la vie.</strong> Quand la vie est chargée, quand tu voyages, quand tu traverses une période difficile — reviens toujours à ces principes fondamentaux. Pas besoin d'être parfaite. Juste de garder le cap.
+    </div>
+
+    <div class="boussole-grid">
+
+      <div class="boussole-card">
+        <div class="boussole-header" style="background:var(--green-deep);">
+          <span class="boussole-icon">🐟</span>
+          <span class="boussole-title">Les bons gras — toujours</span>
+        </div>
+        <div class="boussole-body">
+          <div class="boussole-rule">Poissons gras 2x/semaine minimum (sardines, maquereau, hareng)</div>
+          <div class="boussole-rule">Huile d'olive extra vierge à chaque repas</div>
+          <div class="boussole-rule">Noix de Grenoble ou graines de lin moulues quotidiennement</div>
+          <div class="boussole-rule">Éviter les huiles de tournesol/maïs en grande quantité</div>
+        </div>
+      </div>
+
+      <div class="boussole-card">
+        <div class="boussole-header" style="background:var(--green-mid);">
+          <span class="boussole-icon">🥦</span>
+          <span class="boussole-title">Les légumes — toujours</span>
+        </div>
+        <div class="boussole-body">
+          <div class="boussole-rule">La moitié de l'assiette de légumes à chaque repas</div>
+          <div class="boussole-rule">Manger des couleurs — chaque couleur = une famille d'antioxydants</div>
+          <div class="boussole-rule">Varier les légumes — pas les mêmes toute la semaine</div>
+          <div class="boussole-rule">Cuisson douce — vapeur ou sauté rapide pour préserver les nutriments</div>
+        </div>
+      </div>
+
+      <div class="boussole-card">
+        <div class="boussole-header" style="background:var(--gold);">
+          <span class="boussole-icon">💪</span>
+          <span class="boussole-title">Les protéines — indispensables</span>
+        </div>
+        <div class="boussole-body">
+          <div class="boussole-rule">Minimum 20g de protéines à chaque repas</div>
+          <div class="boussole-rule">Varier les sources : poisson, œufs, légumineuses, viande de qualité</div>
+          <div class="boussole-rule">Les légumineuses sont tes amies — protéines + fibres en même temps</div>
+          <div class="boussole-rule">Les protéines bâtissent ton corps, ton immunité, tes hormones</div>
+        </div>
+      </div>
+
+      <div class="boussole-card">
+        <div class="boussole-header" style="background:var(--green-deep);">
+          <span class="boussole-icon">🫘</span>
+          <span class="boussole-title">Les fibres — nourrir le microbiote</span>
+        </div>
+        <div class="boussole-body">
+          <div class="boussole-rule">Légumineuses 2-3x/semaine minimum</div>
+          <div class="boussole-rule">Céréales vraiment complètes — quinoa, sarrasin, avoine</div>
+          <div class="boussole-rule">Fruits avec peau · Légumes · Oléagineux chaque jour</div>
+          <div class="boussole-rule">Objectif : 35-40g de fibres/jour (on est à 15g en moyenne en France)</div>
+        </div>
+      </div>
+
+      <div class="boussole-card">
+        <div class="boussole-header" style="background:var(--green-mid);">
+          <span class="boussole-icon">⏰</span>
+          <span class="boussole-title">Le timing — respecter l'horloge</span>
+        </div>
+        <div class="boussole-body">
+          <div class="boussole-rule">Petit-déjeuner protéiné le matin</div>
+          <div class="boussole-rule">Repas principal à midi — enzymes digestives au pic</div>
+          <div class="boussole-rule">Dîner léger et tôt — 2-3h avant de dormir</div>
+          <div class="boussole-rule">Fenêtre d'alimentation de 10-12h maximum</div>
+        </div>
+      </div>
+
+      <div class="boussole-card">
+        <div class="boussole-header" style="background:var(--gold);">
+          <span class="boussole-icon">🍴</span>
+          <span class="boussole-title">Comment manger — le rituel</span>
+        </div>
+        <div class="boussole-body">
+          <div class="boussole-rule">Assis à une vraie table, sans écran</div>
+          <div class="boussole-rule">3 respirations profondes avant de commencer</div>
+          <div class="boussole-rule">Fourchette posée entre chaque bouchée</div>
+          <div class="boussole-rule">S'arrêter à 80% de satiété — Hara Hachi Bu</div>
+        </div>
+      </div>
+
+      <div class="boussole-card">
+        <div class="boussole-header" style="background:var(--green-deep);">
+          <span class="boussole-icon">🟡</span>
+          <span class="boussole-title">Les épices — à utiliser sans retenue</span>
+        </div>
+        <div class="boussole-body">
+          <div class="boussole-rule">Curcuma TOUJOURS avec poivre noir + corps gras</div>
+          <div class="boussole-rule">Gingembre frais râpé — dans les plats, les infusions</div>
+          <div class="boussole-rule">Romarin, origan, thym, cannelle — concentrés d'antioxydants</div>
+          <div class="boussole-rule">Ail haché frais — 10 min avant cuisson pour activer l'allicine</div>
+        </div>
+      </div>
+
+      <div class="boussole-card">
+        <div class="boussole-header" style="background:var(--green-mid);">
+          <span class="boussole-icon">🚫</span>
+          <span class="boussole-title">Ce qu'on réduit — sans obsession</span>
+        </div>
+        <div class="boussole-body">
+          <div class="boussole-rule">Produits ultra-transformés (la règle des 200 ans)</div>
+          <div class="boussole-rule">Sucres raffinés et boissons sucrées</div>
+          <div class="boussole-rule">Huiles de tournesol/maïs/soja en grande quantité</div>
+          <div class="boussole-rule">Repas tardifs et grignotage constant</div>
+        </div>
+      </div>
+
+      <div class="boussole-card" style="border-color:var(--gold); border-width:2px;">
+        <div class="boussole-header" style="background:linear-gradient(135deg, var(--green-deep), var(--gold));">
+          <span class="boussole-icon">🌿</span>
+          <span class="boussole-title">La règle des règles</span>
+        </div>
+        <div class="boussole-body">
+          <div class="boussole-rule">80/20 — 80% du temps on mange vraiment bien, 20% on vit</div>
+          <div class="boussole-rule">Un repas "imparfait" ne détruit pas un terrain construit sur des semaines</div>
+          <div class="boussole-rule">La régularité compte plus que la perfection</div>
+          <div class="boussole-rule">Le plaisir de manger est aussi anti-inflammatoire que les aliments</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Mon engagement -->
+    <div style="background:var(--green-deep); border-radius:14px; padding:2rem; margin:2rem 0; text-align:center;">
+      <div style="font-family:'Playfair Display',serif; font-size:1.4rem; color:var(--gold-light); margin-bottom:1rem;">🌿 Mon engagement</div>
+      <div style="color:var(--green-light); font-size:0.95rem; line-height:1.8; max-width:600px; margin:0 auto 1.5rem;">
+        Je m'engage à prendre soin de mon terrain anti-inflammatoire.<br>
+        Pas par perfection — par régularité.<br>
+        Pas par privation — par choix éclairés.<br>
+        Pas seule — avec la communauté.
+      </div>
+      <div style="display:flex; gap:0.8rem; justify-content:center; flex-wrap:wrap;">
+        <button onclick="window.print()" style="background:var(--gold); color:white; border:none; padding:0.8rem 1.8rem; border-radius:25px; font-family:'DM Sans',sans-serif; font-size:0.9rem; cursor:pointer; font-weight:500;">🖨️ Imprimer mon plan</button>
+        <button onclick="resetAll()" style="background:transparent; color:var(--green-light); border:1px solid rgba(200,223,194,0.4); padding:0.8rem 1.8rem; border-radius:25px; font-family:'DM Sans',sans-serif; font-size:0.9rem; cursor:pointer;">🔄 Recommencer</button>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<div class="footer">
+  <strong>Conseil2Naturo</strong> · Angélique · Naturopathe fonctionnelle & holistique<br>
+  <span style="font-size:0.78rem; opacity:0.7; margin-top:0.3rem; display:block;">Ce document est un outil d'accompagnement. Il ne remplace pas un suivi personnalisé.</span>
+</div>
+
+<script>
+// TAB
+function switchTab(id, btn) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ACTIONS DATA
+const actionsData = {
+  s1: [
+    { n:"01", icon:"🐟", t:"Sardines ou maquereau 2 fois", d:"En boîte à l'huile d'olive. Sur une salade, avec des lentilles, sur du pain de qualité. Simple et rapide.", tip:"💡 Achète 6 boîtes de sardines et 3 de maquereau ce week-end. Elles sont dans les placards — prêtes à utiliser." },
+    { n:"02", icon:"🫐", t:"Une poignée de myrtilles chaque matin", d:"Dans un yaourt, un porridge, un smoothie, ou telles quelles. Fraîches ou surgelées — exactement la même efficacité.", tip:"💡 Grand sac de myrtilles surgelées au congélateur. Tu en ajoutes partout sans y penser." },
+    { n:"03", icon:"🍴", t:"Poser la fourchette entre chaque bouchée", d:"Un seul repas par jour pour commencer — le déjeuner. Observer le changement sur ta vitesse et ta satiété.", tip:"💡 Pose ta fourchette sur la table, pas dans l'assiette. Ce geste physique aide à mémoriser." },
+  ],
+  s2: [
+    { n:"04", icon:"🫘", t:"Lentilles corail 2 fois dans la semaine", d:"15 minutes de cuisson sans trempage. En soupe avec curcuma + poivre + huile d'olive. En dhal au lait de coco. En salade froide avec citron.", tip:"💡 Fais une grande quantité le dimanche. 4 jours au réfrigérateur, chaud ou froid selon l'envie." },
+    { n:"05", icon:"🌱", t:"Graines de lin moulues chaque matin", d:"1 cuillère à soupe dans le yaourt, porridge ou compote. Entières = aucun bienfait. Moulues = oméga-3 + fibres + lignanes disponibles.", tip:"💡 Moudre au moulin à café le dimanche. Conserver la farine au frigo dans un pot hermétique — 2 semaines." },
+    { n:"06", icon:"🌬️", t:"3 respirations profondes avant le déjeuner", d:"30 secondes. Assis, fourchette posée. Inspire 4s, retiens 2s, expire 6s. Active le nerf vague. Prépare les enzymes digestives.", tip:"💡 Programme une alarme sur ton téléphone à l'heure du déjeuner : '3 respirations avant de manger'." },
+  ],
+  s3: [
+    { n:"07", icon:"🍽️", t:"Composer l'assiette anti-inflammatoire au déjeuner", d:"½ légumes · ¼ protéines (min. 20g) · ¼ glucides complexes + huile d'olive. Dans cet ordre : légumes d'abord, puis protéine, puis glucides.", tip:"💡 Visuellement — remplis la moitié de l'assiette de légumes avant tout. Ce geste aide à ne pas oublier." },
+    { n:"08", icon:"⏰", t:"Avancer le dîner de 30 à 60 minutes", d:"Si tu dînes à 20h30 — essaie 19h30 ou 20h. Ce petit décalage améliore le sommeil, régule la glycémie nocturne, aide à la digestion.", tip:"💡 Prépare le dîner à 18h30 pendant que tu fais autre chose. Quand c'est prêt — tu n'as qu'à servir." },
+    { n:"09", icon:"🟡", t:"Curcuma + poivre noir + huile dans 1 repas/jour", d:"Dans une soupe, un curry, des légumes rôtis, du riz. Toujours les 3 ensemble — sans poivre noir et sans gras, la curcumine n'est pas absorbée.", tip:"💡 Prépare un mélange curcuma-poivre dans un pot. Tu l'ouvres et tu en ajoutes partout sans y penser." },
+  ],
+  s4: [
+    { n:"10", icon:"🧄", t:"Ail ou oignon dans au moins 1 plat par jour", d:"Ail haché frais 10 min avant cuisson (pour activer l'allicine). Oignon rouge cru en salade. Ces prébiotiques nourrissent tes meilleures bactéries.", tip:"💡 Hache l'ail en début de préparation — avant de faire quoi que ce soit d'autre. Il a le temps de reposer." },
+    { n:"11", icon:"🍵", t:"Thé vert 2 tasses par jour", d:"Le matin et l'après-midi. Eau à 80°C maximum — faire bouillir puis attendre 5 min. Infuser 2-3 min. Remplace avantageusement le 2e café.", tip:"💡 Achète un thermomètre de cuisine ou utilise la règle simple : eau bouillante → attendre 5 minutes." },
+    { n:"12", icon:"📊", t:"Observer et noter les changements", d:"Énergie au réveil, ballonnements, digestion, transit, peau, douleurs, concentration. Refais l'évaluation du Module 2. Compare.", tip:"💡 Reviens sur le document bonus du Module 2 et refais l'évaluation. Voir les chiffres changer est très motivant." },
+  ],
+};
+
+// BILAN SYMPTÔMES
+const symptoms = [
+  "Fatigue chronique", "Ballonnements", "Brouillard mental",
+  "Douleurs diffuses", "Qualité du sommeil", "État de la peau",
+  "Anxiété / humeur", "Transit intestinal", "Énergie générale", "Vitalité globale"
+];
+
+let actionState = {};
+let dotsState = {};
+let bilanData = { avant: {}, apres: {} };
+
+// BUILD ACTIONS
+function buildActions() {
+  ['s1','s2','s3','s4'].forEach(sem => {
+    const container = document.getElementById(sem + '-actions');
+    actionsData[sem].forEach((a, i) => {
+      const key = sem + '-' + i;
+      const div = document.createElement('div');
+      div.className = 'action-item' + (actionState[key] ? ' done' : '');
+      div.id = 'action-' + key;
+      div.innerHTML = `
+        <div class="action-check">${actionState[key] ? '✓' : ''}</div>
+        <div class="action-icon">${a.icon}</div>
+        <div class="action-content">
+          <div class="action-num">Action ${a.n}</div>
+          <div class="action-title">${a.t}</div>
+          <div class="action-desc">${a.d}</div>
+          <div class="action-tip"><strong>Astuce :</strong> ${a.tip}</div>
+        </div>
+      `;
+      div.onclick = () => toggleAction(key, div, sem);
+      container.appendChild(div);
+    });
+  });
+  buildDots();
+  updateGlobalProgress();
+}
+
+function toggleAction(key, div, sem) {
+  actionState[key] = !actionState[key];
+  div.classList.toggle('done');
+  div.querySelector('.action-check').textContent = actionState[key] ? '✓' : '';
+  updateSemProgress(sem);
+  updateGlobalProgress();
+}
+
+function updateSemProgress(sem) {
+  const total = actionsData[sem].length;
+  const done = actionsData[sem].filter((_, i) => actionState[sem + '-' + i]).length;
+  document.getElementById(sem + '-prog').textContent = done + '/' + total;
+}
+
+function updateGlobalProgress() {
+  const total = 12;
+  const done = Object.values(actionState).filter(Boolean).length;
+  const pct = (done / total) * 100;
+  document.getElementById('gp-num').innerHTML = done + '<span>/12</span>';
+  document.getElementById('gp-bar').style.width = pct + '%';
+  const msgs = [
+    'Commence par cocher tes premières actions 🌿',
+    'Bien démarré — la régularité prime sur la perfection !',
+    '3 actions — tes fondations sont posées 🌱',
+    'Excellent — tu progresses vraiment !',
+    '6 actions — ton microbiote commence à ressentir la différence',
+    'À mi-chemin — tu transformes ton alimentation',
+    '9 actions — ton terrain anti-inflammatoire évolue vraiment',
+    'Presque là — encore un effort !',
+    '11 actions — tu as complètement transformé ton assiette',
+    '🎉 Les 12 actions intégrées — tu es ta propre naturopathe !'
+  ];
+  const idx = Math.min(Math.floor(done / 1.4), msgs.length - 1);
+  document.getElementById('gp-msg').textContent = done === 12 ? msgs[9] : msgs[Math.floor(done * (msgs.length-1) / 12)];
+}
+
+// DOTS
+function buildDots() {
+  ['s1','s2','s3','s4'].forEach(sem => {
+    const container = document.getElementById(sem + '-dots');
+    container.innerHTML = '';
+    for (let d = 1; d <= 7; d++) {
+      const key = sem + '-d' + d;
+      const dot = document.createElement('div');
+      dot.className = 'jour-dot' + (dotsState[key] ? ' done' : '');
+      dot.textContent = dotsState[key] ? '✓' : d;
+      dot.title = 'Jour ' + d;
+      dot.onclick = () => {
+        dotsState[key] = !dotsState[key];
+        dot.className = 'jour-dot' + (dotsState[key] ? ' done' : '');
+        dot.textContent = dotsState[key] ? '✓' : d;
+      };
+      container.appendChild(dot);
+    }
+  });
+}
+
+// BILAN
+function buildBilan() {
+  const containers = { avant: document.getElementById('bilan-avant'), apres: document.getElementById('bilan-apres') };
+  ['avant', 'apres'].forEach(phase => {
+    const c = containers[phase];
+    c.innerHTML = '';
+    symptoms.forEach((sym, i) => {
+      const val = bilanData[phase][i] || 0;
+      const color = val <= 3 ? '#6B9B5E' : val <= 6 ? '#E8A020' : '#C04040';
+      const div = document.createElement('div');
+      div.className = 'bilan-item';
+      div.innerHTML = `
+        <div class="bilan-label-row">
+          <span class="bilan-sym">${sym}</span>
+          <span class="bilan-val" id="bv-${phase}-${i}" style="color:${color}">${val}/10</span>
+        </div>
+        <input type="range" class="bilan-slider" min="0" max="10" value="${val}"
+          style="background:linear-gradient(to right,${color} 0%,${color} ${val*10}%,#C8DFC2 ${val*10}%,#C8DFC2 100%);"
+          oninput="updateBilan('${phase}',${i},this)">
+      `;
+      c.appendChild(div);
+    });
+  });
+  updateComparaison();
+}
+
+function updateBilan(phase, idx, slider) {
+  const val = parseInt(slider.value);
+  bilanData[phase][idx] = val;
+  const color = val <= 3 ? '#6B9B5E' : val <= 6 ? '#E8A020' : '#C04040';
+  slider.style.background = `linear-gradient(to right,${color} 0%,${color} ${val*10}%,#C8DFC2 ${val*10}%,#C8DFC2 100%)`;
+  const valEl = document.getElementById(`bv-${phase}-${idx}`);
+  if (valEl) { valEl.textContent = val + '/10'; valEl.style.color = color; }
+  updateComparaison();
+}
+
+function updateComparaison() {
+  const container = document.getElementById('comp-body');
+  container.innerHTML = '';
+  let totalAvant = 0, totalApres = 0;
+  symptoms.forEach((sym, i) => {
+    const av = bilanData.avant[i] || 0;
+    const ap = bilanData.apres[i] || 0;
+    totalAvant += av; totalApres += ap;
+    const diff = av - ap;
+    const diffBadge = diff > 0 ? `<span class="diff-badge diff-pos">-${diff} ✓</span>` :
+                     diff < 0 ? `<span class="diff-badge diff-neg">+${Math.abs(diff)}</span>` :
+                     `<span class="diff-badge diff-neu">= stable</span>`;
+    const colorAv = av <= 3 ? '#6B9B5E' : av <= 6 ? '#E8A020' : '#C04040';
+    const colorAp = ap <= 3 ? '#6B9B5E' : ap <= 6 ? '#E8A020' : '#C04040';
+    const div = document.createElement('div');
+    div.className = 'comp-item';
+    div.innerHTML = `
+      <div class="comp-label">${sym} ${diffBadge}</div>
+      <div class="comp-bars">
+        <div class="comp-bar-row">
+          <span class="comp-bar-label" style="color:var(--red);">Avant</span>
+          <div class="comp-bar-wrap"><div class="comp-bar-fill" style="width:${av*10}%; background:${colorAv};"></div></div>
+          <span class="comp-score" style="color:${colorAv};">${av}</span>
+        </div>
+        <div class="comp-bar-row">
+          <span class="comp-bar-label" style="color:var(--green-mid);">Après</span>
+          <div class="comp-bar-wrap"><div class="comp-bar-fill" style="width:${ap*10}%; background:${colorAp};"></div></div>
+          <span class="comp-score" style="color:${colorAp};">${ap}</span>
+        </div>
+      </div>
+    `;
+    container.appendChild(div);
+  });
+  document.getElementById('score-avant-total').textContent = totalAvant;
+  document.getElementById('score-apres-total').textContent = totalApres;
+  const diff = totalAvant - totalApres;
+  const diffEl = document.getElementById('score-diff');
+  diffEl.textContent = diff > 0 ? '-' + diff : diff < 0 ? '+' + Math.abs(diff) : '=';
+  diffEl.style.color = diff > 0 ? '#D4A820' : diff < 0 ? '#C04040' : '#9DC498';
+  let interp = '';
+  if (totalAvant === 0 && totalApres === 0) interp = 'Remplis le bilan pour voir ta progression';
+  else if (diff >= 20) interp = '🌟 Résultats remarquables — ton terrain a vraiment évolué en 30 jours !';
+  else if (diff >= 10) interp = '🌿 Bonne amélioration — tu es sur la bonne voie. Continue !';
+  else if (diff >= 5) interp = '🌱 Des améliorations encourageantes — ton terrain se transforme progressivement.';
+  else if (diff > 0) interp = '💪 Début de transformation — 30 jours c\'est un début. Continue sur cette lancée.';
+  else if (diff === 0) interp = '⚡ Pas encore de changement visible — peut-être besoin d\'un accompagnement plus personnalisé.';
+  else interp = '🔍 Certains symptômes ont augmenté — échangeons ensemble dans la communauté.';
+  document.getElementById('score-interpretation').textContent = interp;
+}
+
+function resetAll() {
+  if (!confirm('Réinitialiser tout le document ? (actions cochées, jours, bilan)')) return;
+  actionState = {}; dotsState = {}; bilanData = { avant: {}, apres: {} };
+  document.getElementById('s1-actions').innerHTML = '';
+  document.getElementById('s2-actions').innerHTML = '';
+  document.getElementById('s3-actions').innerHTML = '';
+  document.getElementById('s4-actions').innerHTML = '';
+  buildActions();
+  buildBilan();
+  ['s1','s2','s3','s4'].forEach(sem => document.getElementById(sem + '-prog').textContent = '0/3');
+}
+
+// INIT
+buildActions();
+buildBilan();
+</script>
+</body>
+</html>

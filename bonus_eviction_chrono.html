@@ -1,0 +1,1077 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mon Test d'Éviction — Conseil2Naturo</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap');
+
+  :root {
+    --green-deep: #1E3A1A;
+    --green-mid: #3D6B35;
+    --green-sage: #6B9B5E;
+    --green-light: #C8DFC2;
+    --green-pale: #EDF5EA;
+    --gold: #B8860B;
+    --gold-light: #D4A820;
+    --gold-pale: #FDF5DC;
+    --cream: #FAFAF5;
+    --text: #1A2E18;
+    --text2: #4A6A42;
+    --white: #FFFFFF;
+    --red: #C04040;
+    --red-pale: #FFF0F0;
+    --red-mid: #E08080;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--text); }
+
+  .header {
+    background: var(--green-deep);
+    padding: 2.5rem 2rem 2rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '';
+    position: absolute;
+    top: -40%; left: -10%;
+    width: 120%; height: 180%;
+    background: radial-gradient(ellipse at 60% 40%, rgba(107,155,94,0.12) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .header-tag {
+    display: inline-block;
+    background: rgba(212,168,32,0.2);
+    border: 1px solid rgba(212,168,32,0.4);
+    color: var(--gold-light);
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 0.3rem 1rem;
+    border-radius: 20px;
+    margin-bottom: 1rem;
+  }
+  .header h1 { font-family: 'Playfair Display', serif; font-size: 2.2rem; color: var(--white); line-height: 1.2; margin-bottom: 0.5rem; }
+  .header h1 span { color: var(--gold-light); }
+  .header p { color: var(--green-light); font-size: 0.9rem; max-width: 520px; margin: 0 auto; font-style: italic; }
+
+  .container { max-width: 900px; margin: 0 auto; padding: 0 1.5rem 3rem; }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    color: var(--green-deep);
+    margin: 2.5rem 0 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--green-light);
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+  .section-title .num {
+    width: 30px; height: 30px;
+    background: var(--gold);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    color: white; font-size: 0.85rem; font-weight: 500;
+    flex-shrink: 0;
+  }
+
+  /* INTRO */
+  .intro-box {
+    background: var(--green-deep);
+    border-radius: 12px;
+    padding: 1.5rem 2rem;
+    margin: 2rem 0 1.5rem;
+    color: var(--green-light);
+    font-size: 0.92rem;
+    line-height: 1.7;
+  }
+  .intro-box strong { color: var(--gold-light); }
+
+  /* TABS */
+  .tabs { display: flex; gap: 0.5rem; margin: 1.5rem 0 1rem; flex-wrap: wrap; }
+  .tab-btn {
+    padding: 0.55rem 1.2rem;
+    border-radius: 20px;
+    border: 1.5px solid var(--green-light);
+    background: white;
+    color: var(--text2);
+    font-size: 0.85rem;
+    font-family: 'DM Sans', sans-serif;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .tab-btn:hover, .tab-btn.active {
+    background: var(--green-deep);
+    border-color: var(--green-deep);
+    color: white;
+    font-weight: 500;
+  }
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+
+  /* PROTOCOLE */
+  .protocole-step {
+    background: white;
+    border: 1px solid var(--green-light);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 1rem;
+  }
+  .step-header {
+    padding: 0.9rem 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .step-header:hover { background: var(--green-pale); }
+  .step-num {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1rem; font-weight: 600; color: white;
+    flex-shrink: 0;
+  }
+  .step-title { font-weight: 500; font-size: 0.95rem; color: var(--green-deep); flex: 1; }
+  .step-duration { font-size: 0.78rem; color: var(--gold); font-weight: 500; background: var(--gold-pale); padding: 0.2rem 0.6rem; border-radius: 10px; }
+  .step-arrow { font-size: 0.85rem; color: var(--text2); transition: transform 0.2s; }
+  .step-header.open .step-arrow { transform: rotate(180deg); }
+  .step-body {
+    padding: 0 1.2rem;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease, padding 0.3s;
+  }
+  .step-body.open { max-height: 600px; padding: 0 1.2rem 1.2rem; }
+  .step-body p { font-size: 0.88rem; color: var(--text2); line-height: 1.7; margin-bottom: 0.6rem; }
+  .step-body ul { list-style: none; margin: 0.5rem 0; }
+  .step-body ul li { font-size: 0.87rem; color: var(--text); padding: 0.25rem 0 0.25rem 1.2rem; position: relative; }
+  .step-body ul li::before { content: '✓'; color: var(--green-sage); position: absolute; left: 0; font-size: 0.8rem; top: 0.28rem; }
+  .step-tip {
+    background: var(--green-pale);
+    border-left: 3px solid var(--green-sage);
+    padding: 0.6rem 0.8rem;
+    border-radius: 0 6px 6px 0;
+    font-size: 0.82rem;
+    color: var(--text2);
+    margin-top: 0.6rem;
+  }
+  .step-tip strong { color: var(--green-deep); display: block; font-size: 0.78rem; text-transform: uppercase; margin-bottom: 0.2rem; }
+
+  /* JOURNAL */
+  .journal-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1rem;
+    margin: 1rem 0;
+  }
+  .journal-day {
+    background: white;
+    border: 1px solid var(--green-light);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .journal-day-header {
+    background: var(--green-deep);
+    padding: 0.6rem 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .journal-day-header.gold { background: var(--gold); }
+  .journal-day-header.red-h { background: var(--red); }
+  .day-title { color: white; font-weight: 500; font-size: 0.88rem; }
+  .day-phase { color: rgba(255,255,255,0.75); font-size: 0.72rem; }
+  .journal-symptoms { padding: 0.8rem 1rem; }
+  .symptom-item {
+    margin-bottom: 0.7rem;
+  }
+  .symptom-label-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.3rem;
+  }
+  .symptom-name { font-size: 0.82rem; color: var(--text); }
+  .symptom-score { font-size: 0.8rem; font-weight: 600; color: var(--green-mid); }
+  .sym-slider {
+    width: 100%;
+    -webkit-appearance: none;
+    height: 5px;
+    border-radius: 3px;
+    outline: none;
+    cursor: pointer;
+    background: var(--green-light);
+  }
+  .sym-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 16px; height: 16px;
+    border-radius: 50%;
+    background: var(--green-mid);
+    cursor: pointer;
+    border: 2px solid white;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+  }
+  .notes-field {
+    width: 100%;
+    border: 1px solid var(--green-light);
+    border-radius: 6px;
+    padding: 0.5rem 0.7rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.82rem;
+    color: var(--text);
+    resize: none;
+    margin-top: 0.5rem;
+    background: var(--green-pale);
+  }
+  .notes-field:focus { outline: none; border-color: var(--green-sage); }
+
+  /* COMPARAISON AVANT/APRÈS */
+  .comparison-box {
+    background: white;
+    border: 1px solid var(--green-light);
+    border-radius: 12px;
+    overflow: hidden;
+    margin: 1.5rem 0;
+  }
+  .comparison-header {
+    background: var(--green-deep);
+    padding: 1rem 1.5rem;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05rem;
+    color: white;
+  }
+  .comparison-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+  }
+  .comparison-col { padding: 1rem 1.2rem; }
+  .comparison-col:first-child { border-right: 1px solid var(--green-pale); }
+  .comparison-col-title { font-weight: 500; color: var(--green-deep); margin-bottom: 0.8rem; font-size: 0.9rem; }
+  .sym-compare-row {
+    margin-bottom: 0.8rem;
+  }
+  .sym-compare-label { font-size: 0.8rem; color: var(--text2); margin-bottom: 0.25rem; }
+  .sym-compare-bars { display: flex; gap: 0.5rem; align-items: center; }
+  .bar-wrap { flex: 1; background: var(--green-pale); border-radius: 4px; height: 10px; overflow: hidden; }
+  .bar-fill { height: 10px; border-radius: 4px; transition: width 0.5s; }
+  .bar-label { font-size: 0.78rem; font-weight: 600; width: 24px; text-align: right; }
+
+  /* ALTERNATIVES */
+  .alternatives-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.2rem;
+    margin: 1.5rem 0;
+  }
+  .alt-card {
+    background: white;
+    border: 1px solid var(--green-light);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .alt-header {
+    padding: 0.8rem 1.2rem;
+    font-weight: 500;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .alt-header.red-bg { background: var(--red-pale); color: var(--red); border-bottom: 1px solid var(--red-mid); }
+  .alt-header.green-bg { background: var(--green-pale); color: var(--green-deep); border-bottom: 1px solid var(--green-light); }
+  .alt-header.gold-bg { background: var(--gold-pale); color: var(--gold); border-bottom: 1px solid rgba(184,134,11,0.3); }
+  .alt-items { padding: 0.8rem 1.2rem; }
+  .alt-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    padding: 0.4rem 0;
+    border-bottom: 1px solid var(--green-pale);
+    font-size: 0.85rem;
+  }
+  .alt-item:last-child { border-bottom: none; }
+  .alt-icon { flex-shrink: 0; font-size: 1.1rem; }
+  .alt-name { font-weight: 500; color: var(--text); }
+  .alt-note { font-size: 0.78rem; color: var(--text2); margin-top: 1px; }
+
+  /* CHRONO */
+  .chrono-timeline {
+    background: white;
+    border: 1px solid var(--green-light);
+    border-radius: 12px;
+    overflow: hidden;
+    margin: 1.5rem 0;
+  }
+  .chrono-header {
+    background: var(--green-deep);
+    padding: 1rem 1.5rem;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05rem;
+    color: white;
+  }
+  .chrono-row {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    border-bottom: 1px solid var(--green-pale);
+    align-items: stretch;
+  }
+  .chrono-row:last-child { border-bottom: none; }
+  .chrono-time {
+    background: var(--green-pale);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    color: var(--green-deep);
+    font-weight: 600;
+    border-right: 1px solid var(--green-light);
+    padding: 0.8rem;
+    text-align: center;
+  }
+  .chrono-time.gold-time { background: var(--gold-pale); color: var(--gold); }
+  .chrono-content { padding: 0.9rem 1.2rem; }
+  .chrono-meal { font-weight: 500; color: var(--green-deep); font-size: 0.92rem; margin-bottom: 0.3rem; }
+  .chrono-desc { font-size: 0.84rem; color: var(--text2); line-height: 1.5; }
+  .chrono-why { font-size: 0.78rem; color: var(--gold); margin-top: 0.3rem; font-style: italic; }
+
+  /* FENÊTRE CURSEUR */
+  .fenetre-section {
+    background: white;
+    border: 1px solid var(--green-light);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+  }
+  .fenetre-title { font-weight: 500; color: var(--green-deep); margin-bottom: 0.5rem; font-size: 0.95rem; }
+  .fenetre-subtitle { font-size: 0.82rem; color: var(--text2); margin-bottom: 1.2rem; }
+  .fenetre-row { display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem; }
+  .fenetre-label { font-size: 0.82rem; color: var(--text2); width: 160px; flex-shrink: 0; }
+  .fenetre-slider {
+    flex: 1;
+    -webkit-appearance: none;
+    height: 6px;
+    border-radius: 3px;
+    background: var(--green-light);
+    outline: none;
+  }
+  .fenetre-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    background: var(--green-mid);
+    cursor: pointer;
+    border: 2px solid white;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+  }
+  .fenetre-val { font-weight: 600; color: var(--green-deep); font-size: 0.95rem; width: 60px; text-align: right; }
+  .fenetre-result {
+    background: var(--green-pale);
+    border-radius: 8px;
+    padding: 1rem;
+    font-size: 0.88rem;
+    line-height: 1.6;
+    color: var(--text);
+  }
+  .fenetre-result strong { color: var(--green-deep); }
+
+  /* FOOTER */
+  .footer {
+    background: var(--green-deep);
+    color: var(--green-light);
+    text-align: center;
+    padding: 2rem;
+    margin-top: 2rem;
+    font-size: 0.85rem;
+  }
+  .footer strong { color: var(--gold-light); }
+
+  .fade-in { animation: fadeIn 0.3s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+
+  @media (max-width: 600px) {
+    .header h1 { font-size: 1.6rem; }
+    .alternatives-grid { grid-template-columns: 1fr; }
+    .comparison-grid { grid-template-columns: 1fr; }
+    .fenetre-label { width: 100px; font-size: 0.75rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-tag">Conseil2Naturo · Module 4 · Document bonus</div>
+  <h1>Mon test d'éviction<br><span>Gluten · Produits laitiers</span></h1>
+  <p>Un protocole clair, un journal de bord interactif, et ton planning chrono personnalisé.</p>
+</div>
+
+<div class="container">
+
+  <div class="intro-box">
+    Ce document est ton outil concret pour <strong>tester ce qui convient à ton terrain</strong>. Pas de règle universelle — ton corps est unique. Le test d'éviction est le seul moyen fiable de savoir. Utilise ce journal pour noter tes observations semaine après semaine.
+  </div>
+
+  <!-- TABS -->
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('protocole', this)">🧪 Protocole d'éviction</button>
+    <button class="tab-btn" onclick="switchTab('journal', this)">📓 Journal de bord</button>
+    <button class="tab-btn" onclick="switchTab('alternatives', this)">🔄 Les alternatives</button>
+    <button class="tab-btn" onclick="switchTab('chrono', this)">⏰ Ma journée chrono</button>
+  </div>
+
+  <!-- TAB 1 : PROTOCOLE -->
+  <div class="tab-content active" id="tab-protocole">
+
+    <div class="section-title"><span class="num">1</span> Le protocole étape par étape</div>
+
+    <!-- Gluten -->
+    <div style="background:var(--red-pale); border:1px solid var(--red-mid); border-radius:10px; padding:0.8rem 1.2rem; margin-bottom:1rem;">
+      <p style="font-size:0.88rem; color:var(--red); font-weight:500; margin-bottom:0.3rem;">⚠️ Avant de commencer l'éviction du gluten</p>
+      <p style="font-size:0.84rem; color:#6A2020;">Fais d'abord exclure la maladie cœliaque par une prise de sang. Si tu supprimes le gluten avant le test, le résultat sera faux-négatif. Parle-en à ton médecin.</p>
+    </div>
+
+    <!-- Étapes gluten -->
+    <p style="font-family:'Playfair Display',serif; font-size:1.1rem; color:var(--green-deep); margin:1rem 0 0.5rem;">🌾 Test d'éviction du gluten — 4 semaines</p>
+
+    <div class="protocole-step">
+      <div class="step-header" onclick="toggleStep(this)">
+        <div class="step-num" style="background:var(--green-deep);">1</div>
+        <div class="step-title">Semaine 1-4 — Éviction stricte</div>
+        <div class="step-duration">28 jours</div>
+        <div class="step-arrow">▼</div>
+      </div>
+      <div class="step-body">
+        <p>Retire <strong>tout</strong> ce qui contient du gluten pendant 4 semaines complètes. Pas seulement le pain — vraiment tout.</p>
+        <ul>
+          <li>Blé (pain, pâtes, farine, biscuits, gâteaux, pizza, couscous)</li>
+          <li>Seigle (pain de seigle, crackers au seigle)</li>
+          <li>Orge (bière, certaines soupes industrielles)</li>
+          <li>Épeautre et kamut (contiennent du gluten même si anciens)</li>
+          <li>Produits industriels — vérifie toujours les étiquettes (gluten caché partout)</li>
+        </ul>
+        <div class="step-tip">
+          <strong>💡 Astuce</strong>
+          Les sauces industrielles, la charcuterie, les chips, les plats préparés peuvent contenir du gluten caché. Lis toujours les étiquettes. Quand tu doutes — évite.
+        </div>
+      </div>
+    </div>
+
+    <div class="protocole-step">
+      <div class="step-header" onclick="toggleStep(this)">
+        <div class="step-num" style="background:var(--green-mid);">2</div>
+        <div class="step-title">Observer honnêtement — chaque semaine</div>
+        <div class="step-duration">En continu</div>
+        <div class="step-arrow">▼</div>
+      </div>
+      <div class="step-body">
+        <p>Note tes observations dans le journal de bord (onglet Journal). Les symptômes à surveiller :</p>
+        <ul>
+          <li>Ballonnements et inconforts digestifs</li>
+          <li>Niveau d'énergie et fatigue</li>
+          <li>Brouillard mental et concentration</li>
+          <li>Douleurs diffuses ou articulaires</li>
+          <li>Qualité du sommeil</li>
+          <li>État de la peau</li>
+          <li>Humeur et anxiété</li>
+        </ul>
+        <div class="step-tip">
+          <strong>💡 Important</strong>
+          Les effets peuvent mettre 1 à 2 semaines à apparaître. Certaines personnes ressentent même une légère aggravation les premiers jours (réaction de détox). Sois patiente et persévère les 4 semaines complètes.
+        </div>
+      </div>
+    </div>
+
+    <div class="protocole-step">
+      <div class="step-header" onclick="toggleStep(this)">
+        <div class="step-num" style="background:var(--gold);">3</div>
+        <div class="step-title">Semaine 5 — Réintroduction progressive</div>
+        <div class="step-duration">7-14 jours</div>
+        <div class="step-arrow">▼</div>
+      </div>
+      <div class="step-body">
+        <p>Réintroduis le gluten progressivement et observe les réactions. Un aliment à la fois.</p>
+        <ul>
+          <li>Jour 1-2 : pain au levain de blé ancien (épeautre ou kamut)</li>
+          <li>Jour 3-4 : observe les réactions avant de continuer</li>
+          <li>Jour 5-6 : pâtes complètes de blé dur</li>
+          <li>Jour 7-8 : observe à nouveau</li>
+          <li>Ensuite : produits industriels à base de blé</li>
+        </ul>
+        <div class="step-tip">
+          <strong>💡 Ce que tu découvriras souvent</strong>
+          Beaucoup de personnes tolèrent bien le pain au levain de qualité ou les céréales anciennes, mais réagissent aux produits industriels à base de blé moderne. Le problème n'est pas toujours le gluten en lui-même — mais le type de blé et sa transformation.
+        </div>
+      </div>
+    </div>
+
+    <!-- Produits laitiers -->
+    <p style="font-family:'Playfair Display',serif; font-size:1.1rem; color:var(--green-deep); margin:1.5rem 0 0.5rem;">🥛 Test d'éviction des produits laitiers — 3 semaines</p>
+
+    <div class="protocole-step">
+      <div class="step-header" onclick="toggleStep(this)">
+        <div class="step-num" style="background:var(--green-deep);">1</div>
+        <div class="step-title">Semaines 1-3 — Éviction complète</div>
+        <div class="step-duration">21 jours</div>
+        <div class="step-arrow">▼</div>
+      </div>
+      <div class="step-body">
+        <p>Retire tous les produits laitiers pendant 3 semaines. Remplace le calcium avec les alternatives (onglet Alternatives).</p>
+        <ul>
+          <li>Lait de vache sous toutes ses formes</li>
+          <li>Beurre et crème fraîche</li>
+          <li>Fromages (tous types)</li>
+          <li>Yaourts et kéfir de lait</li>
+          <li>Produits industriels contenant du lait en poudre</li>
+        </ul>
+        <div class="step-tip">
+          <strong>💡 Ne pas oublier</strong>
+          Remplace le calcium. Les sardines avec arêtes, le tahini, les légumes verts, et les boissons végétales enrichies sont tes alliés. Ne prive pas ton corps de calcium sans le remplacer.
+        </div>
+      </div>
+    </div>
+
+    <div class="protocole-step">
+      <div class="step-header" onclick="toggleStep(this)">
+        <div class="step-num" style="background:var(--gold);">2</div>
+        <div class="step-title">Semaine 4 — Réintroduction un par un</div>
+        <div class="step-duration">14 jours</div>
+        <div class="step-arrow">▼</div>
+      </div>
+      <div class="step-body">
+        <p>Réintroduis un produit laitier à la fois avec 3-4 jours d'observation entre chaque.</p>
+        <ul>
+          <li>Jour 1-3 : yaourt nature (bactéries vivantes) → observe</li>
+          <li>Jour 4-6 : fromage de chèvre ou brebis affiné → observe</li>
+          <li>Jour 7-9 : fromage de vache affiné → observe</li>
+          <li>Jour 10-12 : lait demi-écrémé → observe</li>
+          <li>Jour 13-14 : kéfir → observe</li>
+        </ul>
+        <div class="step-tip">
+          <strong>💡 Ce que tu découvriras souvent</strong>
+          Beaucoup de personnes tolèrent parfaitement les yaourts nature et les fromages affinés — même celles qui se croient intolérantes. Le problème vient souvent du lait industriel UHT et des produits très transformés. La tolérance est individuelle.
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- TAB 2 : JOURNAL -->
+  <div class="tab-content" id="tab-journal">
+
+    <div class="section-title"><span class="num">2</span> Mon journal de bord</div>
+    <p style="font-size:0.85rem; color:var(--text2); margin-bottom:1rem; font-style:italic;">Positionne les curseurs (0 = absent, 10 = très intense). Tes données sont sauvegardées pendant la session.</p>
+
+    <!-- Sélecteur phase -->
+    <div style="display:flex; gap:0.5rem; margin-bottom:1.2rem; flex-wrap:wrap;">
+      <button class="tab-btn active" onclick="setPhase('avant', this)">📊 Avant éviction (J1)</button>
+      <button class="tab-btn" onclick="setPhase('s2', this)">Semaine 2</button>
+      <button class="tab-btn" onclick="setPhase('s4', this)">Semaine 4</button>
+      <button class="tab-btn" onclick="setPhase('reintro', this)">Après réintroduction</button>
+    </div>
+
+    <div class="journal-grid" id="journal-grid"></div>
+
+    <!-- Comparaison avant/après -->
+    <div class="comparison-box" id="comparison-box" style="display:none;">
+      <div class="comparison-header">📊 Comparaison — Avant éviction vs Semaine 4</div>
+      <div class="comparison-grid">
+        <div class="comparison-col">
+          <div class="comparison-col-title">Avant éviction (J1)</div>
+          <div id="bars-avant"></div>
+        </div>
+        <div class="comparison-col">
+          <div class="comparison-col-title">Semaine 4 (fin éviction)</div>
+          <div id="bars-s4"></div>
+        </div>
+      </div>
+    </div>
+
+    <div style="text-align:center; margin-top:1.5rem;">
+      <button onclick="showComparison()" style="background:var(--green-deep); color:white; border:none; padding:0.7rem 1.5rem; border-radius:8px; font-family:'DM Sans',sans-serif; font-size:0.88rem; cursor:pointer;">📊 Voir ma comparaison avant/après</button>
+    </div>
+
+  </div>
+
+  <!-- TAB 3 : ALTERNATIVES -->
+  <div class="tab-content" id="tab-alternatives">
+
+    <div class="section-title"><span class="num">3</span> Les alternatives pratiques</div>
+
+    <div class="alternatives-grid">
+      <!-- Sans gluten -->
+      <div class="alt-card">
+        <div class="alt-header red-bg">🌾 Remplace le gluten par...</div>
+        <div class="alt-items">
+          <div class="alt-item">
+            <div class="alt-icon">🌾</div>
+            <div>
+              <div class="alt-name">Riz complet & sarrasin</div>
+              <div class="alt-note">Naturellement sans gluten. Galettes de sarrasin = excellentes.</div>
+            </div>
+          </div>
+          <div class="alt-item">
+            <div class="alt-icon">🌿</div>
+            <div>
+              <div class="alt-name">Quinoa</div>
+              <div class="alt-note">Protéine complète + glucides complexes. Remplace les pâtes.</div>
+            </div>
+          </div>
+          <div class="alt-item">
+            <div class="alt-icon">🫘</div>
+            <div>
+              <div class="alt-name">Légumineuses</div>
+              <div class="alt-note">Lentilles, pois chiches — protéines + fibres + glucides lents.</div>
+            </div>
+          </div>
+          <div class="alt-item">
+            <div class="alt-icon">🥔</div>
+            <div>
+              <div class="alt-name">Pommes de terre & patate douce</div>
+              <div class="alt-note">Glucides de qualité, naturellement sans gluten.</div>
+            </div>
+          </div>
+          <div class="alt-item">
+            <div class="alt-icon">🌽</div>
+            <div>
+              <div class="alt-name">Farine de maïs, tapioca, châtaigne</div>
+              <div class="alt-note">Pour la pâtisserie et la cuisine sans gluten.</div>
+            </div>
+          </div>
+          <div class="alt-item">
+            <div class="alt-icon">🍞</div>
+            <div>
+              <div class="alt-name">Pain au levain épeautre/kamut</div>
+              <div class="alt-note">Si tu réintègres : céréales anciennes mieux tolérées.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sans laitiers -->
+      <div class="alt-card">
+        <div class="alt-header green-bg">🥛 Remplace les laitiers par...</div>
+        <div class="alt-items">
+          <div class="alt-item">
+            <div class="alt-icon">💧</div>
+            <div>
+              <div class="alt-name">Boisson d'amande enrichie en Ca</div>
+              <div class="alt-note">120mg de calcium/verre si enrichie. Choisir sans sucre ajouté.</div>
+            </div>
+          </div>
+          <div class="alt-item">
+            <div class="alt-icon">🌾</div>
+            <div>
+              <div class="alt-name">Boisson d'avoine enrichie</div>
+              <div class="alt-note">Texture crémeuse proche du lait. Fibreuse et rassasiante.</div>
+            </div>
+          </div>
+          <div class="alt-item">
+            <div class="alt-icon">🌰</div>
+            <div>
+              <div class="alt-name">Tahini (pâte de sésame)</div>
+              <div class="alt-note">180mg Ca pour 2 c.à.s. — l'une des meilleures sources végétales.</div>
+            </div>
+          </div>
+          <div class="alt-item">
+            <div class="alt-icon">🐟</div>
+            <div>
+              <div class="alt-name">Sardines avec les arêtes</div>
+              <div class="alt-note">350mg Ca pour 100g — excellent et biodisponible.</div>
+            </div>
+          </div>
+          <div class="alt-item">
+            <div class="alt-icon">🥬</div>
+            <div>
+              <div class="alt-name">Chou kale, brocoli, épinards</div>
+              <div class="alt-note">Calcium + magnésium. Cuire les épinards pour mieux absorber le Ca.</div>
+            </div>
+          </div>
+          <div class="alt-item">
+            <div class="alt-icon">🫙</div>
+            <div>
+              <div class="alt-name">Yaourt de coco / soja</div>
+              <div class="alt-note">Si fermenté avec probiotiques vivants — effet similaire au yaourt.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sources calcium végétales -->
+      <div class="alt-card">
+        <div class="alt-header gold-bg">🦴 Sources de calcium sans produits laitiers</div>
+        <div class="alt-items">
+          <div class="alt-item">
+            <div class="alt-icon">🌰</div>
+            <div>
+              <div class="alt-name">Graines de sésame</div>
+              <div class="alt-note">975mg Ca/100g — 1 c.à.s dans un plat = source intéressante</div>
+            </div>
+          </div>
+          <div class="alt-item">
+            <div class="alt-icon">🐟</div>
+            <div>
+              <div class="alt-name">Sardines en boîte avec arêtes</div>
+              <div class="alt-note">350mg Ca/100g + oméga-3 + protéines</div>
+            </div>
+          </div>
+          <div class="alt-item">
+            <div class="alt-icon">🥬</div>
+            <div>
+              <div class="alt-name">Chou kale cuit</div>
+              <div class="alt-note">150mg Ca/100g — bien biodisponible</div>
+            </div>
+          </div>
+          <div class="alt-item">
+            <div class="alt-icon">🫘</div>
+            <div>
+              <div class="alt-name">Haricots blancs</div>
+              <div class="alt-note">130mg Ca/100g cuit + fibres + protéines</div>
+            </div>
+          </div>
+          <div class="alt-item">
+            <div class="alt-icon">🌿</div>
+            <div>
+              <div class="alt-name">Amandes</div>
+              <div class="alt-note">250mg Ca/100g — poignée/jour = bonne contribution</div>
+            </div>
+          </div>
+          <div class="alt-item">
+            <div class="alt-icon">🐙</div>
+            <div>
+              <div class="alt-name">Eau minérale riche en Ca</div>
+              <div class="alt-note">Contrexéville, Hépar : 500mg Ca/L</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sources protéines végétales -->
+      <div class="alt-card">
+        <div class="alt-header green-bg">💪 Sources de protéines végétales</div>
+        <div class="alt-items">
+          <div class="alt-item">
+            <div class="alt-icon">🫘</div>
+            <div>
+              <div class="alt-name">Lentilles</div>
+              <div class="alt-note">9g protéines/100g cuit + 8g fibres. La base.</div>
+            </div>
+          </div>
+          <div class="alt-item">
+            <div class="alt-icon">🌿</div>
+            <div>
+              <div class="alt-name">Quinoa</div>
+              <div class="alt-note">4g/100g cuit. Protéine complète (tous les acides aminés).</div>
+            </div>
+          </div>
+          <div class="alt-item">
+            <div class="alt-icon">🟫</div>
+            <div>
+              <div class="alt-name">Tempeh & tofu</div>
+              <div class="alt-note">15-20g/100g. Riches en phytoestrogènes (intéressants en ménopause).</div>
+            </div>
+          </div>
+          <div class="alt-item">
+            <div class="alt-icon">🌱</div>
+            <div>
+              <div class="alt-name">Graines de chanvre</div>
+              <div class="alt-note">30g/100g. Protéine complète + oméga-3.</div>
+            </div>
+          </div>
+          <div class="alt-item">
+            <div class="alt-icon">🌰</div>
+            <div>
+              <div class="alt-name">Amandes & noix</div>
+              <div class="alt-note">20-25g/100g. + bons gras + calcium.</div>
+            </div>
+          </div>
+          <div class="alt-item">
+            <div class="alt-icon">🥜</div>
+            <div>
+              <div class="alt-name">Pois chiches</div>
+              <div class="alt-note">8g/100g cuit + fibres. Houmous = excellente collation protéinée.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- TAB 4 : CHRONO -->
+  <div class="tab-content" id="tab-chrono">
+
+    <div class="section-title"><span class="num">4</span> Ma journée chrono idéale</div>
+
+    <div class="chrono-timeline">
+      <div class="chrono-header">⏰ Répartition des repas selon le rythme circadien</div>
+
+      <div class="chrono-row">
+        <div class="chrono-time">7-8h</div>
+        <div class="chrono-content">
+          <div class="chrono-meal">🌅 Petit-déjeuner — Le plus protéiné</div>
+          <div class="chrono-desc">20-30g de protéines · Bons gras · Légumes si possible<br>Exemples : œufs + légumes + avocat · Yaourt grec + fruits + graines · Porridge d'avoine + œuf à la coque</div>
+          <div class="chrono-why">→ Cortisol au max · Métabolisme actif · Active la dopamine · Stabilise la glycémie toute la journée</div>
+        </div>
+      </div>
+
+      <div class="chrono-row">
+        <div class="chrono-time gold-time">10-11h</div>
+        <div class="chrono-content">
+          <div class="chrono-meal">☕ Collation optionnelle</div>
+          <div class="chrono-desc">Thé vert · Quelques noix · Fruit · Carré de chocolat noir<br>Seulement si vraiment faim — pas par habitude</div>
+          <div class="chrono-why">→ Deuxième pic de cortisol · Bon moment pour un petit apport protéiné ou antioxydant</div>
+        </div>
+      </div>
+
+      <div class="chrono-row">
+        <div class="chrono-time">12-13h</div>
+        <div class="chrono-content">
+          <div class="chrono-meal">☀️ Déjeuner — Le repas principal</div>
+          <div class="chrono-desc">Le plus copieux de la journée · Tous les nutriments · L'assiette anti-inflammatoire complète<br>Exemples : assiette légumes + poisson + quinoa + huile d'olive · Salade composée avec œufs + lentilles</div>
+          <div class="chrono-why">→ Enzymes digestives au pic · Meilleure assimilation · Corps optimisé pour digérer et absorber</div>
+        </div>
+      </div>
+
+      <div class="chrono-row">
+        <div class="chrono-time gold-time">16h</div>
+        <div class="chrono-content">
+          <div class="chrono-meal">🍫 Goûter — Le petit plaisir</div>
+          <div class="chrono-desc">Myrtilles + quelques noix · Yaourt nature + graines de lin · Chocolat noir + thé vert<br>Idéal pour les antioxydants et les probiotiques</div>
+          <div class="chrono-why">→ Pic d'insuline favorable · Bon moment pour les glucides naturels si activité sportive en fin de journée</div>
+        </div>
+      </div>
+
+      <div class="chrono-row">
+        <div class="chrono-time">18-19h</div>
+        <div class="chrono-content">
+          <div class="chrono-meal">🌙 Dîner — Léger et tôt</div>
+          <div class="chrono-desc">Protéines légères + légumes · Éviter les gros glucides le soir<br>Exemples : poisson vapeur + légumes · Soupe de légumes + œufs · Salade verte + sardines + avocat</div>
+          <div class="chrono-why">→ Mélatonine monte · Métabolisme ralentit · Dîner tôt = meilleur sommeil + moins d'inflammation</div>
+        </div>
+      </div>
+
+      <div style="background:var(--green-pale); padding:0.8rem 1.5rem; font-size:0.85rem; color:var(--green-deep); font-style:italic; text-align:center; border-top:1px solid var(--green-light);">
+        ⏰ Idéalement — aucun aliment après 20h. La fenêtre de jeûne nocturne permet au corps de réparer et réguler. 🌿
+      </div>
+    </div>
+
+    <!-- Calculateur fenêtre -->
+    <div class="section-title"><span class="num">⚡</span> Calcule ta fenêtre d'alimentation</div>
+
+    <div class="fenetre-section">
+      <div class="fenetre-title">🕐 À quelle heure prends-tu ton premier repas ?</div>
+      <div class="fenetre-subtitle">Fais glisser les curseurs pour calculer ta fenêtre d'alimentation et voir les recommandations</div>
+
+      <div class="fenetre-row">
+        <div class="fenetre-label">Premier repas</div>
+        <input type="range" class="fenetre-slider" id="first-meal" min="5" max="12" value="7" oninput="calcFenetre()">
+        <div class="fenetre-val" id="first-meal-val">7h00</div>
+      </div>
+
+      <div class="fenetre-row">
+        <div class="fenetre-label">Dernier repas</div>
+        <input type="range" class="fenetre-slider" id="last-meal" min="17" max="23" value="20" oninput="calcFenetre()">
+        <div class="fenetre-val" id="last-meal-val">20h00</div>
+      </div>
+
+      <div id="fenetre-result" class="fenetre-result">Résultat ici...</div>
+    </div>
+
+    <!-- Règles chrono -->
+    <div class="section-title"><span class="num">📋</span> Mes 3 règles chrono à retenir</div>
+
+    <div style="display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:1rem; margin:1rem 0;">
+      <div style="background:white; border:1px solid var(--green-light); border-radius:10px; overflow:hidden;">
+        <div style="background:var(--green-deep); padding:0.7rem 1rem; color:white; font-weight:500;">🌅 Règle 1 — Le matin</div>
+        <div style="padding:0.8rem 1rem;">
+          <p style="font-size:0.85rem; color:var(--text2); line-height:1.6;">Vrai petit-déjeuner avec <strong style="color:var(--green-deep);">20-30g de protéines</strong>. Pas juste un café. Le cortisol du matin = fenêtre métabolique optimale.</p>
+        </div>
+      </div>
+      <div style="background:white; border:1px solid var(--green-light); border-radius:10px; overflow:hidden;">
+        <div style="background:var(--green-mid); padding:0.7rem 1rem; color:white; font-weight:500;">☀️ Règle 2 — À midi</div>
+        <div style="padding:0.8rem 1rem;">
+          <p style="font-size:0.85rem; color:var(--text2); line-height:1.6;">Le <strong style="color:var(--green-deep);">repas principal à midi</strong>. Pas le soir. Les enzymes digestives sont au pic. C'est là que ton corps assimile le mieux.</p>
+        </div>
+      </div>
+      <div style="background:white; border:1px solid var(--green-light); border-radius:10px; overflow:hidden;">
+        <div style="background:var(--gold); padding:0.7rem 1rem; color:white; font-weight:500;">🌙 Règle 3 — Le soir</div>
+        <div style="padding:0.8rem 1rem;">
+          <p style="font-size:0.85rem; color:var(--text2); line-height:1.6;">Dîner <strong style="color:var(--green-deep);">léger, tôt, et sans glucides en excès</strong>. 2-3h avant de dormir minimum. Le soir = moins d'enzymes, moins d'insuline efficace.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- BOUTONS -->
+  <div style="text-align:center; margin:2rem 0; display:flex; gap:0.8rem; justify-content:center; flex-wrap:wrap;">
+    <button onclick="window.print()" style="background:var(--green-deep); color:white; border:none; padding:0.7rem 1.5rem; border-radius:8px; font-family:'DM Sans',sans-serif; font-size:0.88rem; cursor:pointer;">🖨️ Imprimer / Sauvegarder</button>
+  </div>
+
+</div>
+
+<div class="footer">
+  <strong>Conseil2Naturo</strong> · Angélique · Naturopathe fonctionnelle & holistique<br>
+  <span style="font-size:0.78rem; opacity:0.7; margin-top:0.3rem; display:block;">Ce document est un outil d'accompagnement. Il ne remplace pas un suivi personnalisé ni un avis médical.</span>
+</div>
+
+<script>
+// TAB SWITCHING
+function switchTab(id, btn) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ACCORDION STEPS
+function toggleStep(header) {
+  const body = header.nextElementSibling;
+  const isOpen = body.classList.contains('open');
+  document.querySelectorAll('.step-body').forEach(b => b.classList.remove('open'));
+  document.querySelectorAll('.step-header').forEach(h => h.classList.remove('open'));
+  if (!isOpen) { body.classList.add('open'); header.classList.add('open'); }
+}
+
+// JOURNAL
+const symptoms = [
+  "Ballonnements", "Fatigue", "Brouillard mental",
+  "Douleurs diffuses", "Qualité du sommeil", "État de la peau",
+  "Humeur / anxiété", "Transit intestinal"
+];
+
+const phases = {
+  avant: { title: "Avant éviction", subtitle: "Jour 1 — état de départ", headerClass: "red-h" },
+  s2: { title: "Semaine 2", subtitle: "2 semaines sans gluten/laitiers", headerClass: "" },
+  s4: { title: "Semaine 4", subtitle: "Fin de l'éviction — bilan", headerClass: "" },
+  reintro: { title: "Après réintroduction", subtitle: "Réactions après réintroduction", headerClass: "gold" }
+};
+
+let journalData = { avant: {}, s2: {}, s4: {}, reintro: {} };
+let currentPhase = 'avant';
+
+function setPhase(phase, btn) {
+  currentPhase = phase;
+  document.querySelectorAll('#tab-journal .tab-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderJournal();
+}
+
+function renderJournal() {
+  const grid = document.getElementById('journal-grid');
+  const phaseInfo = phases[currentPhase];
+  grid.innerHTML = '';
+
+  const card = document.createElement('div');
+  card.className = 'journal-day';
+  card.style.gridColumn = '1 / -1';
+  card.innerHTML = `
+    <div class="journal-day-header ${phaseInfo.headerClass}">
+      <span class="day-title">${phaseInfo.title}</span>
+      <span class="day-phase">${phaseInfo.subtitle}</span>
+    </div>
+    <div class="journal-symptoms" id="symptoms-${currentPhase}"></div>
+  `;
+  grid.appendChild(card);
+
+  const symsContainer = card.querySelector(`#symptoms-${currentPhase}`);
+  symptoms.forEach((sym, i) => {
+    const val = journalData[currentPhase][i] || 0;
+    const color = val <= 3 ? '#6B9B5E' : val <= 6 ? '#E8A020' : '#C04040';
+    const row = document.createElement('div');
+    row.className = 'symptom-item';
+    row.innerHTML = `
+      <div class="symptom-label-row">
+        <span class="symptom-name">${sym}</span>
+        <span class="symptom-score" id="score-${currentPhase}-${i}" style="color:${color}">${val}/10</span>
+      </div>
+      <input type="range" class="sym-slider" min="0" max="10" value="${val}"
+        style="background:linear-gradient(to right,${color} 0%,${color} ${val*10}%,#C8DFC2 ${val*10}%,#C8DFC2 100%);"
+        oninput="updateSym('${currentPhase}', ${i}, this)">
+    `;
+    symsContainer.appendChild(row);
+  });
+
+  const notesDiv = document.createElement('div');
+  notesDiv.innerHTML = `<textarea class="notes-field" rows="2" placeholder="Notes libres pour cette période..." oninput="saveNotes('${currentPhase}', this.value)">${journalData[currentPhase].notes || ''}</textarea>`;
+  symsContainer.appendChild(notesDiv);
+}
+
+function updateSym(phase, idx, slider) {
+  const val = parseInt(slider.value);
+  journalData[phase][idx] = val;
+  const color = val <= 3 ? '#6B9B5E' : val <= 6 ? '#E8A020' : '#C04040';
+  slider.style.background = `linear-gradient(to right,${color} 0%,${color} ${val*10}%,#C8DFC2 ${val*10}%,#C8DFC2 100%)`;
+  const scoreEl = document.getElementById(`score-${phase}-${idx}`);
+  if (scoreEl) { scoreEl.textContent = val + '/10'; scoreEl.style.color = color; }
+}
+
+function saveNotes(phase, val) { journalData[phase].notes = val; }
+
+function showComparison() {
+  const box = document.getElementById('comparison-box');
+  box.style.display = 'block';
+  renderBars('bars-avant', 'avant');
+  renderBars('bars-s4', 's4');
+  box.scrollIntoView({ behavior: 'smooth' });
+}
+
+function renderBars(containerId, phase) {
+  const container = document.getElementById(containerId);
+  container.innerHTML = '';
+  symptoms.forEach((sym, i) => {
+    const val = journalData[phase][i] || 0;
+    const color = val <= 3 ? '#6B9B5E' : val <= 6 ? '#E8A020' : '#C04040';
+    const pct = val * 10;
+    const div = document.createElement('div');
+    div.className = 'sym-compare-row';
+    div.innerHTML = `
+      <div class="sym-compare-label">${sym}</div>
+      <div class="sym-compare-bars">
+        <div class="bar-wrap"><div class="bar-fill" style="width:${pct}%; background:${color};"></div></div>
+        <div class="bar-label" style="color:${color};">${val}</div>
+      </div>
+    `;
+    container.appendChild(div);
+  });
+}
+
+// FENÊTRE ALIMENTATION
+function calcFenetre() {
+  const first = parseInt(document.getElementById('first-meal').value);
+  const last = parseInt(document.getElementById('last-meal').value);
+  document.getElementById('first-meal-val').textContent = first + 'h00';
+  document.getElementById('last-meal-val').textContent = last + 'h00';
+  const fenetre = last - first;
+  let result, color;
+  if (fenetre <= 10) {
+    color = '#3D6B35';
+    result = `<strong>✅ Excellente fenêtre : ${fenetre}h</strong><br>Ta fenêtre d'alimentation est optimale. Ton corps a ${24-fenetre}h de jeûne nocturne pour réparer et réguler. Continue comme ça.`;
+  } else if (fenetre <= 12) {
+    color = '#3D6B35';
+    result = `<strong>✅ Bonne fenêtre : ${fenetre}h</strong><br>Ta fenêtre est correcte. Ton corps a ${24-fenetre}h de repos. Pour optimiser encore — décale ton dîner d'une heure plus tôt ou décale ton petit-déjeuner un peu plus tard.`;
+  } else if (fenetre <= 14) {
+    color = '#E8A020';
+    result = `<strong>⚠️ Fenêtre à améliorer : ${fenetre}h</strong><br>Ta fenêtre est un peu longue. Ton corps n'a que ${24-fenetre}h de repos. Essaie de dîner 1 à 2h plus tôt — passer de ${last}h à ${last-1}h ou ${last-2}h ferait une vraie différence.`;
+  } else {
+    color = '#C04040';
+    result = `<strong>❌ Fenêtre trop large : ${fenetre}h</strong><br>Ton corps n'a que ${24-fenetre}h de repos nocturne — insuffisant pour réparer et réguler. Priorité : avancer ton dîner à ${last-2}h ou ${last-3}h maximum. C'est l'un des gestes les plus simples pour réduire l'inflammation.`;
+  }
+  document.getElementById('fenetre-result').innerHTML = result;
+  document.getElementById('fenetre-result').style.borderLeft = `3px solid ${color}`;
+}
+
+calcFenetre();
+renderJournal();
+</script>
+</body>
+</html>

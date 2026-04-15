@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mon Assiette Anti-Inflammatoire — Conseil2Naturo</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap');
+
+  :root {
+    --green-deep: #1E3A1A;
+    --green-mid: #3D6B35;
+    --green-sage: #6B9B5E;
+    --green-light: #C8DFC2;
+    --green-pale: #EDF5EA;
+    --gold: #B8860B;
+    --gold-light: #D4A820;
+    --gold-pale: #FDF5DC;
+    --cream: #FAFAF5;
+    --text: #1A2E18;
+    --text2: #4A6A42;
+    --red: #C04040;
+    --red-pale: #FFF0F0;
+    --white: #FFFFFF;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* HEADER */
+  .header {
+    background: var(--green-deep);
+    padding: 2.5rem 2rem 2rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -20%;
+    width: 140%;
+    height: 200%;
+    background: radial-gradient(ellipse at 60% 40%, rgba(107,155,94,0.15) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .header-tag {
+    display: inline-block;
+    background: rgba(212,168,32,0.2);
+    border: 1px solid rgba(212,168,32,0.4);
+    color: var(--gold-light);
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 0.3rem 1rem;
+    border-radius: 20px;
+    margin-bottom: 1rem;
+  }
+  .header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem;
+    color: var(--white);
+    line-height: 1.2;
+    margin-bottom: 0.5rem;
+  }
+  .header h1 span { color: var(--gold-light); }
+  .header p {
+    color: var(--green-light);
+    font-size: 0.9rem;
+    max-width: 500px;
+    margin: 0 auto;
+    font-style: italic;
+  }
+
+  /* CONTAINER */
+  .container {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 0 1.5rem 3rem;
+  }
+
+  /* SECTION TITLES */
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    color: var(--green-deep);
+    margin: 2.5rem 0 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--green-light);
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+  .section-title .num {
+    width: 32px;
+    height: 32px;
+    background: var(--gold);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    flex-shrink: 0;
+  }
+
+  /* INTRO BOX */
+  .intro-box {
+    background: var(--green-deep);
+    border-radius: 12px;
+    padding: 1.5rem 2rem;
+    margin: 2rem 0 1.5rem;
+    color: var(--green-light);
+    font-size: 0.95rem;
+    line-height: 1.7;
+  }
+  .intro-box strong { color: var(--gold-light); }
+
+  /* ASSIETTE VISUELLE */
+  .assiette-wrapper {
+    display: flex;
+    gap: 2rem;
+    align-items: flex-start;
+    margin: 1.5rem 0;
+    flex-wrap: wrap;
+  }
+  .assiette-visual {
+    flex-shrink: 0;
+    width: 280px;
+  }
+  .plate-container {
+    position: relative;
+    width: 260px;
+    height: 260px;
+    margin: 0 auto;
+  }
+  .plate-svg { width: 100%; height: 100%; }
+  .assiette-legend {
+    flex: 1;
+    min-width: 240px;
+  }
+  .legend-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.8rem;
+    margin-bottom: 1rem;
+    padding: 0.8rem;
+    border-radius: 8px;
+    background: var(--white);
+    border: 1px solid var(--green-light);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .legend-item:hover { border-color: var(--green-sage); transform: translateX(3px); }
+  .legend-dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 3px;
+  }
+  .legend-title { font-weight: 500; font-size: 0.9rem; color: var(--text); }
+  .legend-sub { font-size: 0.78rem; color: var(--text2); margin-top: 2px; line-height: 1.4; }
+  .legend-pct {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    flex-shrink: 0;
+    margin-left: auto;
+    color: var(--green-deep);
+  }
+
+  /* PROFIL SELECTOR */
+  .profil-section {
+    background: var(--gold-pale);
+    border: 1px solid rgba(184,134,11,0.3);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+  }
+  .profil-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    color: var(--gold);
+    margin-bottom: 0.8rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .profil-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 0.6rem;
+    margin-bottom: 1rem;
+  }
+  .profil-btn {
+    padding: 0.6rem 0.8rem;
+    border-radius: 8px;
+    border: 1.5px solid rgba(184,134,11,0.3);
+    background: white;
+    color: var(--text2);
+    font-size: 0.82rem;
+    font-family: 'DM Sans', sans-serif;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: center;
+  }
+  .profil-btn:hover, .profil-btn.active {
+    background: var(--gold);
+    border-color: var(--gold);
+    color: white;
+    font-weight: 500;
+  }
+  .profil-result {
+    background: white;
+    border-radius: 8px;
+    padding: 1rem 1.2rem;
+    border-left: 3px solid var(--gold);
+    font-size: 0.88rem;
+    line-height: 1.6;
+    color: var(--text);
+    min-height: 80px;
+    transition: all 0.3s;
+  }
+  .profil-result strong { color: var(--gold); }
+
+  /* PROTÉINES */
+  .prot-highlight {
+    background: var(--green-pale);
+    border: 2px solid var(--green-sage);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+  }
+  .prot-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    color: var(--green-deep);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .prot-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 0.8rem;
+    margin-top: 0.8rem;
+  }
+  .prot-card {
+    background: white;
+    border-radius: 8px;
+    padding: 0.8rem 1rem;
+    border: 1px solid var(--green-light);
+  }
+  .prot-card .emoji { font-size: 1.3rem; margin-bottom: 0.3rem; }
+  .prot-card .name { font-weight: 500; font-size: 0.88rem; color: var(--text); }
+  .prot-card .grams { font-size: 0.8rem; color: var(--green-mid); margin-top: 2px; }
+
+  /* CURSEUR PROTÉINES */
+  .slider-section {
+    background: white;
+    border: 1px solid var(--green-light);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+  }
+  .slider-title { font-weight: 500; color: var(--text); margin-bottom: 0.5rem; font-size: 0.95rem; }
+  .slider-subtitle { font-size: 0.82rem; color: var(--text2); margin-bottom: 1rem; }
+  .slider-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.2rem;
+  }
+  .slider-label { font-size: 0.82rem; color: var(--text2); width: 120px; flex-shrink: 0; }
+  .slider-input {
+    flex: 1;
+    -webkit-appearance: none;
+    height: 6px;
+    border-radius: 3px;
+    background: var(--green-light);
+    outline: none;
+  }
+  .slider-input::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--green-mid);
+    cursor: pointer;
+    border: 2px solid white;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+  }
+  .slider-val {
+    font-weight: 600;
+    color: var(--green-deep);
+    font-size: 0.95rem;
+    width: 60px;
+    text-align: right;
+  }
+  .slider-result {
+    background: var(--green-pale);
+    border-radius: 8px;
+    padding: 1rem;
+    font-size: 0.88rem;
+    line-height: 1.6;
+    color: var(--text);
+  }
+  .slider-result strong { color: var(--green-deep); }
+
+  /* LES 4 PILIERS */
+  .piliers-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+    gap: 1rem;
+    margin: 1.5rem 0;
+  }
+  .pilier-card {
+    background: white;
+    border: 1px solid var(--green-light);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .pilier-header {
+    background: var(--green-deep);
+    padding: 0.8rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+  .pilier-num {
+    width: 26px;
+    height: 26px;
+    background: var(--gold);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    color: white;
+    font-weight: 500;
+    flex-shrink: 0;
+  }
+  .pilier-name { color: white; font-weight: 500; font-size: 0.9rem; }
+  .pilier-body { padding: 0.9rem 1rem; }
+  .pilier-items { list-style: none; }
+  .pilier-items li {
+    font-size: 0.82rem;
+    color: var(--text2);
+    padding: 0.25rem 0;
+    border-bottom: 1px solid var(--green-pale);
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  .pilier-items li:last-child { border-bottom: none; }
+  .pilier-items li::before {
+    content: '✓';
+    color: var(--green-sage);
+    font-size: 0.75rem;
+    flex-shrink: 0;
+  }
+
+  /* LISTE DE COURSES */
+  .courses-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1rem;
+    margin: 1.5rem 0;
+  }
+  .courses-cat {
+    background: white;
+    border: 1px solid var(--green-light);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .courses-cat-title {
+    background: var(--green-mid);
+    color: white;
+    padding: 0.6rem 1rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  .courses-items {
+    padding: 0.6rem 1rem;
+  }
+  .courses-item {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.32rem 0;
+    font-size: 0.82rem;
+    color: var(--text2);
+    cursor: pointer;
+    user-select: none;
+  }
+  .courses-item input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    accent-color: var(--green-mid);
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+  .courses-item label { cursor: pointer; }
+  .courses-item.checked label { text-decoration: line-through; color: var(--green-sage); }
+
+  /* SYMPTOM TRACKER */
+  .symptom-section {
+    background: var(--green-pale);
+    border: 1px solid var(--green-light);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+  }
+  .symptom-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    color: var(--green-deep);
+    margin-bottom: 0.4rem;
+  }
+  .symptom-sub {
+    font-size: 0.82rem;
+    color: var(--text2);
+    margin-bottom: 1.2rem;
+    font-style: italic;
+  }
+  .symptom-row {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-bottom: 0.9rem;
+  }
+  .symptom-label {
+    font-size: 0.83rem;
+    color: var(--text);
+    width: 200px;
+    flex-shrink: 0;
+  }
+  .symptom-slider {
+    flex: 1;
+    -webkit-appearance: none;
+    height: 5px;
+    border-radius: 3px;
+    outline: none;
+    cursor: pointer;
+  }
+  .symptom-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid white;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+  }
+  .symptom-val {
+    width: 30px;
+    text-align: center;
+    font-size: 0.85rem;
+    font-weight: 500;
+  }
+  .score-display {
+    background: white;
+    border-radius: 10px;
+    padding: 1rem 1.2rem;
+    margin-top: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+  .score-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+    color: var(--green-deep);
+    line-height: 1;
+  }
+  .score-num span { font-size: 1rem; color: var(--text2); }
+  .score-text { font-size: 0.85rem; color: var(--text2); line-height: 1.5; }
+  .score-text strong { color: var(--text); display: block; font-size: 0.9rem; }
+
+  /* FOOTER */
+  .footer {
+    background: var(--green-deep);
+    color: var(--green-light);
+    text-align: center;
+    padding: 2rem;
+    margin-top: 2rem;
+    font-size: 0.85rem;
+  }
+  .footer strong { color: var(--gold-light); }
+
+  /* PRINT */
+  @media print {
+    .profil-section, .slider-section, .symptom-section { break-inside: avoid; }
+    body { background: white; }
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 600px) {
+    .header h1 { font-size: 1.6rem; }
+    .assiette-wrapper { flex-direction: column; }
+    .assiette-visual { width: 100%; }
+    .slider-label { width: 90px; font-size: 0.75rem; }
+    .symptom-label { width: 140px; font-size: 0.75rem; }
+  }
+
+  .fade-in {
+    animation: fadeIn 0.4s ease;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-tag">Conseil2Naturo · Module 2 · Document bonus</div>
+  <h1>Mon Assiette <span>Anti-Inflammatoire</span></h1>
+  <p>Un outil personnalisé pour composer ton assiette, comprendre tes besoins et évaluer ton terrain.</p>
+</div>
+
+<div class="container">
+
+  <!-- INTRO -->
+  <div class="intro-box">
+    Ce document est ton guide pratique. Il n'est pas figé — <strong>ton assiette idéale dépend de qui tu es</strong>, de ton niveau d'activité, de ton âge, de ta phase hormonale. Utilise les outils ci-dessous pour personnaliser ton approche.
+  </div>
+
+  <!-- SECTION 1 : L'ASSIETTE -->
+  <div class="section-title"><span class="num">1</span> L'assiette anti-inflammatoire</div>
+
+  <div class="assiette-wrapper">
+    <div class="assiette-visual">
+      <div class="plate-container">
+        <svg class="plate-svg" viewBox="0 0 260 260" xmlns="http://www.w3.org/2000/svg">
+          <!-- Assiette fond -->
+          <circle cx="130" cy="130" r="125" fill="#F5F5F0" stroke="#6B9B5E" stroke-width="3"/>
+          <!-- Légumes - moitié gauche (180°) -->
+          <path d="M130,130 L5,130 A125,125 0 0,1 130,5 Z" fill="#C8DFC2" opacity="0.8"/>
+          <path d="M130,130 L130,5 A125,125 0 0,1 255,130 Z" fill="#C8DFC2" opacity="0.5"/>
+          <!-- Protéines - quart haut droite -->
+          <path id="prot-path" d="M130,130 L255,130 A125,125 0 0,1 130,255 Z" fill="#FFE0B2" opacity="0.8"/>
+          <!-- Glucides - quart bas droite -->
+          <path id="gluc-path" d="M130,130 L130,255 A125,125 0 0,1 5,130 Z" fill="#E8D5F0" opacity="0.8"/>
+          <!-- Séparateurs -->
+          <line x1="130" y1="5" x2="130" y2="255" stroke="white" stroke-width="2" opacity="0.8"/>
+          <line x1="5" y1="130" x2="255" y2="130" stroke="white" stroke-width="2" opacity="0.8"/>
+          <!-- Labels -->
+          <text x="75" y="95" text-anchor="middle" font-family="DM Sans" font-size="12" font-weight="500" fill="#2D5A27">LÉGUMES</text>
+          <text x="75" y="110" text-anchor="middle" font-family="DM Sans" font-size="10" fill="#3D6B35">½ de l'assiette</text>
+          <text x="75" y="170" text-anchor="middle" font-family="DM Sans" font-size="10" fill="#4A3A6A">ou ¼</text>
+          <text x="190" y="100" text-anchor="middle" font-family="DM Sans" font-size="11" font-weight="500" fill="#8B4000">PROTÉINES</text>
+          <text x="190" y="115" text-anchor="middle" font-family="DM Sans" font-size="9" fill="#A05010">¼ de l'assiette</text>
+          <text x="190" y="175" text-anchor="middle" font-family="DM Sans" font-size="11" font-weight="500" fill="#5A2A7A">GLUCIDES</text>
+          <text x="190" y="190" text-anchor="middle" font-family="DM Sans" font-size="9" fill="#7B1FA2">¼ de l'assiette</text>
+          <!-- Centre -->
+          <circle cx="130" cy="130" r="18" fill="white" stroke="#B8860B" stroke-width="1.5"/>
+          <text x="130" y="127" text-anchor="middle" font-family="DM Sans" font-size="8" fill="#B8860B">bons</text>
+          <text x="130" y="137" text-anchor="middle" font-family="DM Sans" font-size="8" fill="#B8860B">gras</text>
+        </svg>
+      </div>
+      <p style="text-align:center; font-size:0.75rem; color:var(--text2); margin-top:0.5rem; font-style:italic;">L'assiette de base — adaptable selon ton profil ↓</p>
+    </div>
+
+    <div class="assiette-legend">
+      <div class="legend-item">
+        <div class="legend-dot" style="background:#C8DFC2; border:2px solid #6B9B5E;"></div>
+        <div>
+          <div class="legend-title">Légumes 🥦</div>
+          <div class="legend-sub">Toutes les couleurs · Crus ou cuits doucement<br>Moitié ou quart selon ton profil</div>
+        </div>
+        <div class="legend-pct">½ ou ¼</div>
+      </div>
+      <div class="legend-item">
+        <div class="legend-dot" style="background:#FFE0B2; border:2px solid #FB8C00;"></div>
+        <div>
+          <div class="legend-title">Protéines 🐟</div>
+          <div class="legend-sub">Poisson gras · Œufs plein air · Légumineuses<br>Viande de qualité · <strong>Minimum 20g par repas</strong></div>
+        </div>
+        <div class="legend-pct">¼</div>
+      </div>
+      <div class="legend-item">
+        <div class="legend-dot" style="background:#E8D5F0; border:2px solid #7B1FA2;"></div>
+        <div>
+          <div class="legend-title">Glucides complexes 🌾</div>
+          <div class="legend-sub">Céréales complètes · Légumineuses · Tubercules<br>Pas de glucides raffinés</div>
+        </div>
+        <div class="legend-pct">¼</div>
+      </div>
+      <div class="legend-item">
+        <div class="legend-dot" style="background:#FDF5DC; border:2px solid #B8860B;"></div>
+        <div>
+          <div class="legend-title">Bons gras 🫒</div>
+          <div class="legend-sub">Huile d'olive · Oléagineux · Graines<br>En assaisonnement — pas en quantité principale</div>
+        </div>
+        <div class="legend-pct">+</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 2 : PROFIL -->
+  <div class="section-title"><span class="num">2</span> Personnalise selon ton profil</div>
+
+  <div class="profil-section">
+    <div class="profil-title">🎯 Quel est ton profil aujourd'hui ?</div>
+    <div class="profil-grid">
+      <button class="profil-btn" onclick="setProfile('sedentaire')">🛋️ Sédentaire</button>
+      <button class="profil-btn" onclick="setProfile('active')">🚶 Active (marche, yoga...)</button>
+      <button class="profil-btn" onclick="setProfile('sportive')">🏃 Sportive régulière</button>
+      <button class="profil-btn" onclick="setProfile('perimenopause')">🌸 Périménopause</button>
+      <button class="profil-btn" onclick="setProfile('menopause')">🌺 Ménopause</button>
+      <button class="profil-btn" onclick="setProfile('fatigue')">😴 Fatigue chronique</button>
+      <button class="profil-btn" onclick="setProfile('poids')">⚖️ Gestion du poids</button>
+      <button class="profil-btn" onclick="setProfile('digestif')">🫁 Troubles digestifs</button>
+    </div>
+    <div class="profil-result" id="profil-result">
+      ← Clique sur ton profil pour recevoir des conseils personnalisés sur ta composition d'assiette.
+    </div>
+  </div>
+
+  <!-- SECTION 3 : PROTÉINES -->
+  <div class="section-title"><span class="num">3</span> Les protéines — bien plus que de la viande</div>
+
+  <div class="prot-highlight">
+    <div class="prot-title">💪 Pourquoi les protéines sont essentielles dans une approche anti-inflammatoire</div>
+    <p style="font-size:0.88rem; color:var(--text2); line-height:1.7; margin-bottom:1rem;">
+      Les protéines sont les <strong style="color:var(--green-deep)">bâtisseurs de ton corps</strong>. Elles fabriquent les enzymes digestives, les anticorps, les hormones, les neurotransmetteurs. Sans protéines suffisantes — la réparation cellulaire est compromise, l'immunité vacille, la fatigue s'installe. <strong style="color:var(--green-deep)">Selon l'ANSES, le minimum recommandé est 0,83g/kg/jour</strong> — mais en pratique, viser <strong style="color:var(--green-deep)">20g minimum par repas</strong> permet d'optimiser la synthèse protéique.
+    </p>
+    <div class="prot-grid">
+      <div class="prot-card"><div class="emoji">🐟</div><div class="name">Poisson gras</div><div class="grams">Sardines : 25g/100g · Saumon : 20g/100g</div></div>
+      <div class="prot-card"><div class="emoji">🥚</div><div class="name">Œufs plein air</div><div class="grams">6-7g par œuf · 2 œufs = ~13g</div></div>
+      <div class="prot-card"><div class="emoji">🫘</div><div class="name">Lentilles</div><div class="grams">9g/100g cuit · + 8g fibres</div></div>
+      <div class="prot-card"><div class="emoji">🐓</div><div class="name">Poulet fermier</div><div class="grams">31g/100g · Qualité > quantité</div></div>
+      <div class="prot-card"><div class="emoji">🧀</div><div class="name">Fromage de chèvre</div><div class="grams">18-22g/100g · Mieux toléré</div></div>
+      <div class="prot-card"><div class="emoji">🫙</div><div class="name">Yaourt grec nature</div><div class="grams">10g/100g · Probiotiques ++</div></div>
+    </div>
+  </div>
+
+  <!-- CALCULATEUR PROTÉINES -->
+  <div class="slider-section">
+    <div class="slider-title">🧮 Calcule ton besoin en protéines</div>
+    <div class="slider-subtitle">Fais glisser les curseurs pour estimer tes besoins journaliers selon ton profil</div>
+
+    <div class="slider-row">
+      <div class="slider-label">Mon poids (kg)</div>
+      <input type="range" class="slider-input" id="weight" min="45" max="100" value="65" oninput="calcProteins()">
+      <div class="slider-val" id="weight-val">65 kg</div>
+    </div>
+
+    <div class="slider-row">
+      <div class="slider-label">Niveau d'activité</div>
+      <input type="range" class="slider-input" id="activity" min="1" max="3" value="2" step="1" oninput="calcProteins()">
+      <div class="slider-val" id="activity-val">Modéré</div>
+    </div>
+
+    <div id="protein-result" class="slider-result">
+      Résultat ici...
+    </div>
+  </div>
+
+  <!-- SECTION 4 : LES 4 PILIERS -->
+  <div class="section-title"><span class="num">4</span> Les 4 piliers — aliments phares</div>
+
+  <div class="piliers-grid">
+    <div class="pilier-card">
+      <div class="pilier-header">
+        <div class="pilier-num">1</div>
+        <div class="pilier-name">Qualité</div>
+      </div>
+      <div class="pilier-body">
+        <ul class="pilier-items">
+          <li>Légumes bio de saison</li>
+          <li>Œufs plein air</li>
+          <li>Poisson sauvage</li>
+          <li>Viande fermière</li>
+          <li>Fruits à peau fine bio</li>
+          <li>Légumineuses sèches</li>
+        </ul>
+      </div>
+    </div>
+    <div class="pilier-card">
+      <div class="pilier-header" style="background:var(--gold);">
+        <div class="pilier-num" style="background:var(--green-deep);">2</div>
+        <div class="pilier-name">Bons gras</div>
+      </div>
+      <div class="pilier-body">
+        <ul class="pilier-items">
+          <li>Huile d'olive extra vierge</li>
+          <li>Huile de colza (vinaigrette)</li>
+          <li>Sardines / maquereau</li>
+          <li>Noix de Grenoble</li>
+          <li>Graines de lin moulues</li>
+          <li>Avocat</li>
+        </ul>
+      </div>
+    </div>
+    <div class="pilier-card">
+      <div class="pilier-header">
+        <div class="pilier-num">3</div>
+        <div class="pilier-name">Fibres</div>
+      </div>
+      <div class="pilier-body">
+        <ul class="pilier-items">
+          <li>Lentilles corail</li>
+          <li>Pois chiches</li>
+          <li>Poireau · Artichaut</li>
+          <li>Avoine · Quinoa</li>
+          <li>Pomme avec peau</li>
+          <li>Amandes · Graines chia</li>
+        </ul>
+      </div>
+    </div>
+    <div class="pilier-card">
+      <div class="pilier-header" style="background:var(--gold);">
+        <div class="pilier-num" style="background:var(--green-deep);">4</div>
+        <div class="pilier-name">Antioxydants</div>
+      </div>
+      <div class="pilier-body">
+        <ul class="pilier-items">
+          <li>Myrtilles (fraîches/surgelées)</li>
+          <li>Curcuma + poivre noir</li>
+          <li>Thé vert</li>
+          <li>Brocoli · Chou kale</li>
+          <li>Chocolat noir +70%</li>
+          <li>Romarin · Gingembre</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 5 : LISTE DE COURSES -->
+  <div class="section-title"><span class="num">5</span> Ma liste de courses de base</div>
+  <p style="font-size:0.85rem; color:var(--text2); margin-bottom:1rem; font-style:italic;">Coche au fur et à mesure — ta liste se mémorise pendant la session.</p>
+
+  <div class="courses-grid">
+    <div class="courses-cat">
+      <div class="courses-cat-title">🥦 Légumes</div>
+      <div class="courses-items" id="legumes-list">
+        <div class="courses-item"><input type="checkbox" id="c1" onchange="toggleCheck(this)"><label for="c1">Épinards frais</label></div>
+        <div class="courses-item"><input type="checkbox" id="c2" onchange="toggleCheck(this)"><label for="c2">Brocoli</label></div>
+        <div class="courses-item"><input type="checkbox" id="c3" onchange="toggleCheck(this)"><label for="c3">Poireau</label></div>
+        <div class="courses-item"><input type="checkbox" id="c4" onchange="toggleCheck(this)"><label for="c4">Courgette</label></div>
+        <div class="courses-item"><input type="checkbox" id="c5" onchange="toggleCheck(this)"><label for="c5">Carottes</label></div>
+        <div class="courses-item"><input type="checkbox" id="c6" onchange="toggleCheck(this)"><label for="c6">Ail · Oignon</label></div>
+      </div>
+    </div>
+    <div class="courses-cat">
+      <div class="courses-cat-title">🐟 Protéines</div>
+      <div class="courses-items">
+        <div class="courses-item"><input type="checkbox" id="c7" onchange="toggleCheck(this)"><label for="c7">Sardines en boîte</label></div>
+        <div class="courses-item"><input type="checkbox" id="c8" onchange="toggleCheck(this)"><label for="c8">Maquereau au naturel</label></div>
+        <div class="courses-item"><input type="checkbox" id="c9" onchange="toggleCheck(this)"><label for="c9">Œufs plein air (x6)</label></div>
+        <div class="courses-item"><input type="checkbox" id="c10" onchange="toggleCheck(this)"><label for="c10">Lentilles vertes sèches</label></div>
+        <div class="courses-item"><input type="checkbox" id="c11" onchange="toggleCheck(this)"><label for="c11">Pois chiches secs</label></div>
+        <div class="courses-item"><input type="checkbox" id="c12" onchange="toggleCheck(this)"><label for="c12">Yaourt grec nature</label></div>
+      </div>
+    </div>
+    <div class="courses-cat">
+      <div class="courses-cat-title">🌾 Glucides & fibres</div>
+      <div class="courses-items">
+        <div class="courses-item"><input type="checkbox" id="c13" onchange="toggleCheck(this)"><label for="c13">Flocons d'avoine</label></div>
+        <div class="courses-item"><input type="checkbox" id="c14" onchange="toggleCheck(this)"><label for="c14">Quinoa</label></div>
+        <div class="courses-item"><input type="checkbox" id="c15" onchange="toggleCheck(this)"><label for="c15">Riz complet</label></div>
+        <div class="courses-item"><input type="checkbox" id="c16" onchange="toggleCheck(this)"><label for="c16">Patate douce</label></div>
+        <div class="courses-item"><input type="checkbox" id="c17" onchange="toggleCheck(this)"><label for="c17">Pain au sarrasin</label></div>
+        <div class="courses-item"><input type="checkbox" id="c18" onchange="toggleCheck(this)"><label for="c18">Pommes avec peau</label></div>
+      </div>
+    </div>
+    <div class="courses-cat">
+      <div class="courses-cat-title">🫒 Bons gras & antioxydants</div>
+      <div class="courses-items">
+        <div class="courses-item"><input type="checkbox" id="c19" onchange="toggleCheck(this)"><label for="c19">Huile d'olive extra vierge</label></div>
+        <div class="courses-item"><input type="checkbox" id="c20" onchange="toggleCheck(this)"><label for="c20">Huile de colza</label></div>
+        <div class="courses-item"><input type="checkbox" id="c21" onchange="toggleCheck(this)"><label for="c21">Noix de Grenoble</label></div>
+        <div class="courses-item"><input type="checkbox" id="c22" onchange="toggleCheck(this)"><label for="c22">Graines de lin à moudre</label></div>
+        <div class="courses-item"><input type="checkbox" id="c23" onchange="toggleCheck(this)"><label for="c23">Myrtilles (surgelées ok)</label></div>
+        <div class="courses-item"><input type="checkbox" id="c24" onchange="toggleCheck(this)"><label for="c24">Curcuma + poivre noir</label></div>
+      </div>
+    </div>
+    <div class="courses-cat">
+      <div class="courses-cat-title">🌿 Herbes & épices</div>
+      <div class="courses-items">
+        <div class="courses-item"><input type="checkbox" id="c25" onchange="toggleCheck(this)"><label for="c25">Gingembre frais</label></div>
+        <div class="courses-item"><input type="checkbox" id="c26" onchange="toggleCheck(this)"><label for="c26">Romarin · Thym</label></div>
+        <div class="courses-item"><input type="checkbox" id="c27" onchange="toggleCheck(this)"><label for="c27">Cannelle</label></div>
+        <div class="courses-item"><input type="checkbox" id="c28" onchange="toggleCheck(this)"><label for="c28">Origan séché</label></div>
+        <div class="courses-item"><input type="checkbox" id="c29" onchange="toggleCheck(this)"><label for="c29">Thé vert en feuilles</label></div>
+        <div class="courses-item"><input type="checkbox" id="c30" onchange="toggleCheck(this)"><label for="c30">Chocolat noir +70%</label></div>
+      </div>
+    </div>
+    <div class="courses-cat">
+      <div class="courses-cat-title">🫘 Compléments nutritionnels</div>
+      <div class="courses-items">
+        <div class="courses-item"><input type="checkbox" id="c31" onchange="toggleCheck(this)"><label for="c31">Graines de chia</label></div>
+        <div class="courses-item"><input type="checkbox" id="c32" onchange="toggleCheck(this)"><label for="c32">Amandes nature</label></div>
+        <div class="courses-item"><input type="checkbox" id="c33" onchange="toggleCheck(this)"><label for="c33">Graines de tournesol</label></div>
+        <div class="courses-item"><input type="checkbox" id="c34" onchange="toggleCheck(this)"><label for="c34">Kéfir de lait / eau</label></div>
+        <div class="courses-item"><input type="checkbox" id="c35" onchange="toggleCheck(this)"><label for="c35">Choucroute crue</label></div>
+        <div class="courses-item"><input type="checkbox" id="c36" onchange="toggleCheck(this)"><label for="c36">Levure nutritionnelle</label></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 6 : ÉVALUATION TERRAIN -->
+  <div class="section-title"><span class="num">6</span> Évalue ton terrain aujourd'hui</div>
+
+  <div class="symptom-section">
+    <div class="symptom-title">📊 Mon bilan de terrain — Date d'aujourd'hui : <span id="today-date"></span></div>
+    <div class="symptom-sub">Positionne chaque curseur honnêtement. 0 = pas du tout / 10 = très intense. Tu pourras comparer dans 30 jours.</div>
+
+    <div id="symptoms-container"></div>
+
+    <div class="score-display">
+      <div>
+        <div class="score-num" id="total-score">0<span>/100</span></div>
+      </div>
+      <div class="score-text">
+        <strong id="score-label">Positionne les curseurs</strong>
+        <span id="score-desc">pour évaluer ton terrain inflammatoire</span>
+      </div>
+    </div>
+
+    <div style="margin-top:1rem; text-align:center;">
+      <button onclick="printPage()" style="background:var(--green-deep); color:white; border:none; padding:0.7rem 1.5rem; border-radius:8px; font-family:'DM Sans',sans-serif; font-size:0.88rem; cursor:pointer; margin-right:0.5rem;">🖨️ Imprimer / Sauvegarder</button>
+      <button onclick="resetSliders()" style="background:white; color:var(--text2); border:1px solid var(--green-light); padding:0.7rem 1.5rem; border-radius:8px; font-family:'DM Sans',sans-serif; font-size:0.88rem; cursor:pointer;">🔄 Réinitialiser</button>
+    </div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <strong>Conseil2Naturo</strong> · Angélique · Naturopathe fonctionnelle & holistique<br>
+  <span style="font-size:0.78rem; opacity:0.7; margin-top:0.3rem; display:block;">Ce document est un outil d'accompagnement. Il ne remplace pas un suivi personnalisé. Pour un accompagnement adapté à ton terrain — rejoins la communauté.</span>
+</div>
+
+<script>
+// Date du jour
+document.getElementById('today-date').textContent = new Date().toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
+
+// PROFILS
+const profiles = {
+  sedentaire: {
+    label: "🛋️ Profil sédentaire",
+    text: `<strong>Ton assiette recommandée :</strong><br>
+    • <strong>½ légumes</strong> · ¼ protéines (min. 20g) · ¼ glucides complexes<br>
+    • Limite les glucides raffinés qui font monter la glycémie sans activité physique pour les brûler<br>
+    • Mise sur les légumineuses — elles apportent protéines + fibres en même temps<br>
+    • <strong>Besoin protéines :</strong> 0,83g × ton poids = minimum journalier`
+  },
+  active: {
+    label: "🚶 Profil actif",
+    text: `<strong>Ton assiette recommandée :</strong><br>
+    • <strong>¼ légumes · ¼ protéines · ¼ glucides · ¼ légumineuses</strong><br>
+    • Tu peux augmenter légèrement les glucides complexes les jours d'activité<br>
+    • Les protéines sont essentielles pour la récupération musculaire<br>
+    • <strong>Besoin protéines :</strong> 1g à 1,2g × ton poids`
+  },
+  sportive: {
+    label: "🏃 Profil sportif",
+    text: `<strong>Ton assiette recommandée :</strong><br>
+    • <strong>¼ légumes · ¼-⅓ protéines · ¼ glucides complexes</strong><br>
+    • Les protéines sont prioritaires — répartis-les sur tous tes repas (20-30g minimum)<br>
+    • Augmente les glucides complexes avant et après l'effort<br>
+    • <strong>Besoin protéines :</strong> 1,2g à 1,6g × ton poids selon l'intensité`
+  },
+  perimenopause: {
+    label: "🌸 Périménopause",
+    text: `<strong>Ton assiette recommandée :</strong><br>
+    • <strong>½ légumes · ¼ protéines (priorité absolue) · ¼ glucides</strong><br>
+    • Les protéines protègent la masse musculaire qui chute naturellement à cette période<br>
+    • Mise sur le saumon, les sardines et les œufs — oméga-3 + protéines<br>
+    • Réduis les glucides raffinés qui amplifient les fluctuations hormonales<br>
+    • <strong>Besoin protéines :</strong> 1,2g à 1,5g × ton poids (minimum)`
+  },
+  menopause: {
+    label: "🌺 Ménopause",
+    text: `<strong>Ton assiette recommandée :</strong><br>
+    • <strong>½ légumes · ⅓ protéines · petit quart de glucides</strong><br>
+    • Les protéines sont critiques — elles protègent os, muscles et cerveau<br>
+    • Ajoute des phytoestrogènes : graines de lin moulues, tempeh, tofu<br>
+    • Les légumineuses sont tes alliées : protéines + fibres + phytoestrogènes<br>
+    • <strong>Besoin protéines :</strong> 1,2g à 1,5g × ton poids — à chaque repas`
+  },
+  fatigue: {
+    label: "😴 Fatigue chronique",
+    text: `<strong>Ton assiette recommandée :</strong><br>
+    • <strong>½ légumes très colorés · ¼ protéines · ¼ glucides à IG bas</strong><br>
+    • Les protéines fabriquent les neurotransmetteurs — essentielles pour l'énergie cérébrale<br>
+    • Priorise les poissons gras (oméga-3 anti-inflammatoires ++) et les œufs (B12, choline)<br>
+    • Évite les glucides raffinés qui créent des chutes d'énergie<br>
+    • <strong>Besoin protéines :</strong> Au moins 1g × ton poids — répartis sur 3 repas`
+  },
+  poids: {
+    label: "⚖️ Gestion du poids",
+    text: `<strong>Ton assiette recommandée :</strong><br>
+    • <strong>½ légumes · ⅓ protéines · petit quart de glucides complexes</strong><br>
+    • Les protéines sont l'aliment le plus rassasiant — elles réduisent naturellement les envies<br>
+    • Ne supprime pas les gras — ils régulent les hormones de la satiété<br>
+    • Réduis les glucides raffinés (pic d'insuline = stockage des graisses)<br>
+    • <strong>Besoin protéines :</strong> 1,2g à 1,6g × ton poids pour préserver la masse musculaire`
+  },
+  digestif: {
+    label: "🫁 Troubles digestifs",
+    text: `<strong>Ton assiette recommandée :</strong><br>
+    • <strong>½ légumes cuits · ¼ protéines faciles à digérer · ¼ glucides doux</strong><br>
+    • Privilégie légumes cuits (plus faciles à digérer que crus au début)<br>
+    • Poisson et œufs sont les protéines les mieux tolérées<br>
+    • Introduis les légumineuses très progressivement (trempage long + cuisson longue)<br>
+    • <strong>Besoin protéines :</strong> 0,83g à 1g × ton poids — à adapter si malabsorption`
+  }
+};
+
+function setProfile(key) {
+  document.querySelectorAll('.profil-btn').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+  const result = document.getElementById('profil-result');
+  result.innerHTML = `<strong>${profiles[key].label}</strong><br><br>${profiles[key].text}`;
+  result.classList.add('fade-in');
+  setTimeout(() => result.classList.remove('fade-in'), 400);
+}
+
+// CALCULATEUR PROTÉINES
+function calcProteins() {
+  const weight = parseInt(document.getElementById('weight').value);
+  const activity = parseInt(document.getElementById('activity').value);
+  document.getElementById('weight-val').textContent = weight + ' kg';
+  const activityLabels = ['Sédentaire', 'Modéré', 'Sportive'];
+  const activityFactors = [0.83, 1.2, 1.5];
+  document.getElementById('activity-val').textContent = activityLabels[activity - 1];
+  const factor = activityFactors[activity - 1];
+  const total = Math.round(weight * factor);
+  const perMeal = Math.round(total / 3);
+  document.getElementById('protein-result').innerHTML = `
+    <strong>Ton besoin estimé : ${total}g de protéines par jour</strong><br>
+    Soit environ <strong>${perMeal}g par repas</strong> (répartis sur 3 repas)<br>
+    <span style="font-size:0.8rem; color:var(--text2); margin-top:0.3rem; display:block;">
+    Basé sur ${factor}g/kg — recommandation ${activityLabels[activity-1].toLowerCase()} (référence ANSES/EFSA).
+    Ces valeurs sont indicatives. Adapte selon ton ressenti, ta digestion et tes objectifs.
+    </span>
+  `;
+}
+calcProteins();
+
+// SYMPTÔMES
+const symptoms = [
+  "Fatigue même après une nuit complète",
+  "Ballonnements · inconforts digestifs",
+  "Douleurs diffuses ou articulaires",
+  "Brouillard mental · manque de clarté",
+  "Troubles du sommeil",
+  "Irritabilité · anxiété",
+  "Peau réactive · acné · eczéma",
+  "Poids difficile à perdre",
+  "Cycles irréguliers · SPM intense",
+  "Perte de vitalité · motivation"
+];
+
+const getColor = (val) => {
+  if (val <= 3) return '#6B9B5E';
+  if (val <= 6) return '#E8A020';
+  return '#C04040';
+};
+
+function buildSymptoms() {
+  const container = document.getElementById('symptoms-container');
+  symptoms.forEach((sym, i) => {
+    const row = document.createElement('div');
+    row.className = 'symptom-row';
+    row.innerHTML = `
+      <div class="symptom-label">${sym}</div>
+      <input type="range" class="symptom-slider" id="sym-${i}" min="0" max="10" value="0"
+        style="background: linear-gradient(to right, #6B9B5E 0%, #6B9B5E 0%, #C8DFC2 0%, #C8DFC2 100%);"
+        oninput="updateSymptom(${i}, this.value)">
+      <div class="symptom-val" id="sym-val-${i}" style="color:var(--text2)">0</div>
+    `;
+    container.appendChild(row);
+  });
+}
+
+function updateSymptom(i, val) {
+  const color = getColor(parseInt(val));
+  const slider = document.getElementById(`sym-${i}`);
+  slider.style.background = `linear-gradient(to right, ${color} 0%, ${color} ${val * 10}%, #C8DFC2 ${val * 10}%, #C8DFC2 100%)`;
+  const valEl = document.getElementById(`sym-val-${i}`);
+  valEl.textContent = val;
+  valEl.style.color = color;
+  document.getElementById(`sym-${i}`).style.setProperty('--thumb-color', color);
+  updateScore();
+}
+
+function updateScore() {
+  let total = 0;
+  symptoms.forEach((_, i) => {
+    total += parseInt(document.getElementById(`sym-${i}`).value);
+  });
+  document.getElementById('total-score').innerHTML = `${total}<span>/100</span>`;
+  let label, desc;
+  if (total === 0) { label = "Positionne les curseurs"; desc = "pour évaluer ton terrain inflammatoire"; }
+  else if (total <= 20) { label = "Terrain plutôt équilibré 🌱"; desc = "Quelques ajustements peuvent encore optimiser ton bien-être"; }
+  else if (total <= 40) { label = "Terrain légèrement déséquilibré 🌿"; desc = "L'alimentation anti-inflammatoire peut vraiment faire la différence"; }
+  else if (total <= 65) { label = "Terrain inflammatoire modéré ⚠️"; desc = "Plusieurs signaux à prendre au sérieux — un accompagnement personnalisé peut t'aider"; }
+  else { label = "Terrain fortement inflammatoire 🔥"; desc = "Ces signaux méritent une attention particulière — je t'invite à prendre rendez-vous"; }
+  document.getElementById('score-label').textContent = label;
+  document.getElementById('score-desc').textContent = desc;
+}
+
+function resetSliders() {
+  symptoms.forEach((_, i) => {
+    const slider = document.getElementById(`sym-${i}`);
+    slider.value = 0;
+    slider.style.background = 'linear-gradient(to right, #6B9B5E 0%, #6B9B5E 0%, #C8DFC2 0%, #C8DFC2 100%)';
+    document.getElementById(`sym-val-${i}`).textContent = '0';
+    document.getElementById(`sym-val-${i}`).style.color = 'var(--text2)';
+  });
+  updateScore();
+}
+
+function toggleCheck(checkbox) {
+  const item = checkbox.closest('.courses-item');
+  if (checkbox.checked) item.classList.add('checked');
+  else item.classList.remove('checked');
+}
+
+function printPage() { window.print(); }
+
+buildSymptoms();
+updateScore();
+</script>
+</body>
+</html>
