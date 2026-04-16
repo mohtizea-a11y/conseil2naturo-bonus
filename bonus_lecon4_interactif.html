@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Leçon 4 — Mon Guide Anti-Inflammatoire</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap');
+:root {
+  --green-deep: #1E3A1A;
+  --green-mid: #3D6B35;
+  --green-sage: #6B9B5E;
+  --green-light: #C8DFC2;
+  --green-pale: #EDF5EA;
+  --gold: #B8860B;
+  --gold-light: #D4A820;
+  --gold-pale: #FDF5DC;
+  --cream: #FAFAF5;
+  --text: #1A2E18;
+  --text2: #4A6A42;
+  --white: #FFFFFF;
+  --red: #C04040;
+  --red-pale: #FFF0F0;
+  --red-mid: #E08080;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text);}
+
+/* HEADER */
+.header{background:var(--green-deep);padding:2.5rem 2rem 2rem;text-align:center;position:relative;overflow:hidden;}
+.header::before{content:'';position:absolute;top:-40%;left:-10%;width:120%;height:180%;background:radial-gradient(ellipse at 60% 40%,rgba(107,155,94,0.12) 0%,transparent 60%);pointer-events:none;}
+.header-tag{display:inline-block;background:rgba(212,168,32,0.2);border:1px solid rgba(212,168,32,0.4);color:var(--gold-light);font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;padding:0.3rem 1rem;border-radius:20px;margin-bottom:1rem;}
+.header h1{font-family:'Playfair Display',serif;font-size:2.2rem;color:var(--white);line-height:1.2;margin-bottom:0.5rem;}
+.header h1 span{color:var(--gold-light);}
+.header p{color:var(--green-light);font-size:0.9rem;max-width:560px;margin:0 auto;font-style:italic;}
+
+.container{max-width:900px;margin:0 auto;padding:0 1.5rem 3rem;}
+
+/* INTRO BOX */
+.intro-box{background:var(--green-deep);border-radius:12px;padding:1.5rem 2rem;margin:2rem 0 1.5rem;color:var(--green-light);font-size:0.92rem;line-height:1.7;}
+.intro-box strong{color:var(--gold-light);}
+
+/* TABS */
+.tabs{display:flex;gap:0.5rem;margin:1.5rem 0 1rem;flex-wrap:wrap;}
+.tab-btn{padding:0.55rem 1.2rem;border-radius:20px;border:1.5px solid var(--green-light);background:white;color:var(--text2);font-size:0.85rem;font-family:'DM Sans',sans-serif;cursor:pointer;transition:all 0.2s;}
+.tab-btn:hover,.tab-btn.active{background:var(--green-deep);border-color:var(--green-deep);color:white;font-weight:500;}
+.tab-content{display:none;}
+.tab-content.active{display:block;}
+
+/* SECTION TITLE */
+.section-title{font-family:'Playfair Display',serif;font-size:1.3rem;color:var(--green-deep);margin:2.5rem 0 1rem;padding-bottom:0.5rem;border-bottom:2px solid var(--green-light);display:flex;align-items:center;gap:0.6rem;}
+.section-title .num{width:30px;height:30px;background:var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-size:0.85rem;font-weight:500;flex-shrink:0;}
+
+/* ACCORDÉON */
+.accord{background:white;border:1px solid var(--green-light);border-radius:12px;overflow:hidden;margin-bottom:1rem;}
+.accord-header{padding:0.9rem 1.2rem;display:flex;align-items:center;gap:0.8rem;cursor:pointer;transition:background 0.2s;}
+.accord-header:hover{background:var(--green-pale);}
+.accord-icon{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1rem;font-weight:600;color:white;flex-shrink:0;}
+.accord-title{font-weight:500;font-size:0.95rem;color:var(--green-deep);flex:1;}
+.accord-badge{font-size:0.78rem;color:var(--gold);font-weight:500;background:var(--gold-pale);padding:0.2rem 0.6rem;border-radius:10px;}
+.accord-arrow{font-size:0.85rem;color:var(--text2);transition:transform 0.2s;}
+.accord-header.open .accord-arrow{transform:rotate(180deg);}
+.accord-body{padding:0 1.2rem;max-height:0;overflow:hidden;transition:max-height 0.35s ease,padding 0.3s;}
+.accord-body.open{max-height:800px;padding:0 1.2rem 1.2rem;}
+.accord-body p{font-size:0.88rem;color:var(--text2);line-height:1.7;margin-bottom:0.6rem;}
+.accord-body ul{list-style:none;margin:0.5rem 0;}
+.accord-body ul li{font-size:0.87rem;color:var(--text);padding:0.25rem 0 0.25rem 1.4rem;position:relative;line-height:1.5;}
+.accord-body ul li::before{content:'→';color:var(--green-sage);position:absolute;left:0;font-size:0.8rem;top:0.28rem;}
+.accord-tip{background:var(--green-pale);border-left:3px solid var(--green-sage);padding:0.6rem 0.8rem;border-radius:0 6px 6px 0;font-size:0.82rem;color:var(--text2);margin-top:0.6rem;}
+.accord-tip strong{color:var(--green-deep);display:block;font-size:0.78rem;text-transform:uppercase;margin-bottom:0.2rem;}
+.accord-warn{background:var(--red-pale);border-left:3px solid var(--red-mid);padding:0.7rem 0.9rem;border-radius:0 8px 8px 0;font-size:0.84rem;color:#6A2020;margin-bottom:1rem;}
+.accord-warn strong{color:var(--red);}
+
+/* CARDS GRID */
+.cards-2{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1rem 0;}
+.cards-3{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin:1rem 0;}
+.card{background:white;border:1px solid var(--green-light);border-radius:12px;overflow:hidden;}
+.card-head{padding:0.75rem 1.1rem;font-weight:500;font-size:0.9rem;display:flex;align-items:center;gap:0.5rem;}
+.card-head.green{background:var(--green-pale);color:var(--green-deep);border-bottom:1px solid var(--green-light);}
+.card-head.red{background:var(--red-pale);color:var(--red);border-bottom:1px solid var(--red-mid);}
+.card-head.gold{background:var(--gold-pale);color:var(--gold);border-bottom:1px solid rgba(184,134,11,0.3);}
+.card-head.dark{background:var(--green-deep);color:white;border-bottom:1px solid var(--green-deep);}
+.card-body{padding:0.9rem 1.1rem;}
+.card-item{display:flex;align-items:flex-start;gap:0.7rem;padding:0.4rem 0;border-bottom:1px solid var(--green-pale);font-size:0.85rem;}
+.card-item:last-child{border-bottom:none;}
+.card-item-icon{flex-shrink:0;font-size:1.1rem;}
+.card-item-name{font-weight:500;color:var(--text);}
+.card-item-note{font-size:0.78rem;color:var(--text2);margin-top:2px;}
+
+/* TEST SYMPTO INTERACTIF */
+.quiz-wrap{background:white;border:1px solid var(--green-light);border-radius:12px;overflow:hidden;margin:1.5rem 0;}
+.quiz-header{background:var(--green-deep);padding:1rem 1.5rem;}
+.quiz-header h3{font-family:'Playfair Display',serif;font-size:1.05rem;color:white;margin-bottom:0.2rem;}
+.quiz-header p{font-size:0.82rem;color:var(--green-light);}
+.quiz-body{padding:1.2rem 1.5rem;}
+.quiz-q{margin-bottom:1.2rem;}
+.quiz-q-text{font-size:0.9rem;font-weight:500;color:var(--green-deep);margin-bottom:0.6rem;}
+.quiz-options{display:flex;flex-wrap:wrap;gap:0.4rem;}
+.quiz-opt{padding:0.4rem 0.9rem;border-radius:20px;border:1.5px solid var(--green-light);background:white;color:var(--text2);font-size:0.82rem;font-family:'DM Sans',sans-serif;cursor:pointer;transition:all 0.2s;}
+.quiz-opt:hover{border-color:var(--green-sage);}
+.quiz-opt.selected{background:var(--green-deep);border-color:var(--green-deep);color:white;}
+.quiz-result{display:none;margin-top:1rem;background:var(--green-pale);border-radius:10px;padding:1.2rem 1.5rem;}
+.quiz-result.show{display:block;}
+.quiz-result-title{font-family:'Playfair Display',serif;font-size:1rem;color:var(--green-deep);margin-bottom:0.5rem;}
+.quiz-result-text{font-size:0.87rem;color:var(--text2);line-height:1.7;}
+.quiz-result-text strong{color:var(--green-deep);}
+.quiz-btn{margin-top:1rem;background:var(--green-deep);color:white;border:none;padding:0.65rem 1.6rem;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:0.88rem;cursor:pointer;transition:opacity 0.2s;}
+.quiz-btn:hover{opacity:0.85;}
+
+/* JOURNAL SLIDERS */
+.journal-section{background:white;border:1px solid var(--green-light);border-radius:12px;overflow:hidden;margin:1.5rem 0;}
+.journal-header{background:var(--green-deep);padding:1rem 1.5rem;display:flex;justify-content:space-between;align-items:center;}
+.journal-header h3{font-family:'Playfair Display',serif;font-size:1rem;color:white;}
+.journal-phase-tabs{display:flex;gap:0.4rem;}
+.phase-btn{padding:0.3rem 0.8rem;border-radius:12px;border:1px solid rgba(255,255,255,0.3);background:transparent;color:rgba(255,255,255,0.7);font-size:0.75rem;font-family:'DM Sans',sans-serif;cursor:pointer;transition:all 0.2s;}
+.phase-btn:hover,.phase-btn.active{background:rgba(255,255,255,0.2);color:white;border-color:rgba(255,255,255,0.5);}
+.journal-body{padding:1.2rem 1.5rem;}
+.sym-item{margin-bottom:1rem;}
+.sym-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:0.3rem;}
+.sym-name{font-size:0.85rem;color:var(--text);}
+.sym-val{font-size:0.82rem;font-weight:600;color:var(--green-mid);}
+.sym-slider{width:100%;-webkit-appearance:none;height:5px;border-radius:3px;outline:none;cursor:pointer;background:var(--green-light);}
+.sym-slider::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:var(--green-mid);cursor:pointer;border:2px solid white;box-shadow:0 1px 3px rgba(0,0,0,0.2);}
+.notes-area{width:100%;border:1px solid var(--green-light);border-radius:8px;padding:0.6rem 0.8rem;font-family:'DM Sans',sans-serif;font-size:0.83rem;color:var(--text);resize:none;background:var(--green-pale);margin-top:0.8rem;}
+.notes-area:focus{outline:none;border-color:var(--green-sage);}
+.compare-btn{display:block;margin:1rem auto 0;background:var(--gold);color:white;border:none;padding:0.6rem 1.4rem;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:0.85rem;cursor:pointer;}
+.compare-btn:hover{opacity:0.85;}
+
+/* COMPARAISON */
+.compare-box{display:none;background:white;border:1px solid var(--green-light);border-radius:12px;overflow:hidden;margin:1rem 0;}
+.compare-box.show{display:block;}
+.compare-box-header{background:var(--green-deep);padding:1rem 1.5rem;font-family:'Playfair Display',serif;font-size:1rem;color:white;}
+.compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;}
+.compare-col{padding:1rem 1.2rem;}
+.compare-col:first-child{border-right:1px solid var(--green-pale);}
+.compare-col-title{font-weight:500;color:var(--green-deep);margin-bottom:0.8rem;font-size:0.9rem;}
+.bar-row{margin-bottom:0.8rem;}
+.bar-label-text{font-size:0.8rem;color:var(--text2);margin-bottom:0.25rem;}
+.bar-line{display:flex;gap:0.5rem;align-items:center;}
+.bar-wrap{flex:1;background:var(--green-pale);border-radius:4px;height:10px;overflow:hidden;}
+.bar-fill{height:10px;border-radius:4px;transition:width 0.5s;}
+.bar-num{font-size:0.78rem;font-weight:600;width:24px;text-align:right;}
+
+/* CHRONO */
+.chrono-wrap{background:white;border:1px solid var(--green-light);border-radius:12px;overflow:hidden;margin:1.5rem 0;}
+.chrono-header{background:var(--green-deep);padding:1rem 1.5rem;font-family:'Playfair Display',serif;font-size:1.05rem;color:white;}
+.chrono-row{display:grid;grid-template-columns:80px 1fr;border-bottom:1px solid var(--green-pale);align-items:stretch;}
+.chrono-row:last-child{border-bottom:none;}
+.chrono-time{background:var(--green-pale);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--green-deep);font-weight:600;border-right:1px solid var(--green-light);padding:0.8rem;text-align:center;}
+.chrono-time.gold-t{background:var(--gold-pale);color:var(--gold);}
+.chrono-content{padding:0.9rem 1.2rem;}
+.chrono-meal{font-weight:500;color:var(--green-deep);font-size:0.92rem;margin-bottom:0.3rem;}
+.chrono-desc{font-size:0.84rem;color:var(--text2);line-height:1.5;}
+.chrono-why{font-size:0.78rem;color:var(--gold);margin-top:0.3rem;font-style:italic;}
+
+/* CALCULATEUR */
+.calc-box{background:white;border:1px solid var(--green-light);border-radius:12px;padding:1.5rem;margin:1.5rem 0;}
+.calc-title{font-weight:500;color:var(--green-deep);margin-bottom:0.4rem;font-size:0.95rem;}
+.calc-sub{font-size:0.82rem;color:var(--text2);margin-bottom:1.2rem;}
+.calc-row{display:flex;align-items:center;gap:1rem;margin-bottom:1rem;}
+.calc-label{font-size:0.82rem;color:var(--text2);width:160px;flex-shrink:0;}
+.calc-slider{flex:1;-webkit-appearance:none;height:6px;border-radius:3px;background:var(--green-light);outline:none;}
+.calc-slider::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--green-mid);cursor:pointer;border:2px solid white;box-shadow:0 1px 4px rgba(0,0,0,0.2);}
+.calc-val{font-weight:600;color:var(--green-deep);font-size:0.95rem;width:60px;text-align:right;}
+.calc-result{background:var(--green-pale);border-radius:8px;padding:1rem;font-size:0.88rem;line-height:1.6;color:var(--text);}
+.calc-result strong{color:var(--green-deep);}
+
+/* RÈGLES CHRONO */
+.rules-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1rem;margin:1rem 0;}
+.rule-card{background:white;border:1px solid var(--green-light);border-radius:10px;overflow:hidden;}
+.rule-head{padding:0.7rem 1rem;color:white;font-weight:500;font-size:0.9rem;}
+.rule-body{padding:0.8rem 1rem;font-size:0.85rem;color:var(--text2);line-height:1.6;}
+.rule-body strong{color:var(--green-deep);}
+
+/* FOOTER */
+.footer{background:var(--green-deep);color:var(--green-light);text-align:center;padding:2rem;margin-top:2rem;font-size:0.85rem;}
+.footer strong{color:var(--gold-light);}
+
+.fade-in{animation:fadeIn 0.3s ease;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:translateY(0);}}
+
+@media(max-width:600px){
+  .header h1{font-size:1.6rem;}
+  .cards-2,.cards-3,.compare-grid{grid-template-columns:1fr;}
+  .calc-label{width:100px;font-size:0.75rem;}
+  .journal-phase-tabs{flex-wrap:wrap;}
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-tag">Leçon 4 · Document bonus interactif</div>
+  <h1>Mon guide anti-inflammatoire<br><span>Lait · Gluten · Chrononutrition</span></h1>
+  <p>Un outil complet pour comprendre, tester et appliquer ce que tu viens d'apprendre.</p>
+</div>
+
+<div class="container">
+
+  <div class="intro-box">
+    Ce document est ton compagnon pratique pour la leçon 4. Il contient <strong>un test pour identifier tes intolérances</strong>, un <strong>journal de bord interactif</strong> pour suivre tes symptômes, une <strong>liste complète d'alternatives</strong> et ta <strong>journée chrono idéale</strong>. Utilise-le à ton rythme.
+  </div>
+
+  <!-- TABS PRINCIPAUX -->
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('test', this)">🧪 Mon test d'intolérance</button>
+    <button class="tab-btn" onclick="switchTab('journal', this)">📓 Journal de bord</button>
+    <button class="tab-btn" onclick="switchTab('alternatives', this)">🔄 Les alternatives</button>
+    <button class="tab-btn" onclick="switchTab('chrono', this)">⏰ Ma journée chrono</button>
+  </div>
+
+  <!-- ═══════════════════════════════════
+       TAB 1 : TEST D'INTOLÉRANCE
+  ════════════════════════════════════ -->
+  <div class="tab-content active" id="tab-test">
+
+    <div class="section-title"><span class="num">1</span> Est-ce que le gluten ou le lait te posent problème ?</div>
+
+    <!-- Quiz sympto -->
+    <div class="quiz-wrap">
+      <div class="quiz-header">
+        <h3>🔍 Auto-évaluation rapide</h3>
+        <p>Réponds honnêtement — il n'y a pas de bonne ou mauvaise réponse</p>
+      </div>
+      <div class="quiz-body">
+        <div class="quiz-q">
+          <div class="quiz-q-text">1. Après un repas avec du pain, des pâtes ou de la pizza, tu ressens souvent…</div>
+          <div class="quiz-options">
+            <button class="quiz-opt" onclick="selectOpt(this,'q1','a')">Rien de particulier</button>
+            <button class="quiz-opt" onclick="selectOpt(this,'q1','b')">Des ballonnements</button>
+            <button class="quiz-opt" onclick="selectOpt(this,'q1','c')">De la fatigue ou un coup de barre</button>
+            <button class="quiz-opt" onclick="selectOpt(this,'q1','d')">Des douleurs abdominales</button>
+          </div>
+        </div>
+        <div class="quiz-q">
+          <div class="quiz-q-text">2. Après avoir mangé du fromage, du lait ou des yaourts, tu ressens…</div>
+          <div class="quiz-options">
+            <button class="quiz-opt" onclick="selectOpt(this,'q2','a')">Rien de particulier</button>
+            <button class="quiz-opt" onclick="selectOpt(this,'q2','b')">Des ballonnements ou gaz</button>
+            <button class="quiz-opt" onclick="selectOpt(this,'q2','c')">Des troubles du transit</button>
+            <button class="quiz-opt" onclick="selectOpt(this,'q2','d')">Des mucosités / problèmes respiratoires</button>
+          </div>
+        </div>
+        <div class="quiz-q">
+          <div class="quiz-q-text">3. De manière générale, comment qualifies-tu ton énergie au quotidien ?</div>
+          <div class="quiz-options">
+            <button class="quiz-opt" onclick="selectOpt(this,'q3','a')">Bonne et stable</button>
+            <button class="quiz-opt" onclick="selectOpt(this,'q3','b')">Variable avec des coups de barre</button>
+            <button class="quiz-opt" onclick="selectOpt(this,'q3','c')">Souvent fatiguée, brouillard mental</button>
+            <button class="quiz-opt" onclick="selectOpt(this,'q3','d')">Épuisée la plupart du temps</button>
+          </div>
+        </div>
+        <div class="quiz-q">
+          <div class="quiz-q-text">4. As-tu déjà essayé d'arrêter le gluten ou les produits laitiers ?</div>
+          <div class="quiz-options">
+            <button class="quiz-opt" onclick="selectOpt(this,'q4','a')">Non jamais</button>
+            <button class="quiz-opt" onclick="selectOpt(this,'q4','b')">Oui, sans changement notable</button>
+            <button class="quiz-opt" onclick="selectOpt(this,'q4','c')">Oui, et j'ai remarqué une amélioration</button>
+            <button class="quiz-opt" onclick="selectOpt(this,'q4','d')">Je n'ose pas essayer</button>
+          </div>
+        </div>
+        <button class="quiz-btn" onclick="calcQuiz()">Voir mon profil →</button>
+        <div class="quiz-result" id="quiz-result"></div>
+      </div>
+    </div>
+
+    <!-- Protocole éviction -->
+    <div class="section-title"><span class="num">2</span> Le protocole d'éviction — comment faire ?</div>
+
+    <div class="accord-warn">
+      <strong>⚠️ Avant de commencer — pour le gluten uniquement</strong>
+      Fais d'abord exclure la maladie cœliaque par une prise de sang. Si tu supprimes le gluten avant le test, le résultat sera faux-négatif. Parle-en à ton médecin.
+    </div>
+
+    <p style="font-family:'Playfair Display',serif;font-size:1.05rem;color:var(--green-deep);margin:1rem 0 0.5rem;">🌾 Test d'éviction du gluten</p>
+
+    <div class="accord">
+      <div class="accord-header" onclick="toggleAccord(this)">
+        <div class="accord-icon" style="background:var(--green-deep);">1</div>
+        <div class="accord-title">Semaine 1 à 4 — Éviction stricte</div>
+        <div class="accord-badge">28 jours</div>
+        <div class="accord-arrow">▼</div>
+      </div>
+      <div class="accord-body">
+        <p>Retire <strong>tout</strong> ce qui contient du gluten pendant 4 semaines complètes. Vraiment tout — pas seulement le pain.</p>
+        <ul>
+          <li>Blé sous toutes ses formes : pain, pâtes, farine, biscuits, gâteaux, pizza, couscous, semoule</li>
+          <li>Seigle : pain de seigle, crackers</li>
+          <li>Orge : bière, certaines soupes industrielles</li>
+          <li>Épeautre et kamut : contiennent du gluten même s'ils sont "anciens"</li>
+          <li>Tous les produits industriels avec "blé" ou "gluten" dans les ingrédients</li>
+        </ul>
+        <div class="accord-tip"><strong>💡 Gluten caché</strong>Les sauces industrielles, la charcuterie, les chips, les plats préparés peuvent en contenir. Lis toujours les étiquettes. Quand tu doutes — évite.</div>
+      </div>
+    </div>
+
+    <div class="accord">
+      <div class="accord-header" onclick="toggleAccord(this)">
+        <div class="accord-icon" style="background:var(--green-mid);">2</div>
+        <div class="accord-title">Observer et noter — semaine par semaine</div>
+        <div class="accord-badge">En continu</div>
+        <div class="accord-arrow">▼</div>
+      </div>
+      <div class="accord-body">
+        <p>Utilise le journal de bord (onglet Journal) pour noter tes observations. Les symptômes clés à surveiller :</p>
+        <ul>
+          <li>Ballonnements et inconforts digestifs après les repas</li>
+          <li>Niveau d'énergie — coups de barre ou énergie stable ?</li>
+          <li>Brouillard mental et concentration</li>
+          <li>Douleurs diffuses, articulaires ou musculaires</li>
+          <li>Qualité du sommeil — réparateur ou agité ?</li>
+          <li>État de la peau — eczéma, rougeurs, boutons</li>
+          <li>Humeur et niveau d'anxiété</li>
+          <li>Transit intestinal</li>
+        </ul>
+        <div class="accord-tip"><strong>💡 Patience</strong>Les effets peuvent prendre 1 à 2 semaines à apparaître. Certains ressentent même une légère aggravation les premiers jours. Tiens les 4 semaines complètes avant de conclure.</div>
+      </div>
+    </div>
+
+    <div class="accord">
+      <div class="accord-header" onclick="toggleAccord(this)">
+        <div class="accord-icon" style="background:var(--gold);">3</div>
+        <div class="accord-title">Semaine 5 — Réintroduction progressive</div>
+        <div class="accord-badge">7-14 jours</div>
+        <div class="accord-arrow">▼</div>
+      </div>
+      <div class="accord-body">
+        <p>Réintroduis le gluten sur 2 à 3 jours consécutifs en petite quantité, puis observe pendant 1 semaine.</p>
+        <ul>
+          <li>Jour 1-3 : consomme du gluten normalement (pain, pâtes…)</li>
+          <li>Jour 4-10 : observe attentivement tous les symptômes</li>
+          <li>Les symptômes reviennent → sensibilité confirmée</li>
+          <li>Aucun changement → probablement pas de sensibilité au gluten</li>
+        </ul>
+        <div class="accord-tip"><strong>💡 Important</strong>Réintroduis un seul élément à la fois — d'abord le gluten, puis les produits laitiers séparément, pour bien identifier lequel réagit.</div>
+      </div>
+    </div>
+
+    <p style="font-family:'Playfair Display',serif;font-size:1.05rem;color:var(--green-deep);margin:1.5rem 0 0.5rem;">🥛 Test d'éviction des produits laitiers</p>
+
+    <div class="accord">
+      <div class="accord-header" onclick="toggleAccord(this)">
+        <div class="accord-icon" style="background:var(--green-deep);">1</div>
+        <div class="accord-title">3 semaines sans produits laitiers conventionnels</div>
+        <div class="accord-badge">21 jours</div>
+        <div class="accord-arrow">▼</div>
+      </div>
+      <div class="accord-body">
+        <p>Retire tous les produits laitiers issus du lait de vache conventionnel pendant 3 semaines.</p>
+        <ul>
+          <li>Lait de vache (UHT, entier, demi-écrémé, écrémé)</li>
+          <li>Yaourts classiques et fromage blanc</li>
+          <li>Fromages industriels au lait de vache</li>
+          <li>Beurre classique (sauf ghee)</li>
+          <li>Crèmes, glaces, préparations au lait</li>
+        </ul>
+        <div class="accord-tip"><strong>💡 À retenir</strong>Tu peux garder les fromages de chèvre ou de brebis au lait cru — caséine A2, bien mieux tolérée. L'objectif est de tester la caséine A1 et le lactose en grande quantité.</div>
+      </div>
+    </div>
+
+    <div class="accord">
+      <div class="accord-header" onclick="toggleAccord(this)">
+        <div class="accord-icon" style="background:var(--gold);">2</div>
+        <div class="accord-title">Réintroduction — Tester la caséine A2 en premier</div>
+        <div class="accord-badge">Semaine 4</div>
+        <div class="accord-arrow">▼</div>
+      </div>
+      <div class="accord-body">
+        <p>Réintroduis d'abord les produits A2 (chèvre, brebis, jersiaise) pendant une semaine, puis le lait A1 classique la semaine suivante.</p>
+        <ul>
+          <li>Semaine 4 : fromage de chèvre bio, yaourt de brebis → observe</li>
+          <li>Semaine 5 : réintroduis le lait de vache classique → compare</li>
+          <li>Tolérance A2 mais pas A1 = confirme une sensibilité à la caséine A1</li>
+          <li>Intolérance aux deux = probablement sensibilité plus globale au lactose</li>
+        </ul>
+        <div class="accord-tip"><strong>💡 Ce que ça révèle</strong>Ce test te permet de savoir si tu dois tout supprimer ou juste choisir des produits de meilleure qualité. C'est souvent juste une question de source.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ═══════════════════════════════════
+       TAB 2 : JOURNAL DE BORD
+  ════════════════════════════════════ -->
+  <div class="tab-content" id="tab-journal">
+
+    <div class="section-title"><span class="num">2</span> Suis tes symptômes semaine par semaine</div>
+
+    <div class="journal-section">
+      <div class="journal-header">
+        <h3>📊 Mon suivi de symptômes</h3>
+        <div class="journal-phase-tabs">
+          <button class="phase-btn active" onclick="setPhase('avant', this)">Avant</button>
+          <button class="phase-btn" onclick="setPhase('s2', this)">Semaine 2</button>
+          <button class="phase-btn" onclick="setPhase('s4', this)">Semaine 4</button>
+          <button class="phase-btn" onclick="setPhase('reintro', this)">Après réintro</button>
+        </div>
+      </div>
+      <div class="journal-body">
+        <p id="phase-label" style="font-size:0.82rem;color:var(--text2);margin-bottom:1rem;font-style:italic;"></p>
+        <div id="journal-sliders"></div>
+        <textarea class="notes-area" id="journal-notes" rows="2" placeholder="Notes libres pour cette période..." oninput="saveNotes(this.value)"></textarea>
+        <button class="compare-btn" onclick="showCompare()">📊 Voir ma progression avant / après</button>
+      </div>
+    </div>
+
+    <div class="compare-box" id="compare-box">
+      <div class="compare-box-header">📈 Ma progression — Avant éviction vs Semaine 4</div>
+      <div class="compare-grid">
+        <div class="compare-col">
+          <div class="compare-col-title" style="color:var(--red);">🔴 Avant éviction</div>
+          <div id="bars-avant"></div>
+        </div>
+        <div class="compare-col">
+          <div class="compare-col-title" style="color:var(--green-mid);">🟢 Semaine 4</div>
+          <div id="bars-s4"></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ═══════════════════════════════════
+       TAB 3 : ALTERNATIVES
+  ════════════════════════════════════ -->
+  <div class="tab-content" id="tab-alternatives">
+
+    <div class="section-title"><span class="num">3</span> Remplacer le gluten</div>
+
+    <div class="cards-2">
+      <div class="card">
+        <div class="card-head red">❌ À limiter — blé moderne</div>
+        <div class="card-body">
+          <div class="card-item"><div class="card-item-icon">🥖</div><div><div class="card-item-name">Pain blanc industriel</div><div class="card-item-note">Blé hybridé + fermentation rapide = très peu digeste</div></div></div>
+          <div class="card-item"><div class="card-item-icon">🍝</div><div><div class="card-item-name">Pâtes blanches classiques</div><div class="card-item-note">Gluten concentré, index glycémique élevé</div></div></div>
+          <div class="card-item"><div class="card-item-icon">🥐</div><div><div class="card-item-name">Viennoiseries industrielles</div><div class="card-item-note">Blé + sucre raffiné + additifs = triple problème</div></div></div>
+          <div class="card-item"><div class="card-item-icon">🍪</div><div><div class="card-item-name">Biscuits & gâteaux industriels</div><div class="card-item-note">Gluten caché dans presque tous les produits transformés</div></div></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-head green">✓ À privilégier — si tu consommes du gluten</div>
+        <div class="card-body">
+          <div class="card-item"><div class="card-item-icon">🍞</div><div><div class="card-item-name">Pain au levain naturel</div><div class="card-item-note">Fermentation longue → pré-digère le gluten</div></div></div>
+          <div class="card-item"><div class="card-item-icon">🌾</div><div><div class="card-item-name">Petit épeautre (engrain)</div><div class="card-item-note">Blé ancestral · 14 chromosomes · moins de gluten</div></div></div>
+          <div class="card-item"><div class="card-item-icon">🌿</div><div><div class="card-item-name">Kamut & blé khorasan</div><div class="card-item-note">Variétés anciennes · souvent mieux tolérées</div></div></div>
+          <div class="card-item"><div class="card-item-icon">🏪</div><div><div class="card-item-name">Boulangerie artisanale bio</div><div class="card-item-note">Levain vrai, farines de qualité, sans additifs</div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cards-3">
+      <div class="card">
+        <div class="card-head gold">🌾 Céréales sans gluten</div>
+        <div class="card-body">
+          <div class="card-item"><div class="card-item-icon">🌰</div><div><div class="card-item-name">Sarrasin</div><div class="card-item-note">Riche en rutine (anti-inflammatoire). Galettes, flocons.</div></div></div>
+          <div class="card-item"><div class="card-item-icon">🌱</div><div><div class="card-item-name">Quinoa</div><div class="card-item-note">Protéine complète · 9 acides aminés essentiels</div></div></div>
+          <div class="card-item"><div class="card-item-icon">🍚</div><div><div class="card-item-name">Riz semi-complet</div><div class="card-item-note">Le plus digeste · base sûre</div></div></div>
+          <div class="card-item"><div class="card-item-icon">🌿</div><div><div class="card-item-name">Millet · Teff · Sorgho</div><div class="card-item-note">Riches en minéraux · peu connus mais excellents</div></div></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-head green">🥔 Féculents naturels</div>
+        <div class="card-body">
+          <div class="card-item"><div class="card-item-icon">🍠</div><div><div class="card-item-name">Patate douce</div><div class="card-item-note">IG modéré · riche en bêta-carotène · anti-inflammatoire</div></div></div>
+          <div class="card-item"><div class="card-item-icon">🥔</div><div><div class="card-item-name">Pomme de terre vapeur</div><div class="card-item-note">Très digeste · source de potassium</div></div></div>
+          <div class="card-item"><div class="card-item-icon">🌰</div><div><div class="card-item-name">Châtaignes</div><div class="card-item-note">Farine possible · goût naturellement sucré</div></div></div>
+          <div class="card-item"><div class="card-item-icon">🫘</div><div><div class="card-item-name">Légumineuses</div><div class="card-item-note">Lentilles, pois chiches, flageolets — riches en fibres</div></div></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-head dark">🥗 Farines alternatives</div>
+        <div class="card-body">
+          <div class="card-item"><div class="card-item-icon">🌾</div><div><div class="card-item-name">Farine de riz semi-complet</div><div class="card-item-note">La plus neutre · bonne pour les gâteaux</div></div></div>
+          <div class="card-item"><div class="card-item-icon">🌰</div><div><div class="card-item-name">Farine de sarrasin</div><div class="card-item-note">Galettes, crêpes · goût prononcé</div></div></div>
+          <div class="card-item"><div class="card-item-icon">🥥</div><div><div class="card-item-name">Farine de noix de coco</div><div class="card-item-note">Très absorbante · IG très bas</div></div></div>
+          <div class="card-item"><div class="card-item-icon">🌿</div><div><div class="card-item-name">Poudre d'amande</div><div class="card-item-note">Riche en protéines et bons gras</div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-title"><span class="num">4</span> Remplacer les produits laitiers conventionnels</div>
+
+    <div class="cards-2">
+      <div class="card">
+        <div class="card-head green">🐐 Produits laitiers A2 (à privilégier)</div>
+        <div class="card-body">
+          <div class="card-item"><div class="card-item-icon">🧀</div><div><div class="card-item-name">Fromage de chèvre bio</div><div class="card-item-note">Caséine A2 · lait cru de préférence · facilement digeste</div></div></div>
+          <div class="card-item"><div class="card-item-icon">🧀</div><div><div class="card-item-name">Fromage de brebis bio</div><div class="card-item-note">Caséine A2 · Manchego, Ossau-Iraty, feta</div></div></div>
+          <div class="card-item"><div class="card-item-icon">🥛</div><div><div class="card-item-name">Lait jersiaise ou montagne</div><div class="card-item-note">Races Charolais, Limousin, vaches de montagne · A2</div></div></div>
+          <div class="card-item"><div class="card-item-icon">🫙</div><div><div class="card-item-name">Ghee (beurre clarifié)</div><div class="card-item-note">Sans lactose ni caséine · toléré par tous</div></div></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-head gold">🌱 Alternatives végétales</div>
+        <div class="card-body">
+          <div class="card-item"><div class="card-item-icon">🥥</div><div><div class="card-item-name">Lait & yaourt de coco</div><div class="card-item-note">Riche en TCM · anti-inflammatoire · goût doux</div></div></div>
+          <div class="card-item"><div class="card-item-icon">🌰</div><div><div class="card-item-name">Lait d'amande maison</div><div class="card-item-note">Sans additifs · source de calcium naturel</div></div></div>
+          <div class="card-item"><div class="card-item-icon">🫘</div><div><div class="card-item-name">Lait de soja non OGM</div><div class="card-item-note">Protéine complète · surveiller la qualité</div></div></div>
+          <div class="card-item"><div class="card-item-icon">⚠️</div><div><div class="card-item-name">Éviter le lait de riz</div><div class="card-item-note">Index glycémique trop élevé</div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:1rem;">
+      <div class="card-head green">🥦 Autres sources de calcium — le lait n'est pas irremplaçable</div>
+      <div class="card-body" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:0;">
+        <div class="card-item"><div class="card-item-icon">🥬</div><div><div class="card-item-name">Chou kale</div><div class="card-item-note">150mg/100g · 50% absorbé</div></div></div>
+        <div class="card-item"><div class="card-item-icon">🥦</div><div><div class="card-item-name">Brocoli</div><div class="card-item-note">47mg/100g · très bien absorbé</div></div></div>
+        <div class="card-item"><div class="card-item-icon">🌰</div><div><div class="card-item-name">Amandes</div><div class="card-item-note">264mg/100g · + magnésium</div></div></div>
+        <div class="card-item"><div class="card-item-icon">🫘</div><div><div class="card-item-name">Haricots blancs</div><div class="card-item-note">130mg/100g cuit</div></div></div>
+        <div class="card-item"><div class="card-item-icon">🐟</div><div><div class="card-item-name">Sardines avec arêtes</div><div class="card-item-note">380mg/100g · excellent biodisponibilité</div></div></div>
+        <div class="card-item"><div class="card-item-icon">🌿</div><div><div class="card-item-name">Graines de sésame</div><div class="card-item-note">975mg/100g · tahini = top</div></div></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ═══════════════════════════════════
+       TAB 4 : CHRONO
+  ════════════════════════════════════ -->
+  <div class="tab-content" id="tab-chrono">
+
+    <div class="section-title"><span class="num">4</span> Ma journée chrono idéale</div>
+
+    <div class="chrono-wrap">
+      <div class="chrono-header">⏰ Répartition des repas selon le rythme circadien</div>
+      <div class="chrono-row">
+        <div class="chrono-time">7–8h</div>
+        <div class="chrono-content">
+          <div class="chrono-meal">🌅 Petit-déjeuner — Le plus protéiné</div>
+          <div class="chrono-desc">Protéines + bonnes graisses + glucides IG bas<br>Exemples : œufs + légumes + avocat · saumon fumé + pain au levain · flocons d'avoine + yaourt coco + oléagineux · galette sarrasin + œuf + fromage chèvre</div>
+          <div class="chrono-why">→ Pic de cortisol · lipases & protéases au max · fabrique dopamine & noradrénaline · stabilise la glycémie toute la matinée</div>
+        </div>
+      </div>
+      <div class="chrono-row">
+        <div class="chrono-time gold-t">10–11h</div>
+        <div class="chrono-content">
+          <div class="chrono-meal">☕ Collation optionnelle</div>
+          <div class="chrono-desc">Thé vert · quelques noix · fruit frais · carré de chocolat noir 70%<br>Seulement si vraiment faim — pas par habitude</div>
+          <div class="chrono-why">→ Deuxième pic de cortisol · bon moment pour un apport antioxydant</div>
+        </div>
+      </div>
+      <div class="chrono-row">
+        <div class="chrono-time">12–13h</div>
+        <div class="chrono-content">
+          <div class="chrono-meal">☀️ Déjeuner — Le repas principal</div>
+          <div class="chrono-desc">L'assiette anti-inflammatoire complète · le plus copieux de la journée<br>Exemples : légumes + poisson + quinoa + huile d'olive · viande bio + sarrasin + légumes verts · œufs + légumineuses + salade</div>
+          <div class="chrono-why">→ Enzymes digestives au pic · meilleure assimilation des protéines et nutriments</div>
+        </div>
+      </div>
+      <div class="chrono-row">
+        <div class="chrono-time gold-t">16–17h</div>
+        <div class="chrono-content">
+          <div class="chrono-meal">🍫 Goûter — Le moment des glucides naturels</div>
+          <div class="chrono-desc">Fruits frais de saison · oléagineux · yaourt nature + graines de lin · chocolat noir + thé vert</div>
+          <div class="chrono-why">→ Pic d'insuline naturel · tryptophane entre dans le cerveau → sérotonine → mélatonine pour la nuit</div>
+        </div>
+      </div>
+      <div class="chrono-row">
+        <div class="chrono-time">18–19h</div>
+        <div class="chrono-content">
+          <div class="chrono-meal">🌙 Dîner — Léger, tôt, végétal</div>
+          <div class="chrono-desc">Légumes cuits + glucides complexes + protéines légères<br>Exemples : soupe de légumes + lentilles corail · poisson blanc vapeur + légumes · tofu lactofermenté + quinoa + légumes</div>
+          <div class="chrono-why">→ Mélatonine monte · enzymes baissent · dîner tôt = meilleur sommeil + moins d'inflammation nocturne</div>
+        </div>
+      </div>
+      <div style="background:var(--green-pale);padding:0.8rem 1.5rem;font-size:0.85rem;color:var(--green-deep);font-style:italic;text-align:center;border-top:1px solid var(--green-light);">
+        🌿 Idéalement — aucun aliment après 20h. La fenêtre de jeûne nocturne permet au corps de réparer et réguler l'inflammation.
+      </div>
+    </div>
+
+    <!-- Calculateur fenêtre -->
+    <div class="section-title"><span class="num">⚡</span> Calcule ta fenêtre d'alimentation</div>
+
+    <div class="calc-box">
+      <div class="calc-title">🕐 À quelle heure prends-tu tes repas ?</div>
+      <div class="calc-sub">Fais glisser pour calculer ta fenêtre et voir les recommandations personnalisées</div>
+      <div class="calc-row">
+        <div class="calc-label">Premier repas</div>
+        <input type="range" class="calc-slider" id="first-meal" min="5" max="12" value="7" oninput="calcFenetre()">
+        <div class="calc-val" id="first-val">7h00</div>
+      </div>
+      <div class="calc-row">
+        <div class="calc-label">Dernier repas</div>
+        <input type="range" class="calc-slider" id="last-meal" min="17" max="23" value="19" oninput="calcFenetre()">
+        <div class="calc-val" id="last-val">19h00</div>
+      </div>
+      <div id="fenetre-result" class="calc-result"></div>
+    </div>
+
+    <!-- Règles chrono -->
+    <div class="section-title"><span class="num">📋</span> Les 3 règles chrono à retenir</div>
+
+    <div class="rules-grid">
+      <div class="rule-card">
+        <div class="rule-head" style="background:var(--green-deep);">🌅 Règle 1 — Le matin</div>
+        <div class="rule-body">Vrai petit-déjeuner avec <strong>protéines + graisses</strong>. Pas juste un café. Le cortisol du matin = fenêtre métabolique optimale pour fabriquer tes neurotransmetteurs.</div>
+      </div>
+      <div class="rule-card">
+        <div class="rule-head" style="background:var(--green-mid);">☀️ Règle 2 — À midi</div>
+        <div class="rule-body">Le <strong>repas principal à midi</strong>, pas le soir. Les enzymes digestives sont au pic. Ton corps assimile et stocke mieux en plein jour.</div>
+      </div>
+      <div class="rule-card">
+        <div class="rule-head" style="background:var(--gold);">🌙 Règle 3 — Le soir</div>
+        <div class="rule-body">Dîner <strong>léger, tôt et végétal</strong>. 2-3h avant de dormir minimum. Moins d'enzymes le soir = digestion plus lente = inflammation nocturne si repas lourd.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- BOUTON IMPRIMER -->
+  <div style="text-align:center;margin:2rem 0;">
+    <button onclick="window.print()" style="background:var(--green-deep);color:white;border:none;padding:0.7rem 1.5rem;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:0.88rem;cursor:pointer;">🖨️ Imprimer / Sauvegarder en PDF</button>
+  </div>
+
+</div>
+
+<div class="footer">
+  <strong>En finir avec l'inflammation</strong> · Formation gratuite · School<br>
+  <span style="font-size:0.78rem;opacity:0.7;margin-top:0.3rem;display:block;">Ce document est un outil d'accompagnement personnel. Il ne remplace pas un suivi médical personnalisé.</span>
+</div>
+
+<script>
+// ── TABS ──
+function switchTab(id, btn) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ── ACCORDÉON ──
+function toggleAccord(header) {
+  const body = header.nextElementSibling;
+  const isOpen = body.classList.contains('open');
+  document.querySelectorAll('.accord-body').forEach(b => b.classList.remove('open'));
+  document.querySelectorAll('.accord-header').forEach(h => h.classList.remove('open'));
+  if (!isOpen) { body.classList.add('open'); header.classList.add('open'); }
+}
+
+// ── QUIZ ──
+const quizAnswers = {};
+function selectOpt(btn, q, val) {
+  btn.closest('.quiz-options').querySelectorAll('.quiz-opt').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  quizAnswers[q] = val;
+}
+function calcQuiz() {
+  const score = {gluten: 0, lait: 0, chrono: 0};
+  if (['b','c','d'].includes(quizAnswers.q1)) score.gluten++;
+  if (['b','c','d'].includes(quizAnswers.q2)) score.lait++;
+  if (['b','c','d'].includes(quizAnswers.q3)) { score.gluten++; score.lait++; score.chrono++; }
+  if (quizAnswers.q4 === 'c') { score.gluten++; score.lait++; }
+
+  let title, text;
+  if (score.gluten >= 2 && score.lait >= 2) {
+    title = "🔍 Profil sensible — Test d'éviction recommandé pour les deux";
+    text = "Tes réponses suggèrent une possible sensibilité <strong>au gluten ET aux produits laitiers conventionnels</strong>. Je te recommande de faire le test d'éviction du gluten en premier (4 semaines), puis des produits laitiers. Note tes symptômes dans le journal de bord.";
+  } else if (score.gluten >= 2) {
+    title = "🌾 Profil sensibilité gluten — Test d'éviction recommandé";
+    text = "Tes réponses suggèrent une possible <strong>sensibilité au gluten</strong>. Le test d'éviction de 4 semaines te donnera une réponse claire. Commence par lire le protocole dans l'onglet précédent.";
+  } else if (score.lait >= 2) {
+    title = "🥛 Profil sensibilité laitiers — Commence par tester la qualité";
+    text = "Tes réponses suggèrent une possible <strong>sensibilité aux produits laitiers conventionnels</strong>. Commence par passer à des produits A2 (chèvre, brebis) pendant 3 semaines et observe. Souvent, c'est juste une question de qualité — pas d'élimination totale.";
+  } else if (score.chrono >= 1) {
+    title = "⏰ Profil chrono déséquilibré — L'ordre des repas est ta priorité";
+    text = "Tes réponses ne pointent pas vers une intolérance alimentaire marquée, mais ton <strong>rythme alimentaire semble déséquilibré</strong>. Commence par appliquer les règles de chrononutrition : petit-déjeuner protéiné, repas principal à midi, dîner léger avant 20h.";
+  } else {
+    title = "✅ Profil équilibré — Continue sur cette lancée";
+    text = "Tes réponses ne suggèrent pas de sensibilité marquée au gluten ou aux produits laitiers. <strong>Continue à privilégier la qualité</strong> — caséine A2, pain au levain, produits peu transformés. La chrononutrition sera ton prochain levier d'optimisation.";
+  }
+
+  const result = document.getElementById('quiz-result');
+  result.innerHTML = `<div class="quiz-result-title">${title}</div><div class="quiz-result-text">${text}</div>`;
+  result.classList.add('show');
+  result.scrollIntoView({behavior:'smooth'});
+}
+
+// ── JOURNAL ──
+const symptoms = ["Ballonnements","Fatigue","Brouillard mental","Douleurs diffuses","Qualité du sommeil","État de la peau","Humeur / anxiété","Transit intestinal"];
+const phases = {
+  avant: "Évalue tes symptômes AVANT l'éviction — état de départ (0 = aucun, 10 = très intense)",
+  s2: "Évalue tes symptômes après 2 semaines d'éviction",
+  s4: "Évalue tes symptômes après 4 semaines complètes — bilan final",
+  reintro: "Évalue tes symptômes après réintroduction du gluten ou des laitiers"
+};
+let journalData = {avant:{},s2:{},s4:{},reintro:{}};
+let currentPhase = 'avant';
+
+function setPhase(phase, btn) {
+  currentPhase = phase;
+  document.querySelectorAll('.phase-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderJournal();
+}
+
+function renderJournal() {
+  document.getElementById('phase-label').textContent = phases[currentPhase];
+  const container = document.getElementById('journal-sliders');
+  container.innerHTML = '';
+  symptoms.forEach((sym, i) => {
+    const val = journalData[currentPhase][i] || 0;
+    const color = val <= 3 ? '#3D6B35' : val <= 6 ? '#E8A020' : '#C04040';
+    const div = document.createElement('div');
+    div.className = 'sym-item';
+    div.innerHTML = `
+      <div class="sym-row">
+        <span class="sym-name">${sym}</span>
+        <span class="sym-val" id="sv-${currentPhase}-${i}" style="color:${color}">${val}/10</span>
+      </div>
+      <input type="range" class="sym-slider" min="0" max="10" value="${val}"
+        style="background:linear-gradient(to right,${color} 0%,${color} ${val*10}%,#C8DFC2 ${val*10}%,#C8DFC2 100%);"
+        oninput="updateSym('${currentPhase}',${i},this)">
+    `;
+    container.appendChild(div);
+  });
+  document.getElementById('journal-notes').value = journalData[currentPhase].notes || '';
+}
+
+function updateSym(phase, idx, slider) {
+  const val = parseInt(slider.value);
+  journalData[phase][idx] = val;
+  const color = val <= 3 ? '#3D6B35' : val <= 6 ? '#E8A020' : '#C04040';
+  slider.style.background = `linear-gradient(to right,${color} 0%,${color} ${val*10}%,#C8DFC2 ${val*10}%,#C8DFC2 100%)`;
+  const el = document.getElementById(`sv-${phase}-${idx}`);
+  if (el) { el.textContent = val + '/10'; el.style.color = color; }
+}
+
+function saveNotes(val) { journalData[currentPhase].notes = val; }
+
+function showCompare() {
+  const box = document.getElementById('compare-box');
+  box.classList.add('show');
+  renderBars('bars-avant', 'avant');
+  renderBars('bars-s4', 's4');
+  box.scrollIntoView({behavior:'smooth'});
+}
+
+function renderBars(containerId, phase) {
+  const c = document.getElementById(containerId);
+  c.innerHTML = '';
+  symptoms.forEach((sym, i) => {
+    const val = journalData[phase][i] || 0;
+    const color = val <= 3 ? '#3D6B35' : val <= 6 ? '#E8A020' : '#C04040';
+    const div = document.createElement('div');
+    div.className = 'bar-row';
+    div.innerHTML = `
+      <div class="bar-label-text">${sym}</div>
+      <div class="bar-line">
+        <div class="bar-wrap"><div class="bar-fill" style="width:${val*10}%;background:${color};"></div></div>
+        <div class="bar-num" style="color:${color};">${val}</div>
+      </div>`;
+    c.appendChild(div);
+  });
+}
+
+// ── CALCULATEUR FENÊTRE ──
+function calcFenetre() {
+  const first = parseInt(document.getElementById('first-meal').value);
+  const last = parseInt(document.getElementById('last-meal').value);
+  document.getElementById('first-val').textContent = first + 'h00';
+  document.getElementById('last-val').textContent = last + 'h00';
+  const fenetre = last - first;
+  const jeune = 24 - fenetre;
+  let result, color;
+  if (fenetre <= 10) {
+    color = '#3D6B35';
+    result = `<strong>✅ Excellente fenêtre : ${fenetre}h d'alimentation · ${jeune}h de jeûne nocturne</strong><br>Ton corps a suffisamment de temps pour réparer, réguler et réduire l'inflammation. Continue comme ça.`;
+  } else if (fenetre <= 12) {
+    color = '#3D6B35';
+    result = `<strong>✅ Bonne fenêtre : ${fenetre}h d'alimentation · ${jeune}h de jeûne</strong><br>C'est correct. Pour optimiser encore, décale ton dîner de 30-60 min plus tôt. Passer de ${last}h à ${last-1}h ferait une réelle différence sur le sommeil.`;
+  } else if (fenetre <= 14) {
+    color = '#E8A020';
+    result = `<strong>⚠️ Fenêtre à améliorer : ${fenetre}h · seulement ${jeune}h de repos nocturne</strong><br>Ton corps manque de temps pour se réparer. Essaie de dîner à ${last-2}h au lieu de ${last}h — c'est le geste le plus simple pour réduire l'inflammation.`;
+  } else {
+    color = '#C04040';
+    result = `<strong>❌ Fenêtre trop large : ${fenetre}h · seulement ${jeune}h de repos</strong><br>C'est insuffisant. Ton corps est en digestion quasi-permanente et n'a pas le temps de réguler l'inflammation. Priorité absolue : avancer ton dîner à ${last-3}h ou ${last-4}h.`;
+  }
+  const el = document.getElementById('fenetre-result');
+  el.innerHTML = result;
+  el.style.borderLeft = `3px solid ${color}`;
+}
+
+// INIT
+calcFenetre();
+renderJournal();
+</script>
+</body>
+</html>
