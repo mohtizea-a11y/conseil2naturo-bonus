@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mon Repas en Pleine Conscience — Conseil2Naturo</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap');
+
+  :root {
+    --green-deep: #1E3A1A;
+    --green-mid: #3D6B35;
+    --green-sage: #6B9B5E;
+    --green-light: #C8DFC2;
+    --green-pale: #EDF5EA;
+    --gold: #B8860B;
+    --gold-light: #D4A820;
+    --gold-pale: #FDF5DC;
+    --cream: #FAFAF5;
+    --text: #1A2E18;
+    --text2: #4A6A42;
+    --white: #FFFFFF;
+    --red: #C04040;
+    --red-pale: #FFF0F0;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--text); }
+
+  /* HEADER */
+  .header {
+    background: var(--green-deep);
+    padding: 2.5rem 2rem 2rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '';
+    position: absolute;
+    top: -40%; left: -10%;
+    width: 120%; height: 180%;
+    background: radial-gradient(ellipse at 60% 40%, rgba(107,155,94,0.12) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .header-tag {
+    display: inline-block;
+    background: rgba(212,168,32,0.2);
+    border: 1px solid rgba(212,168,32,0.4);
+    color: var(--gold-light);
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 0.3rem 1rem;
+    border-radius: 20px;
+    margin-bottom: 1rem;
+  }
+  .header h1 { font-family: 'Playfair Display', serif; font-size: 2.2rem; color: var(--white); line-height: 1.2; margin-bottom: 0.5rem; }
+  .header h1 span { color: var(--gold-light); }
+  .header p { color: var(--green-light); font-size: 0.9rem; max-width: 520px; margin: 0 auto; font-style: italic; }
+
+  .container { max-width: 900px; margin: 0 auto; padding: 0 1.5rem 3rem; }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    color: var(--green-deep);
+    margin: 2.5rem 0 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--green-light);
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+  .section-title .num {
+    width: 30px; height: 30px;
+    background: var(--gold);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    color: white; font-size: 0.85rem; font-weight: 500;
+    flex-shrink: 0;
+  }
+
+  /* INTRO */
+  .intro-box {
+    background: var(--green-deep);
+    border-radius: 12px;
+    padding: 1.5rem 2rem;
+    margin: 2rem 0 1.5rem;
+    color: var(--green-light);
+    font-size: 0.92rem;
+    line-height: 1.7;
+  }
+  .intro-box strong { color: var(--gold-light); }
+
+  /* TABS */
+  .tabs { display: flex; gap: 0.5rem; margin: 1.5rem 0 1rem; flex-wrap: wrap; }
+  .tab-btn {
+    padding: 0.55rem 1.2rem;
+    border-radius: 20px;
+    border: 1.5px solid var(--green-light);
+    background: white;
+    color: var(--text2);
+    font-size: 0.85rem;
+    font-family: 'DM Sans', sans-serif;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .tab-btn:hover, .tab-btn.active {
+    background: var(--green-deep);
+    border-color: var(--green-deep);
+    color: white;
+    font-weight: 500;
+  }
+  .tab-content { display: none; animation: fadeIn 0.3s ease; }
+  .tab-content.active { display: block; }
+  @keyframes fadeIn { from { opacity:0; transform:translateY(4px); } to { opacity:1; transform:translateY(0); } }
+
+  /* CHECKLIST REPAS */
+  .checklist-phase {
+    background: white;
+    border: 1px solid var(--green-light);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 1.2rem;
+  }
+  .phase-header {
+    padding: 0.9rem 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    font-weight: 500;
+    font-size: 0.95rem;
+    color: white;
+  }
+  .phase-header.avant { background: var(--gold); }
+  .phase-header.pendant { background: var(--green-mid); }
+  .phase-header.apres { background: var(--green-deep); }
+  .check-items { padding: 0.8rem 1.2rem; }
+  .check-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.8rem;
+    padding: 0.6rem 0;
+    border-bottom: 1px solid var(--green-pale);
+    cursor: pointer;
+    transition: background 0.15s;
+    border-radius: 4px;
+  }
+  .check-item:last-child { border-bottom: none; }
+  .check-item:hover { background: var(--green-pale); padding-left: 0.4rem; }
+  .check-item input[type="checkbox"] {
+    width: 20px; height: 20px;
+    accent-color: var(--green-mid);
+    cursor: pointer;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .check-label { flex: 1; }
+  .check-title { font-size: 0.9rem; font-weight: 500; color: var(--text); }
+  .check-sub { font-size: 0.8rem; color: var(--text2); margin-top: 2px; line-height: 1.4; }
+  .check-item.done .check-title { text-decoration: line-through; color: var(--green-sage); }
+
+  /* SCORE REPAS */
+  .score-repas {
+    background: var(--green-deep);
+    border-radius: 12px;
+    padding: 1.2rem 1.5rem;
+    margin: 1.5rem 0;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+  .score-big { font-family: 'Playfair Display', serif; font-size: 3rem; color: var(--gold-light); line-height: 1; }
+  .score-big span { font-size: 1.2rem; }
+  .score-info { flex: 1; }
+  .score-label { color: white; font-weight: 500; font-size: 1rem; margin-bottom: 0.3rem; }
+  .score-desc { color: var(--green-light); font-size: 0.85rem; line-height: 1.5; }
+
+  /* RESPIRATION */
+  .breath-section {
+    background: white;
+    border: 1px solid var(--green-light);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+    text-align: center;
+  }
+  .breath-title { font-family: 'Playfair Display', serif; font-size: 1.2rem; color: var(--green-deep); margin-bottom: 0.5rem; }
+  .breath-sub { font-size: 0.85rem; color: var(--text2); margin-bottom: 1.5rem; }
+  .breath-circle {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    background: var(--green-pale);
+    border: 3px solid var(--green-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.2rem;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    color: var(--green-deep);
+    transition: all 0.5s ease;
+    cursor: pointer;
+    user-select: none;
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+  .breath-circle.inhale { background: var(--green-pale); border-color: var(--green-sage); transform: scale(1.15); }
+  .breath-circle.hold { background: var(--gold-pale); border-color: var(--gold-light); transform: scale(1.15); }
+  .breath-circle.exhale { background: var(--green-pale); border-color: var(--green-light); transform: scale(0.95); }
+  .breath-phase { font-size: 1.3rem; color: var(--green-deep); font-weight: 600; }
+  .breath-count { font-size: 2.5rem; color: var(--green-mid); font-weight: 700; line-height: 1; }
+  .breath-btn {
+    background: var(--green-deep);
+    color: white;
+    border: none;
+    padding: 0.8rem 2rem;
+    border-radius: 25px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.92rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin: 0.5rem;
+  }
+  .breath-btn:hover { background: var(--green-mid); }
+  .breath-btn.secondary { background: white; color: var(--text2); border: 1px solid var(--green-light); }
+  .breath-progress { font-size: 0.82rem; color: var(--text2); margin-top: 0.8rem; }
+
+  /* EXERCICES NERF VAGUE */
+  .exercices-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1.2rem;
+    margin: 1.5rem 0;
+  }
+  .exo-card {
+    background: white;
+    border: 1px solid var(--green-light);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.2s;
+  }
+  .exo-card:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(30,58,26,0.08); }
+  .exo-header {
+    padding: 0.8rem 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+  .exo-icon { font-size: 1.6rem; flex-shrink: 0; }
+  .exo-title { font-weight: 500; color: var(--green-deep); font-size: 0.92rem; }
+  .exo-duration { font-size: 0.72rem; color: var(--gold); background: var(--gold-pale); padding: 0.15rem 0.5rem; border-radius: 10px; margin-left: auto; flex-shrink: 0; }
+  .exo-body { padding: 0.8rem 1.2rem; }
+  .exo-desc { font-size: 0.85rem; color: var(--text2); line-height: 1.6; margin-bottom: 0.7rem; }
+  .exo-steps { list-style: none; }
+  .exo-steps li { font-size: 0.82rem; color: var(--text); padding: 0.22rem 0 0.22rem 1.2rem; position: relative; border-bottom: 1px solid var(--green-pale); }
+  .exo-steps li:last-child { border-bottom: none; }
+  .exo-steps li::before { content: '→'; color: var(--green-sage); position: absolute; left: 0; }
+
+  /* JOURNAL 21 JOURS */
+  .journal-21 {
+    background: white;
+    border: 1px solid var(--green-light);
+    border-radius: 12px;
+    overflow: hidden;
+    margin: 1.5rem 0;
+  }
+  .journal-header {
+    background: var(--green-deep);
+    padding: 1rem 1.5rem;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05rem;
+    color: white;
+  }
+  .semaines-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+  }
+  .semaine-col {
+    padding: 1rem;
+    border-right: 1px solid var(--green-pale);
+  }
+  .semaine-col:last-child { border-right: none; }
+  .semaine-num { font-weight: 600; color: var(--green-deep); font-size: 0.9rem; margin-bottom: 0.5rem; }
+  .semaine-focus { font-size: 0.8rem; color: var(--gold); margin-bottom: 0.8rem; font-style: italic; }
+  .jour-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.3rem 0;
+    font-size: 0.82rem;
+    color: var(--text2);
+    border-bottom: 1px solid var(--green-pale);
+  }
+  .jour-item:last-child { border-bottom: none; }
+  .jour-item input[type="checkbox"] { accent-color: var(--green-mid); flex-shrink: 0; }
+  .jour-num { font-weight: 500; color: var(--text); min-width: 40px; }
+
+  /* PROGRESSION 21J */
+  .progress-21 {
+    background: var(--green-deep);
+    padding: 1.2rem 1.5rem;
+    border-radius: 12px;
+    margin: 1.5rem 0;
+  }
+  .prog-title { color: var(--gold-light); font-family: 'Playfair Display', serif; font-size: 1rem; margin-bottom: 0.8rem; }
+  .prog-bar-wrap { background: rgba(255,255,255,0.1); border-radius: 10px; height: 12px; margin-bottom: 0.6rem; }
+  .prog-bar { height: 12px; border-radius: 10px; background: linear-gradient(90deg, var(--green-sage), var(--gold-light)); transition: width 0.4s; }
+  .prog-nums { display: flex; justify-content: space-between; font-size: 0.82rem; color: var(--green-light); }
+  .prog-nums strong { color: var(--gold-light); }
+
+  /* HABITUDE TRACKER */
+  .habitudes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1rem;
+    margin: 1.5rem 0;
+  }
+  .habitude-card {
+    background: white;
+    border: 1px solid var(--green-light);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .hab-header {
+    background: var(--green-pale);
+    padding: 0.7rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .hab-icon { font-size: 1.2rem; }
+  .hab-title { font-weight: 500; color: var(--green-deep); font-size: 0.88rem; flex: 1; }
+  .hab-streak { font-size: 0.75rem; color: var(--gold); font-weight: 600; }
+  .hab-days { display: flex; gap: 0.3rem; padding: 0.8rem 1rem; flex-wrap: wrap; }
+  .day-dot {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    border: 1.5px solid var(--green-light);
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.68rem;
+    color: var(--text2);
+    cursor: pointer;
+    transition: all 0.15s;
+    flex-shrink: 0;
+  }
+  .day-dot:hover { border-color: var(--green-sage); }
+  .day-dot.done { background: var(--green-mid); border-color: var(--green-mid); color: white; font-size: 0.8rem; }
+
+  /* FOOTER */
+  .footer {
+    background: var(--green-deep);
+    color: var(--green-light);
+    text-align: center;
+    padding: 2rem;
+    margin-top: 2rem;
+    font-size: 0.85rem;
+  }
+  .footer strong { color: var(--gold-light); }
+
+  @media (max-width: 600px) {
+    .header h1 { font-size: 1.6rem; }
+    .semaines-grid { grid-template-columns: 1fr; }
+    .exercices-grid { grid-template-columns: 1fr; }
+    .breath-circle { width: 140px; height: 140px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-tag">Conseil2Naturo · Module 5 · Document bonus</div>
+  <h1>Mon repas en <span>pleine conscience</span></h1>
+  <p>La checklist du repas conscient, les exercices pour ton nerf vague, et ton suivi sur 21 jours pour créer de vraies habitudes.</p>
+</div>
+
+<div class="container">
+
+  <div class="intro-box">
+    Ce document t'accompagne au quotidien. <strong>Tu peux manger les meilleurs aliments du monde et mal les assimiler si tu manges stressée et vite.</strong> Les outils ici sont simples — mais utilisés régulièrement, ils changent vraiment la façon dont ton corps digère et dont ton terrain inflammatoire évolue.
+  </div>
+
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('checklist', this)">✅ Checklist repas</button>
+    <button class="tab-btn" onclick="switchTab('respiration', this)">🌬️ Respiration</button>
+    <button class="tab-btn" onclick="switchTab('nerf', this)">🧠 Exercices nerf vague</button>
+    <button class="tab-btn" onclick="switchTab('suivi', this)">📅 Suivi 21 jours</button>
+  </div>
+
+  <!-- TAB 1 : CHECKLIST -->
+  <div class="tab-content active" id="tab-checklist">
+
+    <div class="section-title"><span class="num">✅</span> Ma checklist du repas conscient</div>
+
+    <p style="font-size:0.85rem; color:var(--text2); margin-bottom:1.2rem; font-style:italic;">Coche chaque geste avant et pendant ton repas. Se reset à chaque visite pour un nouveau repas.</p>
+
+    <!-- Score -->
+    <div class="score-repas">
+      <div class="score-big" id="score-num">0<span>/12</span></div>
+      <div class="score-info">
+        <div class="score-label" id="score-label">Commence à cocher tes gestes 🌿</div>
+        <div class="score-desc" id="score-desc">Chaque geste coché = un signal positif envoyé à ton nerf vague</div>
+      </div>
+    </div>
+
+    <!-- AVANT -->
+    <div class="checklist-phase">
+      <div class="phase-header avant">🌅 Avant de manger — Préparer ton corps</div>
+      <div class="check-items" id="avant-items"></div>
+    </div>
+
+    <!-- PENDANT -->
+    <div class="checklist-phase">
+      <div class="phase-header pendant">🍽️ Pendant le repas — L'attention au repas</div>
+      <div class="check-items" id="pendant-items"></div>
+    </div>
+
+    <!-- APRÈS -->
+    <div class="checklist-phase">
+      <div class="phase-header apres">🌿 Après le repas — Respecter la digestion</div>
+      <div class="check-items" id="apres-items"></div>
+    </div>
+
+    <div style="text-align:center; margin-top:1.5rem;">
+      <button onclick="resetChecklist()" style="background:white; color:var(--text2); border:1px solid var(--green-light); padding:0.7rem 1.5rem; border-radius:8px; font-family:'DM Sans',sans-serif; font-size:0.88rem; cursor:pointer;">🔄 Nouveau repas — Réinitialiser</button>
+    </div>
+
+  </div>
+
+  <!-- TAB 2 : RESPIRATION -->
+  <div class="tab-content" id="tab-respiration">
+
+    <div class="section-title"><span class="num">🌬️</span> Exercice de respiration — Activer le nerf vague</div>
+
+    <div class="intro-box">
+      <strong>Pourquoi respirer avant de manger ?</strong> La respiration profonde et lente active directement le nerf vague — le chef d'orchestre de ta digestion. 3 respirations profondes avant un repas font basculer ton système nerveux du mode stress (sympathique) vers le mode digestion (parasympathique). Tes enzymes digestives s'activent. Ton corps est prêt à vraiment nourrir.
+    </div>
+
+    <!-- Cohérence cardiaque -->
+    <div class="breath-section">
+      <div class="breath-title">🫀 Cohérence cardiaque — 5 minutes</div>
+      <div class="breath-sub">6 respirations par minute · Inspire 5 secondes · Expire 5 secondes<br>La méthode la plus efficace pour activer rapidement le nerf vague</div>
+
+      <div class="breath-circle" id="breath-circle" onclick="startBreath()">
+        <div class="breath-phase" id="breath-phase">Appuie pour<br>commencer</div>
+        <div class="breath-count" id="breath-count" style="display:none;"></div>
+      </div>
+
+      <div>
+        <button class="breath-btn" id="breath-start-btn" onclick="startBreath()">▶ Commencer</button>
+        <button class="breath-btn secondary" id="breath-stop-btn" onclick="stopBreath()" style="display:none;">⏹ Arrêter</button>
+      </div>
+      <div class="breath-progress" id="breath-progress">Durée recommandée : 5 minutes · 30 cycles</div>
+    </div>
+
+    <!-- 3 respirations avant repas -->
+    <div style="background:white; border:1px solid var(--green-light); border-radius:12px; padding:1.5rem; margin:1.5rem 0;">
+      <div style="font-family:'Playfair Display',serif; font-size:1.1rem; color:var(--green-deep); margin-bottom:0.8rem;">🍽️ Les 3 respirations avant le repas — Version rapide</div>
+      <p style="font-size:0.88rem; color:var(--text2); line-height:1.6; margin-bottom:1rem;">30 secondes avant chaque repas. Même résultat que 5 minutes de méditation pour activer le parasympathique avant de manger.</p>
+      <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:0.8rem;">
+        <div style="background:var(--green-pale); border-radius:8px; padding:0.8rem; text-align:center;">
+          <div style="font-size:1.5rem; margin-bottom:0.3rem;">1️⃣</div>
+          <div style="font-size:0.85rem; font-weight:500; color:var(--green-deep);">Inspire</div>
+          <div style="font-size:0.78rem; color:var(--text2);">Par le nez<br>4-5 secondes<br>Ventre qui gonfle</div>
+        </div>
+        <div style="background:var(--gold-pale); border-radius:8px; padding:0.8rem; text-align:center;">
+          <div style="font-size:1.5rem; margin-bottom:0.3rem;">⏸️</div>
+          <div style="font-size:0.85rem; font-weight:500; color:var(--gold);">Retiens</div>
+          <div style="font-size:0.78rem; color:var(--text2);">2 secondes<br>Pause douce<br>Sans forcer</div>
+        </div>
+        <div style="background:var(--green-pale); border-radius:8px; padding:0.8rem; text-align:center;">
+          <div style="font-size:1.5rem; margin-bottom:0.3rem;">😮‍💨</div>
+          <div style="font-size:0.85rem; font-weight:500; color:var(--green-deep);">Expire</div>
+          <div style="font-size:0.78rem; color:var(--text2);">Par la bouche<br>6-7 secondes<br>Plus longue que l'inspire</div>
+        </div>
+      </div>
+      <p style="font-size:0.82rem; color:var(--text2); margin-top:0.8rem; font-style:italic; text-align:center;">Répète 3 fois. Tu peux le faire les yeux ouverts, assis à table, avant de commencer à manger.</p>
+    </div>
+
+  </div>
+
+  <!-- TAB 3 : NERF VAGUE -->
+  <div class="tab-content" id="tab-nerf">
+
+    <div class="section-title"><span class="num">🧠</span> Exercices pour stimuler le nerf vague</div>
+
+    <div class="intro-box">
+      <strong>Le nerf vague — ton allié anti-inflammatoire.</strong> Un nerf vague en bonne santé = meilleure digestion, meilleure absorption des nutriments, moins d'inflammation. Ces exercices sont scientifiquement documentés pour stimuler le tonus vagal. 5 à 10 minutes par jour font une vraie différence sur plusieurs semaines.
+    </div>
+
+    <div class="exercices-grid">
+
+      <div class="exo-card">
+        <div class="exo-header" style="background:var(--green-pale); border-bottom:1px solid var(--green-light);">
+          <div class="exo-icon">🌬️</div>
+          <div class="exo-title">Respiration abdominale lente</div>
+          <div class="exo-duration">5 min/jour</div>
+        </div>
+        <div class="exo-body">
+          <div class="exo-desc">La façon la plus directe d'activer le nerf vague. Une respiration lente, profonde et abdominale envoie un signal immédiat de sécurité au système nerveux.</div>
+          <ul class="exo-steps">
+            <li>Pose une main sur le ventre, une sur la poitrine</li>
+            <li>Inspire 4s par le nez — c'est le ventre qui gonfle, pas la poitrine</li>
+            <li>Expire 6-8s par la bouche — plus longue que l'inspire</li>
+            <li>Répète 6 fois — c'est 1 minute</li>
+            <li>Idéal : 5 minutes, 3 fois par jour (matin, avant repas, soir)</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="exo-card">
+        <div class="exo-header" style="background:var(--gold-pale); border-bottom:1px solid rgba(184,134,11,0.3);">
+          <div class="exo-icon">🎵</div>
+          <div class="exo-title">Fredonner ou chanter</div>
+          <div class="exo-duration">5 min/jour</div>
+        </div>
+        <div class="exo-body">
+          <div class="exo-desc">Le nerf vague innerve les cordes vocales. Fredonner, chanter ou même ronfler crée une vibration qui stimule directement le nerf vague. Pas besoin de savoir chanter.</div>
+          <ul class="exo-steps">
+            <li>Fredonne ta chanson préférée sous la douche</li>
+            <li>Chante dans la voiture en allant faire les courses</li>
+            <li>Essaie de produire un "hummmm" en expirant lentement</li>
+            <li>Le gargarisme à l'eau (30 secondes) stimule aussi le nerf vague via la gorge</li>
+            <li>3-5 minutes par jour suffisent</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="exo-card">
+        <div class="exo-header" style="background:var(--green-pale); border-bottom:1px solid var(--green-light);">
+          <div class="exo-icon">🚿</div>
+          <div class="exo-title">Douche froide finale</div>
+          <div class="exo-duration">30 sec</div>
+        </div>
+        <div class="exo-body">
+          <div class="exo-desc">Le choc thermique de l'eau froide active immédiatement le nerf vague. Les études montrent qu'une exposition régulière au froid augmente le tonus vagal sur le long terme.</div>
+          <ul class="exo-steps">
+            <li>Termine ta douche chaude normalement</li>
+            <li>30 secondes à 1 minute d'eau fraîche à froide</li>
+            <li>Commence par le bas des jambes, puis monte progressivement</li>
+            <li>Respire profondément pendant — ne retiens pas ton souffle</li>
+            <li>L'effet se renforce avec la régularité — commence doucement</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="exo-card">
+        <div class="exo-header" style="background:var(--gold-pale); border-bottom:1px solid rgba(184,134,11,0.3);">
+          <div class="exo-icon">🚶</div>
+          <div class="exo-title">Marche dans la nature</div>
+          <div class="exo-duration">20 min/jour</div>
+        </div>
+        <div class="exo-body">
+          <div class="exo-desc">La marche douce en nature active le parasympathique via plusieurs mécanismes — mouvement rythmique, exposition à la lumière naturelle, air frais, et connexion sensorielle à l'environnement.</div>
+          <ul class="exo-steps">
+            <li>20-30 minutes minimum, rythme tranquille</li>
+            <li>Sans téléphone si possible — ou téléphone dans la poche</li>
+            <li>Remarque 5 choses que tu vois, 3 que tu entends, 1 que tu sens</li>
+            <li>Respire lentement et profondément pendant la marche</li>
+            <li>Idéal après le déjeuner — améliore aussi la glycémie</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="exo-card">
+        <div class="exo-header" style="background:var(--green-pale); border-bottom:1px solid var(--green-light);">
+          <div class="exo-icon">🤣</div>
+          <div class="exo-title">Rire et connexion sociale</div>
+          <div class="exo-duration">Quotidien</div>
+        </div>
+        <div class="exo-body">
+          <div class="exo-desc">Le rire active directement le nerf vague et produit de l'ocytocine — l'hormone de la connexion et du bien-être. Manger avec des gens qu'on aime est littéralement anti-inflammatoire.</div>
+          <ul class="exo-steps">
+            <li>Mange avec d'autres personnes dès que possible</li>
+            <li>Prends le temps de vraies conversations pendant les repas</li>
+            <li>Regarde quelque chose de drôle si tu manges seule</li>
+            <li>Appelle quelqu'un pendant ta pause déjeuner</li>
+            <li>La convivialité est un outil de santé — pas un luxe</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="exo-card">
+        <div class="exo-header" style="background:var(--gold-pale); border-bottom:1px solid rgba(184,134,11,0.3);">
+          <div class="exo-icon">🧘</div>
+          <div class="exo-title">Massage abdominal doux</div>
+          <div class="exo-duration">5 min</div>
+        </div>
+        <div class="exo-body">
+          <div class="exo-desc">Le nerf vague innerve tout l'abdomen. Un massage doux de la région abdominale stimule directement les récepteurs du nerf vague et aide à relancer la digestion après un repas.</div>
+          <ul class="exo-steps">
+            <li>Attends 30 minutes après le repas</li>
+            <li>Allonge-toi ou assieds-toi confortablement</li>
+            <li>Mouvements circulaires doux dans le sens des aiguilles d'une montre</li>
+            <li>Pression légère à modérée — jamais si douleur</li>
+            <li>5 minutes, en respirant lentement pendant</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- TAB 4 : SUIVI 21 JOURS -->
+  <div class="tab-content" id="tab-suivi">
+
+    <div class="section-title"><span class="num">📅</span> Mon suivi 21 jours — Créer de vraies habitudes</div>
+
+    <div class="intro-box">
+      Il faut en moyenne <strong>21 jours pour installer une nouvelle habitude</strong>. Ce tracker te permet de suivre ta progression geste par geste. Coche chaque jour où tu l'as pratiqué. L'objectif n'est pas la perfection — c'est la régularité.
+    </div>
+
+    <!-- Progression globale -->
+    <div class="progress-21">
+      <div class="prog-title">🌱 Ma progression globale sur 21 jours</div>
+      <div class="prog-bar-wrap">
+        <div class="prog-bar" id="prog-bar-global" style="width:0%"></div>
+      </div>
+      <div class="prog-nums">
+        <span><strong id="prog-count">0</strong> cases cochées</span>
+        <span id="prog-msg">Commence aujourd'hui 🌿</span>
+      </div>
+    </div>
+
+    <!-- Habitudes tracker -->
+    <div class="habitudes-grid" id="habitudes-container"></div>
+
+    <!-- Journal 21 jours -->
+    <div class="section-title" style="margin-top:2rem;"><span class="num">📓</span> Mon journal semaine par semaine</div>
+
+    <div class="journal-21">
+      <div class="journal-header">📓 Objectifs progressifs — semaine par semaine</div>
+      <div class="semaines-grid">
+        <div class="semaine-col">
+          <div class="semaine-num">Semaine 1</div>
+          <div class="semaine-focus">🌱 Focus : la mastication</div>
+          <div id="s1-days"></div>
+        </div>
+        <div class="semaine-col">
+          <div class="semaine-num">Semaine 2</div>
+          <div class="semaine-focus">🌬️ Focus : respiration + sans écrans</div>
+          <div id="s2-days"></div>
+        </div>
+        <div class="semaine-col">
+          <div class="semaine-num">Semaine 3</div>
+          <div class="semaine-focus">🌿 Focus : tous les gestes ensemble</div>
+          <div id="s3-days"></div>
+        </div>
+      </div>
+      <div style="padding:0.8rem 1.5rem; background:var(--green-pale); border-top:1px solid var(--green-light); font-size:0.82rem; color:var(--green-deep); font-style:italic; text-align:center;">
+        À la fin de ces 21 jours — ces gestes font partie de ta façon naturelle de te mettre à table. 🌿
+      </div>
+    </div>
+
+    <!-- Observations -->
+    <div style="background:white; border:1px solid var(--green-light); border-radius:12px; padding:1.5rem; margin:1.5rem 0;">
+      <div style="font-family:'Playfair Display',serif; font-size:1.1rem; color:var(--green-deep); margin-bottom:1rem;">📊 Ce que j'observe au fil des semaines</div>
+      <div style="display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:0.8rem;">
+        <div>
+          <label style="font-size:0.85rem; color:var(--text2); display:block; margin-bottom:0.3rem;">Semaine 1 — Mes observations</label>
+          <textarea style="width:100%; border:1px solid var(--green-light); border-radius:6px; padding:0.5rem 0.7rem; font-family:'DM Sans',sans-serif; font-size:0.82rem; resize:none; background:var(--green-pale);" rows="3" placeholder="Ballonnements, énergie, digestion..."></textarea>
+        </div>
+        <div>
+          <label style="font-size:0.85rem; color:var(--text2); display:block; margin-bottom:0.3rem;">Semaine 2 — Mes observations</label>
+          <textarea style="width:100%; border:1px solid var(--green-light); border-radius:6px; padding:0.5rem 0.7rem; font-family:'DM Sans',sans-serif; font-size:0.82rem; resize:none; background:var(--green-pale);" rows="3" placeholder="Est-ce que ça change quelque chose ?"></textarea>
+        </div>
+        <div>
+          <label style="font-size:0.85rem; color:var(--text2); display:block; margin-bottom:0.3rem;">Semaine 3 — Bilan final</label>
+          <textarea style="width:100%; border:1px solid var(--green-light); border-radius:6px; padding:0.5rem 0.7rem; font-family:'DM Sans',sans-serif; font-size:0.82rem; resize:none; background:var(--green-pale);" rows="3" placeholder="Ce que je garde, ce que je veux améliorer..."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div style="text-align:center; margin:1.5rem 0;">
+      <button onclick="window.print()" style="background:var(--green-deep); color:white; border:none; padding:0.7rem 1.5rem; border-radius:8px; font-family:'DM Sans',sans-serif; font-size:0.88rem; cursor:pointer;">🖨️ Imprimer / Sauvegarder</button>
+    </div>
+
+  </div>
+
+</div>
+
+<div class="footer">
+  <strong>Conseil2Naturo</strong> · Angélique · Naturopathe fonctionnelle & holistique<br>
+  <span style="font-size:0.78rem; opacity:0.7; margin-top:0.3rem; display:block;">Ce document est un outil d'accompagnement. Il ne remplace pas un suivi personnalisé.</span>
+</div>
+
+<script>
+// TAB SWITCHING
+function switchTab(id, btn) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// CHECKLIST DATA
+const checklistData = {
+  avant: [
+    { t: "Assieds-toi à une vraie table", s: "Pas debout, pas dans la voiture. Les deux pieds au sol. Le dos droit." },
+    { t: "Éteins l'écran", s: "Téléphone retourné ou dans une autre pièce. Télévision éteinte." },
+    { t: "3 respirations profondes", s: "Inspire 4s, retiens 2s, expire 6s. Active ton nerf vague avant de commencer." },
+    { t: "Regarde ce qu'il y a dans ton assiette", s: "Prends 10 secondes pour observer et sentir. La phase céphalique prépare tes enzymes." },
+  ],
+  pendant: [
+    { t: "Pose ta fourchette entre chaque bouchée", s: "Tu poses. Tu mâches jusqu'à liquéfaction. Tu avales. Tu reprends." },
+    { t: "Mâche 20-30 fois par bouchée", s: "Jusqu'à ce que l'aliment soit liquide dans ta bouche avant d'avaler." },
+    { t: "Mange sans distractions", s: "Pas de téléphone, pas de lecture, pas de travail. Juste ton repas." },
+    { t: "Mange lentement — pose-toi si tu vas vite", s: "Un repas ne devrait pas durer moins de 15-20 minutes." },
+    { t: "Savoure les goûts et les textures", s: "La conscience sensorielle améliore la satiété et la digestion." },
+    { t: "Arrête à 80% de satiété", s: "Hara Hachi Bu — ne pas attendre d'être complètement rassasiée." },
+  ],
+  apres: [
+    { t: "Reste assis 5-10 minutes après le repas", s: "Pas de sport intense, pas de courir partout. Laisse la digestion démarrer." },
+    { t: "Marche douce de 10-15 minutes si possible", s: "Améliore la glycémie et stimule le transit. Idéal après le déjeuner." },
+  ]
+};
+
+let checkState = { avant: {}, pendant: {}, apres: {} };
+
+function buildChecklist() {
+  ['avant', 'pendant', 'apres'].forEach(phase => {
+    const container = document.getElementById(phase + '-items');
+    container.innerHTML = '';
+    checklistData[phase].forEach((item, i) => {
+      const div = document.createElement('div');
+      div.className = 'check-item';
+      div.id = `check-${phase}-${i}`;
+      div.innerHTML = `
+        <input type="checkbox" id="cb-${phase}-${i}" onchange="toggleCheck('${phase}', ${i}, this)">
+        <div class="check-label">
+          <div class="check-title">${item.t}</div>
+          <div class="check-sub">${item.s}</div>
+        </div>
+      `;
+      container.appendChild(div);
+    });
+  });
+  updateScore();
+}
+
+function toggleCheck(phase, idx, cb) {
+  checkState[phase][idx] = cb.checked;
+  const item = document.getElementById(`check-${phase}-${idx}`);
+  if (cb.checked) item.classList.add('done');
+  else item.classList.remove('done');
+  updateScore();
+}
+
+function updateScore() {
+  let total = 0;
+  ['avant', 'pendant', 'apres'].forEach(phase => {
+    Object.values(checkState[phase]).forEach(v => { if(v) total++; });
+  });
+  const max = 12;
+  document.getElementById('score-num').innerHTML = `${total}<span>/${max}</span>`;
+  const labels = [
+    [0, "Commence à cocher tes gestes 🌿", "Chaque geste coché = un signal positif envoyé à ton nerf vague"],
+    [3, "Bon début ! 🌱", "Tu poses les bases d'un repas conscient"],
+    [6, "À mi-chemin — continue ! 🌿", "Ton nerf vague commence à s'activer"],
+    [9, "Excellent repas conscient ✨", "Ta digestion et ton absorption des nutriments s'améliorent"],
+    [12, "Repas parfait ! 🌟", "Tu es dans un état idéal pour digérer et assimiler tous les nutriments"]
+  ];
+  let label = labels[0];
+  for (const l of labels) { if (total >= l[0]) label = l; }
+  document.getElementById('score-label').textContent = label[1];
+  document.getElementById('score-desc').textContent = label[2];
+}
+
+function resetChecklist() {
+  checkState = { avant: {}, pendant: {}, apres: {} };
+  buildChecklist();
+}
+
+// RESPIRATION
+let breathInterval = null;
+let breathPhase = 'idle';
+let breathCounter = 0;
+let breathCycle = 0;
+const INHALE = 5, HOLD = 2, EXHALE = 5;
+
+function startBreath() {
+  if (breathInterval) return;
+  document.getElementById('breath-start-btn').style.display = 'none';
+  document.getElementById('breath-stop-btn').style.display = 'inline-block';
+  breathPhase = 'inhale';
+  breathCounter = INHALE;
+  breathCycle = 0;
+  updateBreathUI();
+  breathInterval = setInterval(tickBreath, 1000);
+}
+
+function stopBreath() {
+  if (breathInterval) { clearInterval(breathInterval); breathInterval = null; }
+  const circle = document.getElementById('breath-circle');
+  circle.className = 'breath-circle';
+  document.getElementById('breath-phase').innerHTML = 'Appuie pour<br>commencer';
+  document.getElementById('breath-count').style.display = 'none';
+  document.getElementById('breath-start-btn').style.display = 'inline-block';
+  document.getElementById('breath-stop-btn').style.display = 'none';
+  document.getElementById('breath-progress').textContent = `Durée recommandée : 5 minutes · 30 cycles`;
+}
+
+function tickBreath() {
+  breathCounter--;
+  if (breathCounter <= 0) {
+    if (breathPhase === 'inhale') { breathPhase = 'hold'; breathCounter = HOLD; }
+    else if (breathPhase === 'hold') { breathPhase = 'exhale'; breathCounter = EXHALE; }
+    else { breathPhase = 'inhale'; breathCounter = INHALE; breathCycle++; }
+  }
+  updateBreathUI();
+}
+
+function updateBreathUI() {
+  const circle = document.getElementById('breath-circle');
+  const phaseEl = document.getElementById('breath-phase');
+  const countEl = document.getElementById('breath-count');
+  countEl.style.display = 'block';
+  countEl.textContent = breathCounter;
+  const labels = { inhale: 'Inspire...', hold: 'Retiens...', exhale: 'Expire...' };
+  phaseEl.textContent = labels[breathPhase];
+  circle.className = 'breath-circle ' + breathPhase;
+  document.getElementById('breath-progress').textContent = `Cycle ${breathCycle + 1} · ${breathPhase === 'inhale' ? '🔵' : breathPhase === 'hold' ? '🟡' : '🟢'} ${labels[breathPhase]}`;
+}
+
+// HABITUDES TRACKER
+const habitudes = [
+  { icon: "🍴", t: "Poser la fourchette entre les bouchées", max: 21 },
+  { icon: "📵", t: "Manger sans écran", max: 21 },
+  { icon: "🌬️", t: "3 respirations avant le repas", max: 21 },
+  { icon: "🪑", t: "Assis à une vraie table", max: 21 },
+  { icon: "⏱️", t: "3h minimum entre les repas", max: 21 },
+  { icon: "😴", t: "Exercice nerf vague du jour", max: 21 },
+];
+
+let habState = {};
+
+function buildHabitudes() {
+  const container = document.getElementById('habitudes-container');
+  habitudes.forEach((h, hi) => {
+    habState[hi] = habState[hi] || {};
+    const card = document.createElement('div');
+    card.className = 'habitude-card';
+    const streak = Object.values(habState[hi]).filter(Boolean).length;
+    card.innerHTML = `
+      <div class="hab-header">
+        <span class="hab-icon">${h.icon}</span>
+        <span class="hab-title">${h.t}</span>
+        <span class="hab-streak">${streak}/${h.max} j</span>
+      </div>
+      <div class="hab-days" id="hab-${hi}"></div>
+    `;
+    container.appendChild(card);
+    const daysContainer = card.querySelector(`#hab-${hi}`);
+    for (let d = 1; d <= h.max; d++) {
+      const dot = document.createElement('div');
+      dot.className = 'day-dot' + (habState[hi][d] ? ' done' : '');
+      dot.textContent = habState[hi][d] ? '✓' : d;
+      dot.title = `Jour ${d}`;
+      dot.onclick = () => toggleHab(hi, d, dot, card);
+      daysContainer.appendChild(dot);
+    }
+  });
+  updateGlobalProgress();
+}
+
+function toggleHab(hi, day, dot, card) {
+  habState[hi][day] = !habState[hi][day];
+  dot.className = 'day-dot' + (habState[hi][day] ? ' done' : '');
+  dot.textContent = habState[hi][day] ? '✓' : day;
+  const streak = Object.values(habState[hi]).filter(Boolean).length;
+  card.querySelector('.hab-streak').textContent = `${streak}/${habitudes[hi].max} j`;
+  updateGlobalProgress();
+}
+
+function updateGlobalProgress() {
+  let total = 0, max = 0;
+  habitudes.forEach((h, hi) => {
+    total += Object.values(habState[hi] || {}).filter(Boolean).length;
+    max += h.max;
+  });
+  const pct = max > 0 ? (total / max * 100) : 0;
+  document.getElementById('prog-bar-global').style.width = pct + '%';
+  document.getElementById('prog-count').textContent = total;
+  const msgs = ['Commence aujourd\'hui 🌿', 'Bien démarré — continue !', 'De belles habitudes qui s\'installent 🌱', 'À mi-chemin — tu transformes ton quotidien !', 'Superbe engagement 🌿', 'Tu es sur la voie d\'une vraie transformation !'];
+  const idx = Math.min(Math.floor(pct / 20), msgs.length - 1);
+  document.getElementById('prog-msg').textContent = msgs[idx];
+}
+
+// JOURNAL 21J
+function buildJournal() {
+  const semaines = [
+    { id: 's1', days: 7, start: 1, focus: "Juste un geste : poser la fourchette entre chaque bouchée" },
+    { id: 's2', days: 7, start: 8, focus: "Ajouter : 3 respirations avant le repas + sans écran" },
+    { id: 's3', days: 7, start: 15, focus: "Tous les gestes ensemble — observer les changements" }
+  ];
+  semaines.forEach(sem => {
+    const container = document.getElementById(sem.id + '-days');
+    for (let d = sem.start; d < sem.start + sem.days; d++) {
+      const div = document.createElement('div');
+      div.className = 'jour-item';
+      div.innerHTML = `<input type="checkbox" id="jour-${d}"><span class="jour-num">Jour ${d}</span>`;
+      container.appendChild(div);
+    }
+  });
+}
+
+// INIT
+buildChecklist();
+buildHabitudes();
+buildJournal();
+</script>
+</body>
+</html>
