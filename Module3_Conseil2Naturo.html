@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Module 3 — Les 15 Aliments Anti-Inflammatoires</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap');
+:root {
+  --green-deep: #1E3A1A;
+  --green-mid: #3D6B35;
+  --green-sage: #6B9B5E;
+  --green-light: #C8DFC2;
+  --green-pale: #EDF5EA;
+  --gold: #B8860B;
+  --gold-light: #D4A820;
+  --gold-pale: #FDF5DC;
+  --cream: #FAFAF5;
+  --text: #1A2E18;
+  --text2: #4A6A42;
+  --white: #FFFFFF;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text);}
+
+.header{background:var(--green-deep);padding:2.5rem 2rem 2rem;text-align:center;position:relative;overflow:hidden;}
+.header::before{content:'';position:absolute;top:-40%;left:-10%;width:120%;height:180%;background:radial-gradient(ellipse at 60% 40%,rgba(107,155,94,0.12) 0%,transparent 60%);pointer-events:none;}
+.header-tag{display:inline-block;background:rgba(212,168,32,0.2);border:1px solid rgba(212,168,32,0.4);color:var(--gold-light);font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;padding:0.3rem 1rem;border-radius:20px;margin-bottom:1rem;}
+.header h1{font-family:'Playfair Display',serif;font-size:2.2rem;color:var(--white);line-height:1.2;margin-bottom:0.5rem;}
+.header h1 span{color:var(--gold-light);}
+.header p{color:var(--green-light);font-size:0.9rem;max-width:560px;margin:0 auto;font-style:italic;}
+
+.container{max-width:900px;margin:0 auto;padding:0 1.5rem 3rem;}
+
+.intro-box{background:var(--green-deep);border-radius:12px;padding:1.5rem 2rem;margin:2rem 0 1.5rem;color:var(--green-light);font-size:0.92rem;line-height:1.7;}
+.intro-box strong{color:var(--gold-light);}
+
+.tabs{display:flex;gap:0.5rem;margin:1.5rem 0 1rem;flex-wrap:wrap;}
+.tab-btn{padding:0.55rem 1.2rem;border-radius:20px;border:1.5px solid var(--green-light);background:white;color:var(--text2);font-size:0.85rem;font-family:'DM Sans',sans-serif;cursor:pointer;transition:all 0.2s;}
+.tab-btn:hover,.tab-btn.active{background:var(--green-deep);border-color:var(--green-deep);color:white;font-weight:500;}
+.tab-content{display:none;}
+.tab-content.active{display:block;}
+
+.section-title{font-family:'Playfair Display',serif;font-size:1.3rem;color:var(--green-deep);margin:2.5rem 0 1rem;padding-bottom:0.5rem;border-bottom:2px solid var(--green-light);display:flex;align-items:center;gap:0.6rem;}
+.section-title .num{width:30px;height:30px;background:var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-size:0.85rem;font-weight:500;flex-shrink:0;}
+
+.accord{background:white;border:1px solid var(--green-light);border-radius:12px;overflow:hidden;margin-bottom:1rem;}
+.accord-header{padding:0.9rem 1.2rem;display:flex;align-items:center;gap:0.8rem;cursor:pointer;transition:background 0.2s;}
+.accord-header:hover{background:var(--green-pale);}
+.accord-icon{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1rem;font-weight:600;color:white;flex-shrink:0;}
+.accord-title{font-weight:500;font-size:0.95rem;color:var(--green-deep);flex:1;}
+.accord-badge{font-size:0.78rem;color:var(--gold);font-weight:500;background:var(--gold-pale);padding:0.2rem 0.6rem;border-radius:10px;}
+.accord-arrow{font-size:0.85rem;color:var(--text2);transition:transform 0.2s;}
+.accord-header.open .accord-arrow{transform:rotate(180deg);}
+.accord-body{padding:0 1.2rem;max-height:0;overflow:hidden;transition:max-height 0.35s ease,padding 0.3s;}
+.accord-body.open{max-height:1000px;padding:0 1.2rem 1.2rem;}
+.accord-body p{font-size:0.88rem;color:var(--text2);line-height:1.7;margin-bottom:0.6rem;}
+.accord-body ul{list-style:none;margin:0.5rem 0;}
+.accord-body ul li{font-size:0.87rem;color:var(--text);padding:0.25rem 0 0.25rem 1.4rem;position:relative;line-height:1.5;}
+.accord-body ul li::before{content:'→';color:var(--green-sage);position:absolute;left:0;font-size:0.8rem;top:0.28rem;}
+.accord-tip{background:var(--green-pale);border-left:3px solid var(--green-sage);padding:0.6rem 0.8rem;border-radius:0 6px 6px 0;font-size:0.82rem;color:var(--text2);margin-top:0.6rem;}
+.accord-tip strong{color:var(--green-deep);display:block;font-size:0.78rem;text-transform:uppercase;margin-bottom:0.2rem;}
+.accord-gold{background:var(--gold-pale);border-left:3px solid var(--gold);padding:0.6rem 0.8rem;border-radius:0 6px 6px 0;font-size:0.82rem;color:#5A4A00;margin-top:0.6rem;}
+.accord-gold strong{color:var(--gold);display:block;font-size:0.78rem;text-transform:uppercase;margin-bottom:0.2rem;}
+
+.cards-2{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1rem 0;}
+.cards-3{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin:1rem 0;}
+.card{background:white;border:1px solid var(--green-light);border-radius:12px;overflow:hidden;}
+.card-head{padding:0.75rem 1.1rem;font-weight:500;font-size:0.9rem;display:flex;align-items:center;gap:0.5rem;}
+.card-head.green{background:var(--green-pale);color:var(--green-deep);border-bottom:1px solid var(--green-light);}
+.card-head.gold{background:var(--gold-pale);color:var(--gold);border-bottom:1px solid rgba(184,134,11,0.3);}
+.card-head.dark{background:var(--green-deep);color:white;border-bottom:1px solid var(--green-deep);}
+.card-body{padding:0.9rem 1.1rem;}
+.card-item{display:flex;align-items:flex-start;gap:0.7rem;padding:0.4rem 0;border-bottom:1px solid var(--green-pale);font-size:0.85rem;}
+.card-item:last-child{border-bottom:none;}
+.card-item-icon{flex-shrink:0;font-size:1.1rem;}
+.card-item-name{font-weight:500;color:var(--text);}
+.card-item-note{font-size:0.78rem;color:var(--text2);margin-top:2px;}
+
+.plan-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1rem 0;}
+.plan-card{background:white;border:1px solid var(--green-light);border-radius:12px;overflow:hidden;}
+.plan-card-head{background:var(--green-deep);padding:0.7rem 1.1rem;font-family:'Playfair Display',serif;font-size:0.95rem;color:white;display:flex;align-items:center;gap:0.6rem;}
+.plan-card-head .week-num{background:var(--gold);width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'DM Sans',sans-serif;font-size:0.78rem;font-weight:500;flex-shrink:0;}
+.plan-card-body{padding:1rem 1.1rem;}
+.plan-item{display:flex;gap:0.6rem;padding:0.35rem 0;border-bottom:1px solid var(--green-pale);font-size:0.85rem;}
+.plan-item:last-child{border-bottom:none;}
+.plan-item-emoji{flex-shrink:0;}
+.plan-item-text{color:var(--text2);}
+.plan-item-text strong{color:var(--green-deep);}
+
+.check-wrap{background:white;border:1px solid var(--green-light);border-radius:12px;overflow:hidden;margin:1.5rem 0;}
+.check-header{background:var(--green-deep);padding:1rem 1.5rem;}
+.check-header h3{font-family:'Playfair Display',serif;font-size:1.05rem;color:white;margin-bottom:0.2rem;}
+.check-header p{font-size:0.82rem;color:var(--green-light);}
+.check-body{padding:1.2rem 1.5rem;}
+.check-list{list-style:none;}
+.check-list li{display:flex;align-items:center;gap:0.8rem;padding:0.55rem 0.4rem;border-bottom:1px solid var(--green-pale);font-size:0.88rem;color:var(--text2);cursor:pointer;transition:background 0.15s;border-radius:6px;}
+.check-list li:last-child{border-bottom:none;}
+.check-list li:hover{background:var(--green-pale);}
+.check-box{width:20px;height:20px;border:2px solid var(--green-light);border-radius:5px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:0.75rem;transition:all 0.2s;}
+.check-list li.done .check-box{background:var(--green-mid);border-color:var(--green-mid);color:white;}
+.check-list li.done .check-text{text-decoration:line-through;opacity:0.55;}
+.check-progress{margin-top:1rem;background:var(--green-pale);border-radius:8px;overflow:hidden;height:8px;}
+.check-bar{height:8px;background:var(--green-mid);border-radius:8px;transition:width 0.4s ease;}
+.check-score{text-align:center;margin-top:0.5rem;font-size:0.82rem;color:var(--text2);}
+
+.tracker-wrap{background:white;border:1px solid var(--green-light);border-radius:12px;overflow:hidden;margin:1.5rem 0;}
+.tracker-header{background:var(--green-deep);padding:1rem 1.5rem;display:flex;justify-content:space-between;align-items:center;}
+.tracker-header h3{font-family:'Playfair Display',serif;font-size:1rem;color:white;}
+.tracker-week-tabs{display:flex;gap:0.4rem;}
+.week-btn{padding:0.3rem 0.8rem;border-radius:12px;border:1px solid rgba(255,255,255,0.3);background:transparent;color:rgba(255,255,255,0.7);font-size:0.75rem;font-family:'DM Sans',sans-serif;cursor:pointer;transition:all 0.2s;}
+.week-btn:hover,.week-btn.active{background:rgba(255,255,255,0.2);color:white;border-color:rgba(255,255,255,0.5);}
+.tracker-body{padding:1.2rem 1.5rem;}
+.tracker-aliment{display:flex;align-items:center;gap:0.8rem;padding:0.55rem 0.3rem;border-bottom:1px solid var(--green-pale);cursor:pointer;transition:background 0.15s;border-radius:6px;}
+.tracker-aliment:last-child{border-bottom:none;}
+.tracker-aliment:hover{background:var(--green-pale);}
+.tracker-check{width:22px;height:22px;border:2px solid var(--green-light);border-radius:5px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:0.8rem;transition:all 0.2s;}
+.tracker-aliment.checked .tracker-check{background:var(--green-mid);border-color:var(--green-mid);color:white;}
+.tracker-emoji{font-size:1.2rem;flex-shrink:0;}
+.tracker-info{flex:1;}
+.tracker-name{font-size:0.88rem;font-weight:500;color:var(--text);}
+.tracker-dose{font-size:0.75rem;color:var(--text2);}
+.tracker-aliment.checked .tracker-name{text-decoration:line-through;opacity:0.6;}
+.tracker-score{text-align:center;margin-top:0.8rem;}
+.tracker-score-num{font-family:'Playfair Display',serif;font-size:1.5rem;color:var(--green-deep);font-weight:700;display:block;}
+.tracker-score-text{font-size:0.82rem;color:var(--text2);}
+
+.combo-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1rem 0;}
+.combo-card{background:white;border:1px solid var(--green-light);border-radius:12px;padding:1.1rem 1.2rem;}
+.combo-emojis{font-size:1.4rem;margin-bottom:0.4rem;}
+.combo-name{font-weight:500;color:var(--green-deep);font-size:0.9rem;margin-bottom:0.4rem;}
+.combo-desc{font-size:0.82rem;color:var(--text2);line-height:1.6;}
+.combo-effect{display:inline-block;background:var(--gold-pale);color:var(--gold);font-size:0.75rem;padding:0.2rem 0.6rem;border-radius:10px;margin-top:0.4rem;font-weight:500;}
+
+.footer{background:var(--green-deep);color:var(--green-light);text-align:center;padding:2rem;margin-top:2rem;font-size:0.85rem;}
+.footer strong{color:var(--gold-light);}
+
+.fade-in{animation:fadeIn 0.3s ease;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:translateY(0);}}
+
+@media(max-width:600px){
+  .header h1{font-size:1.6rem;}
+  .cards-2,.plan-grid,.combo-grid{grid-template-columns:1fr;}
+  .tracker-week-tabs{flex-wrap:wrap;}
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-tag">Module 3 · Document bonus interactif</div>
+  <h1>Les 15 aliments phares<br><span>anti-inflammatoires</span></h1>
+  <p>Documentés scientifiquement. Faciles à intégrer. Ceux que je recommande à toutes mes clientes.</p>
+</div>
+
+<div class="container">
+
+  <div class="intro-box">
+    Ce document est ton guide complet pour le module 3. Il contient <strong>les 15 aliments détaillés par famille</strong>, un <strong>tracker hebdomadaire interactif</strong> pour suivre tes intégrations, un <strong>plan progressif sur 4 semaines</strong> et les <strong>combos anti-inflammatoires</strong> à connaître absolument.
+  </div>
+
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('aliments', this)">🥦 Les 15 aliments</button>
+    <button class="tab-btn" onclick="switchTab('tracker', this)">✅ Mon tracker</button>
+    <button class="tab-btn" onclick="switchTab('plan', this)">📅 Plan 4 semaines</button>
+    <button class="tab-btn" onclick="switchTab('combos', this)">⚡ Les combos gagnants</button>
+  </div>
+
+  <!-- TAB 1 : LES 15 ALIMENTS -->
+  <div class="tab-content active" id="tab-aliments">
+
+    <div class="section-title"><span class="num">★</span> Vue d'ensemble — 5 familles</div>
+    <div class="cards-2">
+      <div class="card">
+        <div class="card-head green">🫒 Famille 1 · Gras anti-inflammatoires</div>
+        <div class="card-body">
+          <div class="card-item"><span class="card-item-icon">🐟</span><div><div class="card-item-name">Sardines & Maquereau</div><div class="card-item-note">2–3×/semaine · EPA/DHA actifs</div></div></div>
+          <div class="card-item"><span class="card-item-icon">🌰</span><div><div class="card-item-name">Noix de Grenoble</div><div class="card-item-note">30 g/jour · Conserver au frigo</div></div></div>
+          <div class="card-item"><span class="card-item-icon">🫒</span><div><div class="card-item-name">Huile d'olive extra vierge</div><div class="card-item-note">Crue ou cuisson douce uniquement</div></div></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-head green">🫐 Famille 2 · Champions antioxydants</div>
+        <div class="card-body">
+          <div class="card-item"><span class="card-item-icon">🫐</span><div><div class="card-item-name">Myrtilles</div><div class="card-item-note">1 poignée/jour · Surgelées = OK</div></div></div>
+          <div class="card-item"><span class="card-item-icon">🟡</span><div><div class="card-item-name">Curcuma</div><div class="card-item-note">Toujours + poivre noir + gras</div></div></div>
+          <div class="card-item"><span class="card-item-icon">🥦</span><div><div class="card-item-name">Brocoli</div><div class="card-item-note">Vapeur 5–6 min al dente uniquement</div></div></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-head green">🫘 Famille 3 · Alliés du microbiote</div>
+        <div class="card-body">
+          <div class="card-item"><span class="card-item-icon">🫘</span><div><div class="card-item-name">Lentilles</div><div class="card-item-note">Corail : 15 min sans trempage</div></div></div>
+          <div class="card-item"><span class="card-item-icon">🥛</span><div><div class="card-item-name">Kéfir</div><div class="card-item-note">1 verre/jour · Lait ou eau</div></div></div>
+          <div class="card-item"><span class="card-item-icon">🧄</span><div><div class="card-item-name">Ail & Oignon</div><div class="card-item-note">Hacher 10 min avant cuisson</div></div></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-head green">🍵 Famille 4 · Régulateurs</div>
+        <div class="card-body">
+          <div class="card-item"><span class="card-item-icon">🫚</span><div><div class="card-item-name">Gingembre</div><div class="card-item-note">Frais > poudre · Infusion matin</div></div></div>
+          <div class="card-item"><span class="card-item-icon">🍵</span><div><div class="card-item-name">Thé vert</div><div class="card-item-note">80 °C max · 2 tasses/jour</div></div></div>
+          <div class="card-item"><span class="card-item-icon">🍫</span><div><div class="card-item-name">Chocolat noir +70%</div><div class="card-item-note">1–2 carrés/jour</div></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="card" style="margin-bottom:1rem;">
+      <div class="card-head gold">⭐ Famille 5 · Boosters souvent oubliés</div>
+      <div class="card-body" style="display:grid;grid-template-columns:repeat(3,1fr);gap:0;">
+        <div class="card-item"><span class="card-item-icon">🥚</span><div><div class="card-item-name">Œufs plein air</div><div class="card-item-note">Code 0 ou 1 · Mange le jaune !</div></div></div>
+        <div class="card-item"><span class="card-item-icon">🌱</span><div><div class="card-item-name">Graines de lin</div><div class="card-item-note">Moulues obligatoire · Au frigo</div></div></div>
+        <div class="card-item"><span class="card-item-icon">🥬</span><div><div class="card-item-name">Épinards</div><div class="card-item-note">Smoothie, omelette, salade</div></div></div>
+      </div>
+    </div>
+
+    <div class="section-title"><span class="num">1</span> Gras anti-inflammatoires</div>
+
+    <div class="accord">
+      <div class="accord-header" onclick="toggleAccord(this)">
+        <div class="accord-icon" style="background:var(--green-deep);">🐟</div>
+        <div class="accord-title">Sardines & Maquereau</div>
+        <div class="accord-badge">2–3×/semaine</div>
+        <div class="accord-arrow">▼</div>
+      </div>
+      <div class="accord-body">
+        <p>2,5 g d'oméga-3 EPA/DHA pour 100 g de maquereau — ce sont les formes actives directement utilisables par le corps, sans conversion. Petits poissons = peu de métaux lourds. Les boîtes en conserve à l'huile d'olive sont parfaitement acceptables.</p>
+        <ul>
+          <li>Maquereau fumé, sardines en boîte, anchois à l'huile d'olive</li>
+          <li>2–3 portions par semaine suffisent pour un effet mesurable</li>
+          <li>Associer avec citron et huile d'olive pour optimiser</li>
+        </ul>
+        <div class="accord-tip"><strong>💡 Étude clé</strong>British Journal of Nutrition : 8 semaines de consommation régulière suffisent pour réduire significativement les marqueurs inflammatoires sanguins.</div>
+      </div>
+    </div>
+
+    <div class="accord">
+      <div class="accord-header" onclick="toggleAccord(this)">
+        <div class="accord-icon" style="background:var(--green-mid);">🌰</div>
+        <div class="accord-title">Noix de Grenoble</div>
+        <div class="accord-badge">30 g/jour</div>
+        <div class="accord-arrow">▼</div>
+      </div>
+      <div class="accord-body">
+        <p>Seul oléagineux vraiment riche en oméga-3. Contient en plus des polyphénols, du magnésium et de la vitamine E — une combinaison synergique rare dans un seul aliment.</p>
+        <ul>
+          <li>5–7 noix = 30 g environ — à manger chaque jour</li>
+          <li>Conserver au frigo dans un contenant hermétique — rancissent vite à l'air</li>
+          <li>Goût amer = rancies → à jeter immédiatement</li>
+        </ul>
+        <div class="accord-tip"><strong>⚠️ Attention</strong>Les noix rancies deviennent pro-inflammatoires au lieu d'anti-inflammatoires. Toujours fraîches, toujours au frigo.</div>
+      </div>
+    </div>
+
+    <div class="accord">
+      <div class="accord-header" onclick="toggleAccord(this)">
+        <div class="accord-icon" style="background:var(--gold);">🫒</div>
+        <div class="accord-title">Huile d'olive extra vierge</div>
+        <div class="accord-badge">À chaque repas</div>
+        <div class="accord-arrow">▼</div>
+      </div>
+      <div class="accord-body">
+        <p>Contient l'oléocanthal — un anti-inflammatoire naturel aux effets similaires à l'ibuprofène à faible dose, sans les effets secondaires. Aussi riche en hydroxytyrosol antioxydant.</p>
+        <ul>
+          <li>Extra vierge première pression à froid uniquement</li>
+          <li>Crue de préférence, cuisson douce max — pas de friture</li>
+          <li>L'huile raffinée ne contient plus ces polyphénols</li>
+          <li>1–3 cuillères à soupe par jour sur salades, légumes, pain</li>
+        </ul>
+        <div class="accord-tip"><strong>💡 Règle simple</strong>"Extra vierge première pression à froid" doit être écrit sur l'étiquette. La couleur dorée seule ne garantit rien.</div>
+      </div>
+    </div>
+
+    <div class="section-title"><span class="num">2</span> Champions des antioxydants</div>
+
+    <div class="accord">
+      <div class="accord-header" onclick="toggleAccord(this)">
+        <div class="accord-icon" style="background:#5B4B8A;">🫐</div>
+        <div class="accord-title">Myrtilles</div>
+        <div class="accord-badge">1 poignée/jour</div>
+        <div class="accord-arrow">▼</div>
+      </div>
+      <div class="accord-body">
+        <p>Les anthocyanes — pigments bleus-violets — sont parmi les anti-inflammatoires végétaux les plus puissants. Ils protègent les cellules, améliorent la circulation et ont des effets documentés sur la mémoire et les fonctions cérébrales.</p>
+        <ul>
+          <li>Surgelées = aussi efficaces que fraîches (anthocyanes résistantes)</li>
+          <li>Dans un yaourt, smoothie, porridge, ou nature</li>
+          <li>Grand sachet surgelé = économique, pratique, toujours disponible</li>
+        </ul>
+        <div class="accord-tip"><strong>💡 Astuce pratique</strong>Mettre une poignée la veille au soir dans un bol au frigo. Le matin : décongelées, prêtes à consommer.</div>
+      </div>
+    </div>
+
+    <div class="accord">
+      <div class="accord-header" onclick="toggleAccord(this)">
+        <div class="accord-icon" style="background:#C8860B;">🟡</div>
+        <div class="accord-title">Curcuma</div>
+        <div class="accord-badge">Règle du trio</div>
+        <div class="accord-arrow">▼</div>
+      </div>
+      <div class="accord-body">
+        <p>La curcumine est reconnue par l'EFSA comme anti-inflammatoire puissant. Ses effets ont été comparés favorablement à certains médicaments — sans les effets secondaires. Mais sa biodisponibilité est très faible si consommée seule.</p>
+        <ul>
+          <li>Le poivre noir (pipérine) multiplie l'absorption par 20</li>
+          <li>Le gras (huile d'olive, noix) améliore encore l'absorption</li>
+          <li>Curcuma seul = presque aucun effet mesurable dans le sang</li>
+        </ul>
+        <div class="accord-gold"><strong>🔑 Règle absolue</strong>Toujours curcuma + poivre noir + gras ensemble. Ce trio doit devenir un réflexe dans chaque plat où tu l'utilises.</div>
+      </div>
+    </div>
+
+    <div class="accord">
+      <div class="accord-header" onclick="toggleAccord(this)">
+        <div class="accord-icon" style="background:var(--green-mid);">🥦</div>
+        <div class="accord-title">Brocoli</div>
+        <div class="accord-badge">2–3×/semaine</div>
+        <div class="accord-arrow">▼</div>
+      </div>
+      <div class="accord-body">
+        <p>Le sulforaphane active les mécanismes naturels de détoxification du foie et a des effets anti-inflammatoires directs bien documentés. Très riche en vitamines C, K et en folate.</p>
+        <ul>
+          <li>Cuisson vapeur 5–6 min maximum, al dente</li>
+          <li>Cuisson longue = sulforaphane détruit → effet perdu</li>
+          <li>Couper et laisser reposer 5 min avant cuisson (active l'enzyme myrosinase)</li>
+          <li>Pousses de brocoli = 50× plus de sulforaphane</li>
+        </ul>
+        <div class="accord-tip"><strong>💡 Tip cuisson</strong>Couper → attendre 5 min → cuire à la vapeur 5 min. Ce simple repos avant cuisson multiplie la quantité de sulforaphane formée.</div>
+      </div>
+    </div>
+
+    <div class="section-title"><span class="num">3</span> Alliés du microbiote</div>
+
+    <div class="accord">
+      <div class="accord-header" onclick="toggleAccord(this)">
+        <div class="accord-icon" style="background:#8B5E3C;">🫘</div>
+        <div class="accord-title">Lentilles</div>
+        <div class="accord-badge">2×/semaine</div>
+        <div class="accord-arrow">▼</div>
+      </div>
+      <div class="accord-body">
+        <p>L'aliment anti-inflammatoire le plus complet et le plus accessible : 9 g de protéines + 8 g de fibres pour 100 g cuit. Ses fibres fermentées produisent du butyrate qui répare la paroi intestinale. Aussi riche en fer, magnésium, folate et zinc.</p>
+        <ul>
+          <li>Lentilles corail : 15 min sans trempage → le plus simple</li>
+          <li>Lentilles vertes : trempe 8h, jette l'eau → moins de ballonnements</li>
+          <li>Le microbiote s'adapte en 3–4 semaines — tenir bon au départ</li>
+        </ul>
+        <div class="accord-tip"><strong>💡 Anti-ballonnements</strong>Ajouter cumin ou fenouil à la cuisson. Rincer abondamment après trempage. L'inconfort diminue naturellement avec les semaines.</div>
+      </div>
+    </div>
+
+    <div class="accord">
+      <div class="accord-header" onclick="toggleAccord(this)">
+        <div class="accord-icon" style="background:var(--green-deep);">🥛</div>
+        <div class="accord-title">Kéfir</div>
+        <div class="accord-badge">1 verre/jour</div>
+        <div class="accord-arrow">▼</div>
+      </div>
+      <div class="accord-body">
+        <p>Le kéfir contient des dizaines de souches de bactéries et levures bénéfiques — bien plus diversifié qu'un yaourt probiotique. Il renforce le microbiote, produit des vitamines B et K, et des études montrent une réduction des marqueurs inflammatoires en 4 semaines.</p>
+        <ul>
+          <li>Kéfir de lait : crémeux, légèrement pétillant</li>
+          <li>Kéfir d'eau (tibicos) : sans lactose, adapté aux intolérantes</li>
+          <li>Commencer par 1 verre (150 ml) par jour — le matin</li>
+        </ul>
+        <div class="accord-tip"><strong>💡 Intolérance au lactose</strong>La fermentation dégrade la plupart du lactose — souvent bien toléré. Sinon, le kéfir d'eau offre les mêmes bénéfices pour le microbiote.</div>
+      </div>
+    </div>
+
+    <div class="accord">
+      <div class="accord-header" onclick="toggleAccord(this)">
+        <div class="accord-icon" style="background:var(--green-mid);">🧄</div>
+        <div class="accord-title">Ail & Oignon</div>
+        <div class="accord-badge">Chaque jour</div>
+        <div class="accord-arrow">▼</div>
+      </div>
+      <div class="accord-body">
+        <p>Prébiotiques naturels (inuline) qui nourrissent sélectivement les meilleures bactéries du microbiote. L'ail contient de l'allicine — antibactérienne et anti-inflammatoire — formée uniquement quand on hache ou écrase l'ail frais.</p>
+        <ul>
+          <li>Hacher l'ail et attendre 10 min avant cuisson → active l'allicine</li>
+          <li>L'ail rôti entier ne forme pas d'allicine</li>
+          <li>L'oignon rouge cru est le plus riche en quercétine</li>
+          <li>Ail cru dans une vinaigrette = maximum de bénéfices</li>
+        </ul>
+        <div class="accord-tip"><strong>💡 La règle des 10 minutes</strong>Hacher → attendre 10 min → cuire. La chaleur détruit l'enzyme qui forme l'allicine. Ce repos de 10 min permet d'en former 5× plus avant la cuisson.</div>
+      </div>
+    </div>
+
+    <div class="section-title"><span class="num">4</span> Régulateurs de l'inflammation</div>
+
+    <div class="accord">
+      <div class="accord-header" onclick="toggleAccord(this)">
+        <div class="accord-icon" style="background:#8B6914;">🫚</div>
+        <div class="accord-title">Gingembre</div>
+        <div class="accord-badge">Chaque jour</div>
+        <div class="accord-arrow">▼</div>
+      </div>
+      <div class="accord-body">
+        <p>Le gingérol (gingembre frais) réduit directement les cytokines pro-inflammatoires, soulage les douleurs articulaires et stimule les enzymes digestives. Très bien documenté pour la digestion et les nausées.</p>
+        <ul>
+          <li>Gingembre frais > poudre (bien plus concentré en gingérol)</li>
+          <li>Infusion : gingembre râpé + citron + miel le matin</li>
+          <li>Râpé dans un plat sauté, smoothie, soupe ou vinaigrette</li>
+          <li>Congeler la racine et râper directement congelée — se conserve des mois</li>
+        </ul>
+        <div class="accord-tip"><strong>💡 Conservation</strong>Congeler la racine entière. Râper directement congelée avec une microplane — encore plus facile que frais, et se conserve plusieurs mois au congélateur.</div>
+      </div>
+    </div>
+
+    <div class="accord">
+      <div class="accord-header" onclick="toggleAccord(this)">
+        <div class="accord-icon" style="background:#3A7A5C;">🍵</div>
+        <div class="accord-title">Thé vert</div>
+        <div class="accord-badge">2 tasses/jour</div>
+        <div class="accord-arrow">▼</div>
+      </div>
+      <div class="accord-body">
+        <p>Les catéchines (EGCG) sont parmi les antioxydants les plus étudiés. Elles inhibent plusieurs voies inflammatoires et protègent les cellules du stress oxydatif de manière très documentée.</p>
+        <ul>
+          <li>Eau à 80 °C maximum — l'eau bouillante détruit les catéchines</li>
+          <li>Infusion 2–3 min — pas plus</li>
+          <li>2 tasses par jour : matin et après-midi</li>
+          <li>Matcha = concentration encore plus élevée en EGCG</li>
+        </ul>
+        <div class="accord-tip"><strong>💡 Température</strong>Faire bouillir et laisser refroidir 3–4 min dans la tasse ≈ 80 °C. Ce détail change vraiment la concentration active du thé.</div>
+      </div>
+    </div>
+
+    <div class="accord">
+      <div class="accord-header" onclick="toggleAccord(this)">
+        <div class="accord-icon" style="background:#3A1A2E;">🍫</div>
+        <div class="accord-title">Chocolat noir +70%</div>
+        <div class="accord-badge">1–2 carrés/jour</div>
+        <div class="accord-arrow">▼</div>
+      </div>
+      <div class="accord-body">
+        <p>Les flavonoïdes du cacao ont des effets cardiovasculaires et anti-inflammatoires bien documentés. Améliore la circulation, a des effets positifs sur le microbiote. Ce n'est pas une dérogation — c'est un aliment santé à part entière.</p>
+        <ul>
+          <li>Minimum 70% de cacao — en dessous, le sucre annule les bénéfices</li>
+          <li>85% ou 90% = encore plus de flavonoïdes, moins de sucre</li>
+          <li>1–2 carrés après un repas — pas entre les repas</li>
+          <li>Le cacao cru en poudre = forme la plus concentrée</li>
+        </ul>
+        <div class="accord-tip"><strong>💡 Recadrage</strong>Le chocolat noir est un aliment fonctionnel. Il a sa place planifiée dans l'alimentation anti-inflammatoire — pas besoin de le mériter ou de le "compenser".</div>
+      </div>
+    </div>
+
+    <div class="section-title"><span class="num">5</span> Boosters souvent oubliés</div>
+
+    <div class="accord">
+      <div class="accord-header" onclick="toggleAccord(this)">
+        <div class="accord-icon" style="background:#C8860B;">🥚</div>
+        <div class="accord-title">Œufs plein air</div>
+        <div class="accord-badge">Au quotidien</div>
+        <div class="accord-arrow">▼</div>
+      </div>
+      <div class="accord-body">
+        <p>Protéine complète avec tous les acides aminés essentiels. Riche en choline (santé cérébrale), vitamines D, B12, sélénium, lutéine. Les œufs plein air contiennent 3× plus d'oméga-3 qu'un œuf de batterie. Le jaune est le plus précieux.</p>
+        <ul>
+          <li>Code 0 = bio, code 1 = plein air → à choisir en priorité</li>
+          <li>Le jaune contient 90% des nutriments précieux — ne pas le supprimer</li>
+          <li>Cuisson douce préserve mieux les nutriments (mollet, à la coque, poché)</li>
+        </ul>
+        <div class="accord-gold"><strong>⚠️ Idée reçue</strong>Le cholestérol alimentaire des œufs a très peu d'impact sur le cholestérol sanguin chez la plupart des personnes. C'est une information dépassée des années 80. Mange le jaune sans culpabilité.</div>
+      </div>
+    </div>
+
+    <div class="accord">
+      <div class="accord-header" onclick="toggleAccord(this)">
+        <div class="accord-icon" style="background:var(--green-sage);">🌱</div>
+        <div class="accord-title">Graines de lin</div>
+        <div class="accord-badge">Moulues obligatoire</div>
+        <div class="accord-arrow">▼</div>
+      </div>
+      <div class="accord-body">
+        <p>Meilleure source végétale d'oméga-3 (ALA). Contient des lignanes — phyto-estrogènes particulièrement intéressants en péri-ménopause et ménopause. Fibres solubles excellentes pour le microbiote.</p>
+        <ul>
+          <li>Entières = traversent sans être digérées → zéro bénéfice</li>
+          <li>Moudre avec un moulin à café ou acheter en farine de lin</li>
+          <li>1–2 cuillères à soupe/jour dans un yaourt, smoothie, porridge</li>
+          <li>Conserver au frigo après ouverture — les graisses rancissent vite</li>
+        </ul>
+        <div class="accord-gold"><strong>🔑 Règle absolue</strong>Graines de lin entières = zéro absorption des oméga-3 et lignanes. Moulu ou farine uniquement. C'est la règle la plus souvent ignorée — et la plus importante.</div>
+      </div>
+    </div>
+
+    <div class="accord">
+      <div class="accord-header" onclick="toggleAccord(this)">
+        <div class="accord-icon" style="background:var(--green-mid);">🥬</div>
+        <div class="accord-title">Épinards</div>
+        <div class="accord-badge">3–4×/semaine</div>
+        <div class="accord-arrow">▼</div>
+      </div>
+      <div class="accord-body">
+        <p>Très riches en magnésium — impliqué dans plus de 300 réactions enzymatiques dont la régulation de l'inflammation et du stress. Contient aussi du fer, folate, vitamine K, vitamine C et a un effet alcalinisant utile.</p>
+        <ul>
+          <li>Dans un smoothie avec banane + mangue : goût des épinards imperceptible</li>
+          <li>Dans une omelette : 2 grosses poignées fondent vite</li>
+          <li>En salade avec huile d'olive + citron + noix</li>
+          <li>Cuisson vapeur rapide 2–3 min préserve bien les nutriments</li>
+        </ul>
+        <div class="accord-tip"><strong>💡 Smoothie vert facile</strong>Banane + mangue surgelée + 2 poignées d'épinards + lait végétal. Goût fruité, couleur verte. 3 portions de légumes en 1 minute.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- TAB 2 : TRACKER -->
+  <div class="tab-content" id="tab-tracker">
+
+    <div class="section-title"><span class="num">✓</span> Suis tes aliments semaine par semaine</div>
+
+    <div class="tracker-wrap">
+      <div class="tracker-header">
+        <h3>🗓️ Mon tracker hebdomadaire</h3>
+        <div class="tracker-week-tabs">
+          <button class="week-btn active" onclick="setWeek('s1', this)">Sem. 1</button>
+          <button class="week-btn" onclick="setWeek('s2', this)">Sem. 2</button>
+          <button class="week-btn" onclick="setWeek('s3', this)">Sem. 3</button>
+          <button class="week-btn" onclick="setWeek('s4', this)">Sem. 4</button>
+        </div>
+      </div>
+      <div class="tracker-body">
+        <p id="week-label" style="font-size:0.82rem;color:var(--text2);margin-bottom:1rem;font-style:italic;"></p>
+        <div id="tracker-list"></div>
+        <div class="tracker-score">
+          <span class="tracker-score-num" id="tracker-score-num">0/0</span>
+          <div class="tracker-score-text">aliments intégrés cette semaine</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-title"><span class="num">★</span> Ma checklist des 15 aliments</div>
+
+    <div class="check-wrap">
+      <div class="check-header">
+        <h3>✅ État d'intégration global</h3>
+        <p>Coche les aliments vraiment intégrés à tes habitudes — au moins 1×/semaine depuis 2 semaines</p>
+      </div>
+      <div class="check-body">
+        <ul class="check-list" id="check-list"></ul>
+        <div class="check-progress"><div class="check-bar" id="check-bar" style="width:0%"></div></div>
+        <div class="check-score" id="check-score">0 / 15 aliments intégrés dans tes habitudes</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- TAB 3 : PLAN 4 SEMAINES -->
+  <div class="tab-content" id="tab-plan">
+
+    <div class="section-title"><span class="num">4</span> Intégration progressive — sans se prendre la tête</div>
+
+    <div class="intro-box" style="margin-top:0;">
+      Ne cherche pas à tous les intégrer en même temps. <strong>2–3 aliments par semaine</strong>, puis les suivants. En 4 semaines, 12 des 15 sont dans tes habitudes — naturellement, sans effort.
+    </div>
+
+    <div class="plan-grid">
+      <div class="plan-card">
+        <div class="plan-card-head"><span class="week-num">1</span> Semaine 1 — Les fondations</div>
+        <div class="plan-card-body">
+          <div class="plan-item"><span class="plan-item-emoji">🐟</span><div class="plan-item-text"><strong>Sardines ou maquereau</strong> — 2 fois dans la semaine</div></div>
+          <div class="plan-item"><span class="plan-item-emoji">🫐</span><div class="plan-item-text"><strong>Myrtilles surgelées</strong> — 1 poignée chaque matin</div></div>
+          <div class="plan-item"><span class="plan-item-emoji">🟡</span><div class="plan-item-text"><strong>Curcuma + poivre + gras</strong> — dans au moins 1 plat/jour</div></div>
+        </div>
+      </div>
+      <div class="plan-card">
+        <div class="plan-card-head"><span class="week-num">2</span> Semaine 2 — Le microbiote</div>
+        <div class="plan-card-body">
+          <div class="plan-item"><span class="plan-item-emoji">🫘</span><div class="plan-item-text"><strong>Lentilles corail</strong> — 2 fois dans la semaine</div></div>
+          <div class="plan-item"><span class="plan-item-emoji">🌱</span><div class="plan-item-text"><strong>Graines de lin moulues</strong> — 1 cuillère chaque matin</div></div>
+          <div class="plan-item"><span class="plan-item-emoji">🍵</span><div class="plan-item-text"><strong>Thé vert à 80 °C</strong> — 2 tasses par jour</div></div>
+        </div>
+      </div>
+      <div class="plan-card">
+        <div class="plan-card-head"><span class="week-num">3</span> Semaine 3 — Consolidation</div>
+        <div class="plan-card-body">
+          <div class="plan-item"><span class="plan-item-emoji">🥛</span><div class="plan-item-text"><strong>Kéfir</strong> — 1 verre chaque jour</div></div>
+          <div class="plan-item"><span class="plan-item-emoji">🥦</span><div class="plan-item-text"><strong>Brocoli vapeur</strong> — 2 à 3 fois dans la semaine</div></div>
+          <div class="plan-item"><span class="plan-item-emoji">🫒</span><div class="plan-item-text"><strong>Huile d'olive extra vierge</strong> — à chaque repas désormais</div></div>
+        </div>
+      </div>
+      <div class="plan-card">
+        <div class="plan-card-head"><span class="week-num">4</span> Semaine 4 — Les boosters</div>
+        <div class="plan-card-body">
+          <div class="plan-item"><span class="plan-item-emoji">🫚</span><div class="plan-item-text"><strong>Gingembre frais</strong> — infusion chaque matin</div></div>
+          <div class="plan-item"><span class="plan-item-emoji">🌰</span><div class="plan-item-text"><strong>Noix de Grenoble</strong> — une poignée chaque jour</div></div>
+          <div class="plan-item"><span class="plan-item-emoji">🥬</span><div class="plan-item-text"><strong>Épinards</strong> — 3 à 4 fois dans la semaine</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="intro-box" style="margin-top:1rem;">
+      <strong>Les 3 restants (ail/oignon, œufs plein air, chocolat noir)</strong> s'intègrent naturellement en parallèle — l'ail dans tes plats habituels, les œufs au petit-déjeuner, le chocolat comme collation après repas.
+    </div>
+
+    <div class="section-title"><span class="num">★</span> Ta journée type anti-inflammatoire</div>
+
+    <div class="card" style="margin-bottom:1rem;">
+      <div class="card-head dark">🌅 Matin</div>
+      <div class="card-body">
+        <div class="card-item"><span class="card-item-icon">🍵</span><div><div class="card-item-name">Infusion gingembre + citron + miel (à jeun)</div><div class="card-item-note">Prépare la digestion · Active le métabolisme</div></div></div>
+        <div class="card-item"><span class="card-item-icon">🥚</span><div><div class="card-item-name">Œufs plein air + épinards sautés à l'huile d'olive</div><div class="card-item-note">Protéines complètes + magnésium dès le matin</div></div></div>
+        <div class="card-item"><span class="card-item-icon">🫐</span><div><div class="card-item-name">Myrtilles + graines de lin moulues dans un kéfir</div><div class="card-item-note">Antioxydants + microbiote + oméga-3 en un bol</div></div></div>
+      </div>
+    </div>
+    <div class="card" style="margin-bottom:1rem;">
+      <div class="card-head dark">☀️ Déjeuner</div>
+      <div class="card-body">
+        <div class="card-item"><span class="card-item-icon">🫘</span><div><div class="card-item-name">Lentilles corail au curcuma + poivre + huile d'olive</div><div class="card-item-note">Le combo gagnant — protéines + anti-inflam en synergie</div></div></div>
+        <div class="card-item"><span class="card-item-icon">🥦</span><div><div class="card-item-name">Brocoli vapeur al dente (5–6 min)</div><div class="card-item-note">Sulforaphane préservé · Ne pas surcuire</div></div></div>
+        <div class="card-item"><span class="card-item-icon">🧄</span><div><div class="card-item-name">Ail haché (10 min avant cuisson)</div><div class="card-item-note">Allicine activée · Prébiotique naturel</div></div></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-head dark">🌙 Dîner & collation</div>
+      <div class="card-body">
+        <div class="card-item"><span class="card-item-icon">🐟</span><div><div class="card-item-name">Maquereau ou sardines (2–3×/semaine)</div><div class="card-item-note">Citron + huile d'olive + légumes verts</div></div></div>
+        <div class="card-item"><span class="card-item-icon">🌰</span><div><div class="card-item-name">Noix de Grenoble (collation) — du frigo</div><div class="card-item-note">5–7 noix · Oméga-3 + polyphénols</div></div></div>
+        <div class="card-item"><span class="card-item-icon">🍫</span><div><div class="card-item-name">1–2 carrés de chocolat noir +70%</div><div class="card-item-note">Après le repas · Flavonoïdes + plaisir</div></div></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- TAB 4 : COMBOS -->
+  <div class="tab-content" id="tab-combos">
+
+    <div class="section-title"><span class="num">⚡</span> Les combos qui démultiplient les effets</div>
+
+    <div class="intro-box" style="margin-top:0;">
+      Certains aliments anti-inflammatoires fonctionnent <strong>beaucoup mieux ensemble</strong> que séparément. Ces associations peuvent multiplier l'efficacité par 5 à 20 — elles ne sont pas des détails.
+    </div>
+
+    <div class="combo-grid">
+      <div class="combo-card">
+        <div class="combo-emojis">🟡 + 🌶️ + 🫒</div>
+        <div class="combo-name">Curcuma + Poivre noir + Gras</div>
+        <div class="combo-desc">La pipérine du poivre noir multiplie l'absorption de la curcumine par 20. Le gras améliore encore sa biodisponibilité. Sans ce trio, l'effet est quasi nul.</div>
+        <span class="combo-effect">× 20 d'absorption</span>
+      </div>
+      <div class="combo-card">
+        <div class="combo-emojis">🐟 + 🍋 + 🫒</div>
+        <div class="combo-name">Sardines + Citron + Huile d'olive</div>
+        <div class="combo-desc">La vitamine C du citron améliore l'absorption du fer des sardines. L'huile d'olive amplifie l'effet anti-inflammatoire des oméga-3 via l'oléocanthal.</div>
+        <span class="combo-effect">Synergie complète</span>
+      </div>
+      <div class="combo-card">
+        <div class="combo-emojis">🫘 + 🧄 + 🟡</div>
+        <div class="combo-name">Lentilles + Ail + Curcuma</div>
+        <div class="combo-desc">Fibres des lentilles nourrissent le microbiote. L'ail apporte ses prébiotiques et son allicine. Le curcuma réduit l'inflammation intestinale. Trio "réparation intestinale".</div>
+        <span class="combo-effect">Microbiote + anti-inflam</span>
+      </div>
+      <div class="combo-card">
+        <div class="combo-emojis">🥦 + 🧄 + 🫒</div>
+        <div class="combo-name">Brocoli + Ail + Huile d'olive</div>
+        <div class="combo-desc">Le sulforaphane du brocoli active les gènes antioxydants. L'allicine inhibe les voies inflammatoires. L'huile d'olive facilite l'absorption des molécules liposolubles.</div>
+        <span class="combo-effect">Détox + anti-inflam</span>
+      </div>
+      <div class="combo-card">
+        <div class="combo-emojis">🥚 + 🥬 + 🫒</div>
+        <div class="combo-name">Œufs + Épinards + Huile d'olive</div>
+        <div class="combo-desc">Les graisses de l'œuf et de l'huile d'olive améliorent l'absorption du fer et du magnésium des épinards (nutriments liposolubles). La vitamine C des épinards optimise le fer.</div>
+        <span class="combo-effect">Absorption optimisée</span>
+      </div>
+      <div class="combo-card">
+        <div class="combo-emojis">🌱 + 🥛 + 🫐</div>
+        <div class="combo-name">Lin moulu + Kéfir + Myrtilles</div>
+        <div class="combo-desc">Le petit-déjeuner anti-inflammatoire idéal. Fibres du lin + probiotiques du kéfir = microbiote optimal. Anthocyanes des myrtilles pour les antioxydants. Simple et puissant.</div>
+        <span class="combo-effect">Breakfast parfait</span>
+      </div>
+    </div>
+
+    <div class="section-title"><span class="num">⚠️</span> Les erreurs à éviter absolument</div>
+
+    <div class="cards-2">
+      <div class="card">
+        <div class="card-head" style="background:#FFF0F0;color:#C04040;border-bottom:1px solid #E08080;">❌ Curcuma seul sans poivre ni gras</div>
+        <div class="card-body">
+          <div class="card-item"><span class="card-item-icon">🚫</span><div><div class="card-item-name">Absorption inférieure à 5%</div><div class="card-item-note">Effets quasi nuls. Complément inutile sans le trio gagnant.</div></div></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-head" style="background:#FFF0F0;color:#C04040;border-bottom:1px solid #E08080;">❌ Thé vert avec un repas riche en fer</div>
+        <div class="card-body">
+          <div class="card-item"><span class="card-item-icon">🚫</span><div><div class="card-item-name">Les tanins inhibent l'absorption du fer</div><div class="card-item-note">Attendre au moins 1h après un repas avec lentilles ou viande.</div></div></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-head" style="background:#FFF0F0;color:#C04040;border-bottom:1px solid #E08080;">❌ Graines de lin entières</div>
+        <div class="card-body">
+          <div class="card-item"><span class="card-item-icon">🚫</span><div><div class="card-item-name">Traversent sans être digérées</div><div class="card-item-note">Zéro absorption des oméga-3 et lignanes. Moulues obligatoire.</div></div></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-head" style="background:#FFF0F0;color:#C04040;border-bottom:1px solid #E08080;">❌ Noix conservées à température ambiante</div>
+        <div class="card-body">
+          <div class="card-item"><span class="card-item-icon">🚫</span><div><div class="card-item-name">Rancissement = pro-inflammatoire</div><div class="card-item-note">Goût amer = à jeter. Toujours au frigo, toujours fraîches.</div></div></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<div class="footer">
+  <strong>CONSEIL2NATURO · Module 3</strong> — Les 15 aliments phares anti-inflammatoires 🌿<br>
+  <span style="font-size:0.78rem;opacity:0.7;">Questions ? Rejoins-nous dans la communauté — je réponds chaque semaine.</span>
+</div>
+
+<script>
+function switchTab(id, btn) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active','fade-in');
+  btn.classList.add('active');
+}
+
+function toggleAccord(header) {
+  const body = header.nextElementSibling;
+  const isOpen = header.classList.contains('open');
+  header.classList.toggle('open', !isOpen);
+  body.classList.toggle('open', !isOpen);
+}
+
+const weekAliments = {
+  s1:[
+    {emoji:'🐟',name:'Sardines ou Maquereau',dose:'2 fois dans la semaine'},
+    {emoji:'🫐',name:'Myrtilles',dose:'1 poignée chaque matin'},
+    {emoji:'🟡',name:'Curcuma + poivre noir + gras',dose:'Dans au moins 1 plat/jour'},
+  ],
+  s2:[
+    {emoji:'🫘',name:'Lentilles corail',dose:'2 fois dans la semaine'},
+    {emoji:'🌱',name:'Graines de lin moulues',dose:'1 c. à soupe le matin'},
+    {emoji:'🍵',name:'Thé vert à 80 °C',dose:'2 tasses par jour'},
+  ],
+  s3:[
+    {emoji:'🥛',name:'Kéfir',dose:'1 verre par jour'},
+    {emoji:'🥦',name:'Brocoli vapeur al dente',dose:'2 à 3 fois/semaine'},
+    {emoji:'🫒',name:"Huile d'olive extra vierge",dose:'À chaque repas désormais'},
+  ],
+  s4:[
+    {emoji:'🫚',name:'Gingembre frais',dose:'Infusion chaque matin'},
+    {emoji:'🌰',name:'Noix de Grenoble',dose:'1 poignée/jour — du frigo'},
+    {emoji:'🥬',name:'Épinards',dose:'3 à 4 fois dans la semaine'},
+  ]
+};
+const weekLabels = {
+  s1:'Semaine 1 — Coche les aliments que tu as consommés cette semaine',
+  s2:'Semaine 2 — Continue sur ta lancée et ajoute ces 3 nouveaux aliments',
+  s3:'Semaine 3 — Consolidation : les 6 premiers + ces 3 nouveaux',
+  s4:"Semaine 4 — La dernière ligne droite, tu y es presque !"
+};
+let trackerData = {s1:{},s2:{},s3:{},s4:{}};
+let currentWeek = 's1';
+
+function setWeek(week, btn) {
+  currentWeek = week;
+  document.querySelectorAll('.week-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderTracker();
+}
+
+function renderTracker() {
+  document.getElementById('week-label').textContent = weekLabels[currentWeek];
+  const list = document.getElementById('tracker-list');
+  const aliments = weekAliments[currentWeek];
+  list.innerHTML = '';
+  aliments.forEach((a, i) => {
+    const checked = trackerData[currentWeek][i] || false;
+    const div = document.createElement('div');
+    div.className = 'tracker-aliment' + (checked ? ' checked' : '');
+    div.innerHTML = `<div class="tracker-check">${checked ? '✓' : ''}</div><span class="tracker-emoji">${a.emoji}</span><div class="tracker-info"><div class="tracker-name">${a.name}</div><div class="tracker-dose">${a.dose}</div></div>`;
+    div.onclick = () => { trackerData[currentWeek][i] = !trackerData[currentWeek][i]; renderTracker(); };
+    list.appendChild(div);
+  });
+  const count = Object.values(trackerData[currentWeek]).filter(Boolean).length;
+  document.getElementById('tracker-score-num').textContent = count + '/' + aliments.length;
+}
+
+const allAliments = [
+  {emoji:'🐟',name:'Sardines & Maquereau'},
+  {emoji:'🌰',name:'Noix de Grenoble'},
+  {emoji:'🫒',name:"Huile d'olive extra vierge"},
+  {emoji:'🫐',name:'Myrtilles'},
+  {emoji:'🟡',name:'Curcuma (avec poivre + gras)'},
+  {emoji:'🥦',name:'Brocoli'},
+  {emoji:'🫘',name:'Lentilles'},
+  {emoji:'🥛',name:'Kéfir'},
+  {emoji:'🧄',name:'Ail & Oignon'},
+  {emoji:'🫚',name:'Gingembre frais'},
+  {emoji:'🍵',name:'Thé vert'},
+  {emoji:'🍫',name:'Chocolat noir +70%'},
+  {emoji:'🥚',name:'Œufs plein air (code 0 ou 1)'},
+  {emoji:'🌱',name:'Graines de lin moulues'},
+  {emoji:'🥬',name:'Épinards'},
+];
+let checkData = {};
+
+function renderChecklist() {
+  const list = document.getElementById('check-list');
+  list.innerHTML = '';
+  allAliments.forEach((a, i) => {
+    const checked = checkData[i] || false;
+    const li = document.createElement('li');
+    li.className = checked ? 'done' : '';
+    li.innerHTML = `<div class="check-box">${checked ? '✓' : ''}</div><span style="font-size:1.1rem;">${a.emoji}</span><span class="check-text">${a.name}</span>`;
+    li.onclick = () => { checkData[i] = !checkData[i]; renderChecklist(); };
+    list.appendChild(li);
+  });
+  const count = Object.values(checkData).filter(Boolean).length;
+  document.getElementById('check-bar').style.width = (count/15*100) + '%';
+  document.getElementById('check-score').textContent = count + ' / 15 aliments intégrés dans tes habitudes';
+}
+
+renderTracker();
+renderChecklist();
+</script>
+</body>
+</html>
