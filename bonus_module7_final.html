@@ -1,0 +1,1079 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bonus Module 7 — Mon profil hormonal</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Lato:wght@300;400;700&display=swap');
+
+  :root {
+    --vert: #3a7d56;
+    --vert-clair: #e6f4ed;
+    --vert-bg: #f3faf6;
+    --or: #c9943a;
+    --or-clair: #fdf3e3;
+    --texte: #1a2e20;
+    --gris: #5a6b5e;
+    --gris-p: #f0f4f1;
+    --blanc: #ffffff;
+    --rouge: #c0392b;
+    --rouge-clair: #fdf0ee;
+    --violet: #7b4fa8;
+    --violet-clair: #f3eefb;
+    --bleu: #3a6ea8;
+    --bleu-clair: #eef4fb;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Lato', sans-serif;
+    background: var(--vert-bg);
+    min-height: 100vh;
+    padding: 24px 16px;
+    color: var(--texte);
+  }
+
+  .container { max-width: 780px; margin: 0 auto; }
+
+  /* HEADER */
+  .header {
+    text-align: center;
+    margin-bottom: 32px;
+    background: var(--vert);
+    border-radius: 16px;
+    padding: 32px 24px 28px;
+  }
+
+  .header .tag {
+    display: inline-block;
+    background: rgba(255,255,255,0.2);
+    color: #fff;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 5px 16px;
+    border-radius: 20px;
+    margin-bottom: 14px;
+  }
+
+  .header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    color: #fff;
+    line-height: 1.2;
+    margin-bottom: 10px;
+  }
+
+  .header h1 span { color: #f0d080; }
+
+  .header p {
+    color: rgba(255,255,255,0.75);
+    font-size: 0.92rem;
+    line-height: 1.6;
+    max-width: 500px;
+    margin: 0 auto 8px;
+  }
+
+  .disclaimer {
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 8px;
+    padding: 10px 16px;
+    font-size: 0.78rem;
+    color: rgba(255,255,255,0.65);
+    max-width: 560px;
+    margin: 12px auto 0;
+    line-height: 1.5;
+  }
+
+  /* SECTIONS */
+  .section { display: none; }
+  .section.active { display: block; }
+
+  /* PROGRESS */
+  .progress-bar-wrap {
+    background: rgba(58,125,86,0.15);
+    border-radius: 20px;
+    height: 6px;
+    margin-bottom: 28px;
+    overflow: hidden;
+  }
+
+  .progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--vert), var(--or));
+    border-radius: 20px;
+    transition: width 0.4s ease;
+  }
+
+  /* QUESTION */
+  .question-block {
+    background: var(--blanc);
+    border: 1px solid #dde8e0;
+    border-radius: 14px;
+    padding: 28px;
+    margin-bottom: 20px;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+  }
+
+  .question-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05rem;
+    color: var(--texte);
+    margin-bottom: 18px;
+    line-height: 1.5;
+  }
+
+  .question-sub {
+    font-size: 0.82rem;
+    color: var(--or);
+    margin-bottom: 16px;
+    font-style: italic;
+  }
+
+  .options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .option-btn {
+    background: var(--gris-p);
+    border: 1.5px solid #dde8e0;
+    border-radius: 10px;
+    padding: 13px 18px;
+    color: var(--gris);
+    font-family: 'Lato', sans-serif;
+    font-size: 0.9rem;
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.2s;
+    line-height: 1.4;
+  }
+
+  .option-btn:hover {
+    background: var(--vert-clair);
+    border-color: var(--vert);
+    color: var(--vert);
+  }
+
+  .option-btn.selected {
+    background: var(--vert-clair);
+    border-color: var(--vert);
+    color: var(--vert);
+    font-weight: 700;
+  }
+
+  /* SLIDER */
+  .slider-wrap { margin: 12px 0 8px; }
+
+  .slider-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.75rem;
+    color: var(--gris);
+    margin-bottom: 8px;
+  }
+
+  input[type=range] {
+    width: 100%;
+    accent-color: var(--vert);
+    cursor: pointer;
+    height: 6px;
+  }
+
+  .slider-value {
+    text-align: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    color: var(--or);
+    margin-top: 10px;
+    font-weight: 700;
+  }
+
+  .nav-quiz {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 12px;
+  }
+
+  .btn {
+    background: var(--gris-p);
+    border: 1px solid #dde8e0;
+    color: var(--gris);
+    padding: 12px 28px;
+    border-radius: 10px;
+    font-family: 'Lato', sans-serif;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.5px;
+  }
+
+  .btn:hover { background: var(--vert-clair); border-color: var(--vert); color: var(--vert); }
+  .btn:disabled { opacity: 0.3; cursor: default; }
+
+  .btn-primary {
+    background: var(--vert);
+    color: #fff;
+    font-weight: 700;
+    border: none;
+    padding: 12px 28px;
+    border-radius: 10px;
+    font-family: 'Lato', sans-serif;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+
+  .btn-primary:hover { opacity: 0.88; }
+
+  .q-counter {
+    font-size: 0.82rem;
+    color: var(--gris);
+  }
+
+  /* RESULTS */
+  .results-header {
+    text-align: center;
+    margin-bottom: 28px;
+  }
+
+  .results-header h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.7rem;
+    color: var(--texte);
+    margin-bottom: 8px;
+  }
+
+  .results-header h2 span { color: var(--vert); }
+
+  .profile-card {
+    background: var(--blanc);
+    border: 2px solid var(--vert);
+    border-radius: 16px;
+    padding: 28px;
+    margin-bottom: 24px;
+    text-align: center;
+    box-shadow: 0 2px 12px rgba(58,125,86,0.1);
+  }
+
+  .profile-emoji { font-size: 3rem; margin-bottom: 12px; }
+
+  .profile-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    color: var(--vert);
+    margin-bottom: 8px;
+  }
+
+  .profile-desc {
+    font-size: 0.9rem;
+    color: var(--gris);
+    line-height: 1.65;
+    max-width: 500px;
+    margin: 0 auto 16px;
+  }
+
+  /* SCORES */
+  .scores-section {
+    background: var(--blanc);
+    border: 1px solid #dde8e0;
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin-bottom: 24px;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+  }
+
+  .scores-title {
+    font-family: 'Playfair Display', serif;
+    color: var(--texte);
+    font-size: 0.95rem;
+    margin-bottom: 16px;
+    text-align: center;
+  }
+
+  .score-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+
+  .score-label {
+    width: 160px;
+    font-size: 0.82rem;
+    color: var(--gris);
+    flex-shrink: 0;
+    line-height: 1.3;
+  }
+
+  .score-bar-wrap {
+    flex: 1;
+    background: var(--gris-p);
+    border-radius: 20px;
+    height: 10px;
+    overflow: hidden;
+  }
+
+  .score-bar-fill {
+    height: 100%;
+    border-radius: 20px;
+    transition: width 1.2s ease;
+    width: 0%;
+  }
+
+  .score-pct {
+    width: 40px;
+    text-align: right;
+    font-size: 0.8rem;
+    font-family: 'Playfair Display', serif;
+    color: var(--or);
+  }
+
+  /* TABS */
+  .tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+  }
+
+  .tab-btn {
+    background: var(--blanc);
+    border: 1.5px solid #dde8e0;
+    color: var(--gris);
+    padding: 8px 18px;
+    border-radius: 20px;
+    font-size: 0.82rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: 'Lato', sans-serif;
+  }
+
+  .tab-btn.active, .tab-btn:hover {
+    background: var(--vert-clair);
+    border-color: var(--vert);
+    color: var(--vert);
+    font-weight: 700;
+  }
+
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+
+  .reco-section {
+    background: var(--blanc);
+    border: 1px solid #dde8e0;
+    border-radius: 12px;
+    padding: 22px 24px;
+    margin-bottom: 16px;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+  }
+
+  .reco-section-title {
+    font-family: 'Playfair Display', serif;
+    color: var(--vert);
+    font-size: 1rem;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .reco-item {
+    display: flex;
+    gap: 14px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--gris-p);
+    align-items: flex-start;
+  }
+
+  .reco-item:last-child { border-bottom: none; padding-bottom: 0; }
+  .reco-icon { font-size: 1.2rem; flex-shrink: 0; margin-top: 2px; }
+  .reco-text { flex: 1; }
+  .reco-name { font-size: 0.9rem; color: var(--texte); font-weight: 700; margin-bottom: 3px; }
+  .reco-detail { font-size: 0.8rem; color: var(--gris); line-height: 1.5; }
+
+  /* PLAN 7 JOURS */
+  .plan-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 10px;
+    margin-top: 12px;
+  }
+
+  .plan-day {
+    background: var(--vert-clair);
+    border: 1px solid #b8d9c4;
+    border-radius: 10px;
+    padding: 14px;
+  }
+
+  .plan-day-title {
+    font-family: 'Playfair Display', serif;
+    color: var(--vert);
+    font-size: 0.85rem;
+    margin-bottom: 8px;
+    font-weight: 700;
+  }
+
+  .plan-day ul { padding: 0; list-style: none; }
+
+  .plan-day li {
+    font-size: 0.78rem;
+    color: var(--gris);
+    padding: 3px 0 3px 14px;
+    position: relative;
+    line-height: 1.4;
+  }
+
+  .plan-day li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--vert);
+    font-size: 0.7rem;
+    top: 4px;
+  }
+
+  /* AUTRES PROFILS */
+  .other-profiles {
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid #dde8e0;
+  }
+
+  .other-profiles-title {
+    font-size: 0.85rem;
+    color: var(--gris);
+    margin-bottom: 12px;
+    text-align: center;
+  }
+
+  .other-btns {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .other-btn {
+    background: var(--blanc);
+    border: 1.5px solid #dde8e0;
+    color: var(--gris);
+    padding: 7px 16px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: 'Lato', sans-serif;
+  }
+
+  .other-btn:hover {
+    background: var(--vert-clair);
+    border-color: var(--vert);
+    color: var(--vert);
+  }
+
+  .retry-btn {
+    display: block;
+    width: 100%;
+    text-align: center;
+    margin-top: 20px;
+    padding: 14px;
+    background: var(--gris-p);
+    border: 1px solid #dde8e0;
+    border-radius: 12px;
+    color: var(--gris);
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: all 0.2s;
+    font-family: 'Lato', sans-serif;
+  }
+
+  .retry-btn:hover { background: var(--vert-clair); border-color: var(--vert); color: var(--vert); }
+
+  .disc-bas {
+    background: var(--or-clair);
+    border: 1px solid #e8c97a;
+    border-radius: 8px;
+    padding: 10px 16px;
+    font-size: 0.78rem;
+    color: #7a4a10;
+    margin-top: 12px;
+    line-height: 1.5;
+  }
+
+  @media (max-width: 500px) {
+    .header h1 { font-size: 1.5rem; }
+    .plan-grid { grid-template-columns: 1fr 1fr; }
+    .score-label { width: 120px; font-size: 0.75rem; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="header">
+    <div class="tag">Bonus · Module 7</div>
+    <h1>Quel est ton <span>profil hormonal ?</span></h1>
+    <p>15 questions pour identifier ton système prioritaire — thyroïde, résistance à l'insuline ou dominance en œstrogènes — et recevoir des recommandations personnalisées.</p>
+    <div class="disclaimer">⚠️ Ce test est un outil d'auto-évaluation éducatif. Il ne remplace pas un bilan médical ou un avis professionnel de santé. En cas de doute, consultez votre médecin.</div>
+  </div>
+
+  <!-- QUIZ -->
+  <div class="section active" id="quizSection">
+    <div class="progress-bar-wrap">
+      <div class="progress-bar-fill" id="progressBar" style="width:0%"></div>
+    </div>
+    <div id="questionContainer"></div>
+    <div class="nav-quiz">
+      <button class="btn" id="prevQ" onclick="prevQuestion()" disabled>← Retour</button>
+      <span class="q-counter" id="qCounter">1 / 15</span>
+      <button class="btn-primary" id="nextQ" onclick="nextQuestion()">Suivant →</button>
+    </div>
+  </div>
+
+  <!-- RESULTS -->
+  <div class="section" id="resultsSection"></div>
+
+</div>
+
+<script>
+const questions = [
+  // THYROÏDE
+  {
+    id: 1,
+    text: "Comment tu décrirais ton niveau d'énergie en ce moment ?",
+    sub: "Pense à ton énergie sur la journée entière — pas juste le matin.",
+    type: "single",
+    options: [
+      { text: "Bonne énergie — quelques baisses ponctuelles mais globalement bien", scores: { equi: 2 } },
+      { text: "Énergie irrégulière — des jours corrects, des jours difficiles", scores: { modere: 2 } },
+      { text: "Fatigue chronique — même après avoir dormi, je me traîne toute la journée", scores: { thyroide: 3 } },
+      { text: "Épuisée complète — tout me demande un effort énorme", scores: { thyroide: 3, oestrogenes: 1 } },
+    ]
+  },
+  {
+    id: 2,
+    text: "Tu as souvent froid alors que les autres ont chaud ?",
+    sub: "Mains et pieds froids, frilosité excessive — signe classique de thyroïde ralentie.",
+    type: "single",
+    options: [
+      { text: "Non — ma température me semble normale", scores: { equi: 1 } },
+      { text: "Parfois — je suis un peu plus frileuse que les autres", scores: { modere: 1 } },
+      { text: "Souvent — j'ai froid alors que les autres ont chaud", scores: { thyroide: 2 } },
+      { text: "Oui constamment — mains et pieds glacés même en été", scores: { thyroide: 3 } },
+    ]
+  },
+  {
+    id: 3,
+    text: "Tes cheveux et ta peau ces derniers mois ?",
+    type: "single",
+    options: [
+      { text: "Stables — pas de changement notable", scores: { equi: 1 } },
+      { text: "Peau un peu plus sèche, cheveux légèrement cassants", scores: { modere: 1 } },
+      { text: "Chute de cheveux notable et/ou peau très sèche", scores: { thyroide: 2 } },
+      { text: "Changement clair — chute importante, peau sèche, ongles cassants", scores: { thyroide: 3 } },
+    ]
+  },
+  {
+    id: 4,
+    text: "Ton poids résiste-t-il malgré tes efforts ?",
+    sub: "Difficultés à perdre du poids même avec une alimentation soignée.",
+    type: "single",
+    options: [
+      { text: "Non — mon poids répond aux efforts que je fais", scores: { equi: 2 } },
+      { text: "C'est difficile — j'ai du mal à perdre mais ça bouge un peu", scores: { modere: 1, insuline: 1 } },
+      { text: "Très difficile — rien ne bouge malgré mes efforts", scores: { thyroide: 2, insuline: 2 } },
+      { text: "Prise de poids inexpliquée malgré une alimentation correcte", scores: { thyroide: 3 } },
+    ]
+  },
+  // INSULINE
+  {
+    id: 5,
+    text: "Tu as des fringales — surtout après les repas ?",
+    sub: "Pas une petite faim avant le prochain repas — une vraie envie de sucre ou de manger après avoir déjà mangé.",
+    type: "single",
+    options: [
+      { text: "Rarement — je passe facilement d'un repas à l'autre", scores: { equi: 2 } },
+      { text: "Parfois — des envies de sucre surtout en après-midi", scores: { modere: 1, insuline: 1 } },
+      { text: "Souvent — fringales après les repas, besoin de sucre régulièrement", scores: { insuline: 2 } },
+      { text: "Très souvent — je grignote en permanence, j'ai du mal à résister", scores: { insuline: 3 } },
+    ]
+  },
+  {
+    id: 6,
+    text: "Est-ce que tu as une somnolence après le déjeuner ?",
+    type: "single",
+    options: [
+      { text: "Non — je me sens bien après manger", scores: { equi: 1 } },
+      { text: "Parfois — surtout après un repas copieux ou riche en féculents", scores: { insuline: 1 } },
+      { text: "Presque tous les jours — j'ai du mal à tenir après le déjeuner", scores: { insuline: 2 } },
+      { text: "Oui systématiquement — j'ai une envie irrésistible de dormir après manger", scores: { insuline: 3 } },
+    ]
+  },
+  {
+    id: 7,
+    text: "Comment évalues-tu tes fringales et envies de sucre au quotidien ?",
+    type: "slider",
+    min: 0, max: 10,
+    label_min: "Aucune envie de sucre", label_max: "Envies constantes et incontrôlables",
+    defaultVal: 3
+  },
+  {
+    id: 8,
+    text: "Est-ce que tu ressens des vertiges, de l'irritabilité ou des tremblements si tu n'as pas mangé depuis quelques heures ?",
+    sub: "Ce qu'on appelle les hypoglycémies réactionnelles.",
+    type: "single",
+    options: [
+      { text: "Non — je peux attendre sans problème", scores: { equi: 2 } },
+      { text: "Parfois — je deviens un peu irritable si ça fait longtemps", scores: { insuline: 1 } },
+      { text: "Souvent — vertiges ou irritabilité si je ne mange pas à heure fixe", scores: { insuline: 2 } },
+      { text: "Oui nettement — tremblements, malaise, besoin urgent de manger", scores: { insuline: 3 } },
+    ]
+  },
+  // OESTROGÈNES
+  {
+    id: 9,
+    text: "Est-ce que tu as des seins douloureux avant tes règles ?",
+    sub: "Si tu es ménopausée — remplace par : est-ce que tu avais ce symptôme avant ou as-tu d'autres douleurs cycliques ?",
+    type: "single",
+    options: [
+      { text: "Non ou très rarement", scores: { equi: 1 } },
+      { text: "Parfois — sensibilité légère à modérée", scores: { modere: 1 } },
+      { text: "Souvent — douleurs marquées qui apparaissent une semaine avant", scores: { oestrogenes: 2 } },
+      { text: "Presque toujours — douleurs qui gênent vraiment", scores: { oestrogenes: 3 } },
+    ]
+  },
+  {
+    id: 10,
+    text: "Tes règles sont-elles douloureuses ou abondantes ?",
+    type: "single",
+    options: [
+      { text: "Non — mes règles se passent bien", scores: { equi: 1 } },
+      { text: "Parfois douloureuses ou un peu abondantes", scores: { oestrogenes: 1 } },
+      { text: "Règles douloureuses et/ou très abondantes régulièrement", scores: { oestrogenes: 2 } },
+      { text: "Très douloureuses et/ou très abondantes — endométriose ou fibromes diagnostiqués ou suspectés", scores: { oestrogenes: 3 } },
+    ]
+  },
+  {
+    id: 11,
+    text: "Est-ce que tu as un syndrome prémenstruel marqué ?",
+    sub: "Irritabilité, anxiété, sautes d'humeur, rétention d'eau, pleurs — en deuxième partie de cycle.",
+    type: "single",
+    options: [
+      { text: "Peu ou pas de SPM", scores: { equi: 2 } },
+      { text: "SPM modéré — quelques jours difficiles avant les règles", scores: { oestrogenes: 1 } },
+      { text: "SPM fort — humeur, énergie, gonflement très marqués", scores: { oestrogenes: 3 } },
+      { text: "SPM sévère — les jours avant les règles sont vraiment difficiles à vivre", scores: { oestrogenes: 3 } },
+    ]
+  },
+  {
+    id: 12,
+    text: "Est-ce que tu as tendance à prendre du poids aux hanches et aux cuisses ?",
+    sub: "Zone dite 'gynoïde' — souvent liée à une dominance en œstrogènes.",
+    type: "single",
+    options: [
+      { text: "Non — ma répartition me semble équilibrée", scores: { equi: 1 } },
+      { text: "Un peu — tendance à prendre là en priorité", scores: { oestrogenes: 1 } },
+      { text: "Oui nettement — hanches, cuisses, fesses qui résistent à tout", scores: { oestrogenes: 2 } },
+      { text: "Très marqué — cette zone est impossible à faire bouger malgré les efforts", scores: { oestrogenes: 3 } },
+    ]
+  },
+  // TRANSVERSAL
+  {
+    id: 13,
+    text: "Comment tu vis le stress au quotidien ?",
+    sub: "Le stress chronique impacte les 3 systèmes — thyroïde, insuline et hormones.",
+    type: "single",
+    options: [
+      { text: "Globalement gérable — du stress mais je récupère", scores: { equi: 2 } },
+      { text: "Souvent tendue ou débordée, difficile de décompresser", scores: { oestrogenes: 2, thyroide: 1 } },
+      { text: "Épuisement nerveux — je tourne à vide", scores: { thyroide: 2, oestrogenes: 1 } },
+      { text: "Stress intense et chronique depuis longtemps", scores: { oestrogenes: 3, thyroide: 2, insuline: 1 } },
+    ]
+  },
+  {
+    id: 14,
+    text: "Ton sommeil ces derniers mois ?",
+    type: "single",
+    options: [
+      { text: "Correct — je me réveille globalement reposée", scores: { equi: 2 } },
+      { text: "Quelques nuits difficiles mais ça reste gérable", scores: { modere: 1 } },
+      { text: "Sommeil irrégulier — réveils nocturnes ou endormissement difficile", scores: { thyroide: 1, oestrogenes: 1 } },
+      { text: "Non réparateur — je me réveille fatiguée quoi qu'il arrive", scores: { thyroide: 2 } },
+    ]
+  },
+  {
+    id: 15,
+    text: "Si tu devais choisir la phrase qui te correspond le mieux en ce moment :",
+    type: "single",
+    options: [
+      { text: "\"Je me sens épuisée, froide, et j'ai l'impression que mon corps tourne au ralenti\"", scores: { thyroide: 3 } },
+      { text: "\"J'ai des fringales, du ventre, et ma glycémie semble en montagnes russes\"", scores: { insuline: 3 } },
+      { text: "\"Mon cycle me mène la vie dure — SPM, douleurs, humeur en dents de scie\"", scores: { oestrogenes: 3 } },
+      { text: "\"Globalement ça va — j'ai quelques choses à améliorer mais pas de déséquilibre majeur\"", scores: { equi: 3 } },
+    ]
+  }
+];
+
+// ===================== PROFILS =====================
+const profiles = {
+  thyroide: {
+    emoji: "🦋",
+    name: "Profil Thyroïde",
+    desc: "Ton système thyroïdien est probablement ton levier prioritaire. L'inflammation perturbe la conversion de T4 en T3 — la forme active de l'hormone thyroïdienne — et les symptômes que tu décris (fatigue, frilosité, cheveux, poids résistant) sont des signaux classiques. Ce n'est pas forcément visible dans un bilan standard — c'est pour ça qu'une TSH normale ne veut pas forcément dire que tout va bien.",
+    color: "#4a9e6e",
+    reco: {
+      alimentation: [
+        { icon: "🥜", name: "2 noix du Brésil par jour", detail: "Le sélénium est indispensable à la conversion T4→T3. Deux noix couvrent les besoins quotidiens. Simple, naturel, efficace. Ne pas en manger plus — le sélénium est toxique en excès." },
+        { icon: "🐟", name: "Poisson gras 2-3 fois par semaine", detail: "Sardines, maquereau, saumon — riches en iode (indispensable à la synthèse des hormones thyroïdiennes) et en oméga-3 anti-inflammatoires qui soutiennent la conversion T4→T3." },
+        { icon: "🥦", name: "Légumes crucifères 3x/semaine", detail: "Brocoli, chou, choux de Bruxelles — soutiennent le foie qui convertit T4 en T3. À cuire légèrement de préférence si tu as une thyroïde sensible (goitrogènes réduits à la cuisson)." },
+        { icon: "🚫", name: "Réduire les aliments inflammatoires", detail: "Sucres raffinés, huiles végétales industrielles, ultra-transformés — entretiennent l'inflammation qui bloque la conversion thyroïdienne. C'est le geste numéro 1." },
+      ],
+      phyto: [
+        { icon: "🌿", name: "Ashwagandha — le soir", detail: "Plante adaptogène qui soutient la fonction thyroïdienne et réduit le cortisol qui perturbe la conversion T4→T3. Cure de 1 à 3 mois. Contre-indiquée en cas d'hyperthyroïdie — demander un avis médical." },
+        { icon: "🌱", name: "Zinc — 15 à 25 mg/jour", detail: "Cofacteur essentiel des enzymes de conversion thyroïdienne. Souvent déficitaire chez les femmes présentant une hypothyroïdie fonctionnelle. Prendre pendant ou après les repas." },
+        { icon: "🧲", name: "Magnésium bisglycinate le soir", detail: "Réduit le cortisol qui perturbe la thyroïde, améliore le sommeil réparateur indispensable à la récupération. 300-400 mg le soir." },
+        { icon: "☀️", name: "Vitamine D — faire doser", detail: "La carence en vitamine D est fréquente dans l'hypothyroïdie et dans la thyroïdite de Hashimoto. Faire doser par le médecin et supplémenter si nécessaire (objectif 60-80 ng/mL)." },
+      ],
+      gestes: [
+        { icon: "🔥", name: "Réduire l'inflammation — priorité absolue", detail: "Tout ce qu'on fait dans cette formation agit directement sur la thyroïde. L'intestin, le stress, le sommeil — ce sont des leviers thyroïdiens autant qu'inflammatoires." },
+        { icon: "🚶", name: "Marche en extérieur 20-30 min/jour", detail: "La marche régulière stimule doucement le métabolisme sans surcharger les surrénales. L'exposition à la lumière naturelle régule aussi le cortisol qui perturbe la thyroïde." },
+        { icon: "🏋️", name: "Éviter le sport intensif si fatigue sévère", detail: "L'intensité excessive augmente le cortisol et aggrave la conversion T4→T3. Privilégier yoga, pilates, natation douce en phase de récupération." },
+        { icon: "🔬", name: "Demander un bilan thyroïdien complet", detail: "TSH + T3 libre + T4 libre + anticorps anti-TPO. La TSH seule ne suffit pas. En cas de résistance du médecin — expliquer tes symptômes précisément. C'est une demande légitime." },
+      ]
+    },
+    plan: [
+      { day: "Jours 1-2", actions: ["Commencer 2 noix du Brésil chaque matin", "Ajouter du poisson gras cette semaine", "Note tes symptômes principaux pour comparaison"] },
+      { day: "Jours 3-4", actions: ["Commencer magnésium bisglycinate le soir", "Légumes crucifères dans un repas", "Marche 20 min en extérieur"] },
+      { day: "Jours 5-6", actions: ["Commencer ashwagandha le soir", "Réduire les sucres raffinés", "Demander bilan thyroïdien complet si pas fait"] },
+      { day: "Jour 7", actions: ["Observer : énergie améliorée ?", "Frilosité réduite ?", "Continuer 3 mois minimum"] },
+    ]
+  },
+
+  insuline: {
+    emoji: "🍬",
+    name: "Profil Résistance à l'insuline",
+    desc: "Tes réponses pointent vers une sensibilité à l'insuline réduite. Les fringales après les repas, la somnolence post-prandiale, le ventre résistant — ce sont des signaux que ton corps envoie. La bonne nouvelle — c'est le profil qui répond le mieux et le plus rapidement aux changements d'alimentation et de rythme de vie. Des gestes simples, pratiqués régulièrement, peuvent vraiment changer les choses en quelques semaines.",
+    color: "#c9943a",
+    reco: {
+      alimentation: [
+        { icon: "🍳", name: "Protéines + lipides à chaque repas sans exception", detail: "Ne jamais manger des glucides seuls. Un œuf, du poisson, de l'avocat, des noix — à chaque repas et même en-cas. La même tartine avec un œuf et de l'avocat a un impact glycémique totalement différent de la tartine seule." },
+        { icon: "🥗", name: "Légumes en premier à chaque repas", detail: "Commencer par les légumes avant les féculents réduit de 30 à 40% le pic glycémique. L'ordre des aliments dans l'assiette change l'impact sur la glycémie." },
+        { icon: "🍵", name: "Vinaigre de cidre avant les repas", detail: "1 cuillère à soupe dans un grand verre d'eau avant le déjeuner. Ralentit l'absorption intestinale des glucides et réduit le pic glycémique post-repas de façon mesurable." },
+        { icon: "🚫", name: "Supprimer les boissons sucrées — y compris les jus", detail: "Les boissons sucrées provoquent le pic glycémique le plus brutal car sans fibres, sans protéines, sans graisses pour tamponner. Eau, tisanes, eau pétillante à la place." },
+      ],
+      phyto: [
+        { icon: "🌿", name: "Berbérine — 500 mg avant les repas principaux", detail: "Molécule végétale aux effets comparables à la metformine sur la sensibilité à l'insuline. À prendre 15-30 min avant les repas. Cure de 3 mois. Demander un avis médical si traitement en cours." },
+        { icon: "🌱", name: "Chrome picolinate — 200 µg/jour", detail: "Cofacteur du récepteur à l'insuline. Réduit les envies de sucre et améliore la sensibilité des cellules à l'insuline. À prendre le matin avec le petit-déjeuner." },
+        { icon: "🧲", name: "Magnésium bisglycinate le soir", detail: "La résistance à l'insuline est souvent associée à une carence en magnésium — et inversement le magnésium améliore la sensibilité à l'insuline. 300-400 mg le soir." },
+        { icon: "🫐", name: "Cannelle dans les repas", detail: "La cannelle de Ceylan (pas la cassia) a des effets documentés sur la sensibilité à l'insuline et la glycémie post-prandiale. Une cuillère à café dans les yaourts, compotes, boissons chaudes." },
+      ],
+      gestes: [
+        { icon: "🚶", name: "Marcher 10-15 min après le dîner — chaque soir", detail: "Les muscles captent le glucose directement pendant l'effort, sans avoir besoin d'insuline. C'est le geste le plus simple et le plus documenté pour améliorer la glycémie post-prandiale. Effet mesurable dès la première semaine." },
+        { icon: "⏰", name: "Espacer les repas — arrêter de grignoter", detail: "Chaque prise alimentaire stimule l'insuline. Les pauses entre les repas permettent à l'insulinémie de redescendre et restaurent progressivement la sensibilité cellulaire." },
+        { icon: "💪", name: "Musculation ou résistance 2-3x/semaine", detail: "Les muscles sont les plus grands consommateurs de glucose. Plus tu as de masse musculaire — plus tu captes le glucose efficacement. Squats, pompes, élastiques — accessible à la maison." },
+        { icon: "😴", name: "Optimiser le sommeil", detail: "Une seule nuit de mauvais sommeil réduit la sensibilité à l'insuline de 25%. Le sommeil est un levier glycémique direct souvent négligé." },
+      ]
+    },
+    plan: [
+      { day: "Jours 1-2", actions: ["Ajouter protéines + lipides à chaque repas", "Supprimer les boissons sucrées", "Marche 10 min après le dîner"] },
+      { day: "Jours 3-4", actions: ["Légumes en premier à chaque repas", "Vinaigre de cidre avant le déjeuner", "Commencer magnésium le soir"] },
+      { day: "Jours 5-6", actions: ["Commencer chrome picolinate le matin", "Cannelle dans le petit-déjeuner", "Identifier les grignotages à supprimer"] },
+      { day: "Jour 7", actions: ["Observer : somnolence post-repas réduite ?", "Fringales diminuées ?", "Continuer 3 mois minimum"] },
+    ]
+  },
+
+  oestrogenes: {
+    emoji: "⚖️",
+    name: "Profil Dominance en Œstrogènes",
+    desc: "Tes réponses indiquent une probable dominance en œstrogènes par rapport à la progestérone. Ce n'est pas forcément avoir trop d'œstrogènes — c'est avoir la progestérone trop basse pour équilibrer. Et rappelle-toi — la progestérone est naturellement anti-inflammatoire. Quand elle chute, l'inflammation monte directement. Les symptômes que tu décris ne sont pas normaux — ils sont fréquents. Ce n'est pas la même chose.",
+    color: "#7b4fa8",
+    reco: {
+      alimentation: [
+        { icon: "🥦", name: "Légumes crucifères — 3 à 4 fois par semaine", detail: "Brocoli, chou, choux de Bruxelles, kale, roquette — contiennent du DIM (diindolylméthane) qui oriente le métabolisme des œstrogènes vers des voies saines. C'est le geste alimentaire le plus direct sur la dominance en œstrogènes." },
+        { icon: "🌱", name: "Graines de lin moulues — 1 cuillère à soupe par jour", detail: "Riches en lignanes qui modulent les récepteurs œstrogéniques. Moudre soi-même (blender) ou acheter déjà moulues. À mettre dans un yaourt, une soupe, une compote. Effet progressif sur 4 à 6 semaines." },
+        { icon: "🐟", name: "Oméga-3 anti-inflammatoires prioritaires", detail: "Les prostaglandines pro-inflammatoires sont amplifiées par la dominance en œstrogènes. Les oméga-3 (petits poissons gras, graines de chia, huile de lin) contrebalancent directement cet effet." },
+        { icon: "🌿", name: "Réduire l'alcool — même modéré", detail: "L'alcool surcharge le foie et réduit sa capacité à éliminer les œstrogènes usagés. Même 1 à 2 verres par jour ont un impact mesurable sur l'équilibre hormonal." },
+      ],
+      phyto: [
+        { icon: "🌸", name: "Gattilier (Vitex agnus-castus)", detail: "La plante de référence de la dominance en œstrogènes. Stimule la production de LH et soutient la progestérone en phase lutéale. À prendre le matin à jeun pendant au moins 3 mois. Ne pas prendre en même temps qu'une contraception hormonale." },
+        { icon: "🌿", name: "Chardon-Marie + Artichaut pour le foie", detail: "Le foie est chargé d'éliminer les œstrogènes usagés. Le soutenir directement accélère l'élimination. Cure de 1 mois à renouveler, surtout en cas de foie surchargé (alimentation riche, alcool, médicaments)." },
+        { icon: "🧲", name: "Magnésium bisglycinate — matin et soir", detail: "Le magnésium est cofacteur de la synthèse de progestérone et réduit le cortisol qui vole la progestérone. 200 mg matin + 200 mg soir. La forme bisglycinate est la mieux tolérée." },
+        { icon: "🌱", name: "Zinc — 15 à 25 mg/jour", detail: "Nécessaire à la synthèse de la progestérone et à la détoxification hépatique des œstrogènes. Prendre pendant le repas du soir." },
+      ],
+      gestes: [
+        { icon: "🧘", name: "Réduire le stress chronique — priorité absolue", detail: "Le stress chronique vole la progestérone (vol de prégnénolone). Cohérence cardiaque 3×5 min par jour, activités parasympathiques, coucher fixe. Ce n'est pas optionnel — c'est la base du rééquilibrage hormonal." },
+        { icon: "🚿", name: "Prendre soin du transit — 1 selle par jour minimum", detail: "Un transit lent favorise la réabsorption des œstrogènes usagés dans le côlon. Fibres, hydratation, mouvement. Si transit difficile — psyllium blond 1 cuillère à café dans un verre d'eau." },
+        { icon: "🏭", name: "Réduire les xéno-œstrogènes", detail: "Plastiques alimentaires → verre ou inox. Scanner tes cosmétiques avec INCI Beauty (déodorant, crème de jour, shampooing en priorité). Eau filtrée si robinet chargé. Un changement par semaine." },
+        { icon: "💚", name: "Cohérence cardiaque — 3×5 min par jour", detail: "Réduit le cortisol qui vole la progestérone. Méthode 365 : 3 fois par jour, 6 respirations/min, 5 minutes. App Respirelax recommandée. Effet mesurable sur le cortisol en 4 à 6 semaines." },
+      ]
+    },
+    plan: [
+      { day: "Jours 1-2", actions: ["Commencer graines de lin moulues chaque matin", "Cohérence cardiaque 3x/jour 5 min", "Légumes crucifères dans un repas"] },
+      { day: "Jours 3-4", actions: ["Commencer magnésium matin + soir", "Scanner tes 3 cosmétiques principaux", "Remplacer une boisson sucrée par de l'eau"] },
+      { day: "Jours 5-6", actions: ["Commencer Gattilier le matin à jeun", "Chardon-Marie + Artichaut pour le foie", "Identifier et réduire 1 source de stress"] },
+      { day: "Jour 7", actions: ["Observer : SPM amélioré le cycle prochain ?", "Gonflement réduit ?", "Continuer 3 mois — le Gattilier demande du temps"] },
+    ]
+  },
+
+  equi: {
+    emoji: "🌱",
+    name: "Profil Équilibré",
+    desc: "Ton système hormonal semble globalement équilibré — c'est une excellente base. Les quelques symptômes que tu peux avoir sont ponctuels et ne semblent pas refléter de déséquilibre majeur. L'objectif maintenant est de maintenir cet équilibre et de renforcer progressivement ton organisme pour le rendre encore plus résistant à l'inflammation.",
+    color: "#3a7d56",
+    reco: {
+      alimentation: [
+        { icon: "🥗", name: "Anti-inflammatoire au quotidien", detail: "Chaque repas est une opportunité. Oméga-3 (petits poissons gras, noix, graines de chia), légumes colorés, curcuma + poivre, réduction des sucres raffinés. La prévention vaut mieux que la guérison." },
+        { icon: "🥦", name: "Crucifères et graines de lin régulièrement", detail: "Même sans déséquilibre — ces aliments soutiennent le foie et l'équilibre hormonal en continu. 2-3 fois par semaine de crucifères, une cuillère de graines de lin quelques fois par semaine." },
+        { icon: "🐟", name: "Poisson gras 2-3 fois par semaine", detail: "Le DHA des poissons gras est le meilleur investissement alimentaire pour la santé hormonale et nerveuse à long terme. Sardines, maquereau, anchois — les plus accessibles et les moins contaminés." },
+        { icon: "💧", name: "Hydratation correcte", detail: "1,5 à 2L d'eau par jour. La déshydratation perturbe tous les systèmes hormono-métaboliques. Eau filtrée ou minérale de qualité." },
+      ],
+      phyto: [
+        { icon: "🌿", name: "Cure préventive d'adaptogène 2x par an", detail: "Ashwagandha ou rhodiola — 2 à 3 mois par an (automne et printemps). Renforce la résistance au stress et maintient l'équilibre hormonal même en l'absence de déséquilibre déclaré." },
+        { icon: "🧲", name: "Magnésium en cure saisonnière", detail: "Automne et hiver notamment — les périodes de moins de lumière et de plus de stress augmentent les besoins. 300-400 mg le soir pendant 2 à 3 mois." },
+        { icon: "☀️", name: "Vitamine D — maintenir un bon niveau", detail: "Faire doser une fois par an et maintenir entre 60 et 80 ng/mL. La vitamine D joue un rôle dans l'immunité, les hormones et la prévention de l'inflammation." },
+      ],
+      gestes: [
+        { icon: "💚", name: "Cohérence cardiaque préventive", detail: "Même sans symptômes — 5 minutes le soir pour maintenir l'équilibre neuro-hormonal. Prévention active de l'accumulation de stress chronique." },
+        { icon: "🌙", name: "Protéger le sommeil", detail: "Le sommeil est ton meilleur régulateur hormonal. Heure de coucher fixe, chambre fraîche, pas d'écrans 45 min avant. Maintenir cette hygiène même quand tout va bien." },
+        { icon: "🚶", name: "Activité physique régulière et variée", detail: "Ton organisme est prêt à être renforcé. Mix de cardio modéré, musculation légère et étirements. L'objectif — maintenir la sensibilité à l'insuline et la masse musculaire avec l'âge." },
+        { icon: "🌿", name: "Réduire progressivement les perturbateurs", detail: "Même sans déséquilibre apparent — l'exposition cumulée aux xéno-œstrogènes agit sur le long terme. Un changement par mois : cosmétique, contenant alimentaire, eau..." },
+      ]
+    },
+    plan: [
+      { day: "Jours 1-2", actions: ["Cohérence cardiaque le soir 5 min", "Graines de lin dans le petit-déjeuner", "Poisson gras dans la semaine"] },
+      { day: "Jours 3-4", actions: ["Commencer magnésium le soir", "Scanner tes cosmétiques principaux", "Sortie en nature ou marche 30 min"] },
+      { day: "Jours 5-6", actions: ["Réduire un aliment ultra-transformé", "Vitamine D — faire doser si pas fait", "Planifier une activité ressourçante/semaine"] },
+      { day: "Jour 7", actions: ["Bilan : qu'est-ce qui te ressource vraiment ?", "Planifier ça chaque semaine", "Envisager cure adaptogène préventive"] },
+    ]
+  }
+};
+
+// ===================== STATE =====================
+let answers = {};
+let currentQ = 0;
+
+// ===================== RENDER =====================
+function renderQuestion(idx) {
+  const q = questions[idx];
+  const container = document.getElementById('questionContainer');
+  const progress = Math.round((idx / questions.length) * 100);
+  document.getElementById('progressBar').style.width = progress + '%';
+  document.getElementById('qCounter').textContent = (idx + 1) + ' / ' + questions.length;
+  document.getElementById('prevQ').disabled = idx === 0;
+  document.getElementById('nextQ').textContent = idx === questions.length - 1 ? 'Voir mes résultats →' : 'Suivant →';
+
+  let html = `<div class="question-block"><div class="question-text">${q.text}</div>`;
+  if (q.sub) html += `<div class="question-sub">${q.sub}</div>`;
+
+  if (q.type === 'single') {
+    html += `<div class="options">`;
+    q.options.forEach((opt, i) => {
+      const sel = answers[q.id] && answers[q.id].index === i ? ' selected' : '';
+      html += `<button class="option-btn${sel}" onclick="selectOption(${q.id}, ${i})">${opt.text}</button>`;
+    });
+    html += `</div>`;
+  } else if (q.type === 'slider') {
+    const val = answers[q.id] !== undefined ? answers[q.id].val : q.defaultVal;
+    html += `<div class="slider-wrap">
+      <div class="slider-labels"><span>${q.label_min}</span><span>${q.label_max}</span></div>
+      <input type="range" min="${q.min}" max="${q.max}" value="${val}" oninput="updateSlider(${q.id}, this.value)">
+      <div class="slider-value" id="sliderVal_${q.id}">${val} / 10</div>
+    </div>`;
+    if (!answers[q.id]) answers[q.id] = { val: q.defaultVal };
+  }
+
+  html += `</div>`;
+  container.innerHTML = html;
+}
+
+function selectOption(qId, optIdx) {
+  answers[qId] = { index: optIdx };
+  document.querySelectorAll('.option-btn').forEach((btn, i) => {
+    btn.classList.toggle('selected', i === optIdx);
+  });
+}
+
+function updateSlider(qId, val) {
+  answers[qId] = { val: parseInt(val) };
+  document.getElementById('sliderVal_' + qId).textContent = val + ' / 10';
+}
+
+function nextQuestion() {
+  if (currentQ === questions.length - 1) { showResults(); return; }
+  currentQ++;
+  renderQuestion(currentQ);
+}
+
+function prevQuestion() {
+  if (currentQ > 0) { currentQ--; renderQuestion(currentQ); }
+}
+
+// ===================== SCORES =====================
+function calcScores() {
+  const scores = { thyroide: 0, insuline: 0, oestrogenes: 0, equi: 0, modere: 0 };
+  const sliderQ = questions.find(q => q.type === 'slider');
+  if (sliderQ && answers[sliderQ.id]) {
+    const val = answers[sliderQ.id].val;
+    if (val >= 7) scores.insuline += 3;
+    else if (val >= 5) scores.insuline += 2;
+    else if (val >= 3) scores.insuline += 1;
+  }
+  questions.forEach(q => {
+    if (q.type === 'single' && answers[q.id] !== undefined) {
+      const opt = q.options[answers[q.id].index];
+      Object.entries(opt.scores).forEach(([k, v]) => { scores[k] = (scores[k] || 0) + v; });
+    }
+  });
+  return scores;
+}
+
+function getDominant(scores) {
+  const keys = ['thyroide', 'insuline', 'oestrogenes', 'equi'];
+  return keys.reduce((a, b) => scores[a] >= scores[b] ? a : b);
+}
+
+// ===================== RESULTS =====================
+function showResults(forceProfile) {
+  document.getElementById('quizSection').classList.remove('active');
+  const resultsDiv = document.getElementById('resultsSection');
+  resultsDiv.classList.add('active');
+
+  const scores = calcScores();
+  const dominant = forceProfile || getDominant(scores);
+  const prof = profiles[dominant];
+
+  const scoreKeys = ['thyroide', 'insuline', 'oestrogenes', 'equi'];
+  const scoreLabels = { thyroide: '🦋 Thyroïde', insuline: '🍬 Résistance insuline', oestrogenes: '⚖️ Dominance œstrogènes', equi: '🌱 Équilibré' };
+  const scoreColors = { thyroide: '#4a9e6e', insuline: '#c9943a', oestrogenes: '#7b4fa8', equi: '#3a7d56' };
+  const otherProfiles = Object.keys(profiles).filter(p => p !== dominant);
+
+  let html = `
+  <div class="results-header">
+    <h2>Ton profil dominant : <span>${prof.name}</span></h2>
+  </div>
+
+  <div class="profile-card">
+    <div class="profile-emoji">${prof.emoji}</div>
+    <div class="profile-name">${prof.name}</div>
+    <p class="profile-desc">${prof.desc}</p>
+  </div>
+
+  <div class="scores-section">
+    <div class="scores-title">Distribution de tes scores</div>
+    ${scoreKeys.map(k => `
+      <div class="score-row">
+        <div class="score-label">${scoreLabels[k]}</div>
+        <div class="score-bar-wrap">
+          <div class="score-bar-fill" id="bar_${k}" style="background:${scoreColors[k]};width:0%"></div>
+        </div>
+        <div class="score-pct" id="pct_${k}">0</div>
+      </div>`).join('')}
+  </div>
+
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('alim', this)">🥗 Alimentation</button>
+    <button class="tab-btn" onclick="switchTab('phyto', this)">🌿 Phyto & Micro</button>
+    <button class="tab-btn" onclick="switchTab('gestes', this)">💚 Gestes santé</button>
+    <button class="tab-btn" onclick="switchTab('plan', this)">📅 Plan 7 jours</button>
+  </div>
+
+  <div id="tab_alim" class="tab-content active">
+    <div class="reco-section">
+      <div class="reco-section-title">🥗 Alimentation adaptée à ton profil</div>
+      ${prof.reco.alimentation.map(r => `
+        <div class="reco-item">
+          <div class="reco-icon">${r.icon}</div>
+          <div class="reco-text"><div class="reco-name">${r.name}</div><div class="reco-detail">${r.detail}</div></div>
+        </div>`).join('')}
+    </div>
+  </div>
+
+  <div id="tab_phyto" class="tab-content">
+    <div class="reco-section">
+      <div class="reco-section-title">🌿 Phytothérapie & Micronutrition</div>
+      ${prof.reco.phyto.map(r => `
+        <div class="reco-item">
+          <div class="reco-icon">${r.icon}</div>
+          <div class="reco-text"><div class="reco-name">${r.name}</div><div class="reco-detail">${r.detail}</div></div>
+        </div>`).join('')}
+    </div>
+    <div class="disc-bas">⚠️ Ces recommandations sont données à titre informatif et ne remplacent pas un avis médical. Consultez votre médecin avant toute supplémentation, surtout si vous prenez des médicaments ou si vous êtes enceinte.</div>
+  </div>
+
+  <div id="tab_gestes" class="tab-content">
+    <div class="reco-section">
+      <div class="reco-section-title">💚 Gestes santé quotidiens</div>
+      ${prof.reco.gestes.map(r => `
+        <div class="reco-item">
+          <div class="reco-icon">${r.icon}</div>
+          <div class="reco-text"><div class="reco-name">${r.name}</div><div class="reco-detail">${r.detail}</div></div>
+        </div>`).join('')}
+    </div>
+  </div>
+
+  <div id="tab_plan" class="tab-content">
+    <div class="reco-section">
+      <div class="reco-section-title">📅 Tes 7 premiers jours</div>
+      <div class="plan-grid">
+        ${prof.plan.map(d => `
+          <div class="plan-day">
+            <div class="plan-day-title">${d.day}</div>
+            <ul>${d.actions.map(a => `<li>${a}</li>`).join('')}</ul>
+          </div>`).join('')}
+      </div>
+    </div>
+  </div>
+
+  <div class="other-profiles">
+    <div class="other-profiles-title">Consulter les recommandations d'un autre profil</div>
+    <div class="other-btns">
+      ${otherProfiles.map(p => `<button class="other-btn" onclick="showResults('${p}')">${profiles[p].emoji} ${profiles[p].name}</button>`).join('')}
+    </div>
+  </div>
+
+  <button class="retry-btn" onclick="resetQuiz()">↩ Refaire le test</button>`;
+
+  resultsDiv.innerHTML = html;
+
+  const max = Math.max(...scoreKeys.map(k => scores[k]));
+  setTimeout(() => {
+    scoreKeys.forEach(k => {
+      const pct = max > 0 ? Math.round((scores[k] / max) * 100) : 0;
+      const bar = document.getElementById('bar_' + k);
+      const pctEl = document.getElementById('pct_' + k);
+      if (bar) bar.style.width = pct + '%';
+      if (pctEl) pctEl.textContent = scores[k] + ' pts';
+    });
+  }, 100);
+
+  window.scrollTo(0, 0);
+}
+
+function switchTab(name, btn) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab_' + name).classList.add('active');
+  btn.classList.add('active');
+}
+
+function resetQuiz() {
+  answers = {};
+  currentQ = 0;
+  document.getElementById('resultsSection').classList.remove('active');
+  document.getElementById('resultsSection').innerHTML = '';
+  document.getElementById('quizSection').classList.add('active');
+  renderQuestion(0);
+  window.scrollTo(0, 0);
+}
+
+renderQuestion(0);
+</script>
+</body>
+</html>
