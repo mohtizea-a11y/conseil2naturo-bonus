@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bonus Module 4 — Mon profil de sommeil</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Lato:wght@300;400;700&display=swap');
+
+  :root {
+    --vert: #2d6a4f;
+    --vert-fond: #1b4332;
+    --or: #d4a843;
+    --or-clair: #f0c060;
+    --blanc: #f8f5ee;
+    --rouge: #e05252;
+    --bleu: #52a8e0;
+    --violet: #9b59b6;
+    --corail: #e07a52;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Lato', sans-serif;
+    background: #111;
+    min-height: 100vh;
+    padding: 24px 16px;
+    color: var(--blanc);
+  }
+
+  .container { max-width: 780px; margin: 0 auto; }
+
+  .header { text-align: center; margin-bottom: 32px; }
+  .header .tag {
+    display: inline-block;
+    background: rgba(212,168,67,0.15);
+    border: 1px solid rgba(212,168,67,0.4);
+    color: var(--or);
+    font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+    padding: 5px 16px; border-radius: 20px; margin-bottom: 14px;
+  }
+  .header h1 { font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--blanc); line-height: 1.2; margin-bottom: 10px; }
+  .header h1 span { color: var(--or); }
+  .header p { color: rgba(248,245,238,0.65); font-size: 0.92rem; line-height: 1.6; max-width: 500px; margin: 0 auto 8px; }
+  .disclaimer {
+    background: rgba(212,168,67,0.08); border: 1px solid rgba(212,168,67,0.2);
+    border-radius: 8px; padding: 10px 16px; font-size: 0.78rem;
+    color: rgba(248,245,238,0.55); max-width: 560px; margin: 12px auto 0; line-height: 1.5;
+  }
+
+  .section { display: none; }
+  .section.active { display: block; }
+
+  .progress-bar-wrap { background: rgba(255,255,255,0.07); border-radius: 20px; height: 6px; margin-bottom: 28px; overflow: hidden; }
+  .progress-bar-fill { height: 100%; background: linear-gradient(90deg, var(--vert), var(--or)); border-radius: 20px; transition: width 0.4s ease; }
+
+  .question-block {
+    background: rgba(255,255,255,0.04); border: 1px solid rgba(212,168,67,0.18);
+    border-radius: 14px; padding: 28px; margin-bottom: 20px;
+  }
+  .question-text { font-family: 'Playfair Display', serif; font-size: 1.05rem; color: var(--blanc); margin-bottom: 18px; line-height: 1.5; }
+  .question-sub { font-size: 0.82rem; color: rgba(212,168,67,0.75); margin-bottom: 16px; font-style: italic; }
+
+  .options { display: flex; flex-direction: column; gap: 10px; }
+  .option-btn {
+    background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 10px; padding: 13px 18px; color: rgba(248,245,238,0.8);
+    font-family: 'Lato', sans-serif; font-size: 0.9rem; cursor: pointer;
+    text-align: left; transition: all 0.2s; line-height: 1.4;
+  }
+  .option-btn:hover { background: rgba(212,168,67,0.1); border-color: rgba(212,168,67,0.35); color: var(--blanc); }
+  .option-btn.selected { background: rgba(212,168,67,0.15); border-color: var(--or); color: var(--blanc); }
+
+  .slider-wrap { margin: 12px 0 8px; }
+  .slider-labels { display: flex; justify-content: space-between; font-size: 0.75rem; color: rgba(248,245,238,0.45); margin-bottom: 8px; }
+  input[type=range] { width: 100%; accent-color: var(--or); cursor: pointer; height: 6px; }
+  .slider-value { text-align: center; font-family: 'Playfair Display', serif; font-size: 1.3rem; color: var(--or); margin-top: 10px; font-weight: 700; }
+
+  .nav-quiz { display: flex; justify-content: space-between; align-items: center; margin-top: 12px; }
+  .btn {
+    background: rgba(212,168,67,0.15); border: 1px solid rgba(212,168,67,0.4);
+    color: var(--or); padding: 12px 28px; border-radius: 10px;
+    font-family: 'Lato', sans-serif; font-size: 0.9rem; cursor: pointer;
+    transition: all 0.2s; letter-spacing: 0.5px;
+  }
+  .btn:hover { background: rgba(212,168,67,0.28); }
+  .btn:disabled { opacity: 0.3; cursor: default; }
+  .btn-primary { background: linear-gradient(135deg, var(--or), #b8860b); color: #1a1a1a; font-weight: 700; border: none; }
+  .btn-primary:hover { opacity: 0.9; }
+  .q-counter { font-size: 0.82rem; color: rgba(212,168,67,0.6); }
+
+  /* RESULTS */
+  .results-header { text-align: center; margin-bottom: 28px; }
+  .results-header h2 { font-family: 'Playfair Display', serif; font-size: 1.7rem; color: var(--blanc); margin-bottom: 8px; }
+  .results-header h2 span { color: var(--or); }
+
+  .profile-card {
+    background: linear-gradient(135deg, rgba(43,106,79,0.35), rgba(27,67,50,0.5));
+    border: 1px solid rgba(212,168,67,0.35);
+    border-radius: 16px; padding: 28px; margin-bottom: 24px; text-align: center;
+  }
+  .profile-emoji { font-size: 3rem; margin-bottom: 12px; }
+  .profile-name { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: var(--or); margin-bottom: 8px; }
+  .profile-desc { font-size: 0.9rem; color: rgba(248,245,238,0.75); line-height: 1.65; max-width: 500px; margin: 0 auto 16px; }
+
+  .scores-section {
+    background: rgba(255,255,255,0.03); border: 1px solid rgba(212,168,67,0.15);
+    border-radius: 12px; padding: 20px 24px; margin-bottom: 24px;
+  }
+  .scores-title { font-family: 'Playfair Display', serif; color: var(--or); font-size: 0.95rem; margin-bottom: 16px; text-align: center; }
+  .score-row { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+  .score-label { width: 160px; font-size: 0.82rem; color: rgba(248,245,238,0.75); flex-shrink: 0; line-height: 1.3; }
+  .score-bar-wrap { flex: 1; background: rgba(255,255,255,0.06); border-radius: 20px; height: 10px; overflow: hidden; }
+  .score-bar-fill { height: 100%; border-radius: 20px; transition: width 1.2s ease; width: 0%; }
+  .score-pct { width: 40px; text-align: right; font-size: 0.8rem; font-family: 'Playfair Display', serif; color: var(--or); }
+
+  .tabs { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+  .tab-btn {
+    background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+    color: rgba(248,245,238,0.6); padding: 8px 18px; border-radius: 20px;
+    font-size: 0.82rem; cursor: pointer; transition: all 0.2s;
+  }
+  .tab-btn.active, .tab-btn:hover { background: rgba(212,168,67,0.15); border-color: rgba(212,168,67,0.4); color: var(--or); }
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+
+  .reco-section {
+    background: rgba(255,255,255,0.03); border: 1px solid rgba(212,168,67,0.15);
+    border-radius: 12px; padding: 22px 24px; margin-bottom: 16px;
+  }
+  .reco-section-title { font-family: 'Playfair Display', serif; color: var(--or); font-size: 1rem; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+  .reco-item { display: flex; gap: 14px; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.05); align-items: flex-start; }
+  .reco-item:last-child { border-bottom: none; padding-bottom: 0; }
+  .reco-icon { font-size: 1.2rem; flex-shrink: 0; margin-top: 2px; }
+  .reco-text { flex: 1; }
+  .reco-name { font-size: 0.9rem; color: var(--blanc); font-weight: 700; margin-bottom: 3px; }
+  .reco-detail { font-size: 0.8rem; color: rgba(248,245,238,0.6); line-height: 1.5; }
+
+  .plan-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; margin-top: 12px; }
+  .plan-day { background: rgba(255,255,255,0.04); border: 1px solid rgba(212,168,67,0.18); border-radius: 10px; padding: 14px; }
+  .plan-day-title { font-family: 'Playfair Display', serif; color: var(--or); font-size: 0.85rem; margin-bottom: 8px; font-weight: 700; }
+  .plan-day ul { padding: 0; list-style: none; }
+  .plan-day li { font-size: 0.78rem; color: rgba(248,245,238,0.7); padding: 3px 0 3px 14px; position: relative; line-height: 1.4; }
+  .plan-day li::before { content: '→'; position: absolute; left: 0; color: var(--or); font-size: 0.7rem; top: 4px; }
+
+  .other-profiles { margin-top: 24px; padding-top: 20px; border-top: 1px solid rgba(212,168,67,0.15); }
+  .other-profiles-title { font-size: 0.85rem; color: rgba(248,245,238,0.5); margin-bottom: 12px; text-align: center; }
+  .other-btns { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
+  .other-btn {
+    background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+    color: rgba(248,245,238,0.6); padding: 7px 16px; border-radius: 20px;
+    font-size: 0.8rem; cursor: pointer; transition: all 0.2s;
+  }
+  .other-btn:hover { background: rgba(212,168,67,0.1); border-color: rgba(212,168,67,0.3); color: var(--or); }
+
+  .retry-btn {
+    display: block; width: 100%; text-align: center; margin-top: 20px; padding: 14px;
+    background: rgba(212,168,67,0.1); border: 1px solid rgba(212,168,67,0.3);
+    border-radius: 12px; color: rgba(212,168,67,0.8); cursor: pointer;
+    font-size: 0.85rem; transition: all 0.2s;
+  }
+  .retry-btn:hover { background: rgba(212,168,67,0.18); }
+
+  @media (max-width: 500px) {
+    .header h1 { font-size: 1.5rem; }
+    .plan-grid { grid-template-columns: 1fr 1fr; }
+    .score-label { width: 120px; font-size: 0.75rem; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="header">
+    <div class="tag">Bonus · Module 4</div>
+    <h1>Quel est ton <span>profil de sommeil</span> ?</h1>
+    <p>15 questions pour identifier ce qui perturbe vraiment ton sommeil et recevoir des recommandations personnalisées en hygiène de vie, phyto et micronutrition.</p>
+    <div class="disclaimer">⚠️ Ce test est un outil d'auto-évaluation éducatif. Il ne remplace pas un bilan médical ou un avis professionnel de santé. En cas de doute, consultez votre médecin.</div>
+  </div>
+
+  <div class="section active" id="quizSection">
+    <div class="progress-bar-wrap">
+      <div class="progress-bar-fill" id="progressBar" style="width:0%"></div>
+    </div>
+    <div id="questionContainer"></div>
+    <div class="nav-quiz">
+      <button class="btn" id="prevQ" onclick="prevQuestion()" disabled>← Retour</button>
+      <span class="q-counter" id="qCounter">1 / 15</span>
+      <button class="btn btn-primary" id="nextQ" onclick="nextQuestion()">Suivant →</button>
+    </div>
+  </div>
+
+  <div class="section" id="resultsSection"></div>
+
+</div>
+
+<script>
+const questions = [
+  {
+    id: 1,
+    text: "Comment se passe ton endormissement en général ?",
+    type: "single",
+    options: [
+      { text: "Difficile — les pensées s'enchaînent, le corps est tendu, impossible de déconnecter", scores: { cortisol: 3 } },
+      { text: "Je m'endors facilement mais je me réveille plusieurs fois dans la nuit", scores: { carences: 3 } },
+      { text: "Je m'endors très tôt, parfois avant même de vouloir dormir — épuisée", scores: { inflam: 2, carences: 1 } },
+      { text: "Endormissement correct, pas de problème particulier", scores: { equi: 2 } },
+    ]
+  },
+  {
+    id: 2,
+    text: "Comment te sens-tu le matin au réveil, même après une nuit de 7-8 heures ?",
+    type: "single",
+    options: [
+      { text: "Épuisée — comme si je n'avais pas dormi du tout", scores: { inflam: 3 } },
+      { text: "Fatiguée pendant la première heure, j'ai besoin de temps pour démarrer", scores: { circadien: 2 } },
+      { text: "Ça varie — certains matins bien, d'autres non sans raison claire", scores: { carences: 2 } },
+      { text: "Bien reposée globalement", scores: { equi: 2 } },
+    ]
+  },
+  {
+    id: 3,
+    text: "Est-ce que tu passes en revue ta journée, ta to-do list ou tes inquiétudes au moment de t'endormir ?",
+    type: "single",
+    options: [
+      { text: "Oui, presque chaque soir — impossible d'arrêter de penser", scores: { cortisol: 3 } },
+      { text: "Souvent, surtout en période chargée ou stressante", scores: { cortisol: 2 } },
+      { text: "De temps en temps", scores: { cortisol: 1 } },
+      { text: "Rarement — je déconnecte facilement une fois au lit", scores: { equi: 2 } },
+    ]
+  },
+  {
+    id: 4,
+    text: "Tes horaires de coucher et de lever sont-ils réguliers ?",
+    type: "single",
+    options: [
+      { text: "Non — ça varie de plus d'une heure selon les jours et beaucoup le week-end", scores: { circadien: 3 } },
+      { text: "Plutôt irréguliers — surtout le week-end, je décale beaucoup", scores: { circadien: 2 } },
+      { text: "Assez réguliers avec quelques variations", scores: { circadien: 1 } },
+      { text: "Oui, je me couche et me lève à la même heure tous les jours", scores: { equi: 2 } },
+    ]
+  },
+  {
+    id: 5,
+    text: "Utilises-tu des écrans (téléphone, ordi, TV) dans l'heure qui précède le coucher ?",
+    type: "single",
+    options: [
+      { text: "Oui, souvent jusqu'au moment de poser la tête sur l'oreiller", scores: { circadien: 3 } },
+      { text: "La plupart du temps — séries, scroll, travail le soir", scores: { circadien: 2 } },
+      { text: "Parfois, mais j'essaie de limiter", scores: { circadien: 1 } },
+      { text: "Non — j'arrête les écrans au moins 1h avant de dormir", scores: { equi: 2 } },
+    ]
+  },
+  {
+    id: 6,
+    text: "À quelle heure prends-tu ton dernier café, thé caféiné ou boisson énergisante ?",
+    type: "single",
+    options: [
+      { text: "Après 16h — parfois même en soirée", scores: { cortisol: 3 } },
+      { text: "Entre 14h et 16h", scores: { cortisol: 2 } },
+      { text: "Avant 14h", scores: { cortisol: 0 } },
+      { text: "Je ne consomme pas de caféine", scores: { equi: 1 } },
+    ]
+  },
+  {
+    id: 7,
+    text: "Te réveilles-tu la nuit ? Si oui, à quelle heure et dans quel état ?",
+    type: "single",
+    options: [
+      { text: "Oui, vers 3h-4h du matin — esprit agité, hypoglycémie possible, difficile de me rendormir", scores: { carences: 3 } },
+      { text: "Oui, plusieurs fois par nuit sans raison apparente — sommeil très fragmenté", scores: { carences: 2, inflam: 1 } },
+      { text: "Oui, au moindre bruit — je dors en hypervigilance, jamais vraiment profond", scores: { cortisol: 3 } },
+      { text: "Non, je dors en continu sans réveil", scores: { equi: 2 } },
+    ]
+  },
+  {
+    id: 8,
+    text: "As-tu des douleurs, tensions musculaires ou une sensation de corps lourd et inflammé quand tu te couches ?",
+    type: "single",
+    options: [
+      { text: "Oui, souvent — articulations, muscles, corps qui « brûle » diffusément", scores: { inflam: 3 } },
+      { text: "Parfois — surtout en période de stress ou de fatigue intense", scores: { inflam: 2 } },
+      { text: "Rarement — uniquement après un effort physique", scores: { inflam: 1 } },
+      { text: "Non, mon corps est détendu au moment de dormir", scores: { equi: 2 } },
+    ]
+  },
+  {
+    id: 9,
+    text: "Prends-tu du magnésium régulièrement le soir ?",
+    type: "single",
+    options: [
+      { text: "Non, jamais — et je n'ai pas vérifié mon statut depuis longtemps", scores: { carences: 3 } },
+      { text: "Non, mais je suis probablement carencée (crampes, fatigue, stress)", scores: { carences: 2 } },
+      { text: "Oui, parfois — mais de façon irrégulière", scores: { carences: 1 } },
+      { text: "Oui, tous les soirs de façon régulière", scores: { equi: 1 } },
+    ]
+  },
+  {
+    id: 10,
+    text: "Comment évalues-tu ton niveau de stress quotidien en ce moment ?",
+    type: "slider",
+    min: 0, max: 10,
+    label_min: "😌 Très calme",
+    label_max: "😰 Très élevé",
+    defaultVal: 5
+  },
+  {
+    id: 11,
+    text: "T'exposes-tu à la lumière naturelle le matin dans les 30 minutes après ton lever ?",
+    type: "single",
+    options: [
+      { text: "Rarement ou jamais — je reste à l'intérieur le matin", scores: { circadien: 3 } },
+      { text: "De temps en temps, pas régulièrement", scores: { circadien: 2 } },
+      { text: "Oui, quand le temps le permet", scores: { circadien: 1 } },
+      { text: "Oui, c'est une habitude quotidienne", scores: { equi: 1 } },
+    ]
+  },
+  {
+    id: 12,
+    text: "Ta chambre est-elle fraîche (18-19°C), dans l'obscurité totale et silencieuse ?",
+    type: "single",
+    options: [
+      { text: "Non — elle est souvent trop chaude, trop lumineuse ou trop bruyante", scores: { circadien: 2 } },
+      { text: "Partiellement — j'ai amélioré certains points mais pas tous", scores: { circadien: 1 } },
+      { text: "Oui, ma chambre est bien optimisée pour le sommeil", scores: { equi: 1 } },
+    ]
+  },
+  {
+    id: 13,
+    text: "As-tu des symptômes inflammatoires au quotidien (ballonnements, douleurs diffuses, fatigue post-repas, peau réactive) ?",
+    type: "single",
+    options: [
+      { text: "Oui, plusieurs de ces symptômes régulièrement", scores: { inflam: 3 } },
+      { text: "Quelques-uns, surtout en période de stress ou de mauvaise alimentation", scores: { inflam: 2 } },
+      { text: "Rarement", scores: { inflam: 1 } },
+      { text: "Non, peu ou pas de symptômes de ce type", scores: { equi: 1 } },
+    ]
+  },
+  {
+    id: 14,
+    text: "As-tu déjà remarqué que ton sommeil se dégrade autour de ton cycle menstruel ou en période hormonale particulière ?",
+    type: "single",
+    options: [
+      { text: "Oui nettement — les nuits avant les règles ou en milieu de cycle sont catastrophiques", scores: { inflam: 2, carences: 1 } },
+      { text: "Un peu — légères variations mais pas dramatique", scores: { inflam: 1 } },
+      { text: "Non, mon cycle n'impacte pas mon sommeil", scores: { equi: 1 } },
+      { text: "Je ne suis plus concernée par le cycle (ménopause ou autre)", scores: { inflam: 1 } },
+    ]
+  },
+  {
+    id: 15,
+    text: "Si tu devais résumer ta nuit type en une phrase, ce serait plutôt :",
+    type: "single",
+    options: [
+      { text: "\"Je n'arrive pas à m'endormir — ma tête n'arrête pas\"", scores: { cortisol: 3 } },
+      { text: "\"Je dors mais je me réveille et je ne récupère pas\"", scores: { carences: 2, inflam: 1 } },
+      { text: "\"Mon sommeil est incohérent — jamais à la même heure, jamais le même résultat\"", scores: { circadien: 3 } },
+      { text: "\"Je dors correctement avec des hauts et des bas\"", scores: { equi: 2 } },
+    ]
+  }
+];
+
+const profiles = {
+  cortisol: {
+    emoji: "😰",
+    name: "Profil Cortisol Élevé — sommeil parasité par le stress",
+    desc: "Ton principal frein au sommeil, c'est le cortisol. Il reste trop élevé le soir — à cause du stress, des pensées qui tournent, des excitants ou des écrans. La mélatonine ne peut pas monter. Tu t'endors difficilement, tu dors en hypervigilance, tu te réveilles au moindre bruit. Tant que le cortisol ne redescend pas le soir, aucune plante ne suffira seule.",
+    color: "#e05252",
+    reco: {
+      alimentation: [
+        { icon: "☕", name: "Caféine stoppée avant 14h", detail: "La caféine inhibe la glande pinéale pendant 6 à 8 heures. Un café à 15h perturbe encore ta mélatonine à 22h. Remplacer progressivement par du décaféiné ou des tisanes en après-midi." },
+        { icon: "🥩", name: "Repas du soir protéiné et léger", detail: "Les protéines au dîner apportent le tryptophane nécessaire à la fabrication de sérotonine puis mélatonine. Éviter les repas riches en glucides rapides le soir — ils provoquent un pic suivi d'une hypoglycémie vers 3-4h du matin." },
+        { icon: "🚫", name: "Pas d'alcool le soir", detail: "L'alcool donne une fausse impression de relaxation mais fragmente le sommeil profond et paradoxal. Il fait monter le cortisol en milieu de nuit." },
+        { icon: "🌿", name: "Tisane apaisante 30 min avant de dormir", detail: "Mélisse si anxiété + problèmes digestifs associés. Camomille pour son effet sédatif doux. Passiflore si les pensées tournent au moment de dormir. Ces tisanes peuvent se combiner." },
+      ],
+      phyto: [
+        { icon: "🌿", name: "Ashwagandha — le soir", detail: "La plante adaptogène de choix pour le cortisol élevé. Elle module l'axe HPA et réduit le cortisol sanguin. À prendre sous forme d'extrait standardisé en withanolides (25 à 50mg), le soir après le dîner. Effets perceptibles en 2 à 4 semaines. Cure de 1 à 3 mois." },
+        { icon: "🌸", name: "Passiflore — le soir", detail: "Réduit l'anxiété nocturne via les récepteurs GABA. Idéale quand le problème c'est les pensées intrusives au moment de s'endormir. En extrait standardisé ou tisane." },
+        { icon: "🧲", name: "Magnésium bisglycinate — le soir", detail: "300 à 400mg le soir. Cofacteur de la mélatonine, régulateur direct du système nerveux. Le stress consomme le magnésium — une carence aggrave les difficultés d'endormissement et les réveils nocturnes." },
+        { icon: "💊", name: "Mélatonine à micro-dose si besoin", detail: "Si l'ashwagandha et l'hygiène de vie ne suffisent pas, 0,1 à 0,5mg de mélatonine 30 min avant de dormir peut aider à recaler l'horloge. Commencer par la dose la plus faible." },
+      ],
+      gestes: [
+        { icon: "💚", name: "Cohérence cardiaque le soir — 5 min", detail: "5 secondes d'inspiration, 5 secondes d'expiration, pendant 5 minutes. Fait baisser le cortisol en quelques minutes. App Respirelax recommandée. À faire assis ou allongé dans la pénombre." },
+        { icon: "🕯️", name: "Mode 'coucher de soleil' à 20h", detail: "Remplacer les plafonniers par des lampes d'ambiance orange, des bougies ou une lumière rouge. Arrêt des écrans ou port de lunettes filtrantes. Ton cerveau doit recevoir les mêmes signaux lumineux qu'au coucher du soleil." },
+        { icon: "📝", name: "Journal de décharge avant de dormir", detail: "5 minutes pour écrire tout ce qui tourne dans ta tête — sans chercher à résoudre. Une fois sur papier, le cerveau peut lâcher. Simple et efficace pour briser le cycle rumination-insomnie." },
+        { icon: "🚶", name: "Marche légère le soir", detail: "20 à 30 minutes de marche douce après le repas — pas de sport intense après 19h. La marche légère aide le cortisol à redescendre sans stimuler les catécholamines." },
+        { icon: "📵", name: "Téléphone hors de la chambre", detail: "Les champs électromagnétiques perturbent la glande pinéale et la production de mélatonine. Idéalement, le téléphone sort de la chambre ou est en mode avion." },
+      ]
+    },
+    plan: [
+      { day: "Jours 1-2", actions: ["Installer Respirelax", "Cohérence cardiaque le soir 5 min", "Arrêt caféine avant 14h"] },
+      { day: "Jours 3-4", actions: ["Lumières tamisées dès 20h", "Téléphone hors chambre", "Commencer magnésium bisglycinate le soir"] },
+      { day: "Jours 5-6", actions: ["Commencer ashwagandha le soir", "Journal de décharge 5 min avant lit", "Tisane mélisse ou passiflore"] },
+      { day: "Jour 7", actions: ["Endormissement plus facile ?", "Moins de pensées intrusives ?", "Continuer 3 à 4 semaines"] },
+    ]
+  },
+
+  circadien: {
+    emoji: "⏰",
+    name: "Profil Horloge Déréglée — rythme circadien perturbé",
+    desc: "Ton horloge interne a perdu ses repères. Les horaires irréguliers, le manque de lumière le matin et l'excès de lumière bleue le soir brouillent les signaux de ton cerveau. Résultat : la mélatonine ne monte pas au bon moment, tu n'as jamais vraiment sommeil à la bonne heure, et ton sommeil profond est décalé et insuffisant.",
+    color: "#e0a852",
+    reco: {
+      alimentation: [
+        { icon: "☀️", name: "Petit-déjeuner à heure fixe", detail: "L'heure du premier repas est un des signaux les plus puissants pour recaler l'horloge circadienne. Même si tu n'as pas faim, manger à la même heure chaque matin ancre ton rythme." },
+        { icon: "🚫", name: "Pas de repas après 20h", detail: "Manger tard retarde l'horloge interne et perturbe la sécrétion de mélatonine. Le corps en mode digestion ne peut pas entrer en mode sommeil. Dîner au moins 2h avant de dormir." },
+        { icon: "🌿", name: "Tryptophane au dîner", detail: "Dinde, poulet, œufs, graines de courge, banane — le tryptophane est le précurseur de la sérotonine puis de la mélatonine. Un dîner riche en tryptophane améliore la qualité du sommeil de nuit." },
+        { icon: "💧", name: "Hydratation le matin, pas le soir", detail: "Boire beaucoup le soir provoque des réveils nocturnes. Concentre ta consommation d'eau sur la matinée et l'après-midi." },
+      ],
+      phyto: [
+        { icon: "💊", name: "Mélatonine à micro-dose — recalibreur d'horloge", detail: "0,1 à 0,5mg de mélatonine 30 min avant l'heure cible de coucher. À cette dose, elle n'agit pas comme somnifère mais comme recalibreur d'horloge circadienne. Prendre à la même heure chaque soir pendant 2 à 3 semaines." },
+        { icon: "🧲", name: "Magnésium bisglycinate — le soir", detail: "300 à 400mg le soir. Le magnésium est cofacteur de la mélatonine et régule les rythmes circadiens. Sa carence aggrave les dérèglements de l'horloge." },
+        { icon: "🌿", name: "Valériane + passiflore si endormissement difficile", detail: "La valériane améliore la qualité du sommeil profond, la passiflore réduit l'anxiété du coucher. En association, elles sont plus efficaces qu'en solo. En extrait standardisé, 30 min avant de dormir." },
+        { icon: "☀️", name: "Vitamine D — à faire doser", detail: "Un déficit en vitamine D perturbe les rythmes circadiens et la qualité du sommeil. Faire doser par son médecin, surtout entre octobre et avril." },
+      ],
+      gestes: [
+        { icon: "☀️", name: "Lumière naturelle dans les 30 min après le lever", detail: "C'est le signal n°1 pour ancrer l'horloge. 10 à 15 minutes dehors sans lunettes de soleil suffisent. Même par temps couvert. Si impossible, lampe de luminothérapie (10 000 lux) pendant le petit-déjeuner." },
+        { icon: "🕙", name: "Coucher fixe — même le week-end", detail: "Décaler de plus d'une heure le week-end équivaut à changer de fuseau horaire. Le corps met plusieurs jours à se recaler. La régularité du lever est encore plus importante que celle du coucher." },
+        { icon: "🌅", name: "Rituel fixe de 20 minutes avant de dormir", detail: "Toujours dans le même ordre : tisane, étirements doux, lecture. Répété chaque soir, le corps apprend à anticiper le sommeil avant même de se coucher." },
+        { icon: "🚫", name: "Éviter les grasses matinées de plus d'1 heure", detail: "Même en week-end, même si tu es fatiguée. Décaler le lever dérègle toute la semaine suivante. Si besoin de récupérer, une sieste courte (20 min avant 15h) est préférable." },
+      ]
+    },
+    plan: [
+      { day: "Jours 1-2", actions: ["Lumière naturelle dès le lever", "Heure fixe de coucher ET lever", "Pas d'écran 1h avant de dormir"] },
+      { day: "Jours 3-4", actions: ["Commencer mélatonine 0,3mg le soir", "Dîner avant 20h", "Rituel coucher en 3 étapes fixes"] },
+      { day: "Jours 5-6", actions: ["Commencer magnésium bisglycinate", "Maintenir le même lever week-end", "Lumière tamisée dès 20h"] },
+      { day: "Jour 7", actions: ["Endormissement à l'heure prévue ?", "Réveil plus naturel le matin ?", "Tenir encore 3 semaines minimum"] },
+    ]
+  },
+
+  carences: {
+    emoji: "⚗️",
+    name: "Profil Carences — sommeil fragmenté et non réparateur",
+    desc: "Tu t'endors peut-être sans problème, mais ton sommeil est fragmenté, peu profond, et non réparateur. Des carences en magnésium, zinc, vitamines B ou en fer peuvent bloquer la chaîne tryptophane-sérotonine-mélatonine et perturber la production de GABA, le neurotransmetteur de la détente nocturne. Le problème n'est pas dans ta tête — il est dans ta biologie.",
+    color: "#9b59b6",
+    reco: {
+      alimentation: [
+        { icon: "🥩", name: "Protéines riches en tryptophane à chaque repas", detail: "Dinde, poulet, thon, œufs, graines de courge, noix de cajou. Le tryptophane est le point de départ de la chaîne mélatonine. Sans lui, rien n'est possible en aval." },
+        { icon: "🌿", name: "Magnésium alimentaire", detail: "Légumes verts à feuilles (épinards, blettes), oléagineuses, graines, céréales complètes, chocolat noir +70%. La cuisson détruit une partie du magnésium — préférer cru quand possible." },
+        { icon: "🐟", name: "Oméga-3 trois fois par semaine", detail: "Sardines, maquereaux, harengs, anchois. Les oméga-3 sont essentiels à la fluidité membranaire des neurones et participent à la qualité du sommeil paradoxal." },
+        { icon: "🫐", name: "Antioxydants colorés au dîner", detail: "Légumes colorés, fruits rouges — ils réduisent l'inflammation nocturne et protègent les neurones pendant la nuit. L'inflammation perturbe directement les cycles de sommeil." },
+      ],
+      phyto: [
+        { icon: "🧲", name: "Magnésium bisglycinate — le soir en priorité absolue", detail: "300 à 400mg le soir. C'est le premier geste à faire. Forme bisglycinate ou malate — mieux absorbées et mieux tolérées. Une carence en magnésium provoque directement des difficultés d'endormissement, des crampes nocturnes et des réveils vers 3-4h du matin." },
+        { icon: "🌱", name: "Griffonia (5-HTP) — précurseur de la sérotonine", detail: "150 à 300mg le soir. Précurseur direct de la sérotonine puis mélatonine. Nécessite des cofacteurs : fer, magnésium, zinc, B6, B9, B12. ⚠️ Contre-indiqué si tu prends des antidépresseurs ou anxiolytiques — demander avis médical." },
+        { icon: "🌿", name: "Valériane — améliore le sommeil profond", detail: "Agit sur le GABA — le neurotransmetteur inhibiteur principal. Améliore la durée du sommeil profond et réduit les réveils nocturnes. En extrait standardisé, 300 à 600mg 30 min avant de dormir." },
+        { icon: "💊", name: "Zinc + vitamines B — cofacteurs essentiels", detail: "Zinc (bisglycinate, 10 à 15mg), vitamines B6, B9, B12 — indispensables à la conversion tryptophane-sérotonine-mélatonine. Un bilan sanguin est utile pour identifier les carences précises." },
+      ],
+      gestes: [
+        { icon: "🧲", name: "Magnésium le soir — non négociable", detail: "Prendre le magnésium 30 à 60 min avant de dormir. L'effet sur la qualité du sommeil est souvent perceptible dès la première semaine." },
+        { icon: "🩺", name: "Bilan sanguin à demander au médecin", detail: "Faire doser : magnésium érythrocytaire, zinc, vitamine D, B12, folates, bilan martial (ferritine, fer sérique). Ces carences sont très fréquentes et très souvent à l'origine de troubles du sommeil inexpliqués." },
+        { icon: "🌿", name: "Tisane de valériane ou passiflore", detail: "30 minutes avant de dormir. La valériane pour le sommeil profond, la passiflore pour les réveils nocturnes liés à l'anxiété légère. Les deux peuvent se combiner." },
+        { icon: "🥗", name: "Manger varié et suffisamment", detail: "Les régimes restrictifs créent des carences en cofacteurs essentiels au sommeil. Ne pas sauter le dîner — un repas léger mais complet est préférable à rien du tout." },
+      ]
+    },
+    plan: [
+      { day: "Jours 1-2", actions: ["Commencer magnésium bisglycinate le soir", "Dîner protéiné (tryptophane)", "Identifier et noter les réveils nocturnes"] },
+      { day: "Jours 3-4", actions: ["Demander bilan sanguin au médecin", "Ajouter tisane valériane le soir", "Oméga-3 au dîner 3x/semaine"] },
+      { day: "Jours 5-6", actions: ["Ajouter zinc + vitamines B si carence", "Observer : réveils nocturnes réduits ?", "Sommeil plus continu et profond ?"] },
+      { day: "Jour 7", actions: ["Comparer avec la semaine précédente", "Le magnésium est souvent suffisant seul", "Continuer 4 à 6 semaines minimum"] },
+    ]
+  },
+
+  inflam: {
+    emoji: "🔥",
+    name: "Profil Inflammation — le cercle vicieux nuit-inflammation",
+    desc: "L'inflammation chronique perturbe directement tes neurotransmetteurs et fragmente tes cycles de sommeil. Les cytokines pro-inflammatoires empêchent l'entrée en sommeil profond. Et le mauvais sommeil, en retour, augmente les marqueurs inflammatoires. C'est un cercle vicieux — et il faut l'attaquer des deux côtés simultanément.",
+    color: "#d4a843",
+    reco: {
+      alimentation: [
+        { icon: "🐟", name: "Oméga-3 EPA/DHA — priorité absolue", detail: "Sardines, maquereaux, harengs, anchois 3 fois par semaine. Ou supplémentation EPA+DHA de qualité (label EPAX). Réduisent les cytokines pro-inflammatoires (CRP, IL-6, TNF-α) qui fragmentent le sommeil. Effets mesurables en 6 à 8 semaines." },
+        { icon: "🌿", name: "Curcuma + poivre noir au dîner", detail: "Le curcuma inhibe NF-κB, le chef d'orchestre de l'inflammation. Associé au poivre noir, sa biodisponibilité est multipliée par 20. Dans les plats, les soupes, ou en extrait liposomal pour un effet plus puissant." },
+        { icon: "🥦", name: "Légumes colorés et crucifères", detail: "Brocoli, chou, chou-fleur, betterave, poivrons — riches en antioxydants et en polyphénols anti-inflammatoires. Viser au moins 3 couleurs différentes au dîner." },
+        { icon: "🚫", name: "Réduire sucres rapides et ultra-transformés le soir", detail: "Les sucres rapides provoquent un pic glycémique suivi d'une hypoglycémie vers 3-4h du matin qui réveille et augmente le cortisol. L'alimentation ultra-transformée entretient l'inflammation nocturne." },
+      ],
+      phyto: [
+        { icon: "🧲", name: "Magnésium bisglycinate — le soir", detail: "300 à 400mg le soir. Anti-inflammatoire, limite la dégranulation des mastocytes et l'activation des globules blancs. Cofacteur de la mélatonine. Premier geste à mettre en place." },
+        { icon: "☀️", name: "Vitamine D — à faire doser", detail: "La vitamine D a une structure proche du cortisol et un puissant effet anti-inflammatoire. Un déficit aggrave l'inflammation nocturne. Demander le dosage au médecin, viser 45 à 80 ng/ml." },
+        { icon: "🌿", name: "Mélisse ou escholtzia le soir", detail: "La mélisse pour son effet neuroprotecteur et GABAergique. L'escholtzia (pavot californien) pour réduire les catécholamines et permettre au corps d'entrer en mode récupération." },
+        { icon: "🐟", name: "Oméga-3 en supplémentation si alimentation insuffisante", detail: "Index oméga-3 cible > 8%. Prendre avec un repas contenant des lipides pour optimiser l'absorption. Conserver au frais pour éviter l'oxydation." },
+      ],
+      gestes: [
+        { icon: "🌡️", name: "Chambre fraîche — 18 à 19°C maximum", detail: "L'inflammation fait monter la température corporelle. Une chambre trop chaude maintient cette inflammation nocturne et empêche l'entrée en sommeil profond. C'est un levier simple et immédiat." },
+        { icon: "🛁", name: "Bain chaud 1h avant de dormir", detail: "Un bain à 38-39°C une heure avant le coucher fait monter la température corporelle, puis la chute rapide de température qui suit déclenche l'endormissement. Bonus : réduit les tensions musculaires inflammatoires." },
+        { icon: "💚", name: "Cohérence cardiaque le soir", detail: "La branche parasympathique est anti-inflammatoire. 5 minutes de cohérence cardiaque le soir activent le nerf vague et réduisent les cytokines inflammatoires produites la nuit." },
+        { icon: "🚶", name: "Marche douce post-dîner", detail: "20 à 30 minutes de marche après le repas réduit la glycémie et les marqueurs inflammatoires. Pas de sport intense — l'intensité aggrave l'inflammation à court terme." },
+      ]
+    },
+    plan: [
+      { day: "Jours 1-2", actions: ["Commencer magnésium bisglycinate", "Chambre à 18-19°C", "Oméga-3 au dîner"] },
+      { day: "Jours 3-4", actions: ["Curcuma + poivre noir au dîner", "Bain chaud 1h avant de dormir", "Cohérence cardiaque le soir"] },
+      { day: "Jours 5-6", actions: ["Faire doser vitamine D", "Réduire sucres rapides le soir", "Ajouter tisane mélisse ou escholtzia"] },
+      { day: "Jour 7", actions: ["Douleurs nocturnes réduites ?", "Moins de réveils ? Corps plus léger ?", "L'inflammation met 4-6 semaines à baisser"] },
+    ]
+  },
+
+  equi: {
+    emoji: "🌱",
+    name: "Profil Équilibré — bonne base, optimisation possible",
+    desc: "Ton sommeil est globalement correct. C'est une excellente base. L'objectif maintenant est de le consolider, de protéger ce capital sommeil sur le long terme, et d'optimiser les quelques points qui peuvent encore faire la différence sur ton énergie, ta récupération et ton niveau d'inflammation.",
+    color: "#74c69d",
+    reco: {
+      alimentation: [
+        { icon: "🐟", name: "Oméga-3 réguliers", detail: "2 à 3 fois par semaine de petits poissons gras. C'est l'investissement le plus rentable pour maintenir un sommeil profond de qualité et un faible niveau d'inflammation nocturne." },
+        { icon: "🌿", name: "Tryptophane au dîner", detail: "Dinde, graines de courge, œufs, banane — même en bonne santé, optimiser les apports en tryptophane améliore la profondeur du sommeil." },
+        { icon: "🫐", name: "Antioxydants au quotidien", detail: "Fruits rouges, légumes colorés, thé vert, chocolat noir — protection cellulaire nocturne et prévention de l'inflammation à long terme." },
+      ],
+      phyto: [
+        { icon: "🧲", name: "Magnésium en cure saisonnière", detail: "Automne et hiver notamment — la baisse de luminosité augmente les besoins nerveux. 300mg de bisglycinate le soir pendant 1 à 3 mois." },
+        { icon: "☀️", name: "Vitamine D — maintenir les taux optimaux", detail: "Faire doser une fois par an. Viser 45 à 80 ng/ml. Supplémenter d'octobre à avril selon exposition solaire." },
+        { icon: "🌿", name: "Cure de plantes adaptogènes en prévention", detail: "Même sans symptômes, une cure de rhodiola le matin (printemps/automne) ou d'éleuthérocoque en hiver renforce la résistance globale au stress et améliore la récupération nocturne." },
+      ],
+      gestes: [
+        { icon: "🕙", name: "Maintenir des horaires fixes même le week-end", detail: "La régularité est le premier protecteur du sommeil sur le long terme. Même un bon dormeur peut se dérégler avec des horaires irréguliers." },
+        { icon: "☀️", name: "Lumière matinale quotidienne", detail: "Maintenir l'habitude de la lumière naturelle le matin — c'est ce qui ancre l'horloge et garantit une bonne sécrétion de mélatonine le soir." },
+        { icon: "💚", name: "Cohérence cardiaque préventive", detail: "5 minutes le soir pour maintenir l'équilibre sympathique/parasympathique — même sans symptômes. C'est la meilleure prévention contre le dérèglement nerveux progressif." },
+        { icon: "🌡️", name: "Protéger l'environnement chambre", detail: "Maintenir la chambre fraîche, sombre et sans téléphone. Ce sont des habitudes simples dont on sous-estime l'impact cumulatif sur la qualité du sommeil profond." },
+      ]
+    },
+    plan: [
+      { day: "Jours 1-2", actions: ["Vérifier heure de coucher fixe", "Lumière naturelle chaque matin", "Caféine avant 14h"] },
+      { day: "Jours 3-4", actions: ["Commencer magnésium si cure saisonnière", "Oméga-3 au dîner 3x/semaine", "5 min cohérence cardiaque le soir"] },
+      { day: "Jours 5-6", actions: ["Faire doser vitamine D", "Téléphone hors chambre la nuit", "Observer la profondeur du sommeil"] },
+      { day: "Jour 7", actions: ["Consolider les 3 habitudes clés", "Identifier la prochaine amélioration", "Maintien sur le long terme"] },
+    ]
+  }
+};
+
+let answers = {};
+let currentQ = 0;
+let scores = { cortisol: 0, circadien: 0, carences: 0, inflam: 0, equi: 0 };
+const scoreKeys = ['cortisol', 'circadien', 'carences', 'inflam'];
+
+function renderQuestion(idx) {
+  const q = questions[idx];
+  const container = document.getElementById('questionContainer');
+  const total = questions.length;
+
+  document.getElementById('progressBar').style.width = ((idx / total) * 100) + '%';
+  document.getElementById('qCounter').textContent = (idx + 1) + ' / ' + total;
+  document.getElementById('prevQ').disabled = idx === 0;
+
+  const nextBtn = document.getElementById('nextQ');
+  nextBtn.textContent = idx === total - 1 ? 'Voir mes résultats →' : 'Suivant →';
+
+  let html = '<div class="question-block">';
+  html += '<p class="question-text">' + q.text + '</p>';
+
+  if (q.type === 'single') {
+    html += '<div class="options">';
+    q.options.forEach((opt, i) => {
+      const sel = answers[q.id] === i ? 'selected' : '';
+      html += `<button class="option-btn ${sel}" onclick="selectOption(${q.id}, ${i}, this)">${opt.text}</button>`;
+    });
+    html += '</div>';
+  } else if (q.type === 'slider') {
+    const val = answers[q.id] !== undefined ? answers[q.id] : q.defaultVal;
+    html += `<div class="slider-wrap">
+      <div class="slider-labels"><span>${q.label_min}</span><span>${q.label_max}</span></div>
+      <input type="range" min="${q.min}" max="${q.max}" value="${val}" id="sliderInput" oninput="document.getElementById('sliderVal').textContent = this.value + ' / 10'; answers[${q.id}] = parseInt(this.value);">
+      <div class="slider-value" id="sliderVal">${val} / 10</div>
+    </div>`;
+    if (answers[q.id] === undefined) answers[q.id] = q.defaultVal;
+  }
+
+  html += '</div>';
+  container.innerHTML = html;
+
+  nextBtn.disabled = (q.type === 'single' && answers[q.id] === undefined);
+}
+
+function selectOption(qid, idx, btn) {
+  document.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  answers[qid] = idx;
+  document.getElementById('nextQ').disabled = false;
+}
+
+function nextQuestion() {
+  const q = questions[currentQ];
+  if (q.type === 'single' && answers[q.id] === undefined) return;
+
+  // Score
+  if (q.type === 'single') {
+    const opt = q.options[answers[q.id]];
+    Object.entries(opt.scores).forEach(([k, v]) => {
+      if (scores[k] !== undefined) scores[k] += v;
+    });
+  }
+
+  if (currentQ === questions.length - 1) {
+    // Stress slider bonus
+    const stressQ = questions.find(q => q.type === 'slider');
+    const stressVal = answers[stressQ.id] || 5;
+    if (stressVal >= 8) { scores.cortisol += 3; scores.inflam += 2; }
+    else if (stressVal >= 6) { scores.cortisol += 2; scores.inflam += 1; }
+    else if (stressVal >= 4) { scores.cortisol += 1; }
+
+    showResults(getDominantProfile());
+    return;
+  }
+
+  currentQ++;
+  renderQuestion(currentQ);
+}
+
+function prevQuestion() {
+  if (currentQ > 0) { currentQ--; renderQuestion(currentQ); }
+}
+
+function getDominantProfile() {
+  let max = -1, dom = 'equi';
+  scoreKeys.forEach(k => { if (scores[k] > max) { max = scores[k]; dom = k; } });
+  if (max <= 2) dom = 'equi';
+  return dom;
+}
+
+function showResults(profileKey) {
+  const prof = profiles[profileKey];
+  document.getElementById('quizSection').classList.remove('active');
+  const resultsDiv = document.getElementById('resultsSection');
+  resultsDiv.classList.add('active');
+
+  const otherProfiles = Object.keys(profiles).filter(k => k !== profileKey);
+
+  let barsHtml = scoreKeys.map(k => `
+    <div class="score-row">
+      <div class="score-label">${profiles[k].emoji} ${profiles[k].name.split('—')[0].trim()}</div>
+      <div class="score-bar-wrap"><div class="score-bar-fill" id="bar_${k}" style="background:${profiles[k].color};"></div></div>
+      <div class="score-pct" id="pct_${k}">0</div>
+    </div>`).join('');
+
+  resultsDiv.innerHTML = `
+    <div class="results-header">
+      <h2>Ton profil : <span>${prof.name}</span></h2>
+    </div>
+    <div class="profile-card">
+      <div class="profile-emoji">${prof.emoji}</div>
+      <div class="profile-name">${prof.name}</div>
+      <div class="profile-desc">${prof.desc}</div>
+    </div>
+    <div class="scores-section">
+      <div class="scores-title">Tes scores par dimension</div>
+      ${barsHtml}
+    </div>
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab('alim', this)">🥗 Alimentation</button>
+      <button class="tab-btn" onclick="switchTab('phyto', this)">🌿 Phyto & Micro</button>
+      <button class="tab-btn" onclick="switchTab('gestes', this)">💚 Gestes santé</button>
+      <button class="tab-btn" onclick="switchTab('plan', this)">📅 Plan 7 jours</button>
+    </div>
+    <div id="tab_alim" class="tab-content active">
+      <div class="reco-section">
+        <div class="reco-section-title">🥗 Alimentation adaptée à ton profil</div>
+        ${prof.reco.alimentation.map(r => `<div class="reco-item"><div class="reco-icon">${r.icon}</div><div class="reco-text"><div class="reco-name">${r.name}</div><div class="reco-detail">${r.detail}</div></div></div>`).join('')}
+      </div>
+    </div>
+    <div id="tab_phyto" class="tab-content">
+      <div class="reco-section">
+        <div class="reco-section-title">🌿 Phytothérapie & Micronutrition</div>
+        ${prof.reco.phyto.map(r => `<div class="reco-item"><div class="reco-icon">${r.icon}</div><div class="reco-text"><div class="reco-name">${r.name}</div><div class="reco-detail">${r.detail}</div></div></div>`).join('')}
+      </div>
+      <div class="disclaimer" style="margin-top:12px">⚠️ Ces recommandations sont données à titre informatif et ne remplacent pas un avis médical. Consultez votre médecin avant toute supplémentation, surtout si vous prenez des médicaments.</div>
+    </div>
+    <div id="tab_gestes" class="tab-content">
+      <div class="reco-section">
+        <div class="reco-section-title">💚 Gestes santé quotidiens</div>
+        ${prof.reco.gestes.map(r => `<div class="reco-item"><div class="reco-icon">${r.icon}</div><div class="reco-text"><div class="reco-name">${r.name}</div><div class="reco-detail">${r.detail}</div></div></div>`).join('')}
+      </div>
+    </div>
+    <div id="tab_plan" class="tab-content">
+      <div class="reco-section">
+        <div class="reco-section-title">📅 Tes 7 premiers jours</div>
+        <div class="plan-grid">
+          ${prof.plan.map(d => `<div class="plan-day"><div class="plan-day-title">${d.day}</div><ul>${d.actions.map(a => `<li>${a}</li>`).join('')}</ul></div>`).join('')}
+        </div>
+      </div>
+    </div>
+    <div class="other-profiles">
+      <div class="other-profiles-title">Consulter les recommandations d'un autre profil</div>
+      <div class="other-btns">
+        ${otherProfiles.map(p => `<button class="other-btn" onclick="showResults('${p}')">${profiles[p].emoji} ${profiles[p].name.split('—')[0].trim()}</button>`).join('')}
+      </div>
+    </div>
+    <button class="retry-btn" onclick="resetQuiz()">↩ Refaire le test</button>
+  `;
+
+  const maxScore = Math.max(...scoreKeys.map(k => scores[k]));
+  setTimeout(() => {
+    scoreKeys.forEach(k => {
+      const pct = maxScore > 0 ? Math.round((scores[k] / maxScore) * 100) : 0;
+      const bar = document.getElementById('bar_' + k);
+      const pctEl = document.getElementById('pct_' + k);
+      if (bar) bar.style.width = pct + '%';
+      if (pctEl) pctEl.textContent = scores[k] + ' pts';
+    });
+  }, 100);
+
+  window.scrollTo(0, 0);
+}
+
+function switchTab(name, btn) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab_' + name).classList.add('active');
+  btn.classList.add('active');
+}
+
+function resetQuiz() {
+  answers = {};
+  currentQ = 0;
+  scores = { cortisol: 0, circadien: 0, carences: 0, inflam: 0, equi: 0 };
+  document.getElementById('resultsSection').classList.remove('active');
+  document.getElementById('resultsSection').innerHTML = '';
+  document.getElementById('quizSection').classList.add('active');
+  renderQuestion(0);
+  window.scrollTo(0, 0);
+}
+
+renderQuestion(0);
+</script>
+</body>
+</html>

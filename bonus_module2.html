@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bonus — Quel est ton profil digestif ?</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: #3d7a52; min-height: 100vh; font-family: Georgia, serif; padding: 20px; }
+.container { max-width: 720px; margin: 0 auto; }
+.header { text-align: center; padding: 36px 28px 26px; background: #f7f2e8; border-radius: 18px; border: 1px solid #c9a84c; margin-bottom: 14px; box-shadow: 0 4px 18px rgba(0,0,0,0.12); }
+.badge { display: inline-block; background: rgba(201,168,76,0.2); border: 1px solid #c9a84c; border-radius: 20px; padding: 4px 16px; color: #7a5c0a; font-size: 11px; letter-spacing: 3px; margin-bottom: 12px; }
+.header h1 { color: #2d5a3d; font-size: 24px; font-weight: normal; line-height: 1.3; }
+.gold-line { width: 50px; height: 2px; background: #c9a84c; margin: 12px auto; }
+.header p { color: #5a6b5e; font-size: 13px; line-height: 1.6; }
+.disclaimer { background: #fffbe8; border: 1.5px solid #c9a84c; border-radius: 12px; padding: 14px 18px; margin-bottom: 14px; font-size: 13px; color: #5a4a1a; line-height: 1.6; }
+.prog-wrap { background: rgba(201,168,76,0.25); border-radius: 8px; height: 7px; margin-bottom: 6px; overflow: hidden; }
+.prog-fill { height: 100%; background: linear-gradient(90deg, #c9a84c, #e8c97a); border-radius: 8px; transition: width 0.4s; }
+.prog-text { color: #7a5c0a; font-size: 12px; text-align: right; margin-bottom: 14px; }
+.qcard { background: #f7f2e8; border-radius: 16px; border: 1px solid rgba(201,168,76,0.4); padding: 28px; margin-bottom: 14px; display: none; box-shadow: 0 3px 14px rgba(0,0,0,0.1); }
+.qcard.active { display: block; }
+.qcat { font-size: 11px; color: #7a5c0a; letter-spacing: 2px; margin-bottom: 8px; font-weight: bold; }
+.qtext { font-size: 16px; color: #1a2e22; line-height: 1.6; margin-bottom: 18px; }
+.options { display: flex; flex-direction: column; gap: 9px; }
+.opt { background: #fff; border: 1.5px solid rgba(45,90,61,0.2); border-radius: 11px; padding: 13px 16px; color: #2a3d2e; font-size: 14px; cursor: pointer; text-align: left; font-family: inherit; transition: all 0.18s; line-height: 1.5; }
+.opt:hover { background: #eef6f1; border-color: #2d5a3d; }
+.opt.sel { background: #dff0e8; border-color: #2d5a3d; color: #1a3d24; font-weight: bold; }
+.slider-wrap { margin: 10px 0 18px; }
+.slider-labels { display: flex; justify-content: space-between; color: #8a9e8e; font-size: 12px; margin-bottom: 8px; }
+input[type=range] { width: 100%; -webkit-appearance: none; height: 7px; border-radius: 4px; background: rgba(201,168,76,0.3); outline: none; }
+input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 22px; height: 22px; border-radius: 50%; background: #c9a84c; cursor: pointer; }
+.slider-val { text-align: center; color: #7a5c0a; font-size: 18px; font-weight: bold; margin-top: 8px; }
+.nav-row { display: flex; gap: 10px; margin-top: 16px; }
+.btn-back { flex: 1; padding: 12px; background: #e8dfc8; border: 1px solid #c9a84c; border-radius: 11px; color: #5a4a1a; font-size: 14px; cursor: pointer; font-family: inherit; }
+.btn-next { flex: 2; padding: 12px; background: linear-gradient(135deg, #2d5a3d, #3d7a52); border: none; border-radius: 11px; color: #fff; font-size: 14px; font-weight: bold; cursor: pointer; font-family: inherit; }
+.btn-next:disabled { opacity: 0.3; cursor: not-allowed; }
+.results { display: none; }
+.res-header { background: #f7f2e8; border-radius: 18px; border: 1px solid #c9a84c; padding: 28px; margin-bottom: 14px; text-align: center; box-shadow: 0 3px 14px rgba(0,0,0,0.1); }
+.res-emoji { font-size: 48px; margin-bottom: 12px; }
+.res-title { color: #2d5a3d; font-size: 21px; font-weight: normal; margin-bottom: 6px; }
+.res-sub { color: #5a6b5e; font-size: 14px; line-height: 1.6; }
+.score-card { background: #f7f2e8; border-radius: 14px; border: 1px solid rgba(201,168,76,0.35); padding: 18px 20px; margin-bottom: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); }
+.sc-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+.sc-title { color: #2d5a3d; font-size: 14px; font-weight: bold; }
+.sc-badge { padding: 3px 12px; border-radius: 20px; font-size: 12px; font-weight: bold; }
+.sc-badge.high { background: rgba(192,57,43,0.12); color: #c0392b; border: 1px solid rgba(192,57,43,0.3); }
+.sc-badge.med { background: rgba(201,168,76,0.2); color: #7a5c0a; border: 1px solid #c9a84c; }
+.sc-badge.low { background: rgba(39,174,96,0.12); color: #1e8449; border: 1px solid rgba(39,174,96,0.3); }
+.sc-bar-wrap { background: rgba(45,90,61,0.12); border-radius: 5px; height: 8px; margin-bottom: 10px; overflow: hidden; }
+.sc-bar { height: 100%; border-radius: 5px; transition: width 1s ease; }
+.sc-desc { color: #5a6b5e; font-size: 13px; line-height: 1.55; }
+.reco-box { background: #f7f2e8; border-radius: 14px; border: 1px solid #c9a84c; padding: 22px; margin-bottom: 14px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); }
+.reco-title { color: #2d5a3d; font-size: 16px; font-weight: bold; margin-bottom: 14px; }
+.reco-item { display: flex; gap: 12px; margin-bottom: 13px; align-items: flex-start; }
+.reco-num { width: 28px; height: 28px; border-radius: 50%; background: #2d5a3d; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: bold; flex-shrink: 0; }
+.reco-text { font-size: 14px; line-height: 1.6; color: #2a3d2e; }
+.reco-text strong { color: #2d5a3d; }
+.next-mod { background: #fffbe8; border: 1px solid #c9a84c; border-radius: 12px; padding: 18px 22px; text-align: center; color: #5a4a1a; font-size: 14px; line-height: 1.7; margin-bottom: 14px; }
+.btn-restart { width: 100%; padding: 14px; background: #e8dfc8; border: 1px solid #c9a84c; border-radius: 12px; color: #5a4a1a; font-size: 14px; cursor: pointer; font-family: inherit; }
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="header">
+  <div class="badge">BONUS MODULE 2</div>
+  <div style="font-size:38px;margin-bottom:10px;">🔍</div>
+  <h1>Quel est ton profil digestif ?</h1>
+  <div class="gold-line"></div>
+  <p>12 questions pour identifier ton profil dominant et recevoir tes recommandations personnalisées.</p>
+</div>
+
+<div class="disclaimer">
+  ⚠️ <strong>Important :</strong> Ce questionnaire est un outil d'orientation personnelle. Il ne remplace en aucun cas un bilan médical ni un diagnostic établi par un professionnel de santé. Si tu as des symptômes importants ou persistants, consulte ton médecin. Les recommandations proposées sont des pistes de bien-être général, pas des prescriptions médicales.
+</div>
+
+<div class="prog-wrap"><div class="prog-fill" id="pf" style="width:0%"></div></div>
+<p class="prog-text" id="pt">Question 1 sur 12</p>
+
+<div id="qa">
+
+<div class="qcard active" id="q1">
+  <p class="qcat">🫀 ESTOMAC</p>
+  <p class="qtext">Est-ce que tu te sens ballonnée ou lourde juste après avoir mangé, même en petite quantité ?</p>
+  <div class="options">
+    <button class="opt" onclick="pick(this,'estomac',3)">Oui, souvent — dès que j'ai fini de manger</button>
+    <button class="opt" onclick="pick(this,'estomac',2)">Parfois, surtout après les repas riches</button>
+    <button class="opt" onclick="pick(this,'estomac',1)">Rarement</button>
+    <button class="opt" onclick="pick(this,'estomac',0)">Non, jamais</button>
+  </div>
+  <div class="nav-row"><button class="btn-next" id="n1" onclick="nxt(1)" disabled>Suivant →</button></div>
+</div>
+
+<div class="qcard" id="q2">
+  <p class="qcat">🫀 ESTOMAC</p>
+  <p class="qtext">As-tu des reflux, remontées acides ou brûlures d'estomac régulièrement ?</p>
+  <div class="options">
+    <button class="opt" onclick="pick(this,'estomac',3)">Oui, très souvent — presque tous les jours</button>
+    <button class="opt" onclick="pick(this,'estomac',2)">Parfois — quelques fois par semaine</button>
+    <button class="opt" onclick="pick(this,'estomac',1)">Rarement — surtout après les excès</button>
+    <button class="opt" onclick="pick(this,'estomac',0)">Non, jamais</button>
+  </div>
+  <div class="nav-row"><button class="btn-back" onclick="bck(2)">← Retour</button><button class="btn-next" id="n2" onclick="nxt(2)" disabled>Suivant →</button></div>
+</div>
+
+<div class="qcard" id="q3">
+  <p class="qcat">🫀 ESTOMAC</p>
+  <p class="qtext">Est-ce que tu digères difficilement les viandes, oeufs ou légumineuses ? (lourdeur, fatigue, pesanteur après)</p>
+  <div class="options">
+    <button class="opt" onclick="pick(this,'estomac',3)">Oui — je les évite ou je me sens vraiment mal après</button>
+    <button class="opt" onclick="pick(this,'estomac',2)">Parfois — selon les quantités</button>
+    <button class="opt" onclick="pick(this,'estomac',1)">Rarement</button>
+    <button class="opt" onclick="pick(this,'estomac',0)">Non, je digère bien les protéines</button>
+  </div>
+  <div class="nav-row"><button class="btn-back" onclick="bck(3)">← Retour</button><button class="btn-next" id="n3" onclick="nxt(3)" disabled>Suivant →</button></div>
+</div>
+
+<div class="qcard" id="q4">
+  <p class="qcat">🫃 INTESTIN POREUX</p>
+  <p class="qtext">As-tu développé de nouvelles intolérances alimentaires ces dernières années ? (tu tolères de moins en moins d'aliments)</p>
+  <div class="options">
+    <button class="opt" onclick="pick(this,'porosite',3)">Oui — je réagis à de plus en plus d'aliments</button>
+    <button class="opt" onclick="pick(this,'porosite',2)">Quelques intolérances connues</button>
+    <button class="opt" onclick="pick(this,'porosite',1)">Pas vraiment</button>
+    <button class="opt" onclick="pick(this,'porosite',0)">Non, je tolère tout</button>
+  </div>
+  <div class="nav-row"><button class="btn-back" onclick="bck(4)">← Retour</button><button class="btn-next" id="n4" onclick="nxt(4)" disabled>Suivant →</button></div>
+</div>
+
+<div class="qcard" id="q5">
+  <p class="qcat">🫃 INTESTIN POREUX</p>
+  <p class="qtext">Est-ce que tu souffres de problèmes de peau récurrents ? (eczéma, acné, psoriasis, peau terne ou très réactive)</p>
+  <div class="options">
+    <button class="opt" onclick="pick(this,'porosite',3)">Oui — c'est chronique et difficile à contrôler</button>
+    <button class="opt" onclick="pick(this,'porosite',2)">Parfois — des poussées régulières</button>
+    <button class="opt" onclick="pick(this,'porosite',1)">Rarement</button>
+    <button class="opt" onclick="pick(this,'porosite',0)">Non, ma peau va bien</button>
+  </div>
+  <div class="nav-row"><button class="btn-back" onclick="bck(5)">← Retour</button><button class="btn-next" id="n5" onclick="nxt(5)" disabled>Suivant →</button></div>
+</div>
+
+<div class="qcard" id="q6">
+  <p class="qcat">🫃 INTESTIN POREUX</p>
+  <p class="qtext">As-tu des douleurs articulaires diffuses, de l'anxiété chronique, un brouillard mental persistant ou des infections fréquentes (ORL, cystites, etc.) ?</p>
+  <div class="options">
+    <button class="opt" onclick="pick(this,'porosite',3)">Oui — plusieurs de ces symptômes au quotidien</button>
+    <button class="opt" onclick="pick(this,'porosite',2)">Certains, de temps en temps</button>
+    <button class="opt" onclick="pick(this,'porosite',1)">Rarement</button>
+    <button class="opt" onclick="pick(this,'porosite',0)">Non, aucun de ces symptômes</button>
+  </div>
+  <div class="nav-row"><button class="btn-back" onclick="bck(6)">← Retour</button><button class="btn-next" id="n6" onclick="nxt(6)" disabled>Suivant →</button></div>
+</div>
+
+<div class="qcard" id="q7">
+  <p class="qcat">🦠 DYSBIOSE</p>
+  <p class="qtext">Après un repas riche en sucres ou féculents (pain, pâtes, riz, fruits), est-ce que ton ventre gonfle significativement ?</p>
+  <div class="options">
+    <button class="opt" onclick="pick(this,'dysbiose',3)">Oui — systématiquement et de façon très importante</button>
+    <button class="opt" onclick="pick(this,'dysbiose',2)">Souvent — ça dépend des quantités</button>
+    <button class="opt" onclick="pick(this,'dysbiose',1)">Parfois</button>
+    <button class="opt" onclick="pick(this,'dysbiose',0)">Non, les glucides ne me posent pas de problème</button>
+  </div>
+  <div class="nav-row"><button class="btn-back" onclick="bck(7)">← Retour</button><button class="btn-next" id="n7" onclick="nxt(7)" disabled>Suivant →</button></div>
+</div>
+
+<div class="qcard" id="q8">
+  <p class="qcat">🦠 DYSBIOSE</p>
+  <p class="qtext">Est-ce que tes selles sont très malodorantes, et as-tu une fatigue profonde sans explication claire ?</p>
+  <div class="options">
+    <button class="opt" onclick="pick(this,'dysbiose',3)">Oui aux deux — c'est mon quotidien</button>
+    <button class="opt" onclick="pick(this,'dysbiose',2)">L'un ou l'autre, régulièrement</button>
+    <button class="opt" onclick="pick(this,'dysbiose',1)">Parfois l'un ou l'autre</button>
+    <button class="opt" onclick="pick(this,'dysbiose',0)">Non</button>
+  </div>
+  <div class="nav-row"><button class="btn-back" onclick="bck(8)">← Retour</button><button class="btn-next" id="n8" onclick="nxt(8)" disabled>Suivant →</button></div>
+</div>
+
+<div class="qcard" id="q9">
+  <p class="qcat">🫀 FOIE ET VÉSICULE BILIAIRE</p>
+  <p class="qtext">Est-ce que tu as des migraines fréquentes, les yeux sensibles à la lumière (phares la nuit en voiture), ou la bouche pâteuse ou sèche au réveil ?</p>
+  <div class="options">
+    <button class="opt" onclick="pick(this,'foie',3)">Oui — plusieurs de ces signes régulièrement</button>
+    <button class="opt" onclick="pick(this,'foie',2)">L'un ou l'autre, parfois</button>
+    <button class="opt" onclick="pick(this,'foie',1)">Rarement</button>
+    <button class="opt" onclick="pick(this,'foie',0)">Non</button>
+  </div>
+  <div class="nav-row"><button class="btn-back" onclick="bck(9)">← Retour</button><button class="btn-next" id="n9" onclick="nxt(9)" disabled>Suivant →</button></div>
+</div>
+
+<div class="qcard" id="q10">
+  <p class="qcat">🫀 FOIE ET VÉSICULE BILIAIRE</p>
+  <p class="qtext">Est-ce que tu digères difficilement les repas gras ou frits ? (nausées, écoeurement, lourdeur, selles grasses qui flottent dans la cuvette)</p>
+  <div class="options">
+    <button class="opt" onclick="pick(this,'foie',3)">Oui — les repas gras me rendent vraiment mal</button>
+    <button class="opt" onclick="pick(this,'foie',2)">Parfois, selon les quantités</button>
+    <button class="opt" onclick="pick(this,'foie',1)">Rarement</button>
+    <button class="opt" onclick="pick(this,'foie',0)">Non, je digère bien les graisses</button>
+  </div>
+  <div class="nav-row"><button class="btn-back" onclick="bck(10)">← Retour</button><button class="btn-next" id="n10" onclick="nxt(10)" disabled>Suivant →</button></div>
+</div>
+
+<div class="qcard" id="q11">
+  <p class="qcat">🫀 FOIE ET VÉSICULE BILIAIRE</p>
+  <p class="qtext">As-tu une constipation ancienne et difficile à résoudre, ou une pesanteur gastrique et lenteur digestive marquée après les repas gras ?</p>
+  <div class="options">
+    <button class="opt" onclick="pick(this,'foie',3)">Oui — c'est un problème chronique pour moi</button>
+    <button class="opt" onclick="pick(this,'foie',2)">Parfois</button>
+    <button class="opt" onclick="pick(this,'foie',1)">Rarement</button>
+    <button class="opt" onclick="pick(this,'foie',0)">Non, mon transit est régulier</button>
+  </div>
+  <div class="nav-row"><button class="btn-back" onclick="bck(11)">← Retour</button><button class="btn-next" id="n11" onclick="nxt(11)" disabled>Suivant →</button></div>
+</div>
+
+<div class="qcard" id="q12">
+  <p class="qcat">😰 STRESS ET MODE DE VIE</p>
+  <p class="qtext">Sur une échelle de 1 à 10, quel est ton niveau de stress chronique en ce moment dans ta vie ?</p>
+  <div class="slider-wrap">
+    <div class="slider-labels"><span>1 — Très sereine</span><span>10 — Épuisée</span></div>
+    <input type="range" min="1" max="10" value="5" id="ss" oninput="usl(this.value)">
+    <div class="slider-val" id="sv">5 / 10</div>
+  </div>
+  <div class="nav-row">
+    <button class="btn-back" onclick="bck(12)">← Retour</button>
+    <button class="btn-next" onclick="showR()">Voir mes résultats →</button>
+  </div>
+</div>
+
+</div>
+
+<div class="results" id="res">
+  <div class="res-header">
+    <div class="res-emoji" id="re">🔍</div>
+    <h2 class="res-title" id="rt"></h2>
+    <div class="gold-line"></div>
+    <p class="res-sub" id="rs"></p>
+  </div>
+  <div class="disclaimer" style="margin-bottom:14px;">
+    ⚠️ <strong>Rappel :</strong> Ces résultats sont indicatifs et ne constituent pas un diagnostic médical. Pour tout symptôme important ou persistant, consulte un professionnel de santé qualifié.
+  </div>
+  <div id="sc"></div>
+  <div class="reco-box" id="rb"></div>
+  <div class="next-mod">🚀 <strong style="color:#2d5a3d;">Pour aller plus loin</strong><br>Des modules approfondis sur chaque profil digestif arrivent bientôt sur la plateforme — protocoles complets, compléments adaptés et analyses à demander à ton médecin.</div>
+  <button class="btn-restart" onclick="rst()">↺ Recommencer le quiz</button>
+</div>
+
+</div>
+<script>
+var s={estomac:0,porosite:0,dysbiose:0,foie:0};
+var cur=1,tot=12;
+function up(){document.getElementById('pf').style.width=(((cur-1)/tot)*100)+'%';document.getElementById('pt').textContent='Question '+cur+' sur '+tot;}
+function pick(b,c,v){b.closest('.qcard').querySelectorAll('.opt').forEach(function(x){x.classList.remove('sel');});b.classList.add('sel');b.dataset.c=c;b.dataset.v=v;var qn=b.closest('.qcard').id.replace('q','');var nb=document.getElementById('n'+qn);if(nb)nb.disabled=false;}
+function nxt(n){var card=document.getElementById('q'+n);var sel=card.querySelector('.opt.sel');if(!sel)return;s[sel.dataset.c]+=parseInt(sel.dataset.v);card.classList.remove('active');cur=n+1;document.getElementById('q'+cur).classList.add('active');up();window.scrollTo(0,0);}
+function bck(n){document.getElementById('q'+n).classList.remove('active');cur=n-1;document.getElementById('q'+cur).classList.add('active');up();window.scrollTo(0,0);}
+function usl(v){document.getElementById('sv').textContent=v+' / 10';}
+function showR(){
+  var stress=parseInt(document.getElementById('ss').value);
+  if(stress>=7){s.estomac+=2;s.porosite+=1;s.dysbiose+=1;}else if(stress>=5){s.estomac+=1;}
+  document.getElementById('qa').style.display='none';
+  document.getElementById('pf').parentElement.style.display='none';
+  document.getElementById('pt').style.display='none';
+  document.getElementById('res').style.display='block';
+  window.scrollTo(0,0);
+  var profiles=[
+    {key:'estomac',label:"L'estomac en souffrance",emoji:'🫀',color:'#c9a84c',desc:"Ton estomac manque probablement d'acidite (hypochlorhydrie). Les proteines mal digerees et les bacteries non eliminees creent une inflammation en cascade dans tout ton systeme digestif."},
+    {key:'porosite',label:"L'intestin poreux",emoji:'🫃',color:'#c0392b',desc:"Ta barriere intestinale est fragilisee. Des molecules etrangeres passent dans ton sang et maintiennent ton systeme immunitaire en etat d'alerte permanente — source directe d'inflammation chronique."},
+    {key:'dysbiose',label:"La dysbiose intestinale",emoji:'🦠',color:'#8e44ad',desc:"Ton microbiote est desequilibre. Trop de mauvaises bacteries produisent des toxines qui agressent ta paroi intestinale et entretiennent l'inflammation."},
+    {key:'foie',label:"Le foie et la vesicule surchargés",emoji:'🍀',color:'#e67e22',desc:"Ton foie a du mal a filtrer et a produire suffisamment de bile. Les toxines recirculent, les hormones ne sont plus recyclees correctement, et l'inflammation monte en continu."},
+  ].sort(function(a,b){return s[b.key]-s[a.key];});
+  var dom=profiles[0];
+  document.getElementById('re').textContent=dom.emoji;
+  document.getElementById('rt').textContent='Profil dominant : '+dom.label;
+  document.getElementById('rs').textContent=dom.desc;
+  var mx=9,cards=document.getElementById('sc');cards.innerHTML='';
+  profiles.forEach(function(p){
+    var pct=Math.min(100,Math.round((s[p.key]/mx)*100));
+    var lv=pct>=70?'Eleve':pct>=40?'Modere':'Faible';
+    var bc=pct>=70?'high':pct>=40?'med':'low';
+    cards.innerHTML+='<div class="score-card"><div class="sc-head"><p class="sc-title">'+p.emoji+' '+p.label+'</p><span class="sc-badge '+bc+'">'+lv+'</span></div><div class="sc-bar-wrap"><div class="sc-bar" style="width:'+pct+'%;background:'+p.color+';"></div></div><p class="sc-desc">'+p.desc+'</p></div>';
+  });
+  var base=[
+    "<strong>Mache vraiment</strong> — jusqu'a sentir une bouillie dans ta bouche avant d'avaler. C'est la base de toute la chaine digestive.",
+    "<strong>Mange dans le calme</strong> — 3 respirations lentes avant chaque repas pour activer le nerf vague et declencher les secretions digestives.",
+    "<strong>Supprime les grignotages</strong> — 3 repas par jour maximum. Laisse ton intestin faire son nettoyage naturel entre les repas.",
+    "<strong>Bois en dehors des repas</strong> — l'eau dilue tes enzymes digestives et ton acide chlorhydrique. Bois avant ou apres.",
+  ];
+  var spec={
+    estomac:["<strong>Mange chaud et cuit</strong> surtout si tu es stressee ou si tu as des symptomes a l'estomac. Les aliments crus demandent un effort digestif supplementaire.","<strong>Alleghe le repas du soir</strong> — proteines legeres et legumes cuits. Au moins 2-3 heures avant de dormir.","<strong>Si tu prends des IPP depuis longtemps</strong>, discutes-en avec ton medecin — ils peuvent aggraver l'hypochlorhydrie sur le long terme."],
+    porosite:["<strong>Introduis des aliments fermentes</strong> — kefir, choucroute crue non pasteurisee, kimchi, miso. Commence par 1 cuillere a soupe par jour, augmente progressivement.","<strong>Reduis le gluten et les produits laitiers de vache</strong> pendant 3 semaines et observe — beaucoup de femmes voient une difference significative.","<strong>Soutiens ton foie en parallele</strong> — un foie surcharge aggrave la porosite. Bouillotte sur le cote droit sous les cotes, 20 min apres le repas."],
+    dysbiose:["<strong>Reduis les sucres rapides et l'alimentation ultra-transformee</strong> — ils nourrissent directement les mauvaises bacteries.","<strong>Mange tes fruits a distance des repas</strong> si tu es ballonnee — pas en dessert. Les fruits fermentent rapidement et aggravent les ballonnements.","<strong>Introduis des aliments fermentes tres progressivement</strong> — en cas de dysbiose importante, commence par de tres petites quantites pour eviter une reaction trop forte."],
+    foie:["<strong>Bouillotte sur le foie</strong> — cote droit sous les cotes, 20 minutes apres le repas. Favorise la production et le flux de bile.","<strong>Reduis les charges hepatiques</strong> — alcool, medicaments inutiles, aliments ultra-transformes. Moins de charge = plus de capacite de filtration.","<strong>Plantes hepato-protectrices</strong> (avec avis medical si traitement en cours) : romarin en tisane 21j, chardon-marie, fumeterre si vesicule paresseuse. Radis noir uniquement s'il n'y a pas de calculs biliaires."],
+  };
+  if(stress>=7)base.push("<strong>Ton niveau de stress est tres eleve</strong> — il perturbe directement tes secretions digestives. Le module 3 sur le stress et le cortisol est particulierement important pour toi.");
+  var recos=base.concat(spec[dom.key]);
+  var rb=document.getElementById('rb');rb.innerHTML='<p class="reco-title">Tes recommandations prioritaires</p>';
+  recos.forEach(function(r,i){rb.innerHTML+='<div class="reco-item"><div class="reco-num">'+(i+1)+'</div><p class="reco-text">'+r+'</p></div>';});
+}
+function rst(){
+  Object.keys(s).forEach(function(k){s[k]=0;});cur=1;
+  document.querySelectorAll('.opt').forEach(function(b){b.classList.remove('sel');});
+  for(var i=1;i<=11;i++){var nb=document.getElementById('n'+i);if(nb)nb.disabled=true;}
+  document.getElementById('ss').value=5;document.getElementById('sv').textContent='5 / 10';
+  document.getElementById('res').style.display='none';
+  document.getElementById('qa').style.display='block';
+  document.getElementById('pf').parentElement.style.display='block';
+  document.getElementById('pt').style.display='block';
+  document.querySelectorAll('.qcard').forEach(function(c){c.classList.remove('active');});
+  document.getElementById('q1').classList.add('active');
+  up();window.scrollTo(0,0);
+}
+up();
+</script>
+</body>
+</html>

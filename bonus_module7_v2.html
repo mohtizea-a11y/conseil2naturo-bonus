@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bonus Module 7 — Ton Profil Hormonal</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #0f1f15;
+    --bg2: #162a1e;
+    --bg3: #1e3828;
+    --green: #3a7a50;
+    --green-light: #4e9666;
+    --gold: #c9a84c;
+    --gold-light: #e2c47a;
+    --gold-pale: rgba(201,168,76,0.12);
+    --cream: #f5f0e8;
+    --cream2: rgba(245,240,232,0.75);
+    --white: #ffffff;
+    --text: rgba(245,240,232,0.9);
+    --text-dim: rgba(245,240,232,0.55);
+    --border: rgba(201,168,76,0.2);
+    --border2: rgba(201,168,76,0.35);
+  }
+
+  body {
+    font-family: 'Lato', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 0;
+  }
+
+  /* ===== HEADER ===== */
+  .header {
+    background: linear-gradient(135deg, #0a1a0f, #162a1e, #1e3828);
+    border-bottom: 1px solid var(--border);
+    padding: 36px 24px 28px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 200px; height: 200px;
+    border-radius: 50%;
+    border: 1px solid rgba(201,168,76,0.08);
+  }
+  .header .tag {
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 32px;
+    color: var(--cream);
+    line-height: 1.2;
+    margin-bottom: 8px;
+  }
+  .header h1 span { color: var(--gold); }
+  .header p {
+    font-size: 14px;
+    color: var(--text-dim);
+    max-width: 520px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+
+  /* ===== QUIZ ===== */
+  #quiz-section {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 32px 20px 60px;
+  }
+
+  .progress-bar {
+    background: rgba(201,168,76,0.1);
+    border-radius: 30px;
+    height: 4px;
+    margin-bottom: 28px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--green), var(--gold));
+    border-radius: 30px;
+    transition: width 0.4s ease;
+  }
+  .progress-label {
+    text-align: right;
+    font-size: 11px;
+    color: var(--text-dim);
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+  }
+
+  .question-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px 24px;
+    margin-bottom: 20px;
+  }
+  .question-card .q-num {
+    font-size: 11px;
+    color: var(--gold);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .question-card .q-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    color: var(--cream);
+    line-height: 1.4;
+    margin-bottom: 20px;
+  }
+
+  .options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .option {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 18px;
+    cursor: pointer;
+    font-size: 14px;
+    color: var(--text);
+    line-height: 1.5;
+    transition: all 0.2s;
+    text-align: left;
+  }
+  .option:hover { background: var(--gold-pale); border-color: var(--gold); color: var(--cream); }
+  .option.selected { background: var(--gold-pale); border-color: var(--gold); color: var(--cream); }
+  .option.selected::before { content: '✓ '; color: var(--gold); font-weight: 700; }
+
+  .btn-next {
+    display: block;
+    width: 100%;
+    background: linear-gradient(135deg, var(--green), var(--green-light));
+    border: none;
+    border-radius: 12px;
+    padding: 16px;
+    color: var(--cream);
+    font-family: 'Lato', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: all 0.2s;
+    display: none;
+  }
+  .btn-next:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(0,0,0,0.3); }
+  .btn-next.visible { display: block; }
+
+  /* ===== RESULTS ===== */
+  #result-section { display: none; max-width: 780px; margin: 0 auto; padding: 32px 20px 80px; }
+
+  .result-header {
+    background: linear-gradient(135deg, var(--bg2), var(--bg3));
+    border: 1px solid var(--border2);
+    border-radius: 20px;
+    padding: 32px 28px;
+    text-align: center;
+    margin-bottom: 28px;
+    position: relative;
+    overflow: hidden;
+  }
+  .result-header::before {
+    content: '';
+    position: absolute;
+    top: -40px; right: -40px;
+    width: 160px; height: 160px;
+    border-radius: 50%;
+    border: 1px solid rgba(201,168,76,0.1);
+  }
+  .result-header .emoji { font-size: 48px; margin-bottom: 12px; }
+  .result-header .profile-label {
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .result-header h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    color: var(--cream);
+    margin-bottom: 12px;
+    line-height: 1.3;
+  }
+  .result-header .description {
+    font-size: 14px;
+    color: var(--text-dim);
+    line-height: 1.7;
+    max-width: 540px;
+    margin: 0 auto;
+  }
+
+  /* Tabs */
+  .tabs {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+  }
+  .tab-btn {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-size: 13px;
+    color: var(--text-dim);
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: 'Lato', sans-serif;
+  }
+  .tab-btn:hover { border-color: var(--gold); color: var(--cream); }
+  .tab-btn.active { background: var(--gold-pale); border-color: var(--gold); color: var(--gold); font-weight: 700; }
+
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+
+  /* Content cards */
+  .reco-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 22px 24px;
+    margin-bottom: 14px;
+  }
+  .reco-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 17px;
+    color: var(--gold);
+    margin-bottom: 12px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+  .reco-card ul {
+    padding-left: 18px;
+  }
+  .reco-card li {
+    font-size: 14px;
+    color: var(--text);
+    line-height: 1.7;
+    margin-bottom: 6px;
+  }
+  .reco-card li strong { color: var(--gold-light); }
+  .reco-card p { font-size: 14px; color: var(--text); line-height: 1.7; }
+
+  .highlight-reco {
+    background: rgba(201,168,76,0.08);
+    border: 1px solid var(--border2);
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin-bottom: 14px;
+  }
+  .highlight-reco p { font-size: 14px; color: var(--cream); line-height: 1.7; }
+  .highlight-reco strong { color: var(--gold); }
+
+  /* Plan 7 jours */
+  .day-grid { display: flex; flex-direction: column; gap: 8px; }
+  .day-item {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+  }
+  .day-label {
+    background: var(--gold-pale);
+    border: 1px solid var(--border2);
+    border-radius: 8px;
+    padding: 4px 10px;
+    font-size: 12px;
+    color: var(--gold);
+    font-weight: 700;
+    white-space: nowrap;
+    min-width: 60px;
+    text-align: center;
+    margin-top: 2px;
+  }
+  .day-text { font-size: 13px; color: var(--text); line-height: 1.6; }
+
+  /* Other profiles */
+  .other-profiles {
+    margin-top: 32px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+  }
+  .other-profiles h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    color: var(--cream);
+    margin-bottom: 16px;
+  }
+  .profiles-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 10px;
+  }
+  .profile-btn {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 16px;
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.2s;
+    font-family: 'Lato', sans-serif;
+  }
+  .profile-btn:hover { border-color: var(--gold); background: var(--gold-pale); }
+  .profile-btn .p-emoji { font-size: 22px; margin-bottom: 6px; }
+  .profile-btn .p-name { font-size: 13px; color: var(--cream); font-weight: 700; line-height: 1.3; }
+  .profile-btn .p-sub { font-size: 11px; color: var(--text-dim); margin-top: 2px; }
+
+  .btn-retake {
+    display: block;
+    margin: 24px auto 0;
+    background: transparent;
+    border: 1px solid var(--border2);
+    border-radius: 10px;
+    padding: 12px 28px;
+    color: var(--text-dim);
+    font-family: 'Lato', sans-serif;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-retake:hover { color: var(--cream); border-color: var(--gold); }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="tag">Module 7 — En finir avec l'inflammation</div>
+  <h1>Quel est ton <span>profil hormonal</span> ?</h1>
+  <p>12 questions pour identifier tes déséquilibres hormonaux prioritaires et obtenir des recommandations concrètes adaptées à ton terrain.</p>
+</div>
+
+<!-- QUIZ -->
+<div id="quiz-section">
+  <div class="progress-label" id="progress-label">Question 1 / 12</div>
+  <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:8%"></div></div>
+  <div id="question-container"></div>
+  <button class="btn-next" id="btn-next" onclick="nextQuestion()">Question suivante →</button>
+</div>
+
+<!-- RESULTS -->
+<div id="result-section">
+  <div class="result-header" id="result-header"></div>
+  <div class="tabs" id="tabs-container"></div>
+  <div id="tabs-content"></div>
+  <div class="other-profiles">
+    <h3>Voir les autres profils</h3>
+    <div class="profiles-grid" id="other-profiles-grid"></div>
+  </div>
+  <button class="btn-retake" onclick="retakeQuiz()">↺ Refaire le quiz</button>
+</div>
+
+<script>
+const questions = [
+  {
+    text: "Le matin quand tu te lèves, c'est plutôt :",
+    options: [
+      { text: "Je suis épuisée même après 8h de sommeil — comme si je n'avais pas dormi", scores: { thyroide: 2, cortisol: 1 } },
+      { text: "Je me lève à peu près bien mais je m'effondre en milieu d'après-midi", scores: { insuline: 2, thyroide: 1 } },
+      { text: "La tête tourne déjà, anxiété ou ruminations dès le réveil", scores: { cortisol: 2, oestrogenes: 1 } },
+      { text: "Je me lève sans difficulté et j'ai de l'énergie", scores: { equilibre: 2 } }
+    ]
+  },
+  {
+    text: "Tes règles, c'est plutôt :",
+    options: [
+      { text: "Irrégulières, souvent en retard ou parfois absentes", scores: { thyroide: 2, cortisol: 1 } },
+      { text: "Douloureuses, très abondantes, avec des caillots", scores: { oestrogenes: 2 } },
+      { text: "Accompagnées d'une semaine de galère avant — seins gonflés, humeur dans les chaussettes, ventre ballonné", scores: { oestrogenes: 2, cortisol: 1 } },
+      { text: "Régulières et sans grands symptômes", scores: { equilibre: 2 } }
+    ]
+  },
+  {
+    text: "Avec ton poids, ce qui se passe c'est :",
+    options: [
+      { text: "Je prends du poids sans manger plus — surtout partout sur le corps, pas juste le ventre", scores: { thyroide: 2, insuline: 1 } },
+      { text: "J'ai un ventre qui grossit même quand je mange bien — et c'est très dur à perdre", scores: { insuline: 2, cortisol: 1 } },
+      { text: "Je stocke surtout aux hanches et aux cuisses, avec de la cellulite", scores: { oestrogenes: 2 } },
+      { text: "Mon poids est stable sans effort particulier", scores: { equilibre: 2 } }
+    ]
+  },
+  {
+    text: "Après le déjeuner, en général :",
+    options: [
+      { text: "J'ai un coup de barre — j'aurais besoin d'une sieste, difficile de me concentrer", scores: { insuline: 2 } },
+      { text: "J'ai faim ou envie de sucré à nouveau 1h-2h après avoir mangé", scores: { insuline: 2 } },
+      { text: "Je me sens lourde, ballonnée, la digestion est longue", scores: { thyroide: 1, insuline: 1 } },
+      { text: "Rien de particulier — ça se passe bien", scores: { equilibre: 2 } }
+    ]
+  },
+  {
+    text: "Si tu décris ton niveau d'énergie ces derniers mois :",
+    options: [
+      { text: "Je tourne non-stop, impossible de m'arrêter — mais je sens que je suis à bout", scores: { cortisol: 2, oestrogenes: 1 } },
+      { text: "Je suis à plat, plus d'énergie pour rien, même les choses que j'aimais ne m'intéressent plus", scores: { cortisol: 2, thyroide: 1 } },
+      { text: "Énergie en dents de scie — des pics et des chutes dans la journée", scores: { insuline: 2 } },
+      { text: "Mon énergie est globalement bonne et stable", scores: { equilibre: 2 } }
+    ]
+  },
+  {
+    text: "Côté cheveux, peau et ongles :",
+    options: [
+      { text: "Beaucoup de chute de cheveux, peau très sèche, ongles qui cassent — rien n'y fait", scores: { thyroide: 2 } },
+      { text: "De l'acné sur le visage ou le dos, peau grasse, parfois des poils en excès", scores: { insuline: 2 } },
+      { text: "Teint terne, peau qui manque d'éclat, cellulite récalcitrante", scores: { oestrogenes: 1, thyroide: 1 } },
+      { text: "Pas de problème particulier de ce côté-là", scores: { equilibre: 2 } }
+    ]
+  },
+  {
+    text: "La nuit, ton sommeil c'est :",
+    options: [
+      { text: "J'ai du mal à m'endormir — la tête tourne, les pensées défilent", scores: { cortisol: 2, oestrogenes: 1 } },
+      { text: "Je m'endors facilement mais je me réveille vers 2h-4h et j'ai du mal à me rendormir", scores: { insuline: 1, cortisol: 1 } },
+      { text: "Je dors longtemps mais je me réveille aussi fatiguée qu'avant", scores: { thyroide: 2 } },
+      { text: "Mon sommeil est bon et réparateur", scores: { equilibre: 2 } }
+    ]
+  },
+  {
+    text: "Depuis quelque temps, ton humeur c'est plutôt :",
+    options: [
+      { text: "Plus de motivation, pas d'entrain, un peu de brouillard dans la tête", scores: { thyroide: 2, cortisol: 1 } },
+      { text: "Irritable, à fleur de peau — surtout dans la deuxième moitié du mois", scores: { oestrogenes: 2 } },
+      { text: "Anxiété chronique, difficile de déconnecter, tendance à tout anticiper négativement", scores: { cortisol: 2 } },
+      { text: "Humeur stable, moral correct", scores: { equilibre: 2 } }
+    ]
+  },
+  {
+    text: "Ta relation avec la nourriture ressemble à :",
+    options: [
+      { text: "Beaucoup de pain, pâtes, sucré — et des fringales difficiles à contrôler", scores: { insuline: 2 } },
+      { text: "Je saute souvent des repas, pas vraiment faim le matin, j'oublie de manger", scores: { cortisol: 1, thyroide: 1 } },
+      { text: "Je mange peu, souvent des régimes — peu de viande, peu de graisses", scores: { thyroide: 1, oestrogenes: 1 } },
+      { text: "J'ai une alimentation variée et équilibrée, pas de rapport compliqué avec la nourriture", scores: { equilibre: 2 } }
+    ]
+  },
+  {
+    text: "La température, c'est ton truc ou pas ?",
+    options: [
+      { text: "Je suis frileuse en permanence — mains et pieds froids même en été, j'emprunte toujours les pulls des autres", scores: { thyroide: 2 } },
+      { text: "Des bouffées de chaleur, des sueurs nocturnes ou une sudation forte pour pas grand-chose", scores: { oestrogenes: 2, cortisol: 1 } },
+      { text: "Plutôt normal, juste un peu sensible au froid ou à la chaleur selon les moments", scores: { cortisol: 1 } },
+      { text: "Pas de problème de régulation thermique particulier", scores: { equilibre: 2 } }
+    ]
+  },
+  {
+    text: "Côté libido et vie intime :",
+    options: [
+      { text: "Libido quasi absente — plus vraiment envie, ça dure depuis un moment", scores: { thyroide: 1, cortisol: 2 } },
+      { text: "Libido variable selon la période du mois — en général basse en deuxième partie de cycle", scores: { oestrogenes: 2 } },
+      { text: "Ça dépend beaucoup de mon niveau de stress — quand je suis épuisée, c'est zéro", scores: { cortisol: 1, insuline: 1 } },
+      { text: "Pas de problème de ce côté-là", scores: { equilibre: 2 } }
+    ]
+  },
+  {
+    text: "Est-ce qu'on t'a déjà dit (ou est-ce que tu as l'impression) que :",
+    options: [
+      { text: "Tout est 'normal' dans tes analyses mais tu te sens vraiment pas bien — les médecins ne trouvent rien", scores: { thyroide: 2, cortisol: 1 } },
+      { text: "Tu as de l'endométriose, des fibromes, des kystes ovariens ou un SOPK", scores: { oestrogenes: 2 } },
+      { text: "Tu es à bout, tu fonctionnes en mode survie depuis trop longtemps", scores: { cortisol: 2 } },
+      { text: "Rien de tout ça — tu te sens globalement bien", scores: { equilibre: 2 } }
+    ]
+  }
+];
+
+const profiles = {
+  thyroide: {
+    emoji: "🦋",
+    name: "Thyroïde sous-active",
+    subtitle: "La conversion T4→T3 bloquée",
+    description: "Ton système thyroïdien tourne en sous-régime. L'inflammation chronique, les carences en cofacteurs (sélénium, zinc, fer) ou le stress activent la conversion de la T4 vers la T3 reverse inactive plutôt que la T3 active. Résultat : un métabolisme ralenti qui entretient la fatigue, la prise de poids et les dérèglements hormonaux — même si ton bilan labo semble 'normal'.",
+    tabs: {
+      "🥗 Alimentation": {
+        title: "Nourrir la thyroïde",
+        content: [
+          { type: "list", title: "Priorités alimentaires", items: [
+            "<strong>Poisson gras 2–3×/semaine</strong> (sardines, maquereaux, anchois) — iode + oméga-3 + sélénium",
+            "<strong>2 noix du Brésil par jour</strong> — apport optimal en sélénium sans supplément",
+            "<strong>Fruits de mer, algues</strong> (avec modération) — source naturelle d'iode",
+            "<strong>Viandes et abats</strong> (foie 1×/semaine) — fer héminique + zinc + vitamines B",
+            "<strong>Œufs entiers</strong> — tyrosine (précurseur des hormones thyroïdiennes) + iode + fer",
+            "Éviter le soja en grande quantité (effet goitrogène à haute dose)"
+          ]},
+          { type: "list", title: "À limiter", items: [
+            "Crudités de crucifères en grande quantité (cuire le brocoli, le chou diminue l'effet goitrogène)",
+            "Alcool (perturbe la conversion T4→T3)",
+            "Régimes sévères et jeûne prolongé (activent la DIO3 = plus de T3 reverse)"
+          ]}
+        ]
+      },
+      "💊 Phyto & Micro": {
+        title: "Soutenir la conversion thyroïdienne",
+        content: [
+          { type: "list", title: "Micronutrition prioritaire", items: [
+            "<strong>Sélénium</strong> (sélénométhionine) — 100–200 µg/jour — cofacteur indispensable des déiodinases DIO1/DIO2",
+            "<strong>Zinc</strong> (bisglycinate) — 15–25 mg/jour au dîner — cofacteur de la conversion T4→T3",
+            "<strong>Fer</strong> — vérifier la ferritine (objectif : femmes 50–150 ng/mL) — la thyroperoxydase est fer-dépendante",
+            "<strong>Vitamine D3 + K2</strong> — 2000–4000 UI/jour — récepteurs thyroïdiens besoin de vitamine D",
+            "<strong>Iode</strong> — uniquement si carence confirmée (urine 24h : objectif 150–300 µg/L)",
+            "<strong>Magnésium</strong> (bisglycinate) — 300 mg/soir — améliore la conversion périphérique"
+          ]},
+          { type: "list", title: "Plantes de soutien", items: [
+            "<strong>Ashwagandha</strong> — adaptogène qui améliore la conversion T4→T3 et réduit la TSH légèrement élevée",
+            "<strong>Guggul</strong> — plante ayurvédique qui stimule la conversion T4→T3",
+            "<strong>Romarin</strong> — hépatoprotecteur (la conversion se fait aussi dans le foie)"
+          ]}
+        ]
+      },
+      "🌿 Gestes santé": {
+        title: "Soutenir la thyroïde au quotidien",
+        content: [
+          { type: "list", title: "Gestes prioritaires", items: [
+            "<strong>Demander un bilan complet :</strong> TSH, T3 libre, T4 libre, anticorps anti-TPO et anti-thyroglobuline — pas juste la TSH",
+            "<strong>Réduire l'inflammation</strong> — c'est la première cause de blocage de la conversion thyroïdienne",
+            "<strong>Éviter les perturbateurs endocriniens</strong> (module 6) qui bloquent les récepteurs thyroïdiens : fluorures, chlore, métaux lourds",
+            "<strong>Limiter le stress chronique</strong> — le cortisol élevé bloque directement la conversion T4→T3",
+            "<strong>Optimiser le sommeil</strong> — la mélatonine est un cofacteur de la conversion thyroïdienne",
+            "<strong>Exposition solaire quotidienne</strong> — vitamine D = indispensable pour les récepteurs thyroïdiens"
+          ]}
+        ]
+      },
+      "📅 Plan 7 jours": {
+        title: "Ta semaine thyroïde",
+        days: [
+          { label: "Lun", text: "Matin : 2 noix du Brésil + sélénium. Déjeuner avec poisson gras. Supplément magnésium le soir." },
+          { label: "Mar", text: "Bilan sanguin à demander à ton médecin : TSH, T3 libre, T4 libre, anti-TPO, ferritine, zinc sérum." },
+          { label: "Mer", text: "Foie de veau ou poulet au dîner — fer héminique + zinc + vitamines B. Pas de crudités de choux." },
+          { label: "Jeu", text: "Vérifier tes produits cosmétiques avec Yuka — éliminer ceux qui contiennent des perturbateurs qui bloquent la thyroïde." },
+          { label: "Ven", text: "Ashwagandha le soir (300 mg KSM-66). Marche en extérieur 30 min — lumière naturelle + vitamine D." },
+          { label: "Sam", text: "Repas à base de poisson + légumes cuits (pas crus). Bain de soleil sans crème 20 min." },
+          { label: "Dim", text: "Journée de repos actif. Identifier tes sources de stress chronique — cortisol élevé = thyroïde bloquée." }
+        ]
+      }
+    }
+  },
+
+  insuline: {
+    emoji: "📊",
+    name: "Résistance à l'insuline",
+    subtitle: "La glycémie qui déraille",
+    description: "Ton pancréas tourne en surrégime pour gérer des pics de glycémie trop fréquents ou trop élevés. Tes cellules ont progressivement baissé leurs récepteurs à l'insuline pour se protéger. Ce déséquilibre active NF-kappa B, génère de l'inflammation, perturbe tes hormones féminines via l'aromatase, et crée un cercle vicieux difficile à briser sans changer les habitudes alimentaires.",
+    tabs: {
+      "🥗 Alimentation": {
+        title: "Réguler la glycémie",
+        content: [
+          { type: "list", title: "Règles fondamentales", items: [
+            "<strong>Protéines + graisses à chaque repas</strong> — ne jamais manger des glucides seuls",
+            "<strong>Légumineuses quotidiennement</strong> (lentilles, pois chiches) — fibres solubles + charge glycémique basse",
+            "<strong>Vinaigre de cidre</strong> — 1 c. à café dans un grand verre d'eau avant le déjeuner et le dîner",
+            "<strong>Ordre de l'assiette :</strong> légumes en premier, protéines ensuite, glucides en dernier — réduit le pic glycémique de 30%",
+            "<strong>Cannelle</strong> dans les yaourts ou compotes — améliore la sensibilité à l'insuline",
+            "<strong>Aucun sucre le matin à jeun</strong> — pas de jus de fruit, pas de pain blanc, pas de céréales sucrées"
+          ]},
+          { type: "list", title: "Aliments à privilégier", items: [
+            "Légumes non féculents en quantité libre — courgette, épinards, brocoli, poivron",
+            "Œufs, poisson, viande, légumineuses — protéines à chaque repas",
+            "Huile d'olive, avocat, noix — graisses qui ralentissent l'absorption",
+            "Fruits entiers (pas de jus) avec des oléagineux"
+          ]}
+        ]
+      },
+      "💊 Phyto & Micro": {
+        title: "Restaurer la sensibilité à l'insuline",
+        content: [
+          { type: "list", title: "Micronutrition clé", items: [
+            "<strong>Chrome</strong> (picolinate) — 200–400 µg/jour — cofacteur indispensable du récepteur à l'insuline",
+            "<strong>Magnésium</strong> (bisglycinate ou malate) — 300–400 mg/soir — réduit la résistance à l'insuline",
+            "<strong>Vitamine D3</strong> — 2000–4000 UI/jour — les cellules beta du pancréas ont des récepteurs à la vitamine D",
+            "<strong>Oméga-3 EPA+DHA</strong> — 2–3 g/jour — réduisent l'inflammation qui aggrave la résistance",
+            "<strong>Berbérine</strong> — 500 mg × 2/jour avant les repas — aussi efficace que la metformine sur la glycémie selon plusieurs études",
+            "<strong>Acide alpha-lipoïque (ALA)</strong> — 300–600 mg/jour — améliore l'utilisation du glucose"
+          ]},
+          { type: "list", title: "Plantes", items: [
+            "<strong>Fenugrec</strong> — fibres qui ralentissent l'absorption des glucides + effet hypoglycémiant direct",
+            "<strong>Gymnema sylvestre</strong> — réduit l'absorption intestinale du glucose"
+          ]}
+        ]
+      },
+      "🌿 Gestes santé": {
+        title: "Gestes anti-résistance au quotidien",
+        content: [
+          { type: "list", title: "Priorités immédiates", items: [
+            "<strong>Marche de 10–15 min après chaque repas</strong> — les muscles captent le glucose sans insuline à l'effort — le geste le plus simple et le plus efficace",
+            "<strong>Supprimer le grignotage</strong> — espacer les repas de 4–5h minimum pour laisser l'insuline redescendre",
+            "<strong>Manger dans les 90 min après le réveil</strong> — éviter le saut de repas qui déclenche des hypoglycémies réactionnelles",
+            "<strong>Dormir 7–8h</strong> — une seule nuit courte augmente la résistance à l'insuline le lendemain",
+            "<strong>Faire une analyse HOMA-IR</strong> chez le médecin (glycémie à jeun + insuline à jeun) — pour évaluer le niveau de résistance"
+          ]}
+        ]
+      },
+      "📅 Plan 7 jours": {
+        title: "Ta semaine glycémie",
+        days: [
+          { label: "Lun", text: "Petit-déjeuner protéiné : œufs + avocat + légumes. Pas de pain, pas de céréales. Commencer le chrome." },
+          { label: "Mar", text: "Vinaigre de cidre avant déjeuner et dîner. Marche 15 min après chaque repas. Note ta faim et tes fringales." },
+          { label: "Mer", text: "Repas : légumes en premier, protéines, glucides en dernier. Commencer le magnésium le soir." },
+          { label: "Jeu", text: "Supprimer tout grignotage. Espacer les repas de 5h. Observer si les fringales de sucre diminuent." },
+          { label: "Ven", text: "Lentilles ou pois chiches au déjeuner avec une source de protéines. Cannelle dans le yaourt du soir." },
+          { label: "Sam", text: "Demander bilan : glycémie à jeun + insuline à jeun pour calculer l'indice HOMA-IR." },
+          { label: "Dim", text: "Journée bilan : tes niveaux d'énergie ont-ils changé ? Les coups de barre post-repas sont-ils moins marqués ?" }
+        ]
+      }
+    }
+  },
+
+  oestrogenes: {
+    emoji: "⚖️",
+    name: "Dominance en œstrogènes",
+    subtitle: "L'équilibre œstrogènes/progestérone déréglé",
+    description: "Tes œstrogènes sont trop élevés par rapport à ta progestérone — que ce soit par excès d'œstrogènes, déficit en progestérone, ou les deux. Cette dominance active les voies pro-inflammatoires, entretient les douleurs de règles, les troubles du cycle, et la fatigue chronique. Les xénoestrogènes (perturbateurs endocriniens), un foie surchargé ou le stress chronique sont souvent en cause.",
+    tabs: {
+      "🥗 Alimentation": {
+        title: "Soutenir l'équilibre hormonal",
+        content: [
+          { type: "list", title: "Aliments à mettre en avant", items: [
+            "<strong>Légumes crucifères</strong> (brocoli, chou, choux de Bruxelles, kale, roquette) — contiennent l'indole-3-carbinol qui oriente le métabolisme des œstrogènes vers la voie 2-OH protectrice",
+            "<strong>Graines de lin moulues</strong> — 1 cuillère à soupe le matin dans le yaourt ou le porridge — lignanes qui modulent doucement les œstrogènes",
+            "<strong>Œufs entiers</strong> — choline = indispensable à la méthylation hépatique des œstrogènes",
+            "<strong>Graines de citrouille en première moitié de cycle</strong> — riches en zinc (soutien de la progestérone)",
+            "<strong>Graines de sésame en deuxième moitié de cycle</strong> — lignanes + soutien lutéal",
+            "Réduire l'alcool (inhibe la détox hépatique des œstrogènes)"
+          ]},
+          { type: "list", title: "Soutenir le foie", items: [
+            "Artichaut, betterave, radis noir — soutien hépatique et biliaire",
+            "Ail et oignons — composés soufrés qui activent les enzymes de phase 2",
+            "Curcuma (avec poivre noir) — anti-inflammatoire + hépatoprotecteur"
+          ]}
+        ]
+      },
+      "💊 Phyto & Micro": {
+        title: "Rééquilibrer les hormones",
+        content: [
+          { type: "list", title: "Micronutrition clé", items: [
+            "<strong>Vitamine B6</strong> (P5P) — 50 mg/jour — cofacteur de la synthèse de progestérone + réduit les symptômes du SPM",
+            "<strong>Magnésium</strong> (bisglycinate) — 300 mg/soir — réduit les crampes et les douleurs de règles + soutient la détox hépatique",
+            "<strong>Zinc</strong> — 15 mg/jour — cofacteur de la synthèse hormonale + réduit l'inflammation",
+            "<strong>Vitamine A</strong> (rétinol) — essentielle à la lecture des récepteurs hormonaux — vérifier la ferritine d'abord",
+            "<strong>DIM</strong> (diindolylméthane) — 150–200 mg/jour — oriente le métabolisme vers la voie 2-OH protectrice",
+            "<strong>Oméga-3 EPA+DHA</strong> — 2 g/jour — modulateurs de l'imprégnation œstrogénique + anti-inflammatoires"
+          ]},
+          { type: "list", title: "Plantes de soutien", items: [
+            "<strong>Gattilier (Vitex agnus-castus)</strong> — stimule la LH et la progestérone — à prendre en phase lutéale (J14–J28)",
+            "<strong>Chardon-marie</strong> — hépatoprotecteur — améliore la détox des œstrogènes",
+            "<strong>Alchémille</strong> — soutien de la progestérone + antispasmodique utérin"
+          ]}
+        ]
+      },
+      "🌿 Gestes santé": {
+        title: "Réduire la charge œstrogénique",
+        content: [
+          { type: "list", title: "Actions prioritaires", items: [
+            "<strong>Réduire l'exposition aux xénoestrogènes</strong> — scanner tes cosmétiques (Yuka/INCI Beauty), éliminer les emballages plastiques, filtrer l'eau",
+            "<strong>Gérer le stress en priorité</strong> — le stress détourne la prégnénolone vers le cortisol au lieu de la progestérone",
+            "<strong>Bougez régulièrement</strong> — l'exercice physique réduit le tissu adipeux qui produit des œstrogènes + améliore la détox",
+            "<strong>Demander un bilan hormonal au J21</strong> : estradiol, progestérone, FSH, LH — voir si le ratio est déséquilibré",
+            "<strong>Soutenir l'intestin</strong> — un microbiote déséquilibré réactive les œstrogènes déjà éliminés (estrobolome)"
+          ]}
+        ]
+      },
+      "📅 Plan 7 jours": {
+        title: "Ta semaine équilibre hormonal",
+        days: [
+          { label: "Lun", text: "Matin : 1 c.à s. de graines de lin moulues dans le yaourt. Commencer le magnésium le soir. Déjeuner avec brocoli ou chou." },
+          { label: "Mar", text: "Scanner tes 3 produits cosmétiques les plus utilisés avec Yuka. Éliminer le pire. Commencer vitamine B6 + zinc." },
+          { label: "Mer", text: "Artichaut ou radis noir au dîner. Alchémille en tisane le soir si tu es en phase lutéale." },
+          { label: "Jeu", text: "Vérifier tes ustensiles de cuisine et tes emballages alimentaires — plastique chauffé = xénoestrogènes." },
+          { label: "Ven", text: "Chardon-marie (gélule ou tisane) ce soir. Gattilier si tu es après J14 de ton cycle." },
+          { label: "Sam", text: "Prendre rendez-vous pour bilan hormonal J21 (estradiol, progestérone, FSH, LH)." },
+          { label: "Dim", text: "Observer ton cycle : où en es-tu ? Adapter les graines (lin + courge en phase folliculaire, sésame + tournesol en phase lutéale)." }
+        ]
+      }
+    }
+  },
+
+  cortisol: {
+    emoji: "🔋",
+    name: "Fatigue surrénalienne",
+    subtitle: "Cortisol chronique — le vol de prégnénolone",
+    description: "Tes glandes surrénales tournent à plein régime depuis trop longtemps. Le stress chronique détourne la prégnénolone — le précurseur commun de toutes tes hormones stéroïdiennes — vers la fabrication de cortisol en priorité. Résultat : moins de DHEA, moins de progestérone, thyroïde ralentie, système immunitaire affaibli, inflammation qui monte. C'est le burn-in qui précède souvent le burn-out.",
+    tabs: {
+      "🥗 Alimentation": {
+        title: "Nourrir les surrénales",
+        content: [
+          { type: "list", title: "Priorités alimentaires", items: [
+            "<strong>Petit-déjeuner dans l'heure suivant le réveil</strong> — éviter l'hypoglycémie matinale qui sur-sollicite le cortisol",
+            "<strong>Protéines à chaque repas</strong> — les surrénales ont besoin d'acides aminés pour fabriquer leurs hormones",
+            "<strong>Sel de qualité (non raffiné)</strong> — l'aldostérone (autre hormone surrénale) régule le sodium — en cas de fatigue surrénalienne, le sel peut aider",
+            "<strong>Vitamine C alimentaire</strong> (poivrons, kiwi, persil) — les surrénales sont parmi les organes les plus concentrés en vitamine C",
+            "<strong>Graisses de qualité</strong> (avocat, huile d'olive, jaune d'œuf) — le cholestérol est le précurseur de toutes les hormones stéroïdiennes",
+            "Pas de café avant 10h (respecter le pic naturel de cortisol matinal)"
+          ]}
+        ]
+      },
+      "💊 Phyto & Micro": {
+        title: "Recharger les surrénales",
+        content: [
+          { type: "list", title: "Micronutrition clé", items: [
+            "<strong>Magnésium</strong> (bisglycinate) — 400 mg/soir — épuisé en premier lors du stress chronique",
+            "<strong>Vitamine C</strong> (liposomale de préférence) — 500–1000 mg/jour — cofacteur de la synthèse des catécholamines",
+            "<strong>Vitamines B5</strong> (acide pantothénique) — 500 mg/jour — indispensable à la synthèse du cortisol + des neurotransmetteurs",
+            "<strong>Zinc</strong> — 15 mg/jour — soutien surrénalien global",
+            "<strong>DHEA</strong> — uniquement si déficit confirmé par analyse sanguine (sulfate de DHEA)"
+          ]},
+          { type: "list", title: "Plantes adaptogènes", items: [
+            "<strong>Ashwagandha (KSM-66)</strong> — 300–600 mg/soir — réduit le cortisol, améliore la résistance au stress",
+            "<strong>Rhodiola rosea</strong> — matin seulement — améliore l'énergie et la résistance mentale sans stimuler",
+            "<strong>Eleuthérocoque</strong> — adaptogène doux, soutien de longue durée",
+            "<strong>Réglisse</strong> (en cure courte) — prolonge la durée d'action du cortisol, utile en phase d'épuisement"
+          ]}
+        ]
+      },
+      "🌿 Gestes santé": {
+        title: "Récupérer les surrénales",
+        content: [
+          { type: "list", title: "Priorités absolues", items: [
+            "<strong>Cohérence cardiaque</strong> — 5 min × 3/jour (appli RespiRelax) — le geste le plus puissant pour baisser le cortisol en temps réel",
+            "<strong>Heure de coucher fixe</strong> — avant 23h impérativement — la DHEA se fabrique la nuit, le cortisol se recalibre",
+            "<strong>Coupures digitales</strong> — écrans éteints 1h avant le coucher + une plage de 'vrai repos' dans la journée",
+            "<strong>Marche en nature</strong> — shinrin-yoku — réduit le cortisol salivaire de 12–17% selon les études",
+            "<strong>Bilan cortisol salivaire × 4 prises</strong> (matin, midi, soir, nuit) — plus fiable que le cortisol sanguin pour évaluer le rythme circadien"
+          ]}
+        ]
+      },
+      "📅 Plan 7 jours": {
+        title: "Ta semaine surrénales",
+        days: [
+          { label: "Lun", text: "Instaurer la cohérence cardiaque : 5 min au réveil, 5 min après déjeuner, 5 min avant de dormir. Commencer l'ashwagandha le soir." },
+          { label: "Mar", text: "Petit-déjeuner riche en protéines dans l'heure suivant le réveil. Pas de café avant 10h. Rhodiola le matin." },
+          { label: "Mer", text: "Identifier et noter tes 3 principales sources de stress chronique. Une seule chose à réduire cette semaine." },
+          { label: "Jeu", text: "Marche de 30 min en nature (forêt, parc). Sans téléphone. Observer l'effet sur l'anxiété." },
+          { label: "Ven", text: "Coucher avant 22h30. Écrans off 1h avant. Magnésium + ashwagandha le soir." },
+          { label: "Sam", text: "Journée de repos actif. Pas de planning chargé. Autoriser le vrai repos sans culpabilité." },
+          { label: "Dim", text: "Demander bilan cortisol salivaire (4 prises) + DHEA sulfate. Pour avoir une photo de l'état de tes surrénales." }
+        ]
+      }
+    }
+  },
+
+  equilibre: {
+    emoji: "🌱",
+    name: "Terrain hormonal équilibré",
+    subtitle: "Optimisation et prévention",
+    description: "Ton système hormonal semble globalement bien régulé. Les bases sont en place. L'objectif maintenant est d'optimiser et de maintenir cet équilibre sur le long terme, en anticipant les périodes de vulnérabilité (stress intense, changements de saison, approche de la péri-ménopause) et en affinant les leviers de prévention.",
+    tabs: {
+      "🥗 Alimentation": {
+        title: "Alimentation préventive",
+        content: [
+          { type: "list", title: "Pour maintenir l'équilibre", items: [
+            "<strong>Alimentation cyclique</strong> — adapter l'alimentation aux phases du cycle : plus de graines de lin et courge en phase folliculaire, sésame et tournesol en phase lutéale",
+            "<strong>Crucifères 3–4×/semaine</strong> — entretenir la voie 2-OH du métabolisme des œstrogènes",
+            "<strong>Oméga-3 réguliers</strong> — petits poissons gras 2–3×/semaine",
+            "Maintenir une bonne diversité alimentaire — microbiote diversifié = bon estrobolome",
+            "Protéines de qualité à chaque repas pour soutenir la synthèse hormonale"
+          ]}
+        ]
+      },
+      "💊 Phyto & Micro": {
+        title: "Maintenir les fondations",
+        content: [
+          { type: "list", title: "Base micronutritionnelle", items: [
+            "<strong>Magnésium</strong> — 300 mg/soir — à titre préventif, consommé par le stress du quotidien",
+            "<strong>Vitamine D3 + K2</strong> — en particulier entre octobre et avril",
+            "<strong>Oméga-3</strong> — si poisson insuffisant dans la semaine",
+            "Bilan biologique annuel : ferritine, zinc, vitamines B12/D, T3/T4, glycémie à jeun"
+          ]}
+        ]
+      },
+      "🌿 Gestes santé": {
+        title: "Prévention sur le long terme",
+        content: [
+          { type: "list", title: "Rituels de maintien", items: [
+            "<strong>Suivi du cycle menstruel</strong> (appli Clue ou Flo) — pour anticiper les phases de vulnérabilité",
+            "<strong>Gestion du stress comme hygiène quotidienne</strong> — cohérence cardiaque, méditation courte, nature",
+            "<strong>Activité physique variée</strong> — mélange cardio doux + musculation pour sensibiliser les récepteurs à l'insuline",
+            "<strong>Sommeil régulier</strong> — coucher fixe, chambre fraîche, pas d'écrans le soir",
+            "Bilan annuel préventif pour anticiper la péri-ménopause"
+          ]}
+        ]
+      },
+      "📅 Plan 7 jours": {
+        title: "Ta semaine optimisation",
+        days: [
+          { label: "Lun", text: "Commencer à tracer ton cycle si ce n'est pas encore fait. Identifier quelle phase tu es actuellement." },
+          { label: "Mar", text: "Brocoli ou kale au déjeuner. Graines de lin moulues le matin. Magnésium le soir." },
+          { label: "Mer", text: "30 min d'activité physique — marche rapide ou musculation douce. Marche après le dîner." },
+          { label: "Jeu", text: "Faire le point sur le stress de la semaine. Cohérence cardiaque 5 min le soir." },
+          { label: "Ven", text: "Repas à base de petit poisson gras + légumes variés. Coucher avant 23h." },
+          { label: "Sam", text: "Prendre 15 min pour faire le bilan : énergie, humeur, digestion, cycle — noter les changements." },
+          { label: "Dim", text: "Programmation de bilan sanguin annuel (ferritine, zinc, D, B12, TSH + T3/T4, glycémie à jeun)." }
+        ]
+      }
+    }
+  }
+};
+
+// Quiz state
+let currentQ = 0;
+let scores = { thyroide: 0, insuline: 0, oestrogenes: 0, cortisol: 0, equilibre: 0 };
+let selectedAnswer = null;
+
+function renderQuestion() {
+  const q = questions[currentQ];
+  const progress = Math.round(((currentQ) / questions.length) * 100) + 8;
+  document.getElementById('progress-fill').style.width = progress + '%';
+  document.getElementById('progress-label').textContent = 'Question ' + (currentQ + 1) + ' / ' + questions.length;
+
+  let html = `<div class="question-card">
+    <div class="q-num">Question ${currentQ + 1} sur ${questions.length}</div>
+    <div class="q-text">${q.text}</div>
+    <div class="options">`;
+  q.options.forEach((opt, i) => {
+    html += `<button class="option" onclick="selectOption(this, ${i})">${opt.text}</button>`;
+  });
+  html += `</div></div>`;
+  document.getElementById('question-container').innerHTML = html;
+  selectedAnswer = null;
+  document.getElementById('btn-next').classList.remove('visible');
+}
+
+function selectOption(el, idx) {
+  document.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedAnswer = idx;
+  const btn = document.getElementById('btn-next');
+  btn.textContent = currentQ < questions.length - 1 ? 'Question suivante →' : 'Voir mon profil →';
+  btn.classList.add('visible');
+}
+
+function nextQuestion() {
+  if (selectedAnswer === null) return;
+  const scoreMap = questions[currentQ].options[selectedAnswer].scores;
+  for (const [key, val] of Object.entries(scoreMap)) {
+    if (scores[key] !== undefined) scores[key] += val;
+  }
+  currentQ++;
+  if (currentQ < questions.length) {
+    renderQuestion();
+  } else {
+    showResults();
+  }
+}
+
+function getTopProfiles() {
+  const ranked = Object.entries(scores)
+    .filter(([k]) => k !== 'equilibre')
+    .sort((a, b) => b[1] - a[1]);
+  const topScore = ranked[0][1];
+  const secondScore = ranked[1][1];
+  let primary = topScore < 4 ? 'equilibre' : ranked[0][0];
+  let secondary = null;
+  if (primary !== 'equilibre' && secondScore >= 3 && secondScore >= topScore * 0.6) {
+    secondary = ranked[1][0];
+  }
+  return { primary, secondary };
+}
+
+function showResults(profileKey, secondaryKey) {
+  const { primary, secondary } = profileKey ? { primary: profileKey, secondary: secondaryKey || null } : getTopProfiles();
+  const key = primary;
+  const profile = profiles[key];
+  const secProfile = secondary ? profiles[secondary] : null;
+  document.getElementById('quiz-section').style.display = 'none';
+  document.getElementById('result-section').style.display = 'block';
+
+  // Header
+  document.getElementById('result-header').innerHTML = `
+    <div class="emoji">${profile.emoji}</div>
+    <div class="profile-label">Ton profil hormonal principal</div>
+    <h2>${profile.name}</h2>
+    <div style="color:var(--gold);font-size:13px;margin-bottom:12px;">${profile.subtitle}</div>
+    <p class="description">${profile.description}</p>
+    ${secProfile ? `
+    <div style="margin-top:20px;padding:14px 20px;background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:12px;text-align:center;">
+      <div style="font-size:11px;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-bottom:6px;">Profil secondaire associé</div>
+      <div style="font-size:20px;margin-bottom:4px;">${secProfile.emoji}</div>
+      <div style="font-size:15px;color:var(--cream);font-weight:700;">${secProfile.name}</div>
+      <div style="font-size:12px;color:var(--text-dim);margin-top:4px;">${secProfile.subtitle}</div>
+      <button onclick="showResults('${secondary}')" style="margin-top:10px;background:none;border:1px solid rgba(201,168,76,0.4);border-radius:8px;padding:6px 16px;color:var(--gold);font-family:Lato,sans-serif;font-size:12px;cursor:pointer;letter-spacing:0.5px;">Voir les recommandations →</button>
+    </div>` : ''}
+  `;
+
+  // Tabs
+  const tabNames = Object.keys(profile.tabs);
+  let tabsHtml = '';
+  tabNames.forEach((t, i) => {
+    tabsHtml += `<button class="tab-btn ${i===0?'active':''}" onclick="switchTab(this, 'tab-${key}-${i}')">${t}</button>`;
+  });
+  document.getElementById('tabs-container').innerHTML = tabsHtml;
+
+  // Tab content
+  let contentHtml = '';
+  tabNames.forEach((tabName, i) => {
+    const tab = profile.tabs[tabName];
+    contentHtml += `<div class="tab-content ${i===0?'active':''}" id="tab-${key}-${i}">`;
+    contentHtml += `<div class="reco-card"><h3>${tab.title}</h3>`;
+
+    if (tab.days) {
+      contentHtml += `<div class="day-grid">`;
+      tab.days.forEach(d => {
+        contentHtml += `<div class="day-item"><span class="day-label">${d.label}</span><span class="day-text">${d.text}</span></div>`;
+      });
+      contentHtml += `</div>`;
+    } else if (tab.content) {
+      tab.content.forEach(block => {
+        if (block.type === 'list') {
+          contentHtml += `<div style="margin-bottom:16px;"><p style="font-size:13px;font-weight:700;color:var(--gold-light);margin-bottom:8px;">${block.title}</p><ul>`;
+          block.items.forEach(item => { contentHtml += `<li>${item}</li>`; });
+          contentHtml += `</ul></div>`;
+        }
+      });
+    }
+
+    contentHtml += `</div></div>`;
+  });
+  document.getElementById('tabs-content').innerHTML = contentHtml;
+
+  let othersHtml = '';
+  Object.entries(profiles).forEach(([k, p]) => {
+    if (k !== key) {
+      othersHtml += `<button class="profile-btn" onclick="showResults('${k}')">
+        <div class="p-emoji">${p.emoji}</div>
+        <div class="p-name">${p.name}</div>
+        <div class="p-sub">${p.subtitle}</div>
+      </button>`;
+    }
+  });
+  document.getElementById('other-profiles-grid').innerHTML = othersHtml;
+  window.scrollTo(0, 0);
+}
+
+function switchTab(btn, tabId) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(tabId).classList.add('active');
+}
+
+function retakeQuiz() {
+  currentQ = 0;
+  scores = { thyroide: 0, insuline: 0, oestrogenes: 0, cortisol: 0, equilibre: 0 };
+  selectedAnswer = null;
+  document.getElementById('quiz-section').style.display = 'block';
+  document.getElementById('result-section').style.display = 'none';
+  renderQuestion();
+  window.scrollTo(0, 0);
+}
+
+// Init
+renderQuestion();
+</script>
+</body>
+</html>

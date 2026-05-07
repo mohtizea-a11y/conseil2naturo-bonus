@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bonus Module 8 — Ton profil activité physique</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --vert: #52a878;
+  --vert-moyen: #3d8b64;
+  --vert-pale: #e8f5ee;
+  --or: #c9943a;
+  --or-pale: #fdf3e3;
+  --or-clair: #f0d080;
+  --fond: #141f18;
+  --fond2: #1c2b21;
+  --carte: #243029;
+  --texte: #e8f0ea;
+  --gris: #8fa894;
+  --blanc: #ffffff;
+  --rouge: #e07a5f;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'DM Sans', sans-serif; background:var(--fond); color:var(--texte); min-height:100vh; }
+
+/* HEADER */
+.header {
+  background:var(--fond2); padding:28px 40px;
+  border-bottom:1px solid rgba(82,168,120,0.2);
+  text-align:center;
+}
+.header .tag {
+  display:inline-block; background:var(--vert); color:white;
+  font-size:10px; font-weight:700; letter-spacing:2px; text-transform:uppercase;
+  padding:5px 14px; border-radius:20px; margin-bottom:12px;
+}
+.header h1 {
+  font-family:'Playfair Display', serif;
+  font-size:32px; font-weight:700; color:var(--blanc);
+  margin-bottom:8px;
+}
+.header h1 span { color:var(--or-clair); }
+.header p { font-size:14px; color:var(--gris); max-width:520px; margin:0 auto; line-height:1.6; }
+
+/* CONTENEUR PRINCIPAL */
+.main { max-width:760px; margin:0 auto; padding:40px 24px 60px; }
+
+/* QUIZ */
+#quiz-section {}
+.progress-bar {
+  background:rgba(255,255,255,0.08); border-radius:20px;
+  height:6px; margin-bottom:32px; overflow:hidden;
+}
+.progress-fill {
+  height:100%; background:linear-gradient(90deg, var(--vert), var(--or));
+  border-radius:20px; transition:width 0.4s ease;
+}
+
+.question-num {
+  font-size:11px; font-weight:700; letter-spacing:2px; text-transform:uppercase;
+  color:var(--vert); margin-bottom:10px;
+}
+.question-texte {
+  font-family:'Playfair Display', serif;
+  font-size:22px; color:var(--blanc); line-height:1.35;
+  margin-bottom:28px; min-height:60px;
+}
+
+.options { display:flex; flex-direction:column; gap:10px; }
+.option {
+  background:var(--carte); border:1.5px solid rgba(82,168,120,0.15);
+  border-radius:12px; padding:16px 20px;
+  cursor:pointer; transition:all 0.2s;
+  display:flex; align-items:center; gap:14px;
+  font-size:14.5px; color:var(--texte); line-height:1.45;
+}
+.option:hover { border-color:var(--vert); background:#2a3a2f; transform:translateX(4px); }
+.option .lettre {
+  width:28px; height:28px; border-radius:50%;
+  background:rgba(82,168,120,0.15); color:var(--vert);
+  font-size:12px; font-weight:700; display:flex; align-items:center; justify-content:center;
+  flex-shrink:0;
+}
+
+/* RÉSULTATS */
+#resultat-section { display:none; }
+
+.profil-header {
+  background:var(--fond2); border-radius:16px; padding:28px 32px;
+  margin-bottom:24px; border:1px solid rgba(82,168,120,0.2);
+  position:relative; overflow:hidden;
+}
+.profil-header::before {
+  content:''; position:absolute; top:0; right:0;
+  width:120px; height:120px;
+  background:radial-gradient(circle, rgba(82,168,120,0.15) 0%, transparent 70%);
+}
+.profil-emoji { font-size:48px; margin-bottom:12px; display:block; }
+.profil-nom {
+  font-family:'Playfair Display', serif;
+  font-size:26px; font-weight:700; color:var(--blanc); margin-bottom:8px;
+}
+.profil-desc { font-size:14.5px; color:var(--gris); line-height:1.7; max-width:560px; }
+
+/* PROFIL SECONDAIRE */
+.profil-secondaire {
+  background:rgba(201,148,58,0.1); border:1px solid rgba(201,148,58,0.3);
+  border-radius:12px; padding:14px 18px; margin-bottom:24px;
+  display:flex; align-items:center; gap:14px;
+}
+.profil-secondaire .emoji { font-size:24px; }
+.profil-secondaire .info { flex:1; }
+.profil-secondaire .label { font-size:10px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--or); margin-bottom:4px; }
+.profil-secondaire .nom { font-size:14px; font-weight:600; color:var(--blanc); }
+.profil-secondaire .btn-voir {
+  background:rgba(201,148,58,0.2); border:1px solid rgba(201,148,58,0.4);
+  color:var(--or); padding:6px 14px; border-radius:20px;
+  font-size:12px; font-weight:600; cursor:pointer;
+  transition:all 0.2s; white-space:nowrap;
+}
+.profil-secondaire .btn-voir:hover { background:var(--or); color:var(--fond); }
+
+/* ONGLETS */
+.onglets { display:flex; gap:4px; margin-bottom:20px; flex-wrap:wrap; }
+.onglet {
+  padding:9px 18px; border-radius:20px; cursor:pointer;
+  font-size:13px; font-weight:500; transition:all 0.2s;
+  background:var(--carte); color:var(--gris);
+  border:1.5px solid transparent;
+}
+.onglet.actif { background:var(--vert); color:white; border-color:var(--vert); }
+.onglet:hover:not(.actif) { border-color:var(--vert); color:var(--vert); }
+
+/* CONTENU ONGLET */
+.contenu-onglet { display:none; animation:fadeTab 0.3s ease; }
+.contenu-onglet.actif { display:block; }
+@keyframes fadeTab { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:translateY(0); } }
+
+/* CARTE CONSEIL */
+.conseil-card {
+  background:var(--carte); border-radius:12px; padding:20px 22px;
+  margin-bottom:12px; border-left:3px solid var(--vert);
+}
+.conseil-card.or { border-left-color:var(--or); }
+.conseil-card h4 {
+  font-size:13px; font-weight:700; color:var(--vert);
+  text-transform:uppercase; letter-spacing:1px; margin-bottom:8px;
+}
+.conseil-card.or h4 { color:var(--or); }
+.conseil-card p { font-size:14px; line-height:1.7; color:var(--gris); }
+.conseil-card ul { padding-left:0; list-style:none; margin-top:6px; }
+.conseil-card ul li {
+  font-size:13.5px; line-height:1.65; color:var(--gris);
+  padding:5px 0 5px 18px; position:relative;
+  border-bottom:1px solid rgba(255,255,255,0.04);
+}
+.conseil-card ul li:last-child { border-bottom:none; }
+.conseil-card ul li::before { content:'→'; position:absolute; left:0; color:var(--vert); font-size:11px; top:7px; }
+
+/* PLAN 7 JOURS */
+.jour {
+  background:var(--carte); border-radius:10px; padding:14px 18px;
+  margin-bottom:8px; display:flex; align-items:flex-start; gap:14px;
+}
+.jour .num-jour {
+  width:36px; height:36px; border-radius:50%;
+  background:rgba(82,168,120,0.15); color:var(--vert);
+  font-size:13px; font-weight:700; display:flex; align-items:center; justify-content:center;
+  flex-shrink:0;
+}
+.jour .contenu-jour h5 { font-size:13px; font-weight:600; color:var(--blanc); margin-bottom:3px; }
+.jour .contenu-jour p { font-size:13px; color:var(--gris); line-height:1.5; }
+
+/* AUTRES PROFILS */
+.autres-profils { margin-top:32px; }
+.autres-profils h3 {
+  font-size:12px; font-weight:700; letter-spacing:2px; text-transform:uppercase;
+  color:var(--gris); margin-bottom:14px;
+}
+.profils-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(140px, 1fr)); gap:10px; }
+.profil-btn {
+  background:var(--carte); border:1.5px solid rgba(82,168,120,0.15);
+  border-radius:10px; padding:14px 12px; text-align:center;
+  cursor:pointer; transition:all 0.2s;
+}
+.profil-btn:hover { border-color:var(--vert); background:#2a3a2f; }
+.profil-btn .e { font-size:24px; margin-bottom:6px; }
+.profil-btn .n { font-size:12px; color:var(--gris); line-height:1.4; }
+
+/* REFAIRE */
+.btn-refaire {
+  display:block; margin:32px auto 0;
+  background:transparent; border:1.5px solid rgba(82,168,120,0.4);
+  color:var(--vert); padding:12px 28px; border-radius:30px;
+  font-size:14px; font-weight:600; cursor:pointer; transition:all 0.2s;
+}
+.btn-refaire:hover { background:var(--vert); color:white; border-color:var(--vert); }
+
+/* DISCLAIMER */
+.disclaimer {
+  background:rgba(255,255,255,0.04); border-radius:10px;
+  padding:14px 18px; margin-top:32px;
+  font-size:12px; color:var(--gris); line-height:1.6; text-align:center;
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="tag">Bonus · Module 8</div>
+  <h1>Quel est ton <span>profil</span> activité physique ?</h1>
+  <p>12 questions pour identifier où tu en es et recevoir des recommandations vraiment adaptées à toi.</p>
+</div>
+
+<div class="main">
+  <!-- QUIZ -->
+  <div id="quiz-section">
+    <div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
+    <div class="question-num" id="q-num">Question 1 / 12</div>
+    <div class="question-texte" id="q-texte"></div>
+    <div class="options" id="q-options"></div>
+  </div>
+
+  <!-- RÉSULTATS -->
+  <div id="resultat-section">
+    <div class="profil-header">
+      <span class="profil-emoji" id="res-emoji"></span>
+      <div class="profil-nom" id="res-nom"></div>
+      <div class="profil-desc" id="res-desc"></div>
+    </div>
+    <div class="profil-secondaire" id="profil-sec" style="display:none;">
+      <div class="emoji" id="sec-emoji"></div>
+      <div class="info">
+        <div class="label">Profil secondaire détecté</div>
+        <div class="nom" id="sec-nom"></div>
+      </div>
+      <button class="btn-voir" id="sec-btn">Voir ses conseils</button>
+    </div>
+    <div class="onglets">
+      <div class="onglet actif" onclick="changerOnglet(0, this)">🥗 Alimentation</div>
+      <div class="onglet" onclick="changerOnglet(1, this)">💊 Phyto & micro</div>
+      <div class="onglet" onclick="changerOnglet(2, this)">🌿 Gestes santé</div>
+      <div class="onglet" onclick="changerOnglet(3, this)">📅 Plan 7 jours</div>
+    </div>
+    <div id="contenu-onglets"></div>
+    <div class="autres-profils">
+      <h3>Consulter un autre profil</h3>
+      <div class="profils-grid" id="autres-profils-grid"></div>
+    </div>
+    <button class="btn-refaire" onclick="refaire()">↩ Refaire le quiz</button>
+    <div class="disclaimer">Ces recommandations sont données à titre informatif et éducatif. Elles ne remplacent pas un avis médical. En cas de doute ou de pathologie, consultez un professionnel de santé.</div>
+  </div>
+</div>
+
+<script>
+const questions = [
+  {
+    texte: "Dans ta journée type, tu passes combien de temps assise ou allongée (hors sommeil) ?",
+    options: [
+      "Plus de 8 heures — je suis vraiment très peu active",
+      "Entre 5 et 8 heures — je bouge un peu mais c'est limité",
+      "Entre 2 et 5 heures — j'ai un rythme assez actif",
+      "Moins de 2 heures — je suis en mouvement une bonne partie de la journée"
+    ],
+    scores: [
+      {sedentaire:3},
+      {sedentaire:1, irreguliere:1},
+      {irreguliere:1, equilibre:1},
+      {equilibre:2}
+    ]
+  },
+  {
+    texte: "Quand tu as une heure de libre, quelle est ta première impulsion ?",
+    options: [
+      "M'installer sur le canapé ou défiler sur mon téléphone",
+      "Faire quelque chose de calme — lire, cuisiner, voir des amis",
+      "Bouger un peu si j'ai l'énergie, mais pas forcément",
+      "Profiter pour faire une activité physique ou une sortie"
+    ],
+    scores: [
+      {sedentaire:3},
+      {sedentaire:1},
+      {irreguliere:2},
+      {equilibre:2, debutante:1}
+    ]
+  },
+  {
+    texte: "Tu fais de l'activité physique régulière en ce moment ?",
+    options: [
+      "Non, pas du tout ou presque pas",
+      "Je voudrais commencer mais je ne sais pas par où",
+      "Oui, mais de façon très irrégulière — des semaines oui, des semaines non",
+      "Oui, au moins 2 fois par semaine de façon assez régulière",
+      "Oui, je m'entraîne intensément, souvent tous les jours"
+    ],
+    scores: [
+      {sedentaire:3},
+      {debutante:3},
+      {irreguliere:3},
+      {equilibre:2},
+      {surentrainee:3}
+    ]
+  },
+  {
+    texte: "Comment tu te sens physiquement après une semaine sans vraiment bouger ?",
+    options: [
+      "Pareil — je ne sens pas vraiment de différence",
+      "Un peu plus lourde et fatiguée, mais ça reste gérable",
+      "Clairement plus tendue, moins bien dans mon corps",
+      "Vraiment mal — j'ai besoin de bouger pour me sentir bien"
+    ],
+    scores: [
+      {sedentaire:2},
+      {sedentaire:1, irreguliere:1},
+      {irreguliere:2, debutante:1},
+      {equilibre:2, surentrainee:1}
+    ]
+  },
+  {
+    texte: "Est-ce que tu as des douleurs articulaires ou musculaires au quotidien ?",
+    options: [
+      "Oui, souvent — dos, genoux, hanches, épaules...",
+      "Parfois, surtout quand je reste longtemps assise",
+      "Rarement et ça passe vite",
+      "Non, je me sens bien dans mon corps"
+    ],
+    scores: [
+      {sedentaire:2, debutante:1},
+      {sedentaire:1, irreguliere:1},
+      {irreguliere:1, equilibre:1},
+      {equilibre:2, surentrainee:1}
+    ]
+  },
+  {
+    texte: "Après une séance de sport ou une longue marche, comment tu te sens ?",
+    options: [
+      "Épuisée pendant des jours — ça m'assomme plutôt",
+      "Fatiguée sur le moment mais bien après",
+      "Bien — un peu de courbatures mais ça récupère vite",
+      "Super bien — c'est là que je me sens le mieux",
+      "Je force souvent trop et j'ai du mal à m'arrêter"
+    ],
+    scores: [
+      {sedentaire:2},
+      {debutante:2, irreguliere:1},
+      {equilibre:2},
+      {equilibre:2},
+      {surentrainee:3}
+    ]
+  },
+  {
+    texte: "Tu es souvent fatiguée malgré un sommeil correct ?",
+    options: [
+      "Oui, en permanence — je ne comprends pas pourquoi",
+      "Oui, surtout dans l'après-midi",
+      "De temps en temps, mais pas systématiquement",
+      "Non, j'ai une bonne énergie en général"
+    ],
+    scores: [
+      {sedentaire:2, surentrainee:1},
+      {sedentaire:1, irreguliere:1},
+      {irreguliere:1},
+      {equilibre:2}
+    ]
+  },
+  {
+    texte: "Est-ce que tu transpires régulièrement lors de tes activités ?",
+    options: [
+      "Jamais ou presque — je ne fais rien d'assez intense pour ça",
+      "Rarement, seulement si je fais quelque chose d'exceptionnel",
+      "Parfois, quand j'ai une bonne séance",
+      "Régulièrement — c'est quelque chose que je recherche dans l'effort"
+    ],
+    scores: [
+      {sedentaire:3},
+      {irreguliere:2},
+      {irreguliere:1, equilibre:1},
+      {equilibre:2, surentrainee:1}
+    ]
+  },
+  {
+    texte: "Qu'est-ce qui t'empêche le plus de bouger régulièrement ?",
+    options: [
+      "Le manque de temps et d'organisation",
+      "La fatigue — je n'ai tout simplement pas l'énergie",
+      "Je ne sais pas par quoi commencer ou j'ai peur de me blesser",
+      "La motivation qui fluctue beaucoup",
+      "Rien — je bouge déjà régulièrement"
+    ],
+    scores: [
+      {irreguliere:2},
+      {sedentaire:2, surentrainee:1},
+      {debutante:3},
+      {irreguliere:2},
+      {equilibre:2}
+    ]
+  },
+  {
+    texte: "Est-ce que tu as un sommeil récupérateur en ce moment ?",
+    options: [
+      "Non, je dors mal ou je me réveille épuisée",
+      "Ça dépend des nuits — c'est irrégulier",
+      "Plutôt oui, mais je pourrais faire mieux",
+      "Oui, je dors bien et je me réveille reposée"
+    ],
+    scores: [
+      {sedentaire:1, surentrainee:2},
+      {irreguliere:2},
+      {irreguliere:1, equilibre:1},
+      {equilibre:2}
+    ]
+  },
+  {
+    texte: "Est-ce que tu ressens des tensions, des contractures, ou un corps 'bloqué' ?",
+    options: [
+      "Oui, tout le temps — mon corps est raide et tendu",
+      "Oui, surtout le cou, les épaules et le bas du dos",
+      "Parfois, surtout en période de stress",
+      "Rarement — je me sens assez souple et détendue"
+    ],
+    scores: [
+      {sedentaire:2, surentrainee:1},
+      {sedentaire:1, irreguliere:1},
+      {irreguliere:1},
+      {equilibre:2}
+    ]
+  },
+  {
+    texte: "Si tu devais décrire ton rapport à l'activité physique honnêtement ?",
+    options: [
+      "Je sais que je devrais bouger mais je n'y arrive pas vraiment",
+      "J'aimerais commencer quelque chose mais je ne sais pas comment",
+      "Je bouge quand j'en ai envie, mais sans vraie régularité",
+      "Je m'entraîne beaucoup — parfois même trop",
+      "J'ai trouvé mon rythme et ça me fait vraiment du bien"
+    ],
+    scores: [
+      {sedentaire:3},
+      {debutante:3},
+      {irreguliere:3},
+      {surentrainee:3},
+      {equilibre:3}
+    ]
+  }
+];
+
+const profils = {
+  sedentaire: {
+    emoji: "🪑",
+    nom: "La sédentaire chronique",
+    desc: "Tu bouges très peu au quotidien et tu le ressens — fatigue, corps lourd, tensions. Ce n'est pas un jugement, c'est juste que ton corps réclame du mouvement. La bonne nouvelle : même de petits changements vont avoir un impact rapide et visible sur ton énergie et ton inflammation.",
+    onglets: [
+      {
+        titre: "Alimentation",
+        contenu: [
+          { titre: "Priorité anti-inflammatoire", texte: "Commence par intégrer des aliments qui soutiennent la lymphe et la circulation : beaucoup de légumes verts, des petits poissons gras 2 à 3 fois par semaine, de l'huile d'olive en assaisonnement, du curcuma avec du poivre noir." },
+          { titre: "Hydratation", texte: "La lymphe a besoin d'eau pour circuler. Minimum 1,5 à 2 litres d'eau par jour. Une eau citronnée le matin à jeun pour activer les émonctoires dès le réveil.", or: true },
+          { titre: "À réduire en priorité", texte: "Les sucres raffinés et les produits ultra-transformés — ils entretiennent l'inflammation et coupent l'énergie. Pas besoin de tout supprimer d'un coup, commence par un changement à la fois." }
+        ]
+      },
+      {
+        titre: "Phyto & micro",
+        contenu: [
+          { titre: "Magnésium bisglycinate", texte: "300 à 400 mg le soir. Le corps sédentaire accumule les tensions et consomme beaucoup de magnésium. C'est souvent la première carence à corriger pour retrouver de l'énergie et relâcher les muscles." },
+          { titre: "Oméga-3 (EPA/DHA)", texte: "Action anti-inflammatoire directe. Petits poissons gras ou complément de qualité — viser 1 à 2 g d'EPA+DHA par jour.", or: true },
+          { titre: "Plante adaptogène : Éleuthérocoque", texte: "Pour les organismes fatigués qui ont besoin d'un soutien doux au quotidien. Aide à retrouver de l'énergie progressivement sans stimuler en excès." },
+          { titre: "Vitamine D", texte: "Souvent déficiente chez les personnes peu exposées au soleil. Joue un rôle dans l'énergie, l'immunité et la lutte contre l'inflammation. Faire doser et supplémenter si besoin." }
+        ]
+      },
+      {
+        titre: "Gestes santé",
+        contenu: [
+          { titre: "Commence par 10 minutes par jour", texte: "Pas une heure de sport. Juste 10 minutes de marche, d'étirements ou de mouvements doux. Tous les jours. C'est ça qui va activer ta lymphe et faire la différence au départ.", or: true },
+          { titre: "Prends les escaliers, marche", texte: "Intègre le mouvement dans ce que tu fais déjà. Parking plus loin, escaliers au lieu de l'ascenseur, pause active de 5 minutes toutes les 2 heures si tu travailles assise." },
+          { titre: "Étirements matinaux", texte: "5 minutes au réveil, avant de toucher ton téléphone. Quelques rotations, des étirements doux. Ça réveille la circulation et active le parasympathique — tu commences la journée dans un état différent." },
+          { titre: "Auto-massage des jambes le soir", texte: "Pour relancer la circulation lymphatique qui stagne dans les membres inférieurs quand on est assis. Quelques minutes suffisent, de bas en haut." }
+        ]
+      },
+      {
+        titre: "Plan 7 jours",
+        jours: [
+          { titre: "Lundi — Le premier pas", desc: "10 minutes de marche après le déjeuner. Juste ça. Observe comment tu te sens après." },
+          { titre: "Mardi — Matin actif", desc: "5 minutes d'étirements doux au réveil avant le téléphone. Quelques mouvements lents de la nuque, des épaules, du dos." },
+          { titre: "Mercredi — Bouger dans le quotidien", desc: "Compte tes pas. Prends les escaliers partout. Gare-toi ou descends du bus plus loin. Objectif : 5000 pas minimum." },
+          { titre: "Jeudi — Marche + hydratation", desc: "15 minutes de marche. Bois 2 litres d'eau dans la journée. Eau citronnée le matin." },
+          { titre: "Vendredi — Yoga débutant", desc: "Une vidéo YouTube de yoga doux de 20 minutes. Regarde comment ton corps réagit. Rien d'intense, juste du mouvement conscient." },
+          { titre: "Samedi — Sortie nature", desc: "Une marche de 30 minutes en extérieur si possible. Pas d'objectif de performance — juste bouger et respirer." },
+          { titre: "Dimanche — Bilan et étirements", desc: "10 minutes d'étirements doux. Note ce que tu as ressenti cette semaine. Un changement par semaine, c'est suffisant pour commencer." }
+        ]
+      }
+    ]
+  },
+  surentrainee: {
+    emoji: "😮‍💨",
+    nom: "La surentraînée épuisée",
+    desc: "Tu bouges beaucoup — parfois trop. Et paradoxalement, cet excès d'exercice peut entretenir l'inflammation au lieu de la calmer. Ton corps a besoin de récupération autant que d'effort. L'objectif n'est pas de faire moins, mais de faire mieux.",
+    onglets: [
+      {
+        titre: "Alimentation",
+        contenu: [
+          { titre: "Protéines à chaque repas", texte: "L'exercice intense augmente les besoins en protéines pour la réparation musculaire. Œufs, poisson, légumineuses, viande de qualité. Sans protéines suffisantes, la récupération est impossible." },
+          { titre: "Anti-oxydants en priorité", texte: "L'exercice intense génère des radicaux libres. Compense avec beaucoup de légumes colorés, des baies, du curcuma, du thé vert. Ton corps a besoin de neutraliser ce stress oxydatif.", or: true },
+          { titre: "Ne saute pas de repas", texte: "La restriction calorique après l'entraînement est une erreur fréquente. Manger après l'effort n'est pas ennemi — c'est indispensable à la récupération et à la régulation hormonale." },
+          { titre: "Magnésium et électrolytes", texte: "L'exercice intense fait perdre du magnésium et des minéraux par la transpiration. Eau minérale riche en magnésium, légumes verts, graines de courge." }
+        ]
+      },
+      {
+        titre: "Phyto & micro",
+        contenu: [
+          { titre: "Magnésium bisglycinate", texte: "400 mg le soir. Indispensable pour la récupération musculaire et nerveuse. Le surentraînement épuise les réserves très rapidement." },
+          { titre: "Oméga-3 en dose anti-inflammatoire", texte: "2 à 3 g d'EPA+DHA par jour. Pour contrebalancer l'inflammation générée par l'exercice intense.", or: true },
+          { titre: "Ashwagandha le soir", texte: "Action calmante sur les glandes surrénales surmenées par l'effort chronique. Réduit le cortisol de soirée, améliore le sommeil et la récupération." },
+          { titre: "Vitamine C et zinc", texte: "Antioxydants essentiels pour la récupération cellulaire. La vitamine C soutient aussi la synthèse de collagène pour les tissus conjonctifs et articulaires." }
+        ]
+      },
+      {
+        titre: "Gestes santé",
+        contenu: [
+          { titre: "Intègre des jours de repos complets", texte: "Un jour sans aucun entraînement — et pas juste 'léger'. Le corps se répare pendant le repos, pas pendant l'effort. Sans repos, il n'y a pas d'adaptation.", or: true },
+          { titre: "Sommeil avant tout", texte: "C'est la nuit que les muscles se réparent et que le corps récupère. 7 à 9 heures. Pas de sport intense le soir — ça élève le cortisol et perturbe l'endormissement." },
+          { titre: "Varie l'intensité", texte: "Pas toutes les séances à fond. Alterne séances intenses et séances douces (yoga, marche, natation). Le corps s'adapte à la variété, pas à la constance de l'effort maximal." },
+          { titre: "Écoute les signaux d'alarme", texte: "Fatigue persistante, performances qui baissent, humeur irritable, infections fréquentes, sommeil perturbé — ce sont des signes de surentraînement. Ton corps te parle." }
+        ]
+      },
+      {
+        titre: "Plan 7 jours",
+        jours: [
+          { titre: "Lundi — Séance normale", desc: "Entraînement habituel mais sans te pousser au maximum. 75% de ton intensité habituelle. Observe." },
+          { titre: "Mardi — Récupération active", desc: "30 minutes de yoga doux ou de marche. Pas de séance intense. Étirements et auto-massages le soir." },
+          { titre: "Mercredi — Repos complet", desc: "Zéro entraînement. Marche tranquille si tu le souhaites. Coucher tôt, magnésium le soir." },
+          { titre: "Jeudi — Séance équilibrée", desc: "Entraînement normal mais avec un vrai échauffement et une vraie récupération active à la fin." },
+          { titre: "Vendredi — Natation ou vélo doux", desc: "Activité cardio sans impact et sans intensité maximale. Travail de la circulation sans charger les articulations." },
+          { titre: "Samedi — Repos ou activité légère", desc: "Selon comment tu te sens. Si tu es fatiguée — repos. Si tu te sens bien — une sortie à pied en extérieur, rien de plus." },
+          { titre: "Dimanche — Bilan", desc: "Comment tu te sens après une semaine avec plus de récupération ? Note les différences. C'est un apprentissage." }
+        ]
+      }
+    ]
+  },
+  debutante: {
+    emoji: "🌱",
+    nom: "La débutante motivée",
+    desc: "Tu veux commencer, tu as la motivation — c'est déjà énorme. La plupart des gens restent dans l'intention. Toi tu es là. L'enjeu maintenant c'est de trouver la bonne activité, de commencer doucement, et de construire une habitude qui dure.",
+    onglets: [
+      {
+        titre: "Alimentation",
+        contenu: [
+          { titre: "Soutiens ton énergie pour bouger", texte: "Ne commence pas le sport à jeun si tu n'y es pas habituée. Une petite collation avant si la séance est le matin — une banane, une poignée d'amandes. Après l'effort, des protéines pour la récupération musculaire." },
+          { titre: "Hydratation", texte: "Bois avant, pendant et après l'effort. La déshydratation amplifie la fatigue et les courbatures. Une eau citronnée avec une pincée de sel non raffiné après une séance sudatoire.", or: true },
+          { titre: "Base anti-inflammatoire", texte: "Oméga-3, légumes colorés, huile d'olive, épices anti-inflammatoires. Ce que tu manges soutient ou freine ta récupération et ton énergie pour t'entraîner." }
+        ]
+      },
+      {
+        titre: "Phyto & micro",
+        contenu: [
+          { titre: "Magnésium bisglycinate", texte: "300 mg le soir. Réduit les courbatures, améliore le sommeil et la récupération musculaire — surtout au début quand le corps n'est pas encore habitué à l'effort." },
+          { titre: "Vitamine D", texte: "Joue un rôle dans la force musculaire et la récupération. Faire doser et supplémenter si besoin — très courant en France, surtout en automne-hiver.", or: true },
+          { titre: "Oméga-3", texte: "Pour limiter l'inflammation liée aux débuts de l'entraînement. Les premières semaines, les muscles s'adaptent et ça peut générer plus d'inflammation locale." },
+          { titre: "Rhodiola le matin", texte: "Si tu manques d'énergie et de motivation pour te lancer. Action stimulante et rééquilibrante douce — à prendre le matin, pas le soir." }
+        ]
+      },
+      {
+        titre: "Gestes santé",
+        contenu: [
+          { titre: "Commence par 2 séances par semaine maximum", texte: "Pas plus au début. Le corps a besoin de temps pour s'adapter. Trop vite trop fort = blessure ou découragement. La régularité sur 3 mois vaut mieux que l'intensité sur 3 semaines.", or: true },
+          { titre: "Trouve une activité que tu aimes vraiment", texte: "Teste différentes choses. Danse, yoga, pilates, piscine, vélo, randonnée. Tu as le droit de changer d'avis. L'important c'est de trouver ce qui te fait envie d'y retourner." },
+          { titre: "Note tes séances", texte: "Même juste une ligne : date, activité, comment tu t'es sentie. Après quelques semaines, relire ça est une source de motivation énorme. Tu vois concrètement ta progression." },
+          { titre: "Préviens quelqu'un", texte: "Dis à une amie que tu commences quelque chose. Pas pour te mettre la pression — pour avoir un soutien. Ou trouve quelqu'un pour commencer avec toi." }
+        ]
+      },
+      {
+        titre: "Plan 7 jours",
+        jours: [
+          { titre: "Lundi — Découverte", desc: "20 minutes de marche rapide ou une vidéo YouTube de yoga débutant. Objectif : terminer la séance avec envie de recommencer." },
+          { titre: "Mardi — Repos actif", desc: "Étirements doux le matin, 10 minutes. Observe comment ton corps se sent après hier." },
+          { titre: "Mercredi — Repos", desc: "Journée normale. Le repos fait partie de l'entraînement." },
+          { titre: "Jeudi — Deuxième séance", desc: "Même activité que lundi ou quelque chose de différent si tu veux tester. 20 à 30 minutes max." },
+          { titre: "Vendredi — Marche après le dîner", desc: "10 à 15 minutes. C'est aussi de l'activité physique — et ça stabilise la glycémie après le repas." },
+          { titre: "Samedi — Activité plaisir", desc: "Quelque chose qui te fait envie : une balade, un cours de découverte, nager. Pas d'objectif de performance." },
+          { titre: "Dimanche — Bilan", desc: "Comment tu te sens après cette semaine ? Qu'est-ce qui t'a plu ? Prévois tes 2 séances de la semaine prochaine dans ton agenda." }
+        ]
+      }
+    ]
+  },
+  irreguliere: {
+    emoji: "⚖️",
+    nom: "L'active irrégulière",
+    desc: "Tu bouges par phases — des semaines très actives, puis rien pendant un moment. Tu as la capacité et l'envie, mais pas encore la régularité. L'enjeu pour toi, c'est de construire une routine qui tient même quand la motivation n'est pas là.",
+    onglets: [
+      {
+        titre: "Alimentation",
+        contenu: [
+          { titre: "Stabilise ta glycémie", texte: "Les fringales et les coups de fatigue qui coupent la motivation viennent souvent d'une glycémie instable. Protéines et bonnes graisses à chaque repas, glucides complexes, éviter le grignotage sucré entre les repas." },
+          { titre: "Anti-inflammatoire de fond", texte: "Oméga-3, légumes colorés, épices. Même dans les périodes où tu ne bouges pas, l'alimentation anti-inflammatoire maintient une base saine.", or: true },
+          { titre: "Pas de régimes restrictifs", texte: "La restriction calorique est un stress pour le corps et tue l'énergie et la motivation à bouger. Mange assez, mange varié, mange bien." }
+        ]
+      },
+      {
+        titre: "Phyto & micro",
+        contenu: [
+          { titre: "Magnésium malate ou bisglycinate", texte: "300 à 400 mg le soir. Soutient l'énergie musculaire et réduit la fatigue qui coupe souvent l'élan d'aller s'entraîner." },
+          { titre: "Rhodiola le matin", texte: "Pour les périodes de basse motivation et d'énergie fluctuante. Action adaptogène — aide le corps à gérer les variations de rythme.", or: true },
+          { titre: "Oméga-3", texte: "En continu, même dans les périodes sans sport. La continuité de la supplémentation maintient la protection anti-inflammatoire." },
+          { titre: "Vitamine B complexe", texte: "Soutient la production d'énergie au niveau cellulaire. Utile quand l'énergie fluctue beaucoup selon les semaines." }
+        ]
+      },
+      {
+        titre: "Gestes santé",
+        contenu: [
+          { titre: "Minimum non négociable", texte: "Définis ton minimum de la semaine — 2 séances courtes de 20 minutes — et tiens-le même quand tu n'as pas la forme. L'habitude se construit dans les moments difficiles, pas seulement dans les bons.", or: true },
+          { titre: "Réduis plutôt qu'arrêtes", texte: "Au lieu d'arrêter complètement quand tu es fatiguée ou débordée — fais une séance plus courte ou plus douce. 15 minutes de marche vaut mieux que rien du tout. Le fil ne se coupe pas." },
+          { titre: "Lie l'activité à une habitude existante", texte: "Marche après le dîner tous les soirs. Yoga le dimanche matin avant le café. Attach ton activité à quelque chose que tu fais déjà — c'est la façon la plus efficace de créer une habitude durable." },
+          { titre: "Bloque les créneaux comme des RDV", texte: "Mets tes séances dans l'agenda avec la même valeur qu'un rendez-vous médical. Tu ne décommandes pas un médecin pour une urgence légère — même logique." }
+        ]
+      },
+      {
+        titre: "Plan 7 jours",
+        jours: [
+          { titre: "Lundi — Séance planifiée", desc: "L'activité que tu aimes, 30 à 45 minutes. Elle est dans ton agenda depuis dimanche soir." },
+          { titre: "Mardi — Mouvement léger", desc: "Marche de 15 minutes après un repas. Pas une vraie séance — juste ne pas laisser une journée sans rien." },
+          { titre: "Mercredi — Repos", desc: "Journée normale. Prends soin de toi, dors bien." },
+          { titre: "Jeudi — Deuxième séance", desc: "30 minutes minimum. Même si tu n'as pas envie — commence, et tu verras que l'envie vient une fois que tu as démarré." },
+          { titre: "Vendredi — Étirements ou yoga", desc: "20 minutes de récupération active. Pour garder le corps souple et activer le parasympathique en fin de semaine." },
+          { titre: "Samedi — Activité plaisir", desc: "Quelque chose qui ne ressemble pas à de l'entraînement : balade, vélo en famille, danse. Le mouvement pour le plaisir." },
+          { titre: "Dimanche — Planification", desc: "Planifie tes 2 séances de la semaine suivante. Les mets dans ton agenda maintenant. C'est ce qui fait la différence entre l'intention et l'action." }
+        ]
+      }
+    ]
+  },
+  equilibre: {
+    emoji: "💪",
+    nom: "Le bon équilibre",
+    desc: "Tu as trouvé ton rythme et l'activité physique fait vraiment partie de ta vie. Ton corps te le rend bien. L'objectif maintenant : optimiser, varier, et continuer à exploiter tous les bénéfices anti-inflammatoires de ce que tu fais déjà.",
+    onglets: [
+      {
+        titre: "Alimentation",
+        contenu: [
+          { titre: "Nutrition de performance anti-inflammatoire", texte: "Tu as une base, affinons-la. Oméga-3 réguliers, polyphénols (thé vert, baies, curcuma), légumes crucifères plusieurs fois par semaine pour soutenir le foie et l'élimination des œstrogènes." },
+          { titre: "Timing nutritionnel", texte: "Collation protéinée dans les 30 à 60 minutes après l'effort pour optimiser la récupération musculaire. Glucides complexes et protéines — riz complet avec du poisson, par exemple.", or: true },
+          { titre: "Hydratation optimale", texte: "Si tu transpires régulièrement, pense aux électrolytes. Une eau minérale riche ou une pincée de sel non raffiné dans l'eau après les séances intenses." }
+        ]
+      },
+      {
+        titre: "Phyto & micro",
+        contenu: [
+          { titre: "Magnésium bisglycinate", texte: "300 à 400 mg le soir. Même si tu te sens bien, le sport régulier épuise le magnésium. C'est un investissement de fond dans ta récupération." },
+          { titre: "Oméga-3 en continu", texte: "1 à 2 g d'EPA+DHA par jour. Pour maintenir la protection anti-inflammatoire et soutenir la récupération musculaire.", or: true },
+          { titre: "Vitamine D", texte: "Faire doser une fois par an. Même les personnes actives peuvent être déficientes, surtout en hiver." },
+          { titre: "Bourgeon de cassis ponctuel", texte: "En gemmothérapie — action anti-inflammatoire puissante en complément. Utile en période d'entraînement plus intense ou de stress." }
+        ]
+      },
+      {
+        titre: "Gestes santé",
+        contenu: [
+          { titre: "Varie tes activités", texte: "Si tu fais toujours la même chose, le corps finit par stagner. Intègre du renforcement musculaire si tu fais surtout du cardio — et inversement. La variété optimise les bénéfices.", or: true },
+          { titre: "Optimise ta récupération", texte: "Étirements, auto-massages, bain chaud ou douche froide après l'effort. La récupération fait partie de l'entraînement — c'est là que le corps s'adapte et progresse." },
+          { titre: "Écoute les signaux subtils", texte: "Même en bonne forme, sois attentive à la fatigue persistante, aux baisses de performance, aux irritabilités. Ce sont des signaux que le corps a besoin de plus de récupération." },
+          { titre: "Marche après les repas", texte: "Même si tu t'entraînes déjà — 10 à 15 minutes après le dîner stabilisent la glycémie et soutiennent la digestion. C'est un geste simple à fort impact." }
+        ]
+      },
+      {
+        titre: "Plan 7 jours",
+        jours: [
+          { titre: "Lundi — Renforcement musculaire", desc: "45 à 60 minutes. Focus sur la technique et la progressivité plutôt que la charge maximale." },
+          { titre: "Mardi — Récupération active", desc: "Yoga ou natation — 30 minutes. Activation de la lymphe sans charger les muscles." },
+          { titre: "Mercredi — Cardio modéré", desc: "Course, vélo ou natation — 40 minutes à intensité conversationnelle (tu peux parler sans être à bout de souffle)." },
+          { titre: "Jeudi — Repos ou stretching", desc: "Étirements approfondis, 20 minutes. Auto-massages. Laisser le corps récupérer activement." },
+          { titre: "Vendredi — Deuxième renforcement", desc: "45 minutes — muscles différents de lundi ou variation des exercices." },
+          { titre: "Samedi — Activité plaisir extérieure", desc: "Randonnée, vélo en sortie, sport collectif. Le mouvement pour le plaisir, en dehors de la structure." },
+          { titre: "Dimanche — Bilan et planification", desc: "Note tes ressentis de la semaine. Ajuste le plan suivant. Prends soin de toi." }
+        ]
+      }
+    ]
+  }
+};
+
+let scores = {sedentaire:0, surentrainee:0, debutante:0, irreguliere:0, equilibre:0};
+let qIdx = 0;
+let profilActuel = null;
+
+function afficherQuestion() {
+  const q = questions[qIdx];
+  document.getElementById('q-num').textContent = `Question ${qIdx+1} / ${questions.length}`;
+  document.getElementById('q-texte').textContent = q.texte;
+  document.getElementById('progress').style.width = ((qIdx / questions.length) * 100) + '%';
+  const optDiv = document.getElementById('q-options');
+  optDiv.innerHTML = '';
+  const lettres = ['A','B','C','D','E'];
+  q.options.forEach((opt, i) => {
+    const btn = document.createElement('div');
+    btn.className = 'option';
+    btn.innerHTML = `<span class="lettre">${lettres[i]}</span><span>${opt}</span>`;
+    btn.onclick = () => choisir(i);
+    optDiv.appendChild(btn);
+  });
+}
+
+function choisir(i) {
+  const s = questions[qIdx].scores[i];
+  for (const k in s) scores[k] = (scores[k]||0) + s[k];
+  qIdx++;
+  if (qIdx < questions.length) {
+    afficherQuestion();
+  } else {
+    afficherResultat();
+  }
+}
+
+function getTopProfils() {
+  const sorted = Object.entries(scores).sort((a,b) => b[1]-a[1]);
+  return sorted;
+}
+
+function afficherResultat() {
+  document.getElementById('quiz-section').style.display = 'none';
+  document.getElementById('resultat-section').style.display = 'block';
+  const top = getTopProfils();
+  const principal = top[0][0];
+  const secondaire = top[1][0];
+  afficherProfil(principal);
+
+  // Profil secondaire si score significatif
+  if (top[1][1] >= 3 && top[1][1] >= top[0][1] * 0.6) {
+    const ps = document.getElementById('profil-sec');
+    ps.style.display = 'flex';
+    document.getElementById('sec-emoji').textContent = profils[secondaire].emoji;
+    document.getElementById('sec-nom').textContent = profils[secondaire].nom;
+    document.getElementById('sec-btn').onclick = () => afficherProfil(secondaire);
+  }
+
+  // Autres profils
+  const grid = document.getElementById('autres-profils-grid');
+  grid.innerHTML = '';
+  Object.entries(profils).forEach(([key, p]) => {
+    if (key === principal) return;
+    const btn = document.createElement('div');
+    btn.className = 'profil-btn';
+    btn.innerHTML = `<div class="e">${p.emoji}</div><div class="n">${p.nom}</div>`;
+    btn.onclick = () => afficherProfil(key);
+    grid.appendChild(btn);
+  });
+}
+
+function afficherProfil(key) {
+  profilActuel = key;
+  const p = profils[key];
+  document.getElementById('res-emoji').textContent = p.emoji;
+  document.getElementById('res-nom').textContent = p.nom;
+  document.getElementById('res-desc').textContent = p.desc;
+  changerOnglet(0, document.querySelectorAll('.onglet')[0]);
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function changerOnglet(idx, el) {
+  document.querySelectorAll('.onglet').forEach(o => o.classList.remove('actif'));
+  el.classList.add('actif');
+  const p = profils[profilActuel];
+  const onglet = p.onglets[idx];
+  const cont = document.getElementById('contenu-onglets');
+  cont.innerHTML = `<div class="contenu-onglet actif">`;
+  let html = '';
+
+  if (idx === 3) {
+    // Plan 7 jours
+    onglet.jours.forEach((j, i) => {
+      html += `<div class="jour">
+        <div class="num-jour">J${i+1}</div>
+        <div class="contenu-jour">
+          <h5>${j.titre}</h5>
+          <p>${j.desc}</p>
+        </div>
+      </div>`;
+    });
+  } else {
+    onglet.contenu.forEach(c => {
+      html += `<div class="conseil-card ${c.or ? 'or' : ''}">
+        <h4>${c.titre}</h4>
+        <p>${c.texte}</p>
+      </div>`;
+    });
+  }
+
+  cont.innerHTML = `<div class="contenu-onglet actif">${html}</div>`;
+}
+
+function refaire() {
+  scores = {sedentaire:0, surentrainee:0, debutante:0, irreguliere:0, equilibre:0};
+  qIdx = 0;
+  profilActuel = null;
+  document.getElementById('quiz-section').style.display = 'block';
+  document.getElementById('resultat-section').style.display = 'none';
+  document.getElementById('profil-sec').style.display = 'none';
+  afficherQuestion();
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+afficherQuestion();
+</script>
+</body>
+</html>

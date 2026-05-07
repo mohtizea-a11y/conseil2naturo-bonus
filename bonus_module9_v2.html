@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>iFlam Reset — Tracker 21 jours</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --vert: #3d8b64;
+  --vert-moyen: #2e6e4f;
+  --vert-pale: #e8f5ee;
+  --vert-bg: #f4faf6;
+  --or: #b8832a;
+  --or-pale: #fdf3e3;
+  --texte: #1e3020;
+  --gris: #5a6b5e;
+  --gris-pale: #f0f4f1;
+  --blanc: #ffffff;
+  --rouge-doux: #c0392b;
+  --rouge-pale: #fdf0ee;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'DM Sans',sans-serif; background:var(--vert-bg); color:var(--texte); min-height:100vh; }
+
+.header {
+  background:var(--vert-moyen); padding:28px 40px;
+  text-align:center;
+}
+.header .tag { display:inline-block; background:rgba(255,255,255,0.2); color:white; font-size:10px; font-weight:700; letter-spacing:2px; text-transform:uppercase; padding:5px 14px; border-radius:20px; margin-bottom:12px; }
+.header h1 { font-family:'Playfair Display',serif; font-size:28px; color:white; margin-bottom:6px; }
+.header h1 span { color:#f0d080; }
+.header p { font-size:13px; color:rgba(255,255,255,0.75); }
+
+.main { max-width:820px; margin:0 auto; padding:32px 20px 60px; }
+
+/* ONGLETS */
+.onglets { display:flex; gap:4px; margin-bottom:24px; flex-wrap:wrap; }
+.onglet { padding:9px 18px; border-radius:20px; cursor:pointer; font-size:13px; font-weight:500; transition:all 0.2s; background:white; color:var(--gris); border:1.5px solid #dde8e0; }
+.onglet.actif { background:var(--vert); color:white; border-color:var(--vert); }
+.onglet:hover:not(.actif) { border-color:var(--vert); color:var(--vert); }
+
+.tab { display:none; animation:fadeIn 0.3s ease; }
+.tab.actif { display:block; }
+@keyframes fadeIn { from{opacity:0;transform:translateY(5px)} to{opacity:1;transform:translateY(0)} }
+
+/* ENCADRES */
+.encadre { background:white; border-radius:12px; padding:18px 20px; margin-bottom:14px; border-left:4px solid var(--vert); box-shadow:0 1px 6px rgba(0,0,0,0.06); }
+.encadre.or { border-left-color:var(--or); background:var(--or-pale); }
+.encadre.info { border-left-color:#5b9bd5; background:#f0f5fc; }
+.encadre h4 { font-size:12px; font-weight:700; color:var(--vert); text-transform:uppercase; letter-spacing:1px; margin-bottom:8px; }
+.encadre.or h4 { color:var(--or); }
+.encadre.info h4 { color:#2d6090; }
+.encadre p, .encadre li { font-size:13.5px; line-height:1.7; color:var(--gris); }
+.encadre ul { padding-left:0; list-style:none; }
+.encadre ul li { padding:3px 0 3px 16px; position:relative; }
+.encadre ul li::before { content:'→'; position:absolute; left:0; color:var(--vert); font-size:11px; top:5px; }
+
+/* PROGRESS */
+.prog-wrap { background:#dde8e0; border-radius:20px; height:10px; margin:0 0 8px; overflow:hidden; }
+.prog-fill { height:100%; border-radius:20px; background:linear-gradient(90deg,var(--vert),#f0d080); transition:width 0.4s; }
+.prog-label { font-size:12px; color:var(--gris); text-align:center; margin-bottom:20px; }
+
+/* SEMAINE */
+.semaine-titre { font-family:'Playfair Display',serif; font-size:18px; color:var(--vert-moyen); margin:28px 0 6px; display:flex; align-items:center; gap:10px; }
+.semaine-desc { font-size:13px; color:var(--gris); margin-bottom:16px; font-style:italic; }
+
+/* GESTE ROW */
+.geste-bloc { background:white; border-radius:12px; padding:18px 20px; margin-bottom:12px; box-shadow:0 1px 6px rgba(0,0,0,0.06); }
+.geste-entete { display:flex; align-items:flex-start; gap:12px; margin-bottom:10px; }
+.geste-num { width:30px; height:30px; border-radius:50%; background:var(--vert); color:white; font-size:12px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:2px; }
+.geste-info { flex:1; }
+.geste-name { font-size:14.5px; font-weight:600; color:var(--texte); margin-bottom:4px; }
+.geste-explication { font-size:12.5px; color:var(--gris); line-height:1.55; }
+.geste-comment { font-size:12px; background:var(--vert-pale); color:var(--vert-moyen); border-radius:8px; padding:8px 12px; margin-bottom:10px; font-weight:500; }
+
+/* JOURS */
+.jours-entetes { display:grid; grid-template-columns:repeat(7,1fr); gap:4px; margin-bottom:4px; margin-left:42px; }
+.jour-entete { text-align:center; font-size:10px; font-weight:600; color:var(--gris); }
+.semaine-checks { margin-bottom:4px; }
+.sem-label-inline { font-size:10px; color:var(--gris); font-weight:600; letter-spacing:1px; text-transform:uppercase; margin-bottom:3px; }
+.checks-row { display:grid; grid-template-columns:repeat(7,1fr); gap:4px; margin-left:42px; margin-bottom:6px; }
+.check {
+  aspect-ratio:1; border-radius:7px;
+  background:var(--gris-pale); border:1.5px solid #ccddd2;
+  cursor:pointer; display:flex; align-items:center; justify-content:center;
+  font-size:13px; font-weight:700; transition:all 0.18s;
+  color:transparent;
+}
+.check:hover { border-color:var(--vert); background:var(--vert-pale); }
+.check.oui { background:var(--vert-pale); border-color:var(--vert); color:var(--vert); }
+.check.oui::after { content:'✓'; }
+.check.non { background:var(--rouge-pale); border-color:#e0a090; color:#c0392b; }
+.check.non::after { content:'✗'; }
+
+.check-legende { display:flex; gap:16px; margin-left:42px; margin-top:4px; }
+.legende-item { display:flex; align-items:center; gap:5px; font-size:11px; color:var(--gris); }
+.legende-box { width:16px; height:16px; border-radius:4px; }
+
+/* TERRAIN */
+.q-bloc { background:white; border-radius:12px; padding:18px 20px; margin-bottom:14px; box-shadow:0 1px 6px rgba(0,0,0,0.06); }
+.q-titre { font-size:15px; font-weight:600; color:var(--texte); margin-bottom:6px; }
+.q-sous { font-size:12px; color:var(--gris); line-height:1.55; margin-bottom:12px; font-style:italic; }
+.q-options { display:flex; flex-direction:column; gap:7px; }
+.q-opt { padding:10px 14px; border-radius:9px; border:1.5px solid #dde8e0; background:var(--gris-pale); cursor:pointer; font-size:13px; color:var(--gris); transition:all 0.18s; display:flex; align-items:flex-start; gap:10px; }
+.q-opt:hover { border-color:var(--vert); background:var(--vert-pale); color:var(--vert-moyen); }
+.q-opt.sel { background:var(--vert-pale); border-color:var(--vert); color:var(--vert-moyen); font-weight:600; }
+.q-opt .opt-radio { width:18px; height:18px; border-radius:50%; border:2px solid #ccc; flex-shrink:0; margin-top:1px; display:flex; align-items:center; justify-content:center; }
+.q-opt.sel .opt-radio { border-color:var(--vert); background:var(--vert); }
+.q-opt.sel .opt-radio::after { content:''; width:8px; height:8px; border-radius:50%; background:white; }
+.q-opt .opt-text { flex:1; line-height:1.4; }
+.q-opt .opt-detail { font-size:11.5px; color:#8fa894; margin-top:2px; }
+
+/* BOUTON */
+.btn { display:block; background:var(--vert); color:white; border:none; border-radius:10px; padding:13px 24px; font-size:14px; font-weight:600; cursor:pointer; width:100%; margin:16px 0 0; transition:opacity 0.2s; font-family:'DM Sans',sans-serif; }
+.btn:hover { opacity:0.87; }
+.btn.or { background:var(--or); }
+
+/* PROFIL RÉSULTAT */
+.profil-res { background:white; border-radius:14px; padding:24px; margin-top:20px; box-shadow:0 2px 12px rgba(0,0,0,0.08); display:none; }
+.profil-res.show { display:block; animation:fadeIn 0.4s ease; }
+.profil-badge { display:inline-block; background:var(--vert-pale); color:var(--vert); font-size:11px; font-weight:700; letter-spacing:1px; text-transform:uppercase; padding:4px 12px; border-radius:20px; margin-bottom:10px; }
+.profil-titre { font-family:'Playfair Display',serif; font-size:20px; color:var(--texte); margin-bottom:8px; }
+.profil-desc { font-size:13.5px; color:var(--gris); line-height:1.7; margin-bottom:18px; }
+.gestes-perso h4 { font-size:11px; font-weight:700; color:var(--or); letter-spacing:2px; text-transform:uppercase; margin-bottom:12px; }
+.geste-perso { background:var(--gris-pale); border-radius:10px; padding:14px 16px; margin-bottom:8px; border-left:3px solid var(--vert); }
+.geste-perso .t { font-size:13.5px; font-weight:600; color:var(--texte); margin-bottom:5px; }
+.geste-perso .d { font-size:12.5px; color:var(--gris); line-height:1.6; }
+
+/* BILAN */
+.bilan-section { background:white; border-radius:12px; padding:20px 22px; margin-bottom:14px; box-shadow:0 1px 6px rgba(0,0,0,0.06); }
+.bilan-section h3 { font-family:'Playfair Display',serif; font-size:17px; color:var(--texte); margin-bottom:4px; }
+.bilan-section .sous { font-size:12px; color:var(--gris); margin-bottom:16px; font-style:italic; }
+.bilan-axe { margin-bottom:16px; }
+.bilan-axe-label { font-size:13px; font-weight:600; color:var(--texte); margin-bottom:4px; }
+.bilan-axe-detail { font-size:11.5px; color:var(--gris); margin-bottom:8px; line-height:1.5; }
+.slider-wrap { display:flex; align-items:center; gap:10px; }
+.bilan-slider { flex:1; accent-color:var(--vert); height:5px; }
+.slider-val { font-size:13px; font-weight:700; color:var(--vert); min-width:32px; text-align:right; }
+.slider-extremes { display:flex; justify-content:space-between; font-size:10px; color:#aaa; margin-top:2px; }
+
+/* COMPARAISON */
+.compare-res { background:var(--vert-pale); border:1px solid #b8d9c4; border-radius:14px; padding:22px; margin-top:20px; display:none; }
+.compare-res.show { display:block; animation:fadeIn 0.4s ease; }
+.compare-res h3 { font-family:'Playfair Display',serif; font-size:20px; color:var(--vert-moyen); margin-bottom:16px; }
+.comp-row { display:flex; align-items:center; gap:10px; margin-bottom:12px; background:white; border-radius:10px; padding:12px 14px; }
+.comp-label { flex:0 0 130px; font-size:12.5px; color:var(--gris); font-weight:500; }
+.comp-bars { flex:1; }
+.comp-line { display:flex; align-items:center; gap:6px; margin-bottom:3px; }
+.comp-tag { font-size:10px; width:40px; color:var(--gris); }
+.comp-bar-bg { flex:1; background:#e8ede9; border-radius:20px; height:8px; overflow:hidden; }
+.comp-bar-fill { height:100%; border-radius:20px; }
+.comp-num { font-size:11px; color:var(--gris); min-width:20px; }
+.comp-delta { font-size:13px; font-weight:700; min-width:36px; text-align:right; }
+.msg-bilan { background:white; border-radius:10px; padding:16px 18px; margin-top:16px; font-size:14px; color:var(--texte); line-height:1.7; font-style:italic; border-left:4px solid var(--or); }
+
+.disclaimer { background:white; border-radius:10px; padding:14px 18px; margin-top:28px; font-size:11.5px; color:var(--gris); line-height:1.6; text-align:center; border:1px solid #dde8e0; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="tag">Bonus · Module 9 · iFlam Reset</div>
+  <h1>Tracker <span>21 jours</span></h1>
+  <p>Coche tes gestes jour par jour · Évalue ton terrain · Mesure tes progrès</p>
+</div>
+
+<div class="main">
+  <div class="onglets">
+    <div class="onglet actif" onclick="tab('tracker',this)">📅 Mes 21 jours</div>
+    <div class="onglet" onclick="tab('terrain',this)">🎯 Mon terrain</div>
+    <div class="onglet" onclick="tab('bilan',this)">📊 Bilan avant/après</div>
+  </div>
+
+  <!-- ===== TAB TRACKER ===== -->
+  <div class="tab actif" id="tab-tracker">
+
+    <div class="encadre info">
+      <h4>Comment utiliser ce tracker</h4>
+      <ul>
+        <li><strong>Chaque case = un jour</strong> — de J1 (jour 1) à J21 (jour 21)</li>
+        <li><strong>Clic une fois</strong> = ✓ (tu l'as fait ce jour-là) — case verte</li>
+        <li><strong>Clic deux fois</strong> = ✗ (tu ne l'as pas fait) — case rouge</li>
+        <li><strong>Clic trois fois</strong> = case vide à nouveau</li>
+        <li>Les gestes des semaines 2 et 3 s'ajoutent aux précédents — tu ne remplaces rien</li>
+      </ul>
+    </div>
+
+    <div class="prog-wrap"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
+    <p class="prog-label" id="prog-label">0 geste coché</p>
+
+    <!-- SEMAINE 1 -->
+    <div class="semaine-titre">🧹 Semaine 1 — Préparer le terrain <span style="font-family:'DM Sans',sans-serif; font-size:12px; background:var(--vert-pale); color:var(--vert); padding:3px 10px; border-radius:20px; font-weight:600;">Jours 1 à 7</span></div>
+    <p class="semaine-desc">Cette semaine, l'objectif est simple : arrêter d'en rajouter. On ne cherche pas encore à optimiser — on pose les fondations.</p>
+
+    <div class="geste-bloc">
+      <div class="geste-entete">
+        <div class="geste-num">1</div>
+        <div class="geste-info">
+          <div class="geste-name">💧 Eau dès le réveil</div>
+          <div class="geste-explication">Un grand verre d'eau à température ambiante, avant le café, avant le téléphone, avant tout le reste. C'est le premier signal que tu envoies à ton corps chaque matin.</div>
+        </div>
+      </div>
+      <div class="geste-comment">✓ = j'ai bu mon verre d'eau avant mon café ce matin</div>
+      <div class="jours-entetes" id="jours-g1"></div>
+      <div id="rows-g1"></div>
+      <div class="check-legende"><div class="legende-item"><div class="legende-box" style="background:var(--vert-pale);border:1.5px solid var(--vert)"></div> Fait</div><div class="legende-item"><div class="legende-box" style="background:var(--rouge-pale);border:1.5px solid #e0a090"></div> Pas fait</div><div class="legende-item"><div class="legende-box" style="background:var(--gris-pale);border:1.5px solid #ccc"></div> Non renseigné</div></div>
+    </div>
+
+    <div class="geste-bloc">
+      <div class="geste-entete">
+        <div class="geste-num">2</div>
+        <div class="geste-info">
+          <div class="geste-name">🥗 Une vraie assiette au déjeuner</div>
+          <div class="geste-explication">Pas les 3 repas parfaits d'un coup — juste le déjeuner. Moitié de légumes dans l'assiette, une protéine de qualité (œuf, poisson, légumineuses, viande), et un filet d'huile d'olive.</div>
+        </div>
+      </div>
+      <div class="geste-comment">✓ = mon déjeuner avait au moins la moitié de légumes + une protéine</div>
+      <div class="jours-entetes" id="jours-g2"></div>
+      <div id="rows-g2"></div>
+    </div>
+
+    <div class="geste-bloc">
+      <div class="geste-entete">
+        <div class="geste-num">3</div>
+        <div class="geste-info">
+          <div class="geste-name">🚫 L'aliment ultra-transformé que tu as choisi — absent</div>
+          <div class="geste-explication">Avant de commencer, tu as choisi UN aliment ultra-transformé que tu consommes souvent et que tu sais qui ne t'aide pas. Ce geste = il est absent de ta journée.</div>
+        </div>
+      </div>
+      <div class="geste-comment">✓ = je n'ai pas consommé l'aliment que j'ai décidé d'éliminer cette semaine</div>
+      <div class="jours-entetes" id="jours-g3"></div>
+      <div id="rows-g3"></div>
+    </div>
+
+    <div class="geste-bloc">
+      <div class="geste-entete">
+        <div class="geste-num">4</div>
+        <div class="geste-info">
+          <div class="geste-name">☀️ 10 minutes de lumière naturelle le matin</div>
+          <div class="geste-explication">Sortir ou aller près d'une fenêtre ouverte dans les 30 premières minutes après le réveil. La lumière naturelle matinale régule le cortisol, améliore le sommeil et active le système nerveux parasympathique.</div>
+        </div>
+      </div>
+      <div class="geste-comment">✓ = j'ai eu de la lumière naturelle dans les 30 minutes après mon réveil</div>
+      <div class="jours-entetes" id="jours-g4"></div>
+      <div id="rows-g4"></div>
+    </div>
+
+    <!-- SEMAINE 2 -->
+    <div class="semaine-titre">🌿 Semaine 2 — Calmer le feu <span style="font-family:'DM Sans',sans-serif; font-size:12px; background:var(--vert-pale); color:var(--vert); padding:3px 10px; border-radius:20px; font-weight:600;">Jours 8 à 14</span></div>
+    <p class="semaine-desc">Tu gardes les 4 gestes de la semaine 1 et tu ajoutes 3 nouveaux. Cette semaine travaille directement sur le système nerveux, le sommeil et le métabolisme.</p>
+
+    <div class="geste-bloc">
+      <div class="geste-entete">
+        <div class="geste-num">5</div>
+        <div class="geste-info">
+          <div class="geste-name">🚶 Marche 10-15 min après le dîner</div>
+          <div class="geste-explication">Pas une séance de sport — juste marcher tranquillement après manger. Ça stabilise la glycémie après le repas, active la circulation lymphatique, facilite la digestion et prépare le corps au sommeil.</div>
+        </div>
+      </div>
+      <div class="geste-comment">✓ = j'ai marché au moins 10 minutes après le dîner</div>
+      <div class="jours-entetes" id="jours-g5"></div>
+      <div id="rows-g5"></div>
+    </div>
+
+    <div class="geste-bloc">
+      <div class="geste-entete">
+        <div class="geste-num">6</div>
+        <div class="geste-info">
+          <div class="geste-name">🫁 Cohérence cardiaque — 3 fois par jour, 5 minutes</div>
+          <div class="geste-explication">Matin, midi, soir. Inspire 5 secondes, expire 5 secondes. Répète pendant 5 minutes. Applications : Respirelax (Apple) ou Ma Cohérence Cardiaque (Android). C'est la technique la plus documentée pour réguler le cortisol.</div>
+        </div>
+      </div>
+      <div class="geste-comment">✓ = j'ai fait mes 3 séances de cohérence cardiaque aujourd'hui</div>
+      <div class="jours-entetes" id="jours-g6"></div>
+      <div id="rows-g6"></div>
+    </div>
+
+    <div class="geste-bloc">
+      <div class="geste-entete">
+        <div class="geste-num">7</div>
+        <div class="geste-info">
+          <div class="geste-name">🌙 Coucher à la même heure chaque soir</div>
+          <div class="geste-explication">Pas forcément plus tôt — à la MÊME heure. Tous les jours, week-end compris. L'horloge biologique a besoin de régularité pour équilibrer les hormones du sommeil et limiter le cortisol nocturne.</div>
+        </div>
+      </div>
+      <div class="geste-comment">✓ = je me suis couchée à l'heure que j'avais fixée (±15 min)</div>
+      <div class="jours-entetes" id="jours-g7"></div>
+      <div id="rows-g7"></div>
+    </div>
+
+    <!-- SEMAINE 3 -->
+    <div class="semaine-titre">⚓ Semaine 3 — Ancrer et personnaliser <span style="font-family:'DM Sans',sans-serif; font-size:12px; background:var(--vert-pale); color:var(--vert); padding:3px 10px; border-radius:20px; font-weight:600;">Jours 15 à 21</span></div>
+    <p class="semaine-desc">Tu gardes tout. Tu ajoutes 2 derniers gestes. Et tu intègres les recommandations personnalisées de ton profil terrain (onglet "Mon terrain").</p>
+
+    <div class="geste-bloc">
+      <div class="geste-entete">
+        <div class="geste-num">8</div>
+        <div class="geste-info">
+          <div class="geste-name">🌿 Curcuma + poivre noir + corps gras chaque jour</div>
+          <div class="geste-explication">Dans une soupe, un plat, un lait végétal chaud. Toujours les 3 ensemble — sans poivre noir, la curcumine est presque pas absorbée. Le corps gras (huile, lait végétal) améliore encore l'absorption.</div>
+        </div>
+      </div>
+      <div class="geste-comment">✓ = j'ai utilisé du curcuma + poivre noir + corps gras dans au moins un repas</div>
+      <div class="jours-entetes" id="jours-g8"></div>
+      <div id="rows-g8"></div>
+    </div>
+
+    <div class="geste-bloc">
+      <div class="geste-entete">
+        <div class="geste-num">9</div>
+        <div class="geste-info">
+          <div class="geste-name">🏭 La source de perturbateurs que tu as choisie — réduite</div>
+          <div class="geste-explication">Tu as choisi UNE source (plastique alimentaire, cosmétique quotidien, eau du robinet non filtrée...). Ce geste = ce changement est maintenu aujourd'hui aussi.</div>
+        </div>
+      </div>
+      <div class="geste-comment">✓ = j'ai maintenu le changement sur la source de perturbateurs que j'avais choisie</div>
+      <div class="jours-entetes" id="jours-g9"></div>
+      <div id="rows-g9"></div>
+    </div>
+
+    <div class="encadre or" style="margin-top:20px;">
+      <h4>📝 Mes observations</h4>
+      <p style="margin-bottom:10px;">Note ici ce que tu ressens au fil des jours — une difficulté, un changement remarqué, une question. Relire ces notes après 21 jours est souvent très éclairant.</p>
+      <textarea id="notes" placeholder="Ex : Jour 3 — je n'arrive pas à me lever pour les 10 min dehors quand il fait froid. Jour 7 — j'ai l'impression de moins gonfler après manger..." style="width:100%; background:white; border:1px solid #ddd; border-radius:8px; padding:12px; color:var(--texte); font-family:'DM Sans',sans-serif; font-size:13px; resize:vertical; min-height:100px; margin-top:4px;"></textarea>
+    </div>
+  </div>
+
+  <!-- ===== TAB TERRAIN ===== -->
+  <div class="tab" id="tab-terrain">
+
+    <div class="encadre info">
+      <h4>Comment ça marche</h4>
+      <p>Réponds honnêtement à chaque question. Le profil qui ressort te donnera 3 gestes supplémentaires à intégrer en semaine 3 — choisis parmi ceux qui n'ont pas déjà été abordés dans les modules précédents.</p>
+    </div>
+
+    <!-- Q1 -->
+    <div class="q-bloc">
+      <div class="q-titre">1. Ton intestin et ta digestion au quotidien</div>
+      <div class="q-sous">Pense à ces 3 derniers mois en moyenne — pas juste cette semaine.</div>
+      <div class="q-options" id="q1">
+        <div class="q-opt" onclick="repondre(1,1,this)"><div class="opt-radio"></div><div class="opt-text">Plutôt bien — digestion normale, ventre calme la plupart du temps<div class="opt-detail">Ballonnements ponctuels, transit régulier</div></div></div>
+        <div class="q-opt" onclick="repondre(1,2,this)"><div class="opt-radio"></div><div class="opt-text">Irrégulier — des jours sans problème, des jours difficiles<div class="opt-detail">Ballonnements fréquents, transit irrégulier, ventre sensible après certains repas</div></div></div>
+        <div class="q-opt" onclick="repondre(1,3,this)"><div class="opt-radio"></div><div class="opt-text">Difficile — troubles digestifs quasi quotidiens<div class="opt-detail">Ballonnements systématiques, transit perturbé, douleurs abdominales, lourdeurs</div></div></div>
+      </div>
+    </div>
+
+    <!-- Q2 -->
+    <div class="q-bloc">
+      <div class="q-titre">2. Ton niveau de stress et de tension nerveuse</div>
+      <div class="q-sous">Comment tu te sens mentalement et nerveusement en ce moment — sur les 2-3 dernières semaines.</div>
+      <div class="q-options" id="q2">
+        <div class="q-opt" onclick="repondre(2,1,this)"><div class="opt-radio"></div><div class="opt-text">Globalement gérable — du stress mais je récupère<div class="opt-detail">Quelques périodes tendues mais ça passe, pas d'impact majeur sur le quotidien</div></div></div>
+        <div class="q-opt" onclick="repondre(2,2,this)"><div class="opt-radio"></div><div class="opt-text">Souvent débordée ou tendue<div class="opt-detail">Difficile de décompresser, ruminations, sensation d'être en permanence en mode urgence</div></div></div>
+        <div class="q-opt" onclick="repondre(2,3,this)"><div class="opt-radio"></div><div class="opt-text">Épuisement nerveux — je tourne à vide<div class="opt-detail">Fatigue profonde, anxiété, tout me demande un effort, même les petites choses épuisent</div></div></div>
+      </div>
+    </div>
+
+    <!-- Q3 -->
+    <div class="q-bloc">
+      <div class="q-titre">3. La qualité de ton sommeil</div>
+      <div class="q-sous">Sur les 4 dernières semaines — pas une nuit exceptionnelle.</div>
+      <div class="q-options" id="q3">
+        <div class="q-opt" onclick="repondre(3,1,this)"><div class="opt-radio"></div><div class="opt-text">Correct — je dors à peu près bien<div class="opt-detail">Quelques nuits difficiles par mois, mais globalement je me réveille reposée</div></div></div>
+        <div class="q-opt" onclick="repondre(3,2,this)"><div class="opt-radio"></div><div class="opt-text">Irrégulier — ça dépend beaucoup des semaines<div class="opt-detail">Réveils nocturnes fréquents, endormissement difficile ou réveil trop tôt</div></div></div>
+        <div class="q-opt" onclick="repondre(3,3,this)"><div class="opt-radio"></div><div class="opt-text">Non réparateur — je me réveille fatiguée la plupart des matins<div class="opt-detail">Peu importe combien je dors, je ne me sens pas reposée. Fatigue dès le matin.</div></div></div>
+      </div>
+    </div>
+
+    <!-- Q4 -->
+    <div class="q-bloc">
+      <div class="q-titre">4. Tes cycles et ton équilibre hormonal</div>
+      <div class="q-sous">Si tu es ménopausée, pense à d'autres symptômes hormonaux : bouffées de chaleur, humeur, sécheresse, énergie fluctuante...</div>
+      <div class="q-options" id="q4">
+        <div class="q-opt" onclick="repondre(4,1,this)"><div class="opt-radio"></div><div class="opt-text">Peu de symptômes — ça se passe bien<div class="opt-detail">Cycles réguliers, règles sans douleur majeure, peu de SPM</div></div></div>
+        <div class="q-opt" onclick="repondre(4,2,this)"><div class="opt-radio"></div><div class="opt-text">Quelques déséquilibres réguliers<div class="opt-detail">SPM notable, règles douloureuses ou irrégulières, fatigue cyclique, rétention d'eau</div></div></div>
+        <div class="q-opt" onclick="repondre(4,3,this)"><div class="opt-radio"></div><div class="opt-text">Impact fort sur mon quotidien<div class="opt-detail">Douleurs importantes, cycles très irréguliers, symptômes hormonaux qui perturbent vraiment la vie</div></div></div>
+      </div>
+    </div>
+
+    <!-- Q5 -->
+    <div class="q-bloc">
+      <div class="q-titre">5. Tes douleurs diffuses et inflammatoires</div>
+      <div class="q-sous">Articulations, muscles, tendons, maux de tête récurrents — douleurs sans cause clairement identifiée.</div>
+      <div class="q-options" id="q5">
+        <div class="q-opt" onclick="repondre(5,1,this)"><div class="opt-radio"></div><div class="opt-text">Peu ou pas de douleurs<div class="opt-detail">Quelques courbatures ponctuelles, rien de chronique</div></div></div>
+        <div class="q-opt" onclick="repondre(5,2,this)"><div class="opt-radio"></div><div class="opt-text">Douleurs régulières mais tolérables<div class="opt-detail">Douleurs articulaires, tensions musculaires, maux de tête 1-2 fois par semaine</div></div></div>
+        <div class="q-opt" onclick="repondre(5,3,this)"><div class="opt-radio"></div><div class="opt-text">Douleurs chroniques qui impactent le quotidien<div class="opt-detail">Présentes presque tous les jours, limitent certaines activités, réveils nocturnes possibles</div></div></div>
+      </div>
+    </div>
+
+    <!-- Q6 -->
+    <div class="q-bloc">
+      <div class="q-titre">6. Ta peau et tes réactions immunitaires</div>
+      <div class="q-sous">Acné, eczéma, psoriasis, rosacée, allergies, sensibilités alimentaires, infections fréquentes...</div>
+      <div class="q-options" id="q6">
+        <div class="q-opt" onclick="repondre(6,1,this)"><div class="opt-radio"></div><div class="opt-text">Peau et immunité globalement stables<div class="opt-detail">Quelques boutons ponctuels, rhumes normaux 2-3 fois par an</div></div></div>
+        <div class="q-opt" onclick="repondre(6,2,this)"><div class="opt-radio"></div><div class="opt-text">Réactions régulières — peau ou immunité sensibles<div class="opt-detail">Éruptions cutanées fréquentes, allergies saisonnières marquées, infections répétées</div></div></div>
+        <div class="q-opt" onclick="repondre(6,3,this)"><div class="opt-radio"></div><div class="opt-text">Problèmes chroniques visibles<div class="opt-detail">Condition cutanée diagnostiquée, très réactive aux aliments ou à l'environnement</div></div></div>
+      </div>
+    </div>
+
+    <button class="btn" onclick="calcProfil()">Voir mes recommandations personnalisées →</button>
+
+    <div class="profil-res" id="profil-res">
+      <div class="profil-badge" id="p-badge"></div>
+      <div class="profil-titre" id="p-titre"></div>
+      <div class="profil-desc" id="p-desc"></div>
+      <div class="gestes-perso">
+        <h4>✨ Tes 3 gestes supplémentaires — Semaine 3</h4>
+        <div id="p-gestes"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== TAB BILAN ===== -->
+  <div class="tab" id="tab-bilan">
+
+    <div class="encadre or">
+      <h4>Mode d'emploi</h4>
+      <ul>
+        <li><strong>Jour 1</strong> — remplis la section "Avant" honnêtement, sans chercher à être mauvaise ou bonne</li>
+        <li><strong>Jour 21</strong> — reviens remplir la section "Après" sans regarder tes réponses du départ</li>
+        <li>Clique sur "Voir ma comparaison" pour afficher les deux côte à côte</li>
+      </ul>
+    </div>
+
+    <!-- AVANT -->
+    <div class="bilan-section">
+      <h3>Jour 1 — Mon terrain de départ</h3>
+      <p class="sous">Réponds pour aujourd'hui, maintenant. 0 = très mauvais, 10 = excellent.</p>
+
+      <div class="bilan-axe">
+        <div class="bilan-axe-label">⚡ Niveau d'énergie dans la journée</div>
+        <div class="bilan-axe-detail">0 = épuisée du matin au soir / 10 = énergie stable et bonne toute la journée</div>
+        <div class="slider-wrap"><span style="font-size:11px;color:#aaa;width:20px;">0</span><input type="range" class="bilan-slider" id="a-energie" min="0" max="10" value="5" oninput="majSlider('a-energie','va-energie')"><span class="slider-val" id="va-energie">5</span></div>
+      </div>
+      <div class="bilan-axe">
+        <div class="bilan-axe-label">🫁 Confort digestif</div>
+        <div class="bilan-axe-detail">0 = ballonnements, douleurs, transit difficile quotidiens / 10 = ventre calme, digestion facile</div>
+        <div class="slider-wrap"><span style="font-size:11px;color:#aaa;width:20px;">0</span><input type="range" class="bilan-slider" id="a-digestion" min="0" max="10" value="5" oninput="majSlider('a-digestion','va-digestion')"><span class="slider-val" id="va-digestion">5</span></div>
+      </div>
+      <div class="bilan-axe">
+        <div class="bilan-axe-label">😴 Qualité du sommeil</div>
+        <div class="bilan-axe-detail">0 = sommeil non réparateur systématique / 10 = je me réveille reposée chaque matin</div>
+        <div class="slider-wrap"><span style="font-size:11px;color:#aaa;width:20px;">0</span><input type="range" class="bilan-slider" id="a-sommeil" min="0" max="10" value="5" oninput="majSlider('a-sommeil','va-sommeil')"><span class="slider-val" id="va-sommeil">5</span></div>
+      </div>
+      <div class="bilan-axe">
+        <div class="bilan-axe-label">🧠 Clarté mentale et concentration</div>
+        <div class="bilan-axe-detail">0 = brouillard mental permanent, difficile de me concentrer / 10 = esprit clair, bonne concentration</div>
+        <div class="slider-wrap"><span style="font-size:11px;color:#aaa;width:20px;">0</span><input type="range" class="bilan-slider" id="a-mental" min="0" max="10" value="5" oninput="majSlider('a-mental','va-mental')"><span class="slider-val" id="va-mental">5</span></div>
+      </div>
+      <div class="bilan-axe">
+        <div class="bilan-axe-label">💪 Absence de douleurs</div>
+        <div class="bilan-axe-detail">0 = douleurs articulaires, musculaires ou maux de tête très présents / 10 = peu ou pas de douleurs</div>
+        <div class="slider-wrap"><span style="font-size:11px;color:#aaa;width:20px;">0</span><input type="range" class="bilan-slider" id="a-douleurs" min="0" max="10" value="5" oninput="majSlider('a-douleurs','va-douleurs')"><span class="slider-val" id="va-douleurs">5</span></div>
+      </div>
+      <div class="bilan-axe">
+        <div class="bilan-axe-label">😊 Moral et humeur générale</div>
+        <div class="bilan-axe-detail">0 = irritable, anxieuse, humeur basse souvent / 10 = moral stable, bonne résistance au stress</div>
+        <div class="slider-wrap"><span style="font-size:11px;color:#aaa;width:20px;">0</span><input type="range" class="bilan-slider" id="a-moral" min="0" max="10" value="5" oninput="majSlider('a-moral','va-moral')"><span class="slider-val" id="va-moral">5</span></div>
+      </div>
+      <div class="bilan-axe">
+        <div class="bilan-axe-label">🌸 État de la peau</div>
+        <div class="bilan-axe-detail">0 = réactive, éruptions fréquentes, terne / 10 = peau calme, lumineuse, sans réaction</div>
+        <div class="slider-wrap"><span style="font-size:11px;color:#aaa;width:20px;">0</span><input type="range" class="bilan-slider" id="a-peau" min="0" max="10" value="5" oninput="majSlider('a-peau','va-peau')"><span class="slider-val" id="va-peau">5</span></div>
+      </div>
+      <div class="bilan-axe">
+        <div class="bilan-axe-label">⚖️ Rapport au corps et aux envies alimentaires</div>
+        <div class="bilan-axe-detail">0 = envies de sucre intenses, sensation de ventre gonflé, inconfort / 10 = faim régulière, peu de compulsions, corps léger</div>
+        <div class="slider-wrap"><span style="font-size:11px;color:#aaa;width:20px;">0</span><input type="range" class="bilan-slider" id="a-corps" min="0" max="10" value="5" oninput="majSlider('a-corps','va-corps')"><span class="slider-val" id="va-corps">5</span></div>
+      </div>
+    </div>
+
+    <!-- APRÈS -->
+    <div class="bilan-section">
+      <h3>Jour 21 — Mon terrain après</h3>
+      <p class="sous">Remplis cette section au jour 21 — sans relire tes réponses du départ d'abord.</p>
+
+      <div class="bilan-axe">
+        <div class="bilan-axe-label">⚡ Niveau d'énergie dans la journée</div>
+        <div class="slider-wrap"><span style="font-size:11px;color:#aaa;width:20px;">0</span><input type="range" class="bilan-slider" id="b-energie" min="0" max="10" value="5" oninput="majSlider('b-energie','vb-energie')"><span class="slider-val" id="vb-energie">5</span></div>
+      </div>
+      <div class="bilan-axe">
+        <div class="bilan-axe-label">🫁 Confort digestif</div>
+        <div class="slider-wrap"><span style="font-size:11px;color:#aaa;width:20px;">0</span><input type="range" class="bilan-slider" id="b-digestion" min="0" max="10" value="5" oninput="majSlider('b-digestion','vb-digestion')"><span class="slider-val" id="vb-digestion">5</span></div>
+      </div>
+      <div class="bilan-axe">
+        <div class="bilan-axe-label">😴 Qualité du sommeil</div>
+        <div class="slider-wrap"><span style="font-size:11px;color:#aaa;width:20px;">0</span><input type="range" class="bilan-slider" id="b-sommeil" min="0" max="10" value="5" oninput="majSlider('b-sommeil','vb-sommeil')"><span class="slider-val" id="vb-sommeil">5</span></div>
+      </div>
+      <div class="bilan-axe">
+        <div class="bilan-axe-label">🧠 Clarté mentale et concentration</div>
+        <div class="slider-wrap"><span style="font-size:11px;color:#aaa;width:20px;">0</span><input type="range" class="bilan-slider" id="b-mental" min="0" max="10" value="5" oninput="majSlider('b-mental','vb-mental')"><span class="slider-val" id="vb-mental">5</span></div>
+      </div>
+      <div class="bilan-axe">
+        <div class="bilan-axe-label">💪 Absence de douleurs</div>
+        <div class="slider-wrap"><span style="font-size:11px;color:#aaa;width:20px;">0</span><input type="range" class="bilan-slider" id="b-douleurs" min="0" max="10" value="5" oninput="majSlider('b-douleurs','vb-douleurs')"><span class="slider-val" id="vb-douleurs">5</span></div>
+      </div>
+      <div class="bilan-axe">
+        <div class="bilan-axe-label">😊 Moral et humeur générale</div>
+        <div class="slider-wrap"><span style="font-size:11px;color:#aaa;width:20px;">0</span><input type="range" class="bilan-slider" id="b-moral" min="0" max="10" value="5" oninput="majSlider('b-moral','vb-moral')"><span class="slider-val" id="vb-moral">5</span></div>
+      </div>
+      <div class="bilan-axe">
+        <div class="bilan-axe-label">🌸 État de la peau</div>
+        <div class="slider-wrap"><span style="font-size:11px;color:#aaa;width:20px;">0</span><input type="range" class="bilan-slider" id="b-peau" min="0" max="10" value="5" oninput="majSlider('b-peau','vb-peau')"><span class="slider-val" id="vb-peau">5</span></div>
+      </div>
+      <div class="bilan-axe">
+        <div class="bilan-axe-label">⚖️ Rapport au corps et aux envies alimentaires</div>
+        <div class="slider-wrap"><span style="font-size:11px;color:#aaa;width:20px;">0</span><input type="range" class="bilan-slider" id="b-corps" min="0" max="10" value="5" oninput="majSlider('b-corps','vb-corps')"><span class="slider-val" id="vb-corps">5</span></div>
+      </div>
+    </div>
+
+    <button class="btn or" onclick="afficherBilan()">📊 Voir ma comparaison avant / après →</button>
+
+    <div class="compare-res" id="compare-res">
+      <h3>Ton évolution en 21 jours</h3>
+      <div id="comp-rows"></div>
+      <div class="msg-bilan" id="msg-bilan"></div>
+    </div>
+
+    <div class="disclaimer">Ces informations sont à usage personnel et éducatif. Elles ne remplacent pas un avis médical ni un suivi personnalisé. En cas de pathologie chronique, consulte un professionnel de santé.</div>
+  </div>
+</div>
+
+<script>
+// TRACKER
+const état = {}; // 0=vide, 1=oui, 2=non
+const JOURS = 21;
+const GESTES = 9;
+const SEMS = [0,0,0,0,1,1,1,2,2]; // 0=S1, 1=S2, 2=S3
+
+const jourLabels = ['L','M','M','J','V','S','D'];
+
+function initTracker() {
+  for(let g=1;g<=GESTES;g++) {
+    état[g] = {};
+    // En-têtes des jours
+    const jh = document.getElementById('jours-g'+g);
+    if(jh) {
+      for(let j=1;j<=JOURS;j++) {
+        const d = document.createElement('div');
+        d.className='jour-entete';
+        d.textContent='J'+j;
+        jh.appendChild(d);
+      }
+    }
+    // Lignes de cases
+    const rows = document.getElementById('rows-g'+g);
+    if(!rows) continue;
+    const row = document.createElement('div');
+    row.className = 'checks-row';
+    for(let j=1;j<=JOURS;j++) {
+      const box = document.createElement('div');
+      box.className = 'check';
+      box.dataset.g = g; box.dataset.j = j;
+      box.title = 'Jour '+j+' — clic = fait, 2 clics = pas fait';
+      box.onclick = function() {
+        const gg=parseInt(this.dataset.g), jj=parseInt(this.dataset.j);
+        état[gg][jj] = ((état[gg][jj]||0)+1) % 3;
+        this.className = 'check' + (['', ' oui', ' non'][état[gg][jj]]);
+        majProg();
+      };
+      row.appendChild(box);
+    }
+    rows.appendChild(row);
+  }
+}
+
+function majProg() {
+  let total=0;
+  for(let g=1;g<=GESTES;g++) for(let j=1;j<=JOURS;j++) if(état[g][j]===1) total++;
+  const max = GESTES*JOURS;
+  const pct = Math.round(total/max*100);
+  document.getElementById('prog-fill').style.width = pct+'%';
+  document.getElementById('prog-label').textContent = total+' geste'+(total>1?'s':'')+' cochés sur '+max+' possibles ('+pct+'%)';
+}
+
+// TERRAIN
+const reponses = {};
+function repondre(q, val, el) {
+  reponses[q] = val;
+  const parent = el.closest('.q-options');
+  parent.querySelectorAll('.q-opt').forEach(o => o.classList.remove('sel'));
+  el.classList.add('sel');
+}
+
+function calcProfil() {
+  const nbRep = Object.keys(reponses).length;
+  if(nbRep < 4) { alert('Réponds à au moins 4 questions pour obtenir ton profil.'); return; }
+
+  // Calcul des scores par profil
+  const scores = { intestin:0, nerveux:0, sommeil:0, hormones:0, immuno:0 };
+  const mapping = {
+    1: 'intestin', 2: 'nerveux', 3: 'sommeil', 4: 'hormones', 5: 'immuno', 6: 'immuno'
+  };
+  for(const [q,v] of Object.entries(reponses)) {
+    const axe = mapping[q];
+    if(axe) scores[axe] += v;
+  }
+
+  let profil = Object.entries(scores).sort((a,b)=>b[1]-a[1])[0][0];
+
+  const profils = {
+    intestin: {
+      badge: '🫁 Priorité : Intestin & microbiote',
+      titre: 'Ton intestin est la porte d\'entrée principale',
+      desc: 'Tes réponses indiquent que ton terrain digestif est le pilier le plus fragile. La barrière intestinale joue un rôle central dans l\'inflammation systémique — travailler sur elle en semaine 3 va amplifier tout ce que tu as déjà mis en place.',
+      gestes: [
+        { t: '🫙 Aliment fermenté chaque jour', d: 'Kéfir de lait ou d\'eau, yaourt nature de qualité, choucroute crue, miso, kombucha. Ces aliments apportent directement des bactéries vivantes qui soutiennent et diversifient le microbiote.' },
+        { t: '🌱 Une cuillère à soupe de graines de lin moulues le matin', d: 'Dans un yaourt, une soupe ou une compote. Les fibres solubles des graines de lin nourrissent les bactéries intestinales et stimulent la production de butyrate — la molécule qui répare la muqueuse intestinale.' },
+        { t: '🍵 Manger assis, sans écran, en mâchant vraiment', d: 'Le nerf vague doit être en mode parasympathique pour que la digestion fonctionne correctement. Manger stressée ou devant un écran bloque les enzymes digestives. On a vu ça dans le module alimentation.' }
+      ]
+    },
+    nerveux: {
+      badge: '🧠 Priorité : Système nerveux & stress',
+      titre: 'Ton système nerveux a besoin d\'être calmé en priorité',
+      desc: 'Tes réponses montrent que le stress chronique est ton déclencheur inflammatoire principal. Tant que le cortisol est élevé en permanence, les autres gestes ont un effet limité. La semaine 3 doit renforcer tout ce qui active le parasympathique.',
+      gestes: [
+        { t: '📵 Écrans éteints 45 minutes avant le coucher', d: 'La lumière bleue et la stimulation mentale des écrans maintiennent le système nerveux sympathique actif. 45 minutes de déconnexion suffit à améliorer significativement l\'endormissement et la qualité du sommeil profond.' },
+        { t: '✍️ 3 choses positives concrètes avant de dormir', d: 'Pas de journal de gratitude — juste 3 choses spécifiques de la journée. Ça entraîne le cerveau à quitter le mode alerte, réduit le cortisol nocturne et améliore la qualité du sommeil sur la durée.' },
+        { t: '🌿 Tisane mélisse ou passiflore le soir', d: 'La mélisse (action gabanergique) et la passiflore (stimulation de la sérotonine) sont deux plantes bien documentées pour réduire l\'anxiété de soirée et préparer l\'endormissement. À prendre 30 min avant de dormir.' }
+      ]
+    },
+    sommeil: {
+      badge: '😴 Priorité : Sommeil & récupération nocturne',
+      titre: 'La récupération nocturne est ton levier clé',
+      desc: 'Un sommeil non réparateur entretient l\'inflammation autant que la mauvaise alimentation. En semaine 3, on va optimiser chaque condition de ta nuit pour que ton corps puisse vraiment récupérer et réparer.',
+      gestes: [
+        { t: '🌡️ Chambre fraîche — 17 à 19°C', d: 'La temperature corporelle doit baisser pour initier et maintenir le sommeil profond. Une chambre trop chaude perturbe les cycles, réduit le sommeil lent profond et augmente les micro-réveils. Un simple détail, un impact réel.' },
+        { t: '💊 Magnésium bisglycinate le soir — 300 mg', d: 'Le magnésium est cofacteur de la mélatonine et relâche les tensions neuromusculaires. La forme bisglycinate est la mieux absorbée et la mieux tolérée. C\'est souvent la première carence à corriger pour améliorer le sommeil.' },
+        { t: '🕯️ Rituel identique 20 min avant le coucher', d: 'La même séquence chaque soir — étirements, tisane, lecture physique, quelques respirations. Le cerveau associe ce rituel à l\'endormissement et commence à préparer la mélatonine dès les premiers gestes.' }
+      ]
+    },
+    hormones: {
+      badge: '⚖️ Priorité : Équilibre hormonal',
+      titre: 'Tes hormones demandent une attention particulière',
+      desc: 'Tes réponses montrent des déséquilibres hormonaux significatifs. En semaine 3, on intègre des gestes qui soutiennent l\'équilibre sans ajouter de perturbateurs supplémentaires — en agissant sur le foie, les œstrogènes et la progestérone.',
+      gestes: [
+        { t: '🥦 Légumes crucifères 3 fois par semaine minimum', d: 'Brocoli, chou-fleur, choux de Bruxelles, kale. Ils contiennent de l\'indole-3-carbinol qui oriente le métabolisme des œstrogènes vers des voies saines. Un geste alimentaire direct sur l\'équilibre hormonal.' },
+        { t: '⏰ Dernier repas au moins 2h30 avant le coucher', d: 'La digestion nocturne perturbe la production de GH (hormone de croissance réparatrice) et de mélatonine. Ce timing améliore directement le terrain hormonal nocturne sans aucun complément.' },
+        { t: '🌰 Graines de courge quotidiennes', d: 'Riches en zinc — indispensable à la conversion des hormones thyroïdiennes T4→T3 et au bon fonctionnement des récepteurs hormonaux. Une poignée par jour ou une cuillère à soupe en poudre.' }
+      ]
+    },
+    immuno: {
+      badge: '🛡️ Priorité : Immunité & peau',
+      titre: 'Ton système immunitaire est en hyperactivité',
+      desc: 'Les réactions cutanées et immunitaires fréquentes signalent un système immunitaire qui s\'emballe. En semaine 3, on cherche à réduire la charge antigénique et à soutenir la régulation immunitaire.',
+      gestes: [
+        { t: '🧴 Supprimer le produit cosmétique le plus chargé', d: 'Utilise l\'application INCI Beauty pour scanner tes 3 produits les plus utilisés. Le déodorant, la crème de jour et le shampooing sont les 3 sources d\'exposition quotidienne les plus importantes. Remplace le pire en premier.' },
+        { t: '🫐 Une poignée de petits fruits rouges chaque jour', d: 'Myrtilles, framboises, mûres — fraîches ou surgelées. Les anthocyanes qu\'ils contiennent ont des effets immunomodulateurs documentés. Ils inhibent les voies inflammatoires sans supprimer les défenses.' },
+        { t: '💧 Eau filtrée ou minérale en bouteille verre', d: 'L\'eau du robinet peut contenir des résidus de pesticides, de médicaments et de chlore — des perturbateurs endocriniens documentés. Un filtre à charbon ou une eau de qualité en bouteille verre réduit significativement cette exposition quotidienne.' }
+      ]
+    }
+  };
+
+  const p = profils[profil];
+  document.getElementById('p-badge').textContent = p.badge;
+  document.getElementById('p-titre').textContent = p.titre;
+  document.getElementById('p-desc').textContent = p.desc;
+  const gl = document.getElementById('p-gestes');
+  gl.innerHTML = '';
+  p.gestes.forEach(g => {
+    gl.innerHTML += `<div class="geste-perso"><div class="t">${g.t}</div><div class="d">${g.d}</div></div>`;
+  });
+  const pr = document.getElementById('profil-res');
+  pr.classList.add('show');
+  pr.scrollIntoView({behavior:'smooth'});
+}
+
+// BILAN
+const axes = [
+  {id:'energie', label:'⚡ Énergie'},
+  {id:'digestion', label:'🫁 Digestion'},
+  {id:'sommeil', label:'😴 Sommeil'},
+  {id:'mental', label:'🧠 Clarté mentale'},
+  {id:'douleurs', label:'💪 Douleurs (absence)'},
+  {id:'moral', label:'😊 Moral'},
+  {id:'peau', label:'🌸 Peau'},
+  {id:'corps', label:'⚖️ Rapport au corps'}
+];
+
+function majSlider(id, vid) {
+  document.getElementById(vid).textContent = document.getElementById(id).value;
+}
+
+function afficherBilan() {
+  const rows = document.getElementById('comp-rows');
+  rows.innerHTML = '';
+  let delta_total = 0;
+  axes.forEach(a => {
+    const av = parseInt(document.getElementById('a-'+a.id).value);
+    const ap = parseInt(document.getElementById('b-'+a.id).value);
+    const d = ap - av;
+    delta_total += d;
+    const col = d > 0 ? '#2e7d52' : d < 0 ? '#c0392b' : '#777';
+    const sign = d > 0 ? '+' : '';
+    rows.innerHTML += `<div class="comp-row">
+      <div class="comp-label">${a.label}</div>
+      <div class="comp-bars">
+        <div class="comp-line"><div class="comp-tag">Avant</div><div class="comp-bar-bg"><div class="comp-bar-fill" style="width:${av*10}%;background:#b0c8b8"></div></div><div class="comp-num">${av}</div></div>
+        <div class="comp-line"><div class="comp-tag">Après</div><div class="comp-bar-bg"><div class="comp-bar-fill" style="width:${ap*10}%;background:var(--vert)"></div></div><div class="comp-num">${ap}</div></div>
+      </div>
+      <div class="comp-delta" style="color:${col}">${sign}${d}</div>
+    </div>`;
+  });
+  let msg = '';
+  if(delta_total > 12) msg = 'Un vrai changement de terrain en 21 jours. Ton corps a répondu. Continue sur cette lancée — les bénéfices s\'amplifient avec le temps.';
+  else if(delta_total > 5) msg = 'Des progrès concrets et visibles sur plusieurs axes. Tu as posé des fondations solides. La régularité va amplifier ces résultats dans les semaines qui viennent.';
+  else if(delta_total >= 0) msg = 'Des changements subtils mais réels. L\'inflammation chronique ne s\'éteint pas en 21 jours — mais le terrain a bougé. C\'est exactement le début que tu devais faire.';
+  else msg = 'Si tu n\'observes pas encore d\'amélioration, certains piliers ont peut-être besoin d\'un regard plus approfondi et personnalisé. Les modules complémentaires sont là pour ça — chacun creuse un système spécifique.';
+  document.getElementById('msg-bilan').textContent = msg;
+  document.getElementById('compare-res').classList.add('show');
+  document.getElementById('compare-res').scrollIntoView({behavior:'smooth'});
+}
+
+function tab(id, el) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('actif'));
+  document.querySelectorAll('.onglet').forEach(o => o.classList.remove('actif'));
+  document.getElementById('tab-'+id).classList.add('actif');
+  el.classList.add('actif');
+}
+
+initTracker();
+</script>
+</body>
+</html>

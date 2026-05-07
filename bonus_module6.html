@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bonus Module 6 — Mon profil environnemental</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Lato:wght@300;400;700&display=swap');
+
+  :root {
+    --vert: #2d6a4f;
+    --vert-fond: #1b4332;
+    --or: #d4a843;
+    --or-clair: #f0c060;
+    --blanc: #f8f5ee;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Lato', sans-serif;
+    background: #111;
+    min-height: 100vh;
+    padding: 24px 16px;
+    color: var(--blanc);
+  }
+
+  .container { max-width: 780px; margin: 0 auto; }
+
+  .header { text-align: center; margin-bottom: 32px; }
+  .header .tag {
+    display: inline-block;
+    background: rgba(212,168,67,0.15);
+    border: 1px solid rgba(212,168,67,0.4);
+    color: var(--or);
+    font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+    padding: 5px 16px; border-radius: 20px; margin-bottom: 14px;
+  }
+  .header h1 { font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--blanc); line-height: 1.2; margin-bottom: 10px; }
+  .header h1 span { color: var(--or); }
+  .header p { color: rgba(248,245,238,0.65); font-size: 0.92rem; line-height: 1.6; max-width: 500px; margin: 0 auto 8px; }
+  .disclaimer {
+    background: rgba(212,168,67,0.08); border: 1px solid rgba(212,168,67,0.2);
+    border-radius: 8px; padding: 10px 16px; font-size: 0.78rem;
+    color: rgba(248,245,238,0.55); max-width: 560px; margin: 12px auto 0; line-height: 1.5;
+  }
+
+  .section { display: none; }
+  .section.active { display: block; }
+
+  .progress-bar-wrap { background: rgba(255,255,255,0.07); border-radius: 20px; height: 6px; margin-bottom: 28px; overflow: hidden; }
+  .progress-bar-fill { height: 100%; background: linear-gradient(90deg, var(--vert), var(--or)); border-radius: 20px; transition: width 0.4s ease; }
+
+  .question-block {
+    background: rgba(255,255,255,0.04); border: 1px solid rgba(212,168,67,0.18);
+    border-radius: 14px; padding: 28px; margin-bottom: 20px;
+  }
+  .question-text { font-family: 'Playfair Display', serif; font-size: 1.05rem; color: var(--blanc); margin-bottom: 18px; line-height: 1.5; }
+
+  .options { display: flex; flex-direction: column; gap: 10px; }
+  .option-btn {
+    background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 10px; padding: 13px 18px; color: rgba(248,245,238,0.8);
+    font-family: 'Lato', sans-serif; font-size: 0.9rem; cursor: pointer;
+    text-align: left; transition: all 0.2s; line-height: 1.4;
+  }
+  .option-btn:hover { background: rgba(212,168,67,0.1); border-color: rgba(212,168,67,0.35); color: var(--blanc); }
+  .option-btn.selected { background: rgba(212,168,67,0.15); border-color: var(--or); color: var(--blanc); }
+
+  .slider-wrap { margin: 12px 0 8px; }
+  .slider-labels { display: flex; justify-content: space-between; font-size: 0.75rem; color: rgba(248,245,238,0.45); margin-bottom: 8px; }
+  input[type=range] { width: 100%; accent-color: var(--or); cursor: pointer; height: 6px; }
+  .slider-value { text-align: center; font-family: 'Playfair Display', serif; font-size: 1.3rem; color: var(--or); margin-top: 10px; font-weight: 700; }
+
+  .nav-quiz { display: flex; justify-content: space-between; align-items: center; margin-top: 12px; }
+  .btn {
+    background: rgba(212,168,67,0.15); border: 1px solid rgba(212,168,67,0.4);
+    color: var(--or); padding: 12px 28px; border-radius: 10px;
+    font-family: 'Lato', sans-serif; font-size: 0.9rem; cursor: pointer;
+    transition: all 0.2s; letter-spacing: 0.5px;
+  }
+  .btn:hover { background: rgba(212,168,67,0.28); }
+  .btn:disabled { opacity: 0.3; cursor: default; }
+  .btn-primary { background: linear-gradient(135deg, var(--or), #b8860b); color: #1a1a1a; font-weight: 700; border: none; }
+  .btn-primary:hover { opacity: 0.9; }
+  .q-counter { font-size: 0.82rem; color: rgba(212,168,67,0.6); }
+
+  .results-header { text-align: center; margin-bottom: 28px; }
+  .results-header h2 { font-family: 'Playfair Display', serif; font-size: 1.7rem; color: var(--blanc); margin-bottom: 8px; }
+  .results-header h2 span { color: var(--or); }
+
+  .profile-card {
+    background: linear-gradient(135deg, rgba(43,106,79,0.35), rgba(27,67,50,0.5));
+    border: 1px solid rgba(212,168,67,0.35);
+    border-radius: 16px; padding: 28px; margin-bottom: 24px; text-align: center;
+  }
+  .profile-emoji { font-size: 3rem; margin-bottom: 12px; }
+  .profile-name { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: var(--or); margin-bottom: 8px; }
+  .profile-desc { font-size: 0.9rem; color: rgba(248,245,238,0.75); line-height: 1.65; max-width: 500px; margin: 0 auto; }
+
+  .scores-section {
+    background: rgba(255,255,255,0.03); border: 1px solid rgba(212,168,67,0.15);
+    border-radius: 12px; padding: 20px 24px; margin-bottom: 24px;
+  }
+  .scores-title { font-family: 'Playfair Display', serif; color: var(--or); font-size: 0.95rem; margin-bottom: 16px; text-align: center; }
+  .score-row { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+  .score-label { width: 160px; font-size: 0.82rem; color: rgba(248,245,238,0.75); flex-shrink: 0; line-height: 1.3; }
+  .score-bar-wrap { flex: 1; background: rgba(255,255,255,0.06); border-radius: 20px; height: 10px; overflow: hidden; }
+  .score-bar-fill { height: 100%; border-radius: 20px; transition: width 1.2s ease; width: 0%; }
+  .score-pct { width: 40px; text-align: right; font-size: 0.8rem; font-family: 'Playfair Display', serif; color: var(--or); }
+
+  .tabs { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+  .tab-btn {
+    background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+    color: rgba(248,245,238,0.6); padding: 8px 18px; border-radius: 20px;
+    font-size: 0.82rem; cursor: pointer; transition: all 0.2s;
+  }
+  .tab-btn.active, .tab-btn:hover { background: rgba(212,168,67,0.15); border-color: rgba(212,168,67,0.4); color: var(--or); }
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+
+  .reco-section {
+    background: rgba(255,255,255,0.03); border: 1px solid rgba(212,168,67,0.15);
+    border-radius: 12px; padding: 22px 24px; margin-bottom: 16px;
+  }
+  .reco-section-title { font-family: 'Playfair Display', serif; color: var(--or); font-size: 1rem; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+  .reco-item { display: flex; gap: 14px; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.05); align-items: flex-start; }
+  .reco-item:last-child { border-bottom: none; padding-bottom: 0; }
+  .reco-icon { font-size: 1.2rem; flex-shrink: 0; margin-top: 2px; }
+  .reco-text { flex: 1; }
+  .reco-name { font-size: 0.9rem; color: var(--blanc); font-weight: 700; margin-bottom: 3px; }
+  .reco-detail { font-size: 0.8rem; color: rgba(248,245,238,0.6); line-height: 1.5; }
+
+  .plan-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; margin-top: 12px; }
+  .plan-day { background: rgba(255,255,255,0.04); border: 1px solid rgba(212,168,67,0.18); border-radius: 10px; padding: 14px; }
+  .plan-day-title { font-family: 'Playfair Display', serif; color: var(--or); font-size: 0.85rem; margin-bottom: 8px; font-weight: 700; }
+  .plan-day ul { padding: 0; list-style: none; }
+  .plan-day li { font-size: 0.78rem; color: rgba(248,245,238,0.7); padding: 3px 0 3px 14px; position: relative; line-height: 1.4; }
+  .plan-day li::before { content: '→'; position: absolute; left: 0; color: var(--or); font-size: 0.7rem; top: 4px; }
+
+  .other-profiles { margin-top: 24px; padding-top: 20px; border-top: 1px solid rgba(212,168,67,0.15); }
+  .other-profiles-title { font-size: 0.85rem; color: rgba(248,245,238,0.5); margin-bottom: 12px; text-align: center; }
+  .other-btns { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
+  .other-btn {
+    background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+    color: rgba(248,245,238,0.6); padding: 7px 16px; border-radius: 20px;
+    font-size: 0.8rem; cursor: pointer; transition: all 0.2s;
+  }
+  .other-btn:hover { background: rgba(212,168,67,0.1); border-color: rgba(212,168,67,0.3); color: var(--or); }
+
+  .retry-btn {
+    display: block; width: 100%; text-align: center; margin-top: 20px; padding: 14px;
+    background: rgba(212,168,67,0.1); border: 1px solid rgba(212,168,67,0.3);
+    border-radius: 12px; color: rgba(212,168,67,0.8); cursor: pointer;
+    font-size: 0.85rem; transition: all 0.2s;
+  }
+  .retry-btn:hover { background: rgba(212,168,67,0.18); }
+
+  @media (max-width: 500px) {
+    .header h1 { font-size: 1.5rem; }
+    .plan-grid { grid-template-columns: 1fr 1fr; }
+    .score-label { width: 120px; font-size: 0.75rem; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="header">
+    <div class="tag">Bonus · Module 6</div>
+    <h1>Quel est ton <span>profil environnemental</span> ?</h1>
+    <p>15 questions pour identifier tes principales sources d'exposition et recevoir un plan d'action personnalisé.</p>
+    <div class="disclaimer">⚠️ Ce test est un outil d'auto-évaluation éducatif. Il ne remplace pas un bilan médical ou un avis professionnel de santé. En cas de doute, consultez votre médecin.</div>
+  </div>
+
+  <div class="section active" id="quizSection">
+    <div class="progress-bar-wrap">
+      <div class="progress-bar-fill" id="progressBar" style="width:0%"></div>
+    </div>
+    <div id="questionContainer"></div>
+    <div class="nav-quiz">
+      <button class="btn" id="prevQ" onclick="prevQuestion()" disabled>← Retour</button>
+      <span class="q-counter" id="qCounter">1 / 15</span>
+      <button class="btn btn-primary" id="nextQ" onclick="nextQuestion()">Suivant →</button>
+    </div>
+  </div>
+
+  <div class="section" id="resultsSection"></div>
+
+</div>
+
+<script>
+const questions = [
+  {
+    id: 1,
+    text: "Quels produits cosmétiques utilises-tu au quotidien ?",
+    type: "single",
+    options: [
+      { text: "Beaucoup de produits conventionnels — fond de teint, parfum, déodorant, shampoing classique, crème hydratante de supermarché", scores: { cosmetiques: 3 } },
+      { text: "Un mix — quelques produits naturels mais aussi des conventionnels", scores: { cosmetiques: 2 } },
+      { text: "Principalement des produits naturels ou bio, mais pas encore 100%", scores: { cosmetiques: 1 } },
+      { text: "Uniquement des produits naturels, bio ou labellisés — je vérifie les ingrédients", scores: { equi: 1 } },
+    ]
+  },
+  {
+    id: 2,
+    text: "Quelle eau bois-tu au quotidien ?",
+    type: "single",
+    options: [
+      { text: "Eau du robinet non filtrée — directement du robinet", scores: { interieur: 3 } },
+      { text: "Eau en bouteille plastique", scores: { interieur: 2 } },
+      { text: "Eau filtrée avec une carafe basique", scores: { interieur: 1 } },
+      { text: "Eau filtrée avec un bon système (osmose inverse, céramique) ou eau de source en verre", scores: { equi: 1 } },
+    ]
+  },
+  {
+    id: 3,
+    text: "Avec quelles casseroles et ustensiles cuisines-tu ?",
+    type: "single",
+    options: [
+      { text: "Poêles antiadhésives (téflon) — certaines sont rayées", scores: { cuisine: 3 } },
+      { text: "Un mix de casseroles antiadhésives et d'inox ou fonte", scores: { cuisine: 2 } },
+      { text: "Principalement inox ou fonte, quelques antiadhésives encore", scores: { cuisine: 1 } },
+      { text: "Uniquement inox, fonte, verre ou céramique sans téflon", scores: { equi: 1 } },
+    ]
+  },
+  {
+    id: 4,
+    text: "Comment stockes-tu tes aliments ?",
+    type: "single",
+    options: [
+      { text: "Principalement dans des Tupperware en plastique — parfois chauffés au micro-ondes", scores: { cuisine: 3 } },
+      { text: "Un mix de plastique et de verre", scores: { cuisine: 2 } },
+      { text: "Surtout en verre, mais encore quelques plastiques", scores: { cuisine: 1 } },
+      { text: "Uniquement en verre ou inox", scores: { equi: 1 } },
+    ]
+  },
+  {
+    id: 5,
+    text: "Quelle est la proportion de produits bio dans ton alimentation ?",
+    type: "single",
+    options: [
+      { text: "Très peu ou pas de bio — j'achète ce qu'il y a en grande surface", scores: { alimentation: 3 } },
+      { text: "Quelques produits bio, surtout quand c'est pas trop cher", scores: { alimentation: 2 } },
+      { text: "Environ 50% bio — surtout pour les fruits, légumes et viandes", scores: { alimentation: 1 } },
+      { text: "Majoritairement ou entièrement bio", scores: { equi: 1 } },
+    ]
+  },
+  {
+    id: 6,
+    text: "Manges-tu souvent des produits ultra-transformés (plats préparés, conserves, snacks industriels) ?",
+    type: "single",
+    options: [
+      { text: "Oui, presque tous les jours — c'est pratique et rapide", scores: { alimentation: 3 } },
+      { text: "Plusieurs fois par semaine", scores: { alimentation: 2 } },
+      { text: "Occasionnellement — plutôt en dépannage", scores: { alimentation: 1 } },
+      { text: "Rarement ou jamais — je cuisine majoritairement du brut", scores: { equi: 1 } },
+    ]
+  },
+  {
+    id: 7,
+    text: "Quels produits ménagers utilises-tu pour nettoyer chez toi ?",
+    type: "single",
+    options: [
+      { text: "Produits conventionnels de grande surface — nettoyants multi-usages, lingettes, lessive classique", scores: { interieur: 3 } },
+      { text: "Un mix de conventionnels et de produits plus naturels", scores: { interieur: 2 } },
+      { text: "Plutôt naturel — vinaigre, bicarbonate — mais pas encore 100%", scores: { interieur: 1 } },
+      { text: "Uniquement naturel — savon de Marseille, vinaigre, bicarbonate, lessive maison", scores: { equi: 1 } },
+    ]
+  },
+  {
+    id: 8,
+    text: "As-tu des bougies parfumées, diffuseurs chimiques ou désodorisants d'intérieur chez toi ?",
+    type: "single",
+    options: [
+      { text: "Oui, j'en utilise régulièrement — bougies parfumées, sprays, diffuseurs électriques", scores: { interieur: 3 } },
+      { text: "Parfois — de temps en temps pour les occasions", scores: { interieur: 1 } },
+      { text: "Non — j'utilise un diffuseur d'huiles essentielles ou des bougies naturelles", scores: { equi: 1 } },
+      { text: "Non — rien de ce type chez moi", scores: { equi: 1 } },
+    ]
+  },
+  {
+    id: 9,
+    text: "Est-ce que tu passes du temps régulièrement dans la nature — forêt, campagne, mer, montagne ?",
+    type: "single",
+    options: [
+      { text: "Rarement ou jamais — vie très urbaine, peu d'accès à la nature", scores: { reconnexion: 3 } },
+      { text: "Quelques fois par mois — quand j'y pense", scores: { reconnexion: 2 } },
+      { text: "Chaque semaine — balade, parc, jardin", scores: { reconnexion: 1 } },
+      { text: "Très régulièrement — c'est une vraie priorité pour moi", scores: { equi: 2 } },
+    ]
+  },
+  {
+    id: 10,
+    text: "Est-ce que tu marches pieds nus dehors — sur l'herbe, le sable, la terre ?",
+    type: "single",
+    options: [
+      { text: "Jamais — j'y avais même pas pensé", scores: { reconnexion: 3 } },
+      { text: "Très rarement — peut-être en vacances sur la plage", scores: { reconnexion: 2 } },
+      { text: "De temps en temps — quand il fait beau", scores: { reconnexion: 1 } },
+      { text: "Régulièrement — c'est quelque chose que je pratique volontairement", scores: { equi: 2 } },
+    ]
+  },
+  {
+    id: 11,
+    text: "Comment décris-tu ton exposition à la lumière naturelle au quotidien ?",
+    type: "single",
+    options: [
+      { text: "Très faible — je passe la majeure partie de ma journée à l'intérieur", scores: { reconnexion: 3 } },
+      { text: "Limitée — quelques sorties mais pas vraiment d'exposition intentionnelle", scores: { reconnexion: 2 } },
+      { text: "Correcte — je sors régulièrement mais pas toujours le matin", scores: { reconnexion: 1 } },
+      { text: "Bonne — je m'expose à la lumière naturelle chaque matin intentionnellement", scores: { equi: 2 } },
+    ]
+  },
+  {
+    id: 12,
+    text: "As-tu des amalgames dentaires (plombages anciens en métal argenté) ?",
+    type: "single",
+    options: [
+      { text: "Oui, plusieurs — et je n'ai jamais cherché à les remplacer", scores: { metaux: 3 } },
+      { text: "Oui, un ou deux — mais je n'y pense pas vraiment", scores: { metaux: 2 } },
+      { text: "Peut-être — je ne suis pas sûre", scores: { metaux: 1 } },
+      { text: "Non — ou ils ont été remplacés par des composites", scores: { equi: 1 } },
+    ]
+  },
+  {
+    id: 13,
+    text: "Manges-tu souvent du thon en conserve ou de grands poissons (espadon, saumon d'élevage) ?",
+    type: "single",
+    options: [
+      { text: "Oui, régulièrement — plusieurs fois par semaine", scores: { metaux: 3 } },
+      { text: "De temps en temps — une fois par semaine environ", scores: { metaux: 2 } },
+      { text: "Occasionnellement — plutôt les petits poissons gras", scores: { metaux: 1 } },
+      { text: "Rarement — je préfère sardines, maquereaux, anchois", scores: { equi: 1 } },
+    ]
+  },
+  {
+    id: 14,
+    text: "Utilises-tu des déodorants avec sels d'aluminium (déodorants conventionnels en spray ou roll-on) ?",
+    type: "single",
+    options: [
+      { text: "Oui, tous les jours — des déodorants classiques de grande surface", scores: { metaux: 3 } },
+      { text: "Parfois — j'alterne avec des versions plus naturelles", scores: { metaux: 1 } },
+      { text: "Non — j'utilise un déodorant sans aluminium ou une pierre d'alun", scores: { equi: 1 } },
+      { text: "Non — j'ai fait le changement il y a longtemps", scores: { equi: 1 } },
+    ]
+  },
+  {
+    id: 15,
+    text: "Comment évalues-tu ton niveau de repos et de déconnexion au quotidien ?",
+    type: "slider",
+    min: 0, max: 10,
+    label_min: "😰 Jamais de vrai repos",
+    label_max: "😌 Très bien récupérée",
+    defaultVal: 5
+  }
+];
+
+const profiles = {
+  cosmetiques: {
+    emoji: "🧴",
+    name: "Profil Salle de bain — charge cosmétiqu­e élevée",
+    desc: "Ta principale source d'exposition aux perturbateurs endocriniens, c'est ce que tu mets sur ta peau chaque matin. Les produits cosmétiques conventionnels contiennent souvent des parabènes, phtalates, triclosan, BHA — des molécules qui perturbent tes hormones et s'accumulent dans l'organisme. La bonne nouvelle : c'est le domaine où les changements sont les plus simples et souvent les moins coûteux.",
+    color: "#e07a9b",
+    reco: {
+      alimentation: [
+        { icon: "🫐", name: "Antioxydants pour contrebalancer", detail: "Une alimentation riche en polyphénols (fruits rouges, thé vert, curcuma, chocolat noir) aide à neutraliser les effets pro-oxydants des PE cosmétiqu­es absorbés par la peau." },
+        { icon: "🥦", name: "Légumes crucifères pour le foie", detail: "Brocoli, chou, choux de Bruxelles — riches en sulforaphane qui soutient les enzymes de détoxification hépatique. Mange-en 3 à 4 fois par semaine." },
+        { icon: "🐟", name: "Oméga-3 anti-inflammatoires", detail: "Sardines, maquereaux, harengs 3 fois par semaine. Les oméga-3 réduisent l'inflammation générée par l'exposition chronique aux PE." },
+      ],
+      phyto: [
+        { icon: "🌿", name: "Chardon-marie — soutien hépatique", detail: "Le foie est le principal organe d'élimination des PE. Le chardon-marie (silymarine) le protège et optimise ses fonctions de détox. En extrait standardisé, en cure de 3 semaines." },
+        { icon: "🌱", name: "Chlorella — chélation douce", detail: "La chlorella aide à capturer certains toxiques au niveau intestinal et facilite leur élimination. Commencer par 1g par jour et augmenter progressivement sur 2 semaines." },
+        { icon: "🧲", name: "Magnésium bisglycinate le soir", detail: "Cofacteur des enzymes de détoxification. Le stress lié à la charge toxique consomme le magnésium. 300 à 400mg le soir." },
+      ],
+      gestes: [
+        { icon: "📱", name: "Télécharge Yuka ou INCI Beauty maintenant", detail: "Scanne tes 5 produits les plus utilisés. Commence par remplacer ceux notés rouge. Priorité : crème hydratante, déodorant, shampoing — les produits qui restent en contact longtemps avec la peau." },
+        { icon: "🫒", name: "Huile végétale comme base", detail: "Huile de jojoba, argan, coco ou amande douce remplacent la crème hydratante, le démaquillant et même certains soins capillaires. Certifiée bio, une huile végétale est l'un des produits les plus purs." },
+        { icon: "🛁", name: "Savon surgras naturel ou de Marseille", detail: "Remplace gel douche et savon liquide conventionnels. Cherche la composition la plus courte possible — moins d'ingrédients = moins de risques." },
+        { icon: "💧", name: "Transpirer régulièrement", detail: "La sueur est une voie d'élimination de certains toxiques. Sauna, bain chaud, sport — 20 à 30 minutes de sudation 2 à 3 fois par semaine contribue à l'élimination." },
+      ]
+    },
+    plan: [
+      { day: "Jour 1-2", actions: ["Télécharger Yuka", "Scanner tes 5 produits phares", "Identifier les 2 pires à remplacer"] },
+      { day: "Jour 3-4", actions: ["Acheter une huile végétale bio", "Commencer chardon-marie le matin", "Remplacer le déodorant en priorité"] },
+      { day: "Jour 5-6", actions: ["Chlorella 1g/jour en cure", "Bain chaud ou sauna pour transpirer", "Scanner les produits ménagers aussi"] },
+      { day: "Jour 7", actions: ["Comparer avant/après sur Yuka", "1 produit remplacé cette semaine ?", "Continuer 1 remplacement par semaine"] },
+    ]
+  },
+
+  interieur: {
+    emoji: "🏠",
+    name: "Profil Intérieur — environnement domestique chargé",
+    desc: "Ta maison est ta principale source d'exposition. L'air intérieur est souvent 5 à 10 fois plus pollué que l'air extérieur — produits ménagers, bougies, eau non filtrée, peintures, meubles en aggloméré. Ce sont des expositions quotidiennes, souvent à l'heure où tu es le plus sédentaire. Les changements ici ont un impact direct et immédiat sur ta charge toxique globale.",
+    color: "#7a9be0",
+    reco: {
+      alimentation: [
+        { icon: "💧", name: "Filtrer ton eau en priorité absolue", detail: "L'eau du robinet non filtrée peut contenir des résidus de médicaments, pesticides, chlore, nitrates, hormones. Une carafe Brita améliore déjà beaucoup. Un système à osmose inverse ou à céramique est optimal. Boire dans des verres, pas du plastique." },
+        { icon: "🌿", name: "Plantes dépolluantes dans chaque pièce", detail: "Pothos, ficus, chlorophytum, lierre — ces plantes absorbent les COV (composés organiques volatils) dégagés par les peintures et meubles. Une plante pour 10m² est la recommandation de base." },
+        { icon: "🥗", name: "Alimentation anti-inflammatoire renforcée", detail: "Une alimentation riche en antioxydants aide ton corps à compenser la charge toxique domestique. Curcuma + poivre noir, fruits rouges, légumes colorés à chaque repas." },
+      ],
+      phyto: [
+        { icon: "🌱", name: "Chlorella en cure", detail: "Aide à capter les toxiques au niveau digestif. 1g par jour pendant 2 semaines, puis 2g si bien tolérée. À prendre à distance des repas et des médicaments." },
+        { icon: "🫀", name: "Romarin en tisane — foie et circulation", detail: "Le romarin est hépatoprotecteur et stimule la circulation. 1 tisane par jour le matin pendant 3 semaines. Éviter en cas de grossesse ou d'épilepsie." },
+        { icon: "🧲", name: "Magnésium + vitamines B", detail: "Les toxiques domestiques peuvent perturber le métabolisme du magnésium et des vitamines B. Un complexe B + magnésium bisglycinate le soir soutient les voies de détoxification." },
+      ],
+      gestes: [
+        { icon: "🌬️", name: "Aérer 10 minutes matin et soir", detail: "Ouvrir les fenêtres en grand 10 minutes chaque matin et soir renouvelle complètement l'air intérieur. C'est le geste le plus simple et le plus efficace pour réduire la pollution intérieure." },
+        { icon: "🕯️", name: "Remplacer les bougies parfumées", detail: "Les bougies à la cire de paraffine libèrent du benzène et du toluène. Remplace-les par des bougies à la cire de soja ou de coco, ou utilise un diffuseur d'huiles essentielles." },
+        { icon: "🧹", name: "Ménage naturel complet", detail: "Vinaigre blanc dilué à 50% = nettoyant universel. Bicarbonate de soude = dégraissant et désodorisant. Savon de Marseille liquide = lessive et nettoyage délicat. Ces 3 produits remplacent 80% de ta pharmacie ménagère." },
+        { icon: "🛋️", name: "Attention à la literie et aux textiles", detail: "Les textiles traités avec des retardateurs de flamme dégagent des perturbateurs endocriniens. Privilégie le coton bio ou le lin pour les draps et taies d'oreiller — tu passes 8h dessus chaque nuit." },
+      ]
+    },
+    plan: [
+      { day: "Jour 1-2", actions: ["Ouvrir les fenêtres 2x/jour", "Acheter une carafe filtrante", "Virer les bougies parfumées"] },
+      { day: "Jour 3-4", actions: ["Préparer le ménage naturel maison", "Acheter 1-2 plantes dépolluantes", "Commencer romarin le matin"] },
+      { day: "Jour 5-6", actions: ["Chlorella en cure 1g/jour", "Magnésium le soir", "Vérifier la literie (coton bio ?)"] },
+      { day: "Jour 7", actions: ["L'air de ta maison est-il meilleur ?", "Quels produits ménagers restent ?", "1 remplacement par semaine"] },
+    ]
+  },
+
+  alimentation: {
+    emoji: "🥗",
+    name: "Profil Assiette — charge alimentaire élevée",
+    desc: "Ta principale source d'exposition passe par ce que tu manges. Pesticides dans les fruits et légumes non bio, résidus dans les produits ultra-transformés, perturbateurs endocriniens dans les emballages plastiques, métaux dans les gros poissons — la chaîne alimentaire est l'un des principaux vecteurs de contamination. Et c'est aussi là où tu as le plus de contrôle.",
+    color: "#74c69d",
+    reco: {
+      alimentation: [
+        { icon: "🌱", name: "Les dirty dozen — bio en priorité", detail: "Les 12 fruits et légumes les plus chargés en pesticides : fraises, épinards, chou frisé, pêches, poires, nectarines, pommes, raisins, poivrons, cerises, myrtilles, haricots verts. Pour ces 12-là, privilégie toujours le bio. Pour les autres, tu peux être plus souple." },
+        { icon: "🐟", name: "Petits poissons gras sauvages", detail: "Sardines, maquereaux, harengs, anchois — petits, sauvages, en bas de la chaîne alimentaire. Ils concentrent beaucoup moins de métaux lourds que le thon ou l'espadon. 3 fois par semaine maximum pour les gros poissons." },
+        { icon: "🥦", name: "Aliments bruts, peu emballés", detail: "Moins un aliment est transformé et emballé, moins il contient de perturbateurs endocriniens. Un légume de marché bio dans un sac en papier est toujours préférable à un légume en barquette plastique, même bio." },
+      ],
+      phyto: [
+        { icon: "🌱", name: "Chlorella avant les repas", detail: "La chlorella prise 20 minutes avant les repas peut aider à capter certains toxiques présents dans les aliments et faciliter leur élimination intestinale. 1 à 2g par jour, en cure de 3 semaines." },
+        { icon: "🌿", name: "Chardon-marie pour le foie", detail: "Le foie traite en continu les pesticides et toxiques alimentaires. Le chardon-marie le soutient et protège les cellules hépatiques. En extrait standardisé en silymarine, en cure de 3 semaines." },
+        { icon: "🧄", name: "Ail cru — soufre et détox", detail: "1 gousse d'ail cru par jour, écrasée et laissée 10 minutes avant de manger. Le soufre de l'ail active les enzymes de détox hépatique. Aussi antifongique et antibactérien." },
+      ],
+      gestes: [
+        { icon: "📦", name: "Bannir le plastique alimentaire chauffé", detail: "Ne jamais chauffer un aliment dans du plastique — même les plastiques dits sans BPA contiennent d'autres plastifiants potentiellement problématiques. Transvase toujours dans du verre ou de la céramique avant de passer au micro-ondes." },
+        { icon: "🥫", name: "Remplacer les boîtes de conserve", detail: "Le film intérieur des boîtes de conserve peut libérer des phtalates et du BPA. Privilégie les légumineuses et tomates en bocal de verre, ou les conserves estampillées sans BPA." },
+        { icon: "🛒", name: "Faire ses courses différemment", detail: "Marché local et bio, vrac, AMAP — ces alternatives réduisent à la fois les emballages et l'exposition aux pesticides. Commence par un seul produit acheté autrement par semaine." },
+        { icon: "🌿", name: "Rincer à l'eau vinaigrée", detail: "Tremper les fruits et légumes non bio 10 minutes dans de l'eau avec 2 cuillères à soupe de vinaigre blanc réduit significativement les résidus de pesticides de surface." },
+      ]
+    },
+    plan: [
+      { day: "Jour 1-2", actions: ["Identifier tes dirty dozen habituels", "Passer 3 d'entre eux en bio", "Arrêter de chauffer dans le plastique"] },
+      { day: "Jour 3-4", actions: ["Chlorella 1g avant repas", "Remplacer 1 boîte de conserve en verre", "Ail cru chaque matin"] },
+      { day: "Jour 5-6", actions: ["Chardon-marie en cure", "Essayer un marché de producteurs bio", "Rincer les légumes à l'eau vinaigrée"] },
+      { day: "Jour 7", actions: ["Combien de produits bio cette semaine ?", "Moins de plastique alimentaire ?", "1 nouvelle habitude ancrée"] },
+    ]
+  },
+
+  reconnexion: {
+    emoji: "🌿",
+    name: "Profil Déconnexion — manque de ressourcement naturel",
+    desc: "Tu vis en milieu très urbain ou tu passes très peu de temps dans la nature. Cette déconnexion a des effets mesurables sur ton niveau d'inflammation, ton cortisol et ta vitalité. La bonne nouvelle c'est que reconnecter ne demande pas forcément de partir en forêt tous les jours — quelques gestes simples et réguliers suffisent à faire une vraie différence.",
+    color: "#d4a843",
+    reco: {
+      alimentation: [
+        { icon: "🌞", name: "Alimentation qui soutient la vitamine D", detail: "Poissons gras, œufs (jaune), foie, champignons exposés au soleil — ces aliments apportent de la vitamine D3 ou ses précurseurs. Associe-les à une exposition solaire régulière pour optimiser tes taux." },
+        { icon: "🫐", name: "Adaptogènes dans l'assiette", detail: "Champignons médicinaux (shiitake, reishi si tu en trouves), curcuma, gingembre — ces aliments aident le corps à s'adapter au stress environnemental et urbain." },
+        { icon: "💧", name: "Hydratation optimisée", detail: "En milieu urbain, la déshydratation chronique est très fréquente. Bois 1,5 à 2L d'eau filtrée par jour. Ajoute quelques feuilles de menthe ou une tranche de citron pour faciliter l'hydratation." },
+      ],
+      phyto: [
+        { icon: "🌿", name: "Ashwagandha le soir — adaptogène majeur", detail: "Réduit le cortisol, améliore la résilience au stress urbain chronique, améliore le sommeil. En extrait standardisé en withanolides, le soir après le dîner. Cure de 1 à 3 mois." },
+        { icon: "🧲", name: "Magnésium bisglycinate — indispensable en ville", detail: "La vie urbaine et le stress chronique consomment le magnésium à grande vitesse. 300 à 400mg le soir. Résultats souvent visibles en 2 à 3 semaines sur le sommeil et la nervosité." },
+        { icon: "☀️", name: "Vitamine D3 — à faire doser", detail: "En milieu urbain avec peu de sorties, le déficit en vitamine D est quasi systématique en hiver. Faire doser par le médecin. Viser 45 à 80 ng/ml. Supplémenter avec K2 et magnésium pour optimiser l'absorption." },
+      ],
+      gestes: [
+        { icon: "🦶", name: "Earthing — 20 min pieds nus par jour", detail: "Herbe, sable, terre, eau — les électrons de la terre réduisent les marqueurs inflammatoires, normalisent le cortisol et améliorent le sommeil. C'est gratuit et ça marche. Même un parc urbain convient si c'est de la vraie terre ou de l'herbe." },
+        { icon: "☀️", name: "Lumière matinale — 10 min dehors au lever", detail: "S'exposer à la lumière naturelle dans les 30 minutes après le lever ancre l'horloge biologique, déclenche la sérotonine, prépare la mélatonine du soir. Même par temps couvert — la lumière naturelle est 100x plus puissante que l'éclairage intérieur." },
+        { icon: "🌲", name: "Bain de forêt hebdomadaire", detail: "Une heure en forêt par semaine suffit à des effets mesurables sur le cortisol, l'immunité et la tension artérielle. Les arbres libèrent des phytoncides que tu inhales et qui ont une action directe sur tes cellules immunitaires." },
+        { icon: "📵", name: "Déconnexion digitale quotidienne", detail: "Après 21h sans écran, un dimanche par mois sans réseaux sociaux, une semaine de vacances sans travail. Ces périodes de repos sensoriel et mental restaurent l'énergie vitale que la ville consomme en permanence." },
+      ]
+    },
+    plan: [
+      { day: "Jour 1-2", actions: ["10 min dehors au lever chaque matin", "Commencer magnésium le soir", "Identifier le parc ou espace vert le plus proche"] },
+      { day: "Jour 3-4", actions: ["20 min pieds nus dans l'herbe", "Commencer ashwagandha le soir", "Faire doser la vitamine D"] },
+      { day: "Jour 5-6", actions: ["Première balade en forêt ou nature", "Déconnexion digitale après 21h", "Vitamine D3 + K2 si déficit"] },
+      { day: "Jour 7", actions: ["Comment tu te sens après 7 jours ?", "Le sommeil s'est amélioré ?", "La nature est une priorité, pas un luxe"] },
+    ]
+  },
+
+  metaux: {
+    emoji: "⚙️",
+    name: "Profil Métaux lourds — exposition potentielle",
+    desc: "Plusieurs de tes habitudes te mettent en contact régulier avec des sources potentielles de métaux lourds — amalgames dentaires, gros poissons, déodorants à l'aluminium. L'intoxication chronique est silencieuse et se fait sur des années. L'objectif n'est pas de paniquer mais de réduire progressivement l'exposition et de soutenir les voies naturelles d'élimination.",
+    color: "#9b59b6",
+    reco: {
+      alimentation: [
+        { icon: "🌱", name: "Chlorella — priorité absolue", detail: "La chlorella est la micro-algue la mieux documentée pour la chélation douce des métaux lourds au niveau intestinal. Commencer par 500mg par jour la première semaine, augmenter à 1-2g la semaine suivante. À prendre à jeun ou 30 min avant les repas. En cure de 4 à 6 semaines." },
+        { icon: "🐟", name: "Remplacer le thon par les petits poissons", detail: "Le thon concentre le mercure de toute la chaîne alimentaire. Sardines, maquereaux, harengs, anchois font le même travail nutritionnel (oméga-3, protéines) avec une charge en métaux incomparablement plus faible." },
+        { icon: "🥦", name: "Légumes soufrés pour le foie", detail: "Brocoli, chou, oignon, ail, œufs — riches en soufre qui active les enzymes de détoxification hépatique (glutathion). Ces aliments soutiennent la phase 2 de la détox du foie, essentielle pour éliminer les métaux." },
+      ],
+      phyto: [
+        { icon: "🌿", name: "Chardon-marie — protection hépatique", detail: "Le foie est l'organe qui traite les métaux lourds. Le chardon-marie (silymarine) protège les cellules hépatiques et optimise leur fonctionnement. En extrait standardisé, en cure de 3 semaines, matin à jeun." },
+        { icon: "🧄", name: "Ail cru — soufre et chélation douce", detail: "L'allicine de l'ail cru a une action chélatrice légère sur certains métaux et soutient le glutathion. 1 gousse écrasée et attendue 10 minutes par jour, dans la salade ou avec de l'huile d'olive." },
+        { icon: "💧", name: "NAC (N-acétyl cystéine) si nécessaire", detail: "Précurseur du glutathion, la principale enzyme antioxydante et détoxifiante de l'organisme. À envisager après avis médical si tu as plusieurs amalgames ou une exposition importante. 200 à 600mg par jour." },
+      ],
+      gestes: [
+        { icon: "🦷", name: "Parler des amalgames à ton dentiste", detail: "Si tu as des amalgames anciens, leur remplacement est une option — mais il doit être réalisé avec des précautions (pose d'une digue dentaire, aspiration renforcée) car la dépose libère temporairement des particules. Cherche un dentiste formé à l'approche holistique." },
+        { icon: "💧", name: "Hydratation renforcée", detail: "Les reins éliminent une partie des métaux. Boire 2L d'eau filtrée par jour optimise leur fonction d'élimination. L'eau filtrée à l'osmose inverse ou à la céramique est idéale." },
+        { icon: "💪", name: "Activité physique et transpiration", detail: "La sueur est une voie d'élimination de certains métaux. 30 minutes d'activité physique modérée 3 à 4 fois par semaine + sauna si possible. La transpiration complète l'élimination rénale et hépatique." },
+        { icon: "🚫", name: "Remplacer le déodorant à l'aluminium", detail: "Déodorant pierre d'alun naturelle, déodorant solide sans aluminium, ou déodorant maison (bicarbonate + huile de coco) — ces alternatives sont efficaces sans l'aluminium qui pénètre à travers la peau, surtout après épilation ou rasage." },
+      ]
+    },
+    plan: [
+      { day: "Jour 1-2", actions: ["Commencer chlorella 500mg/jour", "Remplacer le déodorant à l'aluminium", "Arrêter le thon en conserve"] },
+      { day: "Jour 3-4", actions: ["Ail cru chaque matin", "Chardon-marie à jeun", "Boire 2L d'eau filtrée"] },
+      { day: "Jour 5-6", actions: ["Séance de sport + transpiration", "Augmenter chlorella à 1g/jour", "Consulter un dentiste holistique ?"] },
+      { day: "Jour 7", actions: ["Fatigue réduite ?", "Digestion améliorée ?", "Cure à continuer 4 à 6 semaines"] },
+    ]
+  },
+
+  equi: {
+    emoji: "🌱",
+    name: "Profil Équilibré — bonne hygiène environnementale",
+    desc: "Tu as déjà une bonne conscience environnementale et des habitudes saines. Bravo — c'est un vrai travail. L'objectif maintenant c'est de consolider ce que tu as mis en place, d'optimiser les derniers points et de te reconnecter encore plus profondément à la nature comme outil thérapeutique.",
+    color: "#74c69d",
+    reco: {
+      alimentation: [
+        { icon: "🌿", name: "Maintenir et optimiser le bio", detail: "Continue avec les dirty dozen en bio. Explore les AMAP et circuits courts pour une alimentation encore plus traçable et moins traitée." },
+        { icon: "🐟", name: "Petits poissons gras 3x/semaine", detail: "Sardines, maquereaux, harengs — les oméga-3 sont tes meilleurs alliés anti-inflammatoires. Assure-toi d'en consommer régulièrement." },
+        { icon: "🥦", name: "Légumes crucifères et ail pour le maintien de la détox", detail: "Même en bonne santé, soutenir les voies hépatiques avec des crucifères et de l'ail cru est une pratique préventive efficace sur le long terme." },
+      ],
+      phyto: [
+        { icon: "🌿", name: "Cure de chlorella saisonnière", detail: "2 cures par an de 3 semaines — printemps et automne. Même avec une bonne hygiène de vie, une chélation douce périodique est bénéfique pour l'élimination des toxiques accumulés." },
+        { icon: "🧲", name: "Magnésium en prévention", detail: "Même sans carences apparentes, 200 à 300mg de magnésium bisglycinate le soir en automne et hiver préserve les réserves et soutient le système nerveux." },
+        { icon: "🌱", name: "Adaptogène préventif", detail: "Une cure de rhodiola au printemps ou d'éleuthérocoque en hiver renforce la résistance globale au stress environnemental, même si tu vas bien." },
+      ],
+      gestes: [
+        { icon: "🦶", name: "Earthing — pratique quotidienne", detail: "Si tu ne l'as pas encore formalisé, fais de l'earthing une habitude quotidienne. 20 minutes pieds nus chaque matin. C'est l'un des outils anti-inflammatoires les plus sous-estimés." },
+        { icon: "🌲", name: "Bain de forêt hebdomadaire", detail: "Même si tu te sens bien, une heure en forêt par semaine maintient les niveaux de cellules NK (natural killer) élevés et le cortisol bas. C'est de la médecine préventive." },
+        { icon: "📵", name: "Déconnexion digitale structurée", detail: "Après 21h sans écran chaque soir, une journée sans réseaux par semaine. Ces périodes de repos sensoriel maintiennent ton énergie vitale haute sur le long terme." },
+        { icon: "💚", name: "Partager tes pratiques", detail: "Partager ces habitudes avec ton entourage a un impact multiplicateur. Chaque personne qui réduit sa charge toxique contribue aussi à un environnement collectif plus sain." },
+      ]
+    },
+    plan: [
+      { day: "Jour 1-2", actions: ["Earthing 20 min chaque matin", "Vérifier les derniers points à optimiser", "Cure de chlorella si pas fait récemment"] },
+      { day: "Jour 3-4", actions: ["Balade en forêt 1h", "Déconnexion après 21h", "Magnésium si hiver ou stress élevé"] },
+      { day: "Jour 5-6", actions: ["Adaptogène préventif si besoin", "Partager 1 astuce avec un proche", "Vérifier la literie (coton bio ?)"] },
+      { day: "Jour 7", actions: ["Tu es sur la bonne voie !", "Consolide tes habitudes phares", "La prévention, c'est le meilleur traitement"] },
+    ]
+  }
+};
+
+let answers = {};
+let currentQ = 0;
+let scores = { cosmetiques: 0, interieur: 0, alimentation: 0, reconnexion: 0, metaux: 0, equi: 0 };
+const scoreKeys = ['cosmetiques', 'interieur', 'alimentation', 'reconnexion', 'metaux'];
+
+function renderQuestion(idx) {
+  const q = questions[idx];
+  const container = document.getElementById('questionContainer');
+  const total = questions.length;
+
+  document.getElementById('progressBar').style.width = ((idx / total) * 100) + '%';
+  document.getElementById('qCounter').textContent = (idx + 1) + ' / ' + total;
+  document.getElementById('prevQ').disabled = idx === 0;
+
+  const nextBtn = document.getElementById('nextQ');
+  nextBtn.textContent = idx === total - 1 ? 'Voir mes résultats →' : 'Suivant →';
+
+  let html = '<div class="question-block">';
+  html += '<p class="question-text">' + q.text + '</p>';
+
+  if (q.type === 'single') {
+    html += '<div class="options">';
+    q.options.forEach((opt, i) => {
+      const sel = answers[q.id] === i ? 'selected' : '';
+      html += `<button class="option-btn ${sel}" onclick="selectOption(${q.id}, ${i}, this)">${opt.text}</button>`;
+    });
+    html += '</div>';
+  } else if (q.type === 'slider') {
+    const val = answers[q.id] !== undefined ? answers[q.id] : q.defaultVal;
+    html += `<div class="slider-wrap">
+      <div class="slider-labels"><span>${q.label_min}</span><span>${q.label_max}</span></div>
+      <input type="range" min="${q.min}" max="${q.max}" value="${val}" id="sliderInput"
+        oninput="document.getElementById('sliderVal').textContent = this.value + ' / 10'; answers[${q.id}] = parseInt(this.value);">
+      <div class="slider-value" id="sliderVal">${val} / 10</div>
+    </div>`;
+    if (answers[q.id] === undefined) answers[q.id] = q.defaultVal;
+  }
+
+  html += '</div>';
+  container.innerHTML = html;
+  nextBtn.disabled = (q.type === 'single' && answers[q.id] === undefined);
+}
+
+function selectOption(qid, idx, btn) {
+  document.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  answers[qid] = idx;
+  document.getElementById('nextQ').disabled = false;
+}
+
+function nextQuestion() {
+  const q = questions[currentQ];
+  if (q.type === 'single' && answers[q.id] === undefined) return;
+
+  if (q.type === 'single') {
+    const opt = q.options[answers[q.id]];
+    Object.entries(opt.scores).forEach(([k, v]) => {
+      if (scores[k] !== undefined) scores[k] += v;
+    });
+  }
+
+  if (currentQ === questions.length - 1) {
+    const reposVal = answers[questions[14].id] || 5;
+    if (reposVal <= 3) { scores.reconnexion += 3; }
+    else if (reposVal <= 5) { scores.reconnexion += 1; }
+    showResults(getDominantProfile());
+    return;
+  }
+
+  currentQ++;
+  renderQuestion(currentQ);
+}
+
+function prevQuestion() {
+  if (currentQ > 0) { currentQ--; renderQuestion(currentQ); }
+}
+
+function getDominantProfile() {
+  let max = -1, dom = 'equi';
+  scoreKeys.forEach(k => { if (scores[k] > max) { max = scores[k]; dom = k; } });
+  if (max <= 2) dom = 'equi';
+  return dom;
+}
+
+function showResults(profileKey) {
+  const prof = profiles[profileKey];
+  document.getElementById('quizSection').classList.remove('active');
+  const resultsDiv = document.getElementById('resultsSection');
+  resultsDiv.classList.add('active');
+
+  const otherProfiles = Object.keys(profiles).filter(k => k !== profileKey);
+
+  const profileLabels = {
+    cosmetiques: '🧴 Salle de bain',
+    interieur: '🏠 Intérieur',
+    alimentation: '🥗 Assiette',
+    reconnexion: '🌿 Reconnexion',
+    metaux: '⚙️ Métaux lourds'
+  };
+
+  let barsHtml = scoreKeys.map(k => `
+    <div class="score-row">
+      <div class="score-label">${profileLabels[k]}</div>
+      <div class="score-bar-wrap"><div class="score-bar-fill" id="bar_${k}" style="background:${profiles[k].color};"></div></div>
+      <div class="score-pct" id="pct_${k}">0</div>
+    </div>`).join('');
+
+  resultsDiv.innerHTML = `
+    <div class="results-header">
+      <h2>Ton profil : <span>${prof.name}</span></h2>
+    </div>
+    <div class="profile-card">
+      <div class="profile-emoji">${prof.emoji}</div>
+      <div class="profile-name">${prof.name}</div>
+      <div class="profile-desc">${prof.desc}</div>
+    </div>
+    <div class="scores-section">
+      <div class="scores-title">Tes scores par domaine d'exposition</div>
+      ${barsHtml}
+    </div>
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab('alim', this)">🥗 Alimentation</button>
+      <button class="tab-btn" onclick="switchTab('phyto', this)">🌿 Phyto & Micro</button>
+      <button class="tab-btn" onclick="switchTab('gestes', this)">💚 Gestes santé</button>
+      <button class="tab-btn" onclick="switchTab('plan', this)">📅 Plan 7 jours</button>
+    </div>
+    <div id="tab_alim" class="tab-content active">
+      <div class="reco-section">
+        <div class="reco-section-title">🥗 Alimentation adaptée à ton profil</div>
+        ${prof.reco.alimentation.map(r => `<div class="reco-item"><div class="reco-icon">${r.icon}</div><div class="reco-text"><div class="reco-name">${r.name}</div><div class="reco-detail">${r.detail}</div></div></div>`).join('')}
+      </div>
+    </div>
+    <div id="tab_phyto" class="tab-content">
+      <div class="reco-section">
+        <div class="reco-section-title">🌿 Phytothérapie & Micronutrition</div>
+        ${prof.reco.phyto.map(r => `<div class="reco-item"><div class="reco-icon">${r.icon}</div><div class="reco-text"><div class="reco-name">${r.name}</div><div class="reco-detail">${r.detail}</div></div></div>`).join('')}
+      </div>
+      <div class="disclaimer" style="margin-top:12px">⚠️ Ces recommandations sont données à titre informatif. Consultez votre médecin avant toute supplémentation, surtout si vous prenez des médicaments.</div>
+    </div>
+    <div id="tab_gestes" class="tab-content">
+      <div class="reco-section">
+        <div class="reco-section-title">💚 Gestes santé quotidiens</div>
+        ${prof.reco.gestes.map(r => `<div class="reco-item"><div class="reco-icon">${r.icon}</div><div class="reco-text"><div class="reco-name">${r.name}</div><div class="reco-detail">${r.detail}</div></div></div>`).join('')}
+      </div>
+    </div>
+    <div id="tab_plan" class="tab-content">
+      <div class="reco-section">
+        <div class="reco-section-title">📅 Tes 7 premiers jours</div>
+        <div class="plan-grid">
+          ${prof.plan.map(d => `<div class="plan-day"><div class="plan-day-title">${d.day}</div><ul>${d.actions.map(a => `<li>${a}</li>`).join('')}</ul></div>`).join('')}
+        </div>
+      </div>
+    </div>
+    <div class="other-profiles">
+      <div class="other-profiles-title">Consulter les recommandations d'un autre profil</div>
+      <div class="other-btns">
+        ${otherProfiles.map(p => `<button class="other-btn" onclick="showResults('${p}')">${profiles[p].emoji} ${profiles[p].name.split('—')[0].trim()}</button>`).join('')}
+      </div>
+    </div>
+    <button class="retry-btn" onclick="resetQuiz()">↩ Refaire le test</button>
+  `;
+
+  const maxScore = Math.max(...scoreKeys.map(k => scores[k]));
+  setTimeout(() => {
+    scoreKeys.forEach(k => {
+      const pct = maxScore > 0 ? Math.round((scores[k] / maxScore) * 100) : 0;
+      const bar = document.getElementById('bar_' + k);
+      const pctEl = document.getElementById('pct_' + k);
+      if (bar) bar.style.width = pct + '%';
+      if (pctEl) pctEl.textContent = scores[k] + ' pts';
+    });
+  }, 100);
+
+  window.scrollTo(0, 0);
+}
+
+function switchTab(name, btn) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab_' + name).classList.add('active');
+  btn.classList.add('active');
+}
+
+function resetQuiz() {
+  answers = {};
+  currentQ = 0;
+  scores = { cosmetiques: 0, interieur: 0, alimentation: 0, reconnexion: 0, metaux: 0, equi: 0 };
+  document.getElementById('resultsSection').classList.remove('active');
+  document.getElementById('resultsSection').innerHTML = '';
+  document.getElementById('quizSection').classList.add('active');
+  renderQuestion(0);
+  window.scrollTo(0, 0);
+}
+
+renderQuestion(0);
+</script>
+</body>
+</html>

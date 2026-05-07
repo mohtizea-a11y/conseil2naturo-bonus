@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bonus Module 3 — Mon profil de stress</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Lato:wght@300;400;700&display=swap');
+
+  :root {
+    --vert: #2d6a4f;
+    --vert-fond: #1b4332;
+    --or: #d4a843;
+    --or-clair: #f0c060;
+    --blanc: #f8f5ee;
+    --rouge: #e05252;
+    --bleu: #52a8e0;
+    --violet: #9b59b6;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Lato', sans-serif;
+    background: #111;
+    min-height: 100vh;
+    padding: 24px 16px;
+    color: var(--blanc);
+  }
+
+  .container {
+    max-width: 780px;
+    margin: 0 auto;
+  }
+
+  /* HEADER */
+  .header {
+    text-align: center;
+    margin-bottom: 32px;
+  }
+
+  .header .tag {
+    display: inline-block;
+    background: rgba(212,168,67,0.15);
+    border: 1px solid rgba(212,168,67,0.4);
+    color: var(--or);
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 5px 16px;
+    border-radius: 20px;
+    margin-bottom: 14px;
+  }
+
+  .header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    color: var(--blanc);
+    line-height: 1.2;
+    margin-bottom: 10px;
+  }
+
+  .header h1 span { color: var(--or); }
+
+  .header p {
+    color: rgba(248,245,238,0.65);
+    font-size: 0.92rem;
+    line-height: 1.6;
+    max-width: 500px;
+    margin: 0 auto 8px;
+  }
+
+  .disclaimer {
+    background: rgba(212,168,67,0.08);
+    border: 1px solid rgba(212,168,67,0.2);
+    border-radius: 8px;
+    padding: 10px 16px;
+    font-size: 0.78rem;
+    color: rgba(248,245,238,0.55);
+    max-width: 560px;
+    margin: 12px auto 0;
+    line-height: 1.5;
+  }
+
+  /* SECTIONS */
+  .section {
+    display: none;
+  }
+
+  .section.active {
+    display: block;
+  }
+
+  /* QUIZ */
+  .progress-bar-wrap {
+    background: rgba(255,255,255,0.07);
+    border-radius: 20px;
+    height: 6px;
+    margin-bottom: 28px;
+    overflow: hidden;
+  }
+
+  .progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--vert), var(--or));
+    border-radius: 20px;
+    transition: width 0.4s ease;
+  }
+
+  .question-block {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(212,168,67,0.18);
+    border-radius: 14px;
+    padding: 28px;
+    margin-bottom: 20px;
+  }
+
+  .question-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05rem;
+    color: var(--blanc);
+    margin-bottom: 18px;
+    line-height: 1.5;
+  }
+
+  .question-sub {
+    font-size: 0.82rem;
+    color: rgba(212,168,67,0.75);
+    margin-bottom: 16px;
+    font-style: italic;
+  }
+
+  .options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .option-btn {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 10px;
+    padding: 13px 18px;
+    color: rgba(248,245,238,0.8);
+    font-family: 'Lato', sans-serif;
+    font-size: 0.9rem;
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.2s;
+    line-height: 1.4;
+  }
+
+  .option-btn:hover {
+    background: rgba(212,168,67,0.1);
+    border-color: rgba(212,168,67,0.35);
+    color: var(--blanc);
+  }
+
+  .option-btn.selected {
+    background: rgba(212,168,67,0.15);
+    border-color: var(--or);
+    color: var(--blanc);
+  }
+
+  /* Slider question */
+  .slider-wrap {
+    margin: 12px 0 8px;
+  }
+
+  .slider-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.75rem;
+    color: rgba(248,245,238,0.45);
+    margin-bottom: 8px;
+  }
+
+  input[type=range] {
+    width: 100%;
+    accent-color: var(--or);
+    cursor: pointer;
+    height: 6px;
+  }
+
+  .slider-value {
+    text-align: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    color: var(--or);
+    margin-top: 10px;
+    font-weight: 700;
+  }
+
+  .nav-quiz {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 12px;
+  }
+
+  .btn {
+    background: rgba(212,168,67,0.15);
+    border: 1px solid rgba(212,168,67,0.4);
+    color: var(--or);
+    padding: 12px 28px;
+    border-radius: 10px;
+    font-family: 'Lato', sans-serif;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.5px;
+  }
+
+  .btn:hover { background: rgba(212,168,67,0.28); }
+  .btn:disabled { opacity: 0.3; cursor: default; }
+
+  .btn-primary {
+    background: linear-gradient(135deg, var(--or), #b8860b);
+    color: #1a1a1a;
+    font-weight: 700;
+    border: none;
+  }
+
+  .btn-primary:hover { opacity: 0.9; }
+
+  .q-counter {
+    font-size: 0.82rem;
+    color: rgba(212,168,67,0.6);
+  }
+
+  /* RESULTS */
+  .results-header {
+    text-align: center;
+    margin-bottom: 28px;
+  }
+
+  .results-header h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.7rem;
+    color: var(--blanc);
+    margin-bottom: 8px;
+  }
+
+  .results-header h2 span { color: var(--or); }
+
+  .profile-card {
+    background: linear-gradient(135deg, rgba(43,106,79,0.35), rgba(27,67,50,0.5));
+    border: 1px solid rgba(212,168,67,0.35);
+    border-radius: 16px;
+    padding: 28px;
+    margin-bottom: 24px;
+    text-align: center;
+  }
+
+  .profile-emoji { font-size: 3rem; margin-bottom: 12px; }
+
+  .profile-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    color: var(--or);
+    margin-bottom: 8px;
+  }
+
+  .profile-desc {
+    font-size: 0.9rem;
+    color: rgba(248,245,238,0.75);
+    line-height: 1.65;
+    max-width: 500px;
+    margin: 0 auto 16px;
+  }
+
+  /* Score bars */
+  .scores-section {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(212,168,67,0.15);
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin-bottom: 24px;
+  }
+
+  .scores-title {
+    font-family: 'Playfair Display', serif;
+    color: var(--or);
+    font-size: 0.95rem;
+    margin-bottom: 16px;
+    text-align: center;
+  }
+
+  .score-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+
+  .score-label {
+    width: 140px;
+    font-size: 0.82rem;
+    color: rgba(248,245,238,0.75);
+    flex-shrink: 0;
+    line-height: 1.3;
+  }
+
+  .score-bar-wrap {
+    flex: 1;
+    background: rgba(255,255,255,0.06);
+    border-radius: 20px;
+    height: 10px;
+    overflow: hidden;
+  }
+
+  .score-bar-fill {
+    height: 100%;
+    border-radius: 20px;
+    transition: width 1.2s ease;
+    width: 0%;
+  }
+
+  .score-pct {
+    width: 36px;
+    text-align: right;
+    font-size: 0.8rem;
+    font-family: 'Playfair Display', serif;
+    color: var(--or);
+  }
+
+  /* RECO TABS */
+  .tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+  }
+
+  .tab-btn {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: rgba(248,245,238,0.6);
+    padding: 8px 18px;
+    border-radius: 20px;
+    font-size: 0.82rem;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .tab-btn.active, .tab-btn:hover {
+    background: rgba(212,168,67,0.15);
+    border-color: rgba(212,168,67,0.4);
+    color: var(--or);
+  }
+
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+
+  .reco-section {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(212,168,67,0.15);
+    border-radius: 12px;
+    padding: 22px 24px;
+    margin-bottom: 16px;
+  }
+
+  .reco-section-title {
+    font-family: 'Playfair Display', serif;
+    color: var(--or);
+    font-size: 1rem;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .reco-item {
+    display: flex;
+    gap: 14px;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    align-items: flex-start;
+  }
+
+  .reco-item:last-child { border-bottom: none; padding-bottom: 0; }
+
+  .reco-icon { font-size: 1.2rem; flex-shrink: 0; margin-top: 2px; }
+
+  .reco-text { flex: 1; }
+  .reco-name { font-size: 0.9rem; color: var(--blanc); font-weight: 700; margin-bottom: 3px; }
+  .reco-detail { font-size: 0.8rem; color: rgba(248,245,238,0.6); line-height: 1.5; }
+
+  /* PLAN 7 JOURS */
+  .plan-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 10px;
+    margin-top: 12px;
+  }
+
+  .plan-day {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(212,168,67,0.18);
+    border-radius: 10px;
+    padding: 14px;
+  }
+
+  .plan-day-title {
+    font-family: 'Playfair Display', serif;
+    color: var(--or);
+    font-size: 0.85rem;
+    margin-bottom: 8px;
+    font-weight: 700;
+  }
+
+  .plan-day ul { padding: 0; list-style: none; }
+
+  .plan-day li {
+    font-size: 0.78rem;
+    color: rgba(248,245,238,0.7);
+    padding: 3px 0 3px 14px;
+    position: relative;
+    line-height: 1.4;
+  }
+
+  .plan-day li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--or);
+    font-size: 0.7rem;
+    top: 4px;
+  }
+
+  .other-profiles {
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(212,168,67,0.15);
+  }
+
+  .other-profiles-title {
+    font-size: 0.85rem;
+    color: rgba(248,245,238,0.5);
+    margin-bottom: 12px;
+    text-align: center;
+  }
+
+  .other-btns {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .other-btn {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: rgba(248,245,238,0.6);
+    padding: 7px 16px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .other-btn:hover {
+    background: rgba(212,168,67,0.1);
+    border-color: rgba(212,168,67,0.3);
+    color: var(--or);
+  }
+
+  .retry-btn {
+    display: block;
+    width: 100%;
+    text-align: center;
+    margin-top: 20px;
+    padding: 14px;
+    background: rgba(212,168,67,0.1);
+    border: 1px solid rgba(212,168,67,0.3);
+    border-radius: 12px;
+    color: rgba(212,168,67,0.8);
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: all 0.2s;
+  }
+
+  .retry-btn:hover { background: rgba(212,168,67,0.18); }
+
+  @media (max-width: 500px) {
+    .header h1 { font-size: 1.5rem; }
+    .plan-grid { grid-template-columns: 1fr 1fr; }
+    .score-label { width: 110px; font-size: 0.75rem; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="header">
+    <div class="tag">Bonus · Module 3</div>
+    <h1>Quel est ton <span>profil de stress</span> ?</h1>
+    <p>15 questions pour identifier ton profil dominant et recevoir des recommandations personnalisées en hygiène de vie, phyto et micronutrition.</p>
+    <div class="disclaimer">⚠️ Ce test est un outil d'auto-évaluation éducatif. Il ne remplace pas un bilan médical ou un avis professionnel de santé. En cas de doute, consultez votre médecin.</div>
+  </div>
+
+  <!-- QUIZ SECTION -->
+  <div class="section active" id="quizSection">
+    <div class="progress-bar-wrap">
+      <div class="progress-bar-fill" id="progressBar" style="width:0%"></div>
+    </div>
+
+    <div id="questionContainer"></div>
+
+    <div class="nav-quiz">
+      <button class="btn" id="prevQ" onclick="prevQuestion()" disabled>← Retour</button>
+      <span class="q-counter" id="qCounter">1 / 15</span>
+      <button class="btn btn-primary" id="nextQ" onclick="nextQuestion()">Suivant →</button>
+    </div>
+  </div>
+
+  <!-- RESULTS SECTION -->
+  <div class="section" id="resultsSection"></div>
+
+</div>
+
+<script>
+// ===================== QUESTIONS =====================
+const questions = [
+  {
+    id: 1,
+    text: "Comment te sens-tu généralement en te levant le matin ?",
+    type: "single",
+    options: [
+      { text: "Épuisée même après avoir dormi — je pourrais dormir encore", scores: { bas: 3 } },
+      { text: "Agitée, le cerveau déjà en route avant même de se lever", scores: { haut: 3 } },
+      { text: "Correctement, avec quelques variations selon les jours", scores: { modere: 2 } },
+      { text: "Plutôt bien, j'ai de l'énergie dès le matin", scores: { equi: 2 } },
+    ]
+  },
+  {
+    id: 2,
+    text: "Comment décris-tu ton endormissement ?",
+    type: "single",
+    options: [
+      { text: "Difficile — les pensées s'enchaînent, impossible de déconnecter", scores: { haut: 3 } },
+      { text: "Je m'endors facilement mais je me réveille plusieurs fois", scores: { haut: 2, bas: 1 } },
+      { text: "Je m'endors tôt, dès le soir — épuisée avant l'heure", scores: { bas: 3 } },
+      { text: "Endormissement correct, sommeil globalement réparateur", scores: { equi: 2 } },
+    ]
+  },
+  {
+    id: 3,
+    text: "Quand tu es confrontée à un événement stressant (même petit), comment réagis-tu ?",
+    type: "single",
+    options: [
+      { text: "Je sursaute facilement, je suis en hypervigilance permanente", scores: { haut: 3 } },
+      { text: "Je me sens complètement dépassée, incapable de faire face", scores: { bas: 3 } },
+      { text: "Ça me dérange mais je m'en remets assez vite", scores: { modere: 2 } },
+      { text: "Je gère globalement bien, ça ne me déstabilise pas trop", scores: { equi: 2 } },
+    ]
+  },
+  {
+    id: 4,
+    text: "Quel est ton rapport à la nourriture et aux fringales ?",
+    type: "single",
+    options: [
+      { text: "Fringales sucrées fréquentes — j'ai faim en permanence", scores: { haut: 3 } },
+      { text: "J'ai besoin de café ou de sucre pour tenir la journée", scores: { bas: 3 } },
+      { text: "Peu d'appétit, pas vraiment de fringales", scores: { bas: 1, modere: 1 } },
+      { text: "Appétit régulier, pas de compulsions particulières", scores: { equi: 2 } },
+    ]
+  },
+  {
+    id: 5,
+    text: "Est-ce que tu te sens agitée, électrique, difficile à calmer ?",
+    type: "single",
+    options: [
+      { text: "Oui souvent — je n'arrive pas à me poser, cerveau en surchauffe", scores: { haut: 3 } },
+      { text: "Parfois — surtout en période de stress intense", scores: { haut: 1, modere: 1 } },
+      { text: "Non — au contraire je suis plutôt dans un état de fatigue plate", scores: { bas: 3 } },
+      { text: "Non, je suis globalement stable", scores: { equi: 2 } },
+    ]
+  },
+  {
+    id: 6,
+    text: "As-tu des palpitations, une tension artérielle élevée, ou une rétention d'eau visible ?",
+    type: "single",
+    options: [
+      { text: "Oui, palpitations et/ou rétention d'eau régulières", scores: { haut: 3 } },
+      { text: "Parfois des palpitations, surtout sous pression", scores: { haut: 1 } },
+      { text: "Non, mais j'ai souvent des migraines", scores: { bas: 2 } },
+      { text: "Non, aucun de ces symptômes", scores: { equi: 2 } },
+    ]
+  },
+  {
+    id: 7,
+    text: "Comment décris-tu ton niveau d'énergie globale dans la journée ?",
+    type: "single",
+    options: [
+      { text: "Coup de pompe systématique en début d'après-midi (14h-16h)", scores: { bas: 3 } },
+      { text: "Énergie en dents de scie — pics puis effondrements", scores: { haut: 2, bas: 1 } },
+      { text: "Fatigue globale mais relativement stable", scores: { bas: 2 } },
+      { text: "Énergie assez constante sur la journée", scores: { equi: 2 } },
+    ]
+  },
+  {
+    id: 8,
+    text: "As-tu des troubles digestifs associés au stress (ventre noué, douleurs, ballonnements qui empirent sous stress) ?",
+    type: "single",
+    options: [
+      { text: "Oui, nettement — mon ventre réagit directement au stress", scores: { haut: 2, bas: 1 } },
+      { text: "Oui, mais c'est plutôt une digestion très lente et paresseuse", scores: { bas: 2 } },
+      { text: "Parfois, surtout en période intense", scores: { modere: 2 } },
+      { text: "Non, la digestion n'est pas vraiment impactée par mon stress", scores: { equi: 1 } },
+    ]
+  },
+  {
+    id: 9,
+    text: "Ton cycle menstruel (si concernée) est-il impacté ?",
+    type: "single",
+    options: [
+      { text: "Cycles irréguliers, SPM prononcé, règles douloureuses", scores: { haut: 2, bas: 1 } },
+      { text: "Cycles très longs, règles légères ou absentes parfois", scores: { bas: 3 } },
+      { text: "Quelques variations mais globalement régulier", scores: { modere: 1 } },
+      { text: "Cycle régulier, peu de symptômes", scores: { equi: 2 } },
+    ]
+  },
+  {
+    id: 10,
+    text: "Comment évalues-tu ton niveau de stress chronique au quotidien ?",
+    type: "slider",
+    min: 0, max: 10,
+    label_min: "Très faible", label_max: "Extrêmement élevé",
+    defaultVal: 5
+  },
+  {
+    id: 11,
+    text: "As-tu des allergies, une sensibilité aux infections ou une immunité qui semble basse ?",
+    type: "single",
+    options: [
+      { text: "Oui, allergies fréquentes et/ou infections à répétition", scores: { bas: 3 } },
+      { text: "Sensibilité aux infections, ça dure longtemps quand je suis malade", scores: { bas: 2 } },
+      { text: "Parfois, surtout en période de fatigue intense", scores: { modere: 2 } },
+      { text: "Non, mon immunité semble correcte", scores: { equi: 2 } },
+    ]
+  },
+  {
+    id: 12,
+    text: "Est-ce que tu pratiques actuellement des activités qui te ressourcent (yoga, marche, méditation...) ?",
+    type: "single",
+    options: [
+      { text: "Non, je n'ai pas le temps ou l'énergie pour ça", scores: { action_needed: 3 } },
+      { text: "Rarement, de façon irrégulière", scores: { action_needed: 2 } },
+      { text: "Oui, quelques fois par semaine", scores: { action_needed: 1 } },
+      { text: "Oui, c'est une habitude quotidienne", scores: { action_needed: 0 } },
+    ]
+  },
+  {
+    id: 13,
+    text: "Consommes-tu des excitants (café, thé fort, boosters) régulièrement ?",
+    type: "single",
+    options: [
+      { text: "Oui, plusieurs cafés par jour — j'en ai besoin pour fonctionner", scores: { bas: 2, haut: 1 } },
+      { text: "1 à 2 cafés par jour, c'est mon rituel mais pas une dépendance", scores: { modere: 1 } },
+      { text: "Rarement ou jamais", scores: { equi: 1 } },
+      { text: "Je les ai arrêtés car ça me rendait trop nerveux/se", scores: { haut: 1 } },
+    ]
+  },
+  {
+    id: 14,
+    text: "As-tu des symptômes physiques de fonte musculaire, joues creuses, cernes marquées ?",
+    type: "single",
+    options: [
+      { text: "Oui nettement — j'ai perdu du volume musculaire, cernes profondes", scores: { bas: 3 } },
+      { text: "Un peu — cernes occasionnelles, léger amaigrissement du visage", scores: { bas: 1, modere: 1 } },
+      { text: "Non, pas de ces symptômes", scores: { equi: 1 } },
+      { text: "Au contraire — je fais plutôt de la rétention, visage gonflé", scores: { haut: 2 } },
+    ]
+  },
+  {
+    id: 15,
+    text: "Si tu devais résumer ton état nerveux en une phrase, ce serait plutôt :",
+    type: "single",
+    options: [
+      { text: "\"Je suis à bout de souffle, je n'en peux plus, tout m'épuise\"", scores: { bas: 3 } },
+      { text: "\"Je suis sur les nerfs en permanence, je n'arrive pas à me calmer\"", scores: { haut: 3 } },
+      { text: "\"J'alterne entre phases de tension et d'effondrement\"", scores: { haut: 1, bas: 1, modere: 1 } },
+      { text: "\"Ça va globalement, avec des passages difficiles\"", scores: { equi: 2, modere: 1 } },
+    ]
+  }
+];
+
+// ===================== PROFILES =====================
+const profiles = {
+  haut: {
+    emoji: "⚡",
+    name: "Profil Cortisol Élevé",
+    desc: "Ton système nerveux est en surchauffe. Tu es en mode combat permanent — agitée, hypervigilante, difficile à calmer. Ton cortisol est probablement trop élevé depuis trop longtemps, ce qui entretient directement l'inflammation et perturbe ton sommeil, ta digestion et tes hormones.",
+    color: "#e05252",
+    reco: {
+      alimentation: [
+        { icon: "🫐", name: "Réduire les excitants", detail: "Remplacer progressivement le café par du café décaféiné ou des tisanes — la mélisse ou la camomille en matinée. Le café amplifie la sécrétion de cortisol." },
+        { icon: "🥩", name: "Maintenir des repas protéinés", detail: "Les protéines stabilisent la glycémie et évitent les pics de cortisol liés aux hypoglycémies. Un repas sans protéines = une montée de cortisol." },
+        { icon: "🚫", name: "Éviter le jeûne intermittent", detail: "Le jeûne intermittent stimule la production de cortisol — contre-indiqué si tu es déjà en excès. Mange à intervalles réguliers." },
+        { icon: "🌿", name: "Alimentation anti-inflammatoire", detail: "Oméga-3 (poissons gras, noix), légumes colorés, curcuma avec poivre — réduisent l'inflammation liée à l'excès de cortisol." },
+      ],
+      phyto: [
+        { icon: "🌿", name: "Ashwagandha — le soir", detail: "La plante adaptogène de choix pour le cortisol élevé. Études montrent une réduction significative du cortisol sanguin. Cure de 1 à 3 mois, 5 j/7 après le 1er mois." },
+        { icon: "🍵", name: "Tisane de Mélisse", detail: "Apaisante, idéale le soir ou en cas d'anxiété. Bonus : soulage aussi les problèmes d'estomac liés au stress." },
+        { icon: "🍵", name: "Tisane de Passiflore", detail: "Réduit l'anxiété via le GABA, un neurotransmetteur anxiolytique naturel. Idéale en soirée." },
+        { icon: "🌸", name: "HE Camomille romaine ou Lavande", detail: "En diffusion ou dilution sur les poignets le soir. Usage externe uniquement, toujours tester avant." },
+      ],
+      gestes: [
+        { icon: "💚", name: "Cohérence cardiaque — 3x/jour", detail: "Méthode 365 : 3 fois par jour, 6 resp/min, 5 minutes. Réduit le cortisol de façon mesurable. App Respirelax recommandée." },
+        { icon: "🚶", name: "Marche en extérieur 30 min/jour", detail: "La marche régulière est un des meilleurs régulateurs de cortisol. En extérieur de préférence — la lumière naturelle aide aussi." },
+        { icon: "🏋️", name: "Sport modéré — pas intensif", detail: "L'intensité tous les jours aggrave le cortisol. Privilégie le yoga, la natation douce, la marche. Maximum 2 séances intensives par semaine." },
+        { icon: "📵", name: "Soirée sans écran", detail: "Les écrans maintiennent le cortisol élevé le soir et bloquent la mélatonine. Arrêt des écrans 1h avant le coucher." },
+        { icon: "🧲", name: "Magnésium bisglycinate", detail: "300-400mg le soir. Cofacteur de la mélatonine, régulateur du système nerveux. Forme bisglycinate ou malate — mieux absorbées." },
+      ]
+    },
+    plan: [
+      { day: "Jours 1-2", actions: ["Installer Respirelax sur téléphone", "Cohérence cardiaque 3x/jour 5 min", "Remplacer 1 café par tisane mélisse"] },
+      { day: "Jours 3-4", actions: ["Soirée sans écran 1h avant sommeil", "Marche 30 min en extérieur", "Commencer magnésium bisglycinate le soir"] },
+      { day: "Jours 5-6", actions: ["Commencer ashwagandha le soir", "Respiration au carré 5 min/jour", "Repas protéiné au petit-déjeuner"] },
+      { day: "Jour 7", actions: ["Observer : sommeil amélioré ?", "Niveau d'agitation réduit ?", "Continuer les 3 pratiques clés"] },
+    ]
+  },
+
+  bas: {
+    emoji: "❄️",
+    name: "Profil Épuisement Nerveux",
+    desc: "Ton système nerveux est à plat. Après une longue période de sur-sollicitation, ton corps ne produit plus suffisamment de cortisol — ton bouclier anti-inflammatoire naturel. Résultat : fatigue profonde, immunité basse, tout devient stressant même les petites choses. La priorité absolue : recharger avant de renforcer.",
+    color: "#52a8e0",
+    reco: {
+      alimentation: [
+        { icon: "🥦", name: "Alimentation riche en calories et nutriments", detail: "Ne pas manger trop peu ! Ton corps a besoin d'énergie pour reconstruire. Glucides complexes, bonnes graisses, protéines à chaque repas." },
+        { icon: "🐟", name: "Oméga-3 prioritaires", detail: "Le système nerveux est un grand consommateur d'oméga-3 (DHA). Petits poissons gras 3x/semaine ou supplémentation qualité." },
+        { icon: "🚫", name: "Éviter le jeûne et les restrictions", detail: "Le jeûne est un stress supplémentaire pour un organisme déjà épuisé. Manger régulièrement, à satiété, sans sauter de repas." },
+        { icon: "⚡", name: "Limiter les excitants progressivement", detail: "Le café compense l'épuisement mais aggrave l'axe surrénalien. Réduire progressivement, pas d'un coup — pour éviter l'effet rebond." },
+      ],
+      phyto: [
+        { icon: "🌱", name: "Éleuthérocoque — le matin", detail: "La plante adaptogène polyvalente pour les organismes fatigués. Soutient la résistance au stress physique ET mental. Cure 1-3 mois." },
+        { icon: "🌸", name: "Rhodiola (si baisse de moral) — le matin", detail: "Si ton épuisement s'accompagne d'une baisse de moral ou de motivation. Souvent associée au safran pour renforcer l'effet." },
+        { icon: "🍵", name: "Tisane de Camomille — le soir", detail: "Apaisante et sédative, favorise un sommeil récupérateur. Le soir 30 min avant le coucher." },
+        { icon: "🌿", name: "Bourgeon de Figuier", detail: "Apaiser la sphère nerveuse, particulièrement si les symptômes s'expriment au niveau de l'estomac. En gemmothérapie." },
+      ],
+      gestes: [
+        { icon: "😴", name: "Prioriser absolument le sommeil", detail: "C'est la nuit que les surrénales se reconstituent. Heure de coucher régulière avant 23h. Chambre fraîche et sombre." },
+        { icon: "🧲", name: "Magnésium bisglycinate — matin et soir", detail: "200mg le matin + 200mg le soir. L'épuisement nerveux déminéralise — le magnésium est le premier carburant à restaurer." },
+        { icon: "☀️", name: "Vitamine D", detail: "Faire doser par le médecin et supplémenter si déficience. Protège les cellules nerveuses et soutient l'immunité basse." },
+        { icon: "🚶", name: "Marche douce — pas de sport intense", detail: "Pas d'intensité ! Une marche de 20-30 min en nature suffit. L'exposition au chaud (sauna, bain chaud) est aussi bénéfique." },
+        { icon: "🛑", name: "Dire non et déléguer", detail: "Identifier les sources de stress évitables et les éliminer. Ton corps a besoin de sécurité pour accepter de lâcher prise." },
+      ]
+    },
+    plan: [
+      { day: "Jours 1-2", actions: ["Heure de coucher fixe avant 23h", "Commencer magnésium matin + soir", "Aucune activité sportive intense"] },
+      { day: "Jours 3-4", actions: ["Marche douce 20 min/jour", "Tisane camomille le soir", "Repas réguliers, pas de saut de repas"] },
+      { day: "Jours 5-6", actions: ["Commencer éleuthérocoque le matin", "Identifier 1 source de stress à supprimer", "Respiration expiratoire 5 min le soir"] },
+      { day: "Jour 7", actions: ["Observer : énergie du matin améliorée ?", "Sommeil plus récupérateur ?", "Continuer 3-4 semaines minimum"] },
+    ]
+  },
+
+  modere: {
+    emoji: "🌊",
+    name: "Profil Stress Modéré Chronique",
+    desc: "Ton système nerveux est sous tension régulière mais n'est pas encore en épuisement. Tu alternes entre phases de tension et de fatigue. C'est le moment d'agir avant que ça bascule. Avec les bons outils, tu peux inverser la tendance rapidement.",
+    color: "#d4a843",
+    reco: {
+      alimentation: [
+        { icon: "🥗", name: "Anti-inflammatoire au quotidien", detail: "Chaque repas est une opportunité. Oméga-3, légumes colorés, épices anti-inflammatoires (curcuma + poivre), réduction des sucres cachés." },
+        { icon: "🫐", name: "Antioxydants prioritaires", detail: "Fruits rouges, baies, légumes crucifères, noix. Le stress chronique génère du stress oxydatif — les antioxydants protègent les cellules nerveuses." },
+        { icon: "⏰", name: "Rythme alimentaire régulier", detail: "3 repas par jour à heures fixes. La régularité est un signal de sécurité pour le système nerveux." },
+        { icon: "💧", name: "Hydratation correcte", detail: "La déshydratation amplifie la réponse au stress. 1,5 à 2L d'eau par jour, en dehors des repas." },
+      ],
+      phyto: [
+        { icon: "🌿", name: "Ashwagandha ou Rhodiola", detail: "Selon ton profil dominant : ashwagandha si tu te sens plutôt agitée, rhodiola si tu te sens plutôt déprimée ou sans motivation." },
+        { icon: "🍵", name: "Tisane de Verveine", detail: "Apaisante, lutte contre l'anxiété et soulage la digestion. Idéale en fin de journée ou après les repas." },
+        { icon: "🌼", name: "Bourgeon de Tilleul", detail: "En gemmothérapie — sphère nerveuse en général, particulièrement si les symptômes s'expriment au niveau de l'intestin." },
+        { icon: "🧲", name: "Magnésium bisglycinate", detail: "300-400mg le soir. Le stress modéré chronique consomme le magnésium progressivement — la supplémentation est préventive." },
+      ],
+      gestes: [
+        { icon: "💚", name: "Cohérence cardiaque — 2x/jour", detail: "Matin et soir. 5 minutes chaque fois. Rééquilibre progressivement les deux branches du système nerveux." },
+        { icon: "🧘", name: "Une activité parasympathique par jour", detail: "Yoga, méditation, bain chaud, activité créative — au moins 30 minutes par jour d'activité qui te ressource vraiment." },
+        { icon: "🌙", name: "Rituel de décompression le soir", detail: "Pas d'écran, tisane, respiration — préparer le terrain pour un sommeil récupérateur. Mélatonine et cortisol sont antagonistes." },
+        { icon: "📋", name: "Identifier et réduire une source de stress", detail: "Faire la liste de tes sources de stress et en éliminer une par semaine. Même un petit changement envoie un signal de sécurité au système nerveux." },
+      ]
+    },
+    plan: [
+      { day: "Jours 1-2", actions: ["Cohérence cardiaque matin + soir", "Identifier tes sources de stress principales", "Commencer magnésium le soir"] },
+      { day: "Jours 3-4", actions: ["Choisir une activité ressourçante quotidienne", "Tisane le soir (verveine ou camomille)", "Arrêt écrans 45 min avant coucher"] },
+      { day: "Jours 5-6", actions: ["Commencer plante adaptogène adaptée", "Repas à heures régulières", "Écrire 3 choses positives le soir"] },
+      { day: "Jour 7", actions: ["Observer les changements", "Quelle pratique a le plus d'impact ?", "La consolider en habitude"] },
+    ]
+  },
+
+  equi: {
+    emoji: "🌱",
+    name: "Profil Équilibré",
+    desc: "Ton système nerveux semble globalement équilibré. C'est une excellente base. L'objectif maintenant est de maintenir cet équilibre et de renforcer progressivement ton organisme pour le rendre encore plus résistant au stress.",
+    color: "#74c69d",
+    reco: {
+      alimentation: [
+        { icon: "🥗", name: "Maintenir l'anti-inflammatoire", detail: "Continue avec une alimentation riche en oméga-3, légumes colorés, fibres. La prévention vaut mieux que la guérison." },
+        { icon: "🐟", name: "Oméga-3 réguliers", detail: "2-3 fois par semaine de petits poissons gras (sardines, maquereaux, anchois). C'est le meilleur investissement pour la santé nerveuse long terme." },
+        { icon: "🍫", name: "Antioxydants et polyphénols", detail: "Thé vert, chocolat noir +80%, baies, curcuma, gingembre. Protection cellulaire quotidienne." },
+      ],
+      phyto: [
+        { icon: "🌿", name: "Cure préventive d'adaptogène", detail: "Même en bonne santé, une cure de rhodiola ou éleuthérocoque 2-3 mois par an renforce la résistance au stress." },
+        { icon: "🧲", name: "Magnésium en cure saisonnière", detail: "Automne et hiver notamment — les périodes de moins de lumière augmentent les besoins nerveux." },
+        { icon: "🌸", name: "Expositions progressives au froid", detail: "Douches froides progressives, bains froids — renforce le système nerveux sur le long terme. Commencer doucement." },
+      ],
+      gestes: [
+        { icon: "💪", name: "Renforcer progressivement", detail: "Ton organisme est prêt à être renforcé. Défis sportifs progressifs, exposition au froid, jeûne ponctuel — pour augmenter la résistance au stress." },
+        { icon: "🌙", name: "Protéger le sommeil", detail: "Le sommeil est ton meilleur outil de régulation. Maintenir des horaires réguliers, même le week-end." },
+        { icon: "💚", name: "Cohérence cardiaque préventive", detail: "Même sans symptômes — 5 minutes le soir pour maintenir l'équilibre sympathique/parasympathique." },
+        { icon: "🌿", name: "Moments de vraie déconnexion", detail: "Temps en nature, activités sans écran, pleine présence — prévenir l'accumulation de stress chronique." },
+      ]
+    },
+    plan: [
+      { day: "Jours 1-2", actions: ["Cohérence cardiaque le soir 5 min", "Oméga-3 dans l'alimentation ou supplém.", "Identifier une activité ressourçante"] },
+      { day: "Jours 3-4", actions: ["Introduire douche fraîche progressive", "Magnésium si pas déjà en cours", "Sortie en nature 1x cette semaine"] },
+      { day: "Jours 5-6", actions: ["Défi sportif modéré hors zone de confort", "Réduire les écrans le soir", "Observer ton énergie et ton humeur"] },
+      { day: "Jour 7", actions: ["Bilan : qu'est-ce qui te ressource vraiment ?", "Planifier ça chaque semaine", "Envisager cure adaptogène préventive"] },
+    ]
+  }
+};
+
+// ===================== STATE =====================
+let answers = {};
+let currentQ = 0;
+
+// ===================== RENDER QUESTION =====================
+function renderQuestion(idx) {
+  const q = questions[idx];
+  const container = document.getElementById('questionContainer');
+  const progress = Math.round((idx / questions.length) * 100);
+  document.getElementById('progressBar').style.width = progress + '%';
+  document.getElementById('qCounter').textContent = (idx + 1) + ' / ' + questions.length;
+  document.getElementById('prevQ').disabled = idx === 0;
+  document.getElementById('nextQ').textContent = idx === questions.length - 1 ? 'Voir mes résultats →' : 'Suivant →';
+
+  let html = `<div class="question-block">
+    <div class="question-text">${q.text}</div>`;
+
+  if (q.type === 'single') {
+    html += `<div class="options">`;
+    q.options.forEach((opt, i) => {
+      const sel = answers[q.id] && answers[q.id].index === i ? ' selected' : '';
+      html += `<button class="option-btn${sel}" onclick="selectOption(${q.id}, ${i})">${opt.text}</button>`;
+    });
+    html += `</div>`;
+  } else if (q.type === 'slider') {
+    const val = answers[q.id] !== undefined ? answers[q.id].val : q.defaultVal;
+    html += `<div class="slider-wrap">
+      <div class="slider-labels"><span>${q.label_min}</span><span>${q.label_max}</span></div>
+      <input type="range" min="${q.min}" max="${q.max}" value="${val}" oninput="updateSlider(${q.id}, this.value)">
+      <div class="slider-value" id="sliderVal_${q.id}">${val} / 10</div>
+    </div>`;
+    if (!answers[q.id]) answers[q.id] = { val: q.defaultVal };
+  }
+
+  html += `</div>`;
+  container.innerHTML = html;
+}
+
+function selectOption(qId, optIdx) {
+  answers[qId] = { index: optIdx };
+  document.querySelectorAll('.option-btn').forEach((btn, i) => {
+    btn.classList.toggle('selected', i === optIdx);
+  });
+}
+
+function updateSlider(qId, val) {
+  answers[qId] = { val: parseInt(val) };
+  document.getElementById('sliderVal_' + qId).textContent = val + ' / 10';
+}
+
+function nextQuestion() {
+  if (currentQ === questions.length - 1) {
+    showResults();
+    return;
+  }
+  currentQ++;
+  renderQuestion(currentQ);
+}
+
+function prevQuestion() {
+  if (currentQ > 0) { currentQ--; renderQuestion(currentQ); }
+}
+
+// ===================== CALCULATE SCORES =====================
+function calcScores() {
+  const scores = { haut: 0, bas: 0, modere: 0, equi: 0, action_needed: 0 };
+  const sliderQ = questions.find(q => q.type === 'slider');
+  if (sliderQ && answers[sliderQ.id]) {
+    const val = answers[sliderQ.id].val;
+    if (val >= 8) { scores.haut += 2; scores.bas += 1; }
+    else if (val >= 6) { scores.haut += 1; scores.modere += 1; }
+    else if (val >= 4) { scores.modere += 2; }
+    else { scores.equi += 2; }
+  }
+  questions.forEach(q => {
+    if (q.type === 'single' && answers[q.id] !== undefined) {
+      const opt = q.options[answers[q.id].index];
+      Object.entries(opt.scores).forEach(([k, v]) => { scores[k] = (scores[k] || 0) + v; });
+    }
+  });
+  return scores;
+}
+
+function getDominant(scores) {
+  const keys = ['haut', 'bas', 'modere', 'equi'];
+  return keys.reduce((a, b) => scores[a] >= scores[b] ? a : b);
+}
+
+// ===================== SHOW RESULTS =====================
+function showResults(forceProfile) {
+  document.getElementById('quizSection').classList.remove('active');
+  const resultsDiv = document.getElementById('resultsSection');
+  resultsDiv.classList.add('active');
+
+  const scores = calcScores();
+  const dominant = forceProfile || getDominant(scores);
+  const prof = profiles[dominant];
+
+  const total = Object.values(scores).filter((_, i) => ['haut','bas','modere','equi'].includes(Object.keys(scores)[i])).reduce((a,b)=>a+b,0) || 1;
+  const scoreKeys = ['haut','bas','modere','equi'];
+  const scoreLabels = { haut: '⚡ Cortisol élevé', bas: '❄️ Épuisement', modere: '🌊 Stress modéré', equi: '🌱 Équilibré' };
+  const scoreColors = { haut: '#e05252', bas: '#52a8e0', modere: '#d4a843', equi: '#74c69d' };
+
+  const otherProfiles = Object.keys(profiles).filter(p => p !== dominant);
+
+  let html = `
+  <div class="results-header">
+    <h2>Ton profil dominant : <span>${prof.name}</span></h2>
+  </div>
+
+  <div class="profile-card">
+    <div class="profile-emoji">${prof.emoji}</div>
+    <div class="profile-name">${prof.name}</div>
+    <p class="profile-desc">${prof.desc}</p>
+  </div>
+
+  <div class="scores-section">
+    <div class="scores-title">Distribution de tes scores</div>
+    ${scoreKeys.map(k => `
+      <div class="score-row">
+        <div class="score-label">${scoreLabels[k]}</div>
+        <div class="score-bar-wrap">
+          <div class="score-bar-fill" id="bar_${k}" style="background:${scoreColors[k]}; width:0%"></div>
+        </div>
+        <div class="score-pct" id="pct_${k}">0%</div>
+      </div>`).join('')}
+  </div>
+
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('alim', this)">🥗 Alimentation</button>
+    <button class="tab-btn" onclick="switchTab('phyto', this)">🌿 Phyto & Micro</button>
+    <button class="tab-btn" onclick="switchTab('gestes', this)">💚 Gestes santé</button>
+    <button class="tab-btn" onclick="switchTab('plan', this)">📅 Plan 7 jours</button>
+  </div>
+
+  <div id="tab_alim" class="tab-content active">
+    <div class="reco-section">
+      <div class="reco-section-title">🥗 Alimentation adaptée à ton profil</div>
+      ${prof.reco.alimentation.map(r => `
+        <div class="reco-item">
+          <div class="reco-icon">${r.icon}</div>
+          <div class="reco-text">
+            <div class="reco-name">${r.name}</div>
+            <div class="reco-detail">${r.detail}</div>
+          </div>
+        </div>`).join('')}
+    </div>
+  </div>
+
+  <div id="tab_phyto" class="tab-content">
+    <div class="reco-section">
+      <div class="reco-section-title">🌿 Phytothérapie & Micronutrition</div>
+      ${prof.reco.phyto.map(r => `
+        <div class="reco-item">
+          <div class="reco-icon">${r.icon}</div>
+          <div class="reco-text">
+            <div class="reco-name">${r.name}</div>
+            <div class="reco-detail">${r.detail}</div>
+          </div>
+        </div>`).join('')}
+    </div>
+    <div class="disclaimer" style="margin-top:12px">⚠️ Ces recommandations sont données à titre informatif et ne remplacent pas un avis médical. Consultez votre médecin avant toute supplémentation, surtout si vous prenez des médicaments.</div>
+  </div>
+
+  <div id="tab_gestes" class="tab-content">
+    <div class="reco-section">
+      <div class="reco-section-title">💚 Gestes santé quotidiens</div>
+      ${prof.reco.gestes.map(r => `
+        <div class="reco-item">
+          <div class="reco-icon">${r.icon}</div>
+          <div class="reco-text">
+            <div class="reco-name">${r.name}</div>
+            <div class="reco-detail">${r.detail}</div>
+          </div>
+        </div>`).join('')}
+    </div>
+  </div>
+
+  <div id="tab_plan" class="tab-content">
+    <div class="reco-section">
+      <div class="reco-section-title">📅 Ton plan 7 premiers jours</div>
+      <div class="plan-grid">
+        ${prof.plan.map(d => `
+          <div class="plan-day">
+            <div class="plan-day-title">${d.day}</div>
+            <ul>${d.actions.map(a => `<li>${a}</li>`).join('')}</ul>
+          </div>`).join('')}
+      </div>
+    </div>
+  </div>
+
+  <div class="other-profiles">
+    <div class="other-profiles-title">Consulter les recommandations d'un autre profil</div>
+    <div class="other-btns">
+      ${otherProfiles.map(p => `<button class="other-btn" onclick="showResults('${p}')">${profiles[p].emoji} ${profiles[p].name}</button>`).join('')}
+    </div>
+  </div>
+
+  <button class="retry-btn" onclick="resetQuiz()">↩ Refaire le test</button>
+  `;
+
+  resultsDiv.innerHTML = html;
+
+  // Animate bars
+  const max = Math.max(...scoreKeys.map(k => scores[k]));
+  setTimeout(() => {
+    scoreKeys.forEach(k => {
+      const pct = max > 0 ? Math.round((scores[k] / max) * 100) : 0;
+      const bar = document.getElementById('bar_' + k);
+      const pctEl = document.getElementById('pct_' + k);
+      if (bar) bar.style.width = pct + '%';
+      if (pctEl) pctEl.textContent = scores[k] + ' pts';
+    });
+  }, 100);
+
+  window.scrollTo(0, 0);
+}
+
+function switchTab(name, btn) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab_' + name).classList.add('active');
+  btn.classList.add('active');
+}
+
+function resetQuiz() {
+  answers = {};
+  currentQ = 0;
+  document.getElementById('resultsSection').classList.remove('active');
+  document.getElementById('resultsSection').innerHTML = '';
+  document.getElementById('quizSection').classList.add('active');
+  renderQuestion(0);
+  window.scrollTo(0, 0);
+}
+
+// Init
+renderQuestion(0);
+</script>
+</body>
+</html>
