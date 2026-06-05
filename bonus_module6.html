@@ -546,6 +546,16 @@ const profiles = {
 
 let answers = {};
 let currentQ = 0;
+
+// ===== SAUVEGARDE LOCALE =====
+const _SKEY = 'iflam_module6';
+function _sauv(profil) {
+  try {
+    const d = { answers: answers, currentQ: currentQ };
+    if(profil) d.profil = profil;
+    localStorage.setItem(_SKEY, JSON.stringify(d));
+  } catch(e) {}
+}
 let scores = { cosmetiques: 0, interieur: 0, alimentation: 0, reconnexion: 0, metaux: 0, equi: 0 };
 const scoreKeys = ['cosmetiques', 'interieur', 'alimentation', 'reconnexion', 'metaux'];
 
@@ -592,6 +602,7 @@ function selectOption(qid, idx, btn) {
   btn.classList.add('selected');
   answers[qid] = idx;
   document.getElementById('nextQ').disabled = false;
+  _sauv();
 }
 
 function nextQuestion() {
@@ -629,6 +640,7 @@ function getDominantProfile() {
 }
 
 function showResults(profileKey) {
+  _sauv(profileKey);
   const prof = profiles[profileKey];
   document.getElementById('quizSection').classList.remove('active');
   const resultsDiv = document.getElementById('resultsSection');
@@ -731,6 +743,7 @@ function resetQuiz() {
   answers = {};
   currentQ = 0;
   scores = { cosmetiques: 0, interieur: 0, alimentation: 0, reconnexion: 0, metaux: 0, equi: 0 };
+  try { localStorage.removeItem(_SKEY); } catch(e) {}
   document.getElementById('resultsSection').classList.remove('active');
   document.getElementById('resultsSection').innerHTML = '';
   document.getElementById('quizSection').classList.add('active');
@@ -738,7 +751,21 @@ function resetQuiz() {
   window.scrollTo(0, 0);
 }
 
-renderQuestion(0);
+(function() {
+  try {
+    const raw = localStorage.getItem(_SKEY);
+    if (!raw) { renderQuestion(0); return; }
+    const data = JSON.parse(raw);
+    if (data.answers) answers = data.answers;
+    if (data.profil) {
+      renderQuestion(0);
+      showResults(data.profil);
+    } else {
+      currentQ = data.currentQ || 0;
+      renderQuestion(currentQ);
+    }
+  } catch(e) { renderQuestion(0); }
+})();
 </script>
 </body>
 </html>
