@@ -520,11 +520,72 @@ body { font-family:'DM Sans',sans-serif; background:var(--vert-bg); color:var(--
     </div>
 
     <div class="disclaimer">Ces informations sont à usage personnel et éducatif. Elles ne remplacent pas un avis médical ni un suivi personnalisé. En cas de pathologie chronique, consulte un professionnel de santé.</div>
+    <div style="text-align:center; margin-top:16px; padding-bottom:8px;">
+      <span id="save-badge" style="display:none; font-size:11px; color:#2e7d52; background:#e8f5e9; padding:4px 12px; border-radius:20px; margin-bottom:8px; display:inline-block;">✓ Données sauvegardées</span>
+      <br>
+      <button onclick="resetDonnees()" style="background:none; border:none; color:#aaa; font-size:11px; cursor:pointer; text-decoration:underline; margin-top:8px;">Effacer mes données</button>
+    </div>
   </div>
 </div>
 
 <script>
-// TRACKER
+// ===== SAUVEGARDE LOCALE =====
+const STORAGE_KEY = 'iflam_module9';
+
+function sauvegarder() {
+  try {
+    const data = {
+      etat: état,
+      notes: document.getElementById('notes') ? document.getElementById('notes').value : '',
+      sliders: {}
+    };
+    const sliderIds = ['a-energie','a-digestion','a-sommeil','a-mental','a-douleurs','a-moral','a-peau','a-corps',
+                       'b-energie','b-digestion','b-sommeil','b-mental','b-douleurs','b-moral','b-peau','b-corps'];
+    sliderIds.forEach(id => {
+      const el = document.getElementById(id);
+      if(el) data.sliders[id] = el.value;
+    });
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+  } catch(e) {}
+}
+
+function restaurer() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if(!raw) return;
+    const data = JSON.parse(raw);
+    // Restaurer état tracker
+    if(data.etat) {
+      for(const g in data.etat) {
+        état[g] = data.etat[g];
+      }
+    }
+    // Restaurer notes
+    if(data.notes) {
+      const notesEl = document.getElementById('notes');
+      if(notesEl) notesEl.value = data.notes;
+    }
+    // Restaurer sliders
+    if(data.sliders) {
+      for(const id in data.sliders) {
+        const el = document.getElementById(id);
+        if(el) {
+          el.value = data.sliders[id];
+          const vid = (id.startsWith('a-') ? 'v' : 'v') + id;
+          majSlider(id, vid);
+        }
+      }
+    }
+  } catch(e) {}
+}
+
+function resetDonnees() {
+  if(!confirm('Effacer toutes tes données sauvegardées ? Cette action est irréversible.')) return;
+  try { localStorage.removeItem(STORAGE_KEY); } catch(e) {}
+  location.reload();
+}
+
+// ===== TRACKER =====
 const état = {}; // 0=vide, 1=oui, 2=non
 const JOURS = 21;
 const GESTES = 9;
@@ -560,6 +621,7 @@ function initTracker() {
         état[gg][jj] = ((état[gg][jj]||0)+1) % 3;
         this.className = 'check' + (['', ' oui', ' non'][état[gg][jj]]);
         majProg();
+        sauvegarder();
       };
       row.appendChild(box);
     }
@@ -682,6 +744,7 @@ const axes = [
 
 function majSlider(id, vid) {
   document.getElementById(vid).textContent = document.getElementById(id).value;
+  sauvegarder();
 }
 
 function afficherBilan() {
@@ -722,6 +785,17 @@ function tab(id, el) {
 }
 
 initTracker();
+restaurer();
+// Appliquer visuellement l'état restauré sur toutes les cases
+document.querySelectorAll('.check').forEach(box => {
+  const g = parseInt(box.dataset.g), j = parseInt(box.dataset.j);
+  const v = (état[g] && état[g][j]) ? état[g][j] : 0;
+  box.className = 'check' + (['', ' oui', ' non'][v]);
+});
+majProg();
+// Sauvegarder les notes à chaque frappe
+const notesEl = document.getElementById('notes');
+if(notesEl) notesEl.addEventListener('input', sauvegarder);
 </script>
 </body>
 </html>
