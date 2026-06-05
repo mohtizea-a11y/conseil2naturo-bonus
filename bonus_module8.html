@@ -677,6 +677,17 @@ const profils = {
 let scores = {sedentaire:0, surentrainee:0, debutante:0, irreguliere:0, equilibre:0};
 let qIdx = 0;
 let profilActuel = null;
+let _choix = []; // historique des choix pour restauration
+
+// ===== SAUVEGARDE LOCALE =====
+const _SKEY = 'iflam_module8';
+function _sauv(profil) {
+  try {
+    const d = { scores: scores, qIdx: qIdx, choix: _choix };
+    if(profil) d.profil = profil;
+    localStorage.setItem(_SKEY, JSON.stringify(d));
+  } catch(e) {}
+}
 
 function afficherQuestion() {
   const q = questions[qIdx];
@@ -698,7 +709,9 @@ function afficherQuestion() {
 function choisir(i) {
   const s = questions[qIdx].scores[i];
   for (const k in s) scores[k] = (scores[k]||0) + s[k];
+  _choix.push(i);
   qIdx++;
+  _sauv();
   if (qIdx < questions.length) {
     afficherQuestion();
   } else {
@@ -717,6 +730,7 @@ function afficherResultat() {
   const top = getTopProfils();
   const principal = top[0][0];
   const secondaire = top[1][0];
+  _sauv(principal);
   afficherProfil(principal);
 
   // Profil secondaire si score significatif
@@ -787,6 +801,8 @@ function refaire() {
   scores = {sedentaire:0, surentrainee:0, debutante:0, irreguliere:0, equilibre:0};
   qIdx = 0;
   profilActuel = null;
+  _choix = [];
+  try { localStorage.removeItem(_SKEY); } catch(e) {}
   document.getElementById('quiz-section').style.display = 'block';
   document.getElementById('resultat-section').style.display = 'none';
   document.getElementById('profil-sec').style.display = 'none';
@@ -794,7 +810,29 @@ function refaire() {
   window.scrollTo({top:0, behavior:'smooth'});
 }
 
-afficherQuestion();
+(function() {
+  try {
+    const raw = localStorage.getItem(_SKEY);
+    if (!raw) { afficherQuestion(); return; }
+    const data = JSON.parse(raw);
+    if (data.profil && data.scores) {
+      // Résultats déjà calculés
+      scores = data.scores;
+      qIdx = data.qIdx || questions.length;
+      _choix = data.choix || [];
+      afficherQuestion();
+      afficherResultat();
+    } else if (data.choix && data.choix.length > 0) {
+      // En cours : rejouer les choix
+      _choix = data.choix;
+      scores = data.scores || {sedentaire:0, surentrainee:0, debutante:0, irreguliere:0, equilibre:0};
+      qIdx = data.qIdx || 0;
+      afficherQuestion();
+    } else {
+      afficherQuestion();
+    }
+  } catch(e) { afficherQuestion(); }
+})();
 </script>
 </body>
 </html>
