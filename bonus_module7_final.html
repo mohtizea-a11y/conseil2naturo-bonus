@@ -859,6 +859,16 @@ const profiles = {
 let answers = {};
 let currentQ = 0;
 
+// ===== SAUVEGARDE LOCALE =====
+const _SKEY = 'iflam_module7';
+function _sauv(profil) {
+  try {
+    const d = { answers: answers, currentQ: currentQ };
+    if(profil) d.profil = profil;
+    localStorage.setItem(_SKEY, JSON.stringify(d));
+  } catch(e) {}
+}
+
 // ===================== RENDER =====================
 function renderQuestion(idx) {
   const q = questions[idx];
@@ -947,6 +957,7 @@ function showResults(forceProfile) {
 
   const scores = calcScores();
   const dominant = forceProfile || getDominant(scores);
+  _sauv(dominant);
   const prof = profiles[dominant];
 
   const scoreKeys = ['thyroide', 'insuline', 'oestrogenes', 'equi'];
@@ -1066,6 +1077,7 @@ function switchTab(name, btn) {
 function resetQuiz() {
   answers = {};
   currentQ = 0;
+  try { localStorage.removeItem(_SKEY); } catch(e) {}
   document.getElementById('resultsSection').classList.remove('active');
   document.getElementById('resultsSection').innerHTML = '';
   document.getElementById('quizSection').classList.add('active');
@@ -1073,7 +1085,21 @@ function resetQuiz() {
   window.scrollTo(0, 0);
 }
 
-renderQuestion(0);
+(function() {
+  try {
+    const raw = localStorage.getItem(_SKEY);
+    if (!raw) { renderQuestion(0); return; }
+    const data = JSON.parse(raw);
+    if (data.answers) answers = data.answers;
+    if (data.profil) {
+      renderQuestion(0);
+      showResults(data.profil);
+    } else {
+      currentQ = data.currentQ || 0;
+      renderQuestion(currentQ);
+    }
+  } catch(e) { renderQuestion(0); }
+})();
 </script>
 </body>
 </html>
