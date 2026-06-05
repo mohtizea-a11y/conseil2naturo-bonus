@@ -825,6 +825,19 @@ const profiles = {
 let answers = {};
 let currentQ = 0;
 
+// ===== SAUVEGARDE LOCALE =====
+const STORAGE_KEY_M3 = 'iflam_module3';
+function sauvegarder_m3(profil) {
+  try {
+    const data = { answers: answers, currentQ: currentQ };
+    if(profil) data.profil = profil;
+    localStorage.setItem(STORAGE_KEY_M3, JSON.stringify(data));
+  } catch(e) {}
+}
+function resetQuizData_m3() {
+  try { localStorage.removeItem(STORAGE_KEY_M3); } catch(e) {}
+}
+
 // ===================== RENDER QUESTION =====================
 function renderQuestion(idx) {
   const q = questions[idx];
@@ -864,11 +877,13 @@ function selectOption(qId, optIdx) {
   document.querySelectorAll('.option-btn').forEach((btn, i) => {
     btn.classList.toggle('selected', i === optIdx);
   });
+  sauvegarder_m3();
 }
 
 function updateSlider(qId, val) {
   answers[qId] = { val: parseInt(val) };
   document.getElementById('sliderVal_' + qId).textContent = val + ' / 10';
+  sauvegarder_m3();
 }
 
 function nextQuestion() {
@@ -917,6 +932,7 @@ function showResults(forceProfile) {
 
   const scores = calcScores();
   const dominant = forceProfile || getDominant(scores);
+  sauvegarder_m3(dominant);
   const prof = profiles[dominant];
 
   const total = Object.values(scores).filter((_, i) => ['haut','bas','modere','equi'].includes(Object.keys(scores)[i])).reduce((a,b)=>a+b,0) || 1;
@@ -1049,6 +1065,7 @@ function switchTab(name, btn) {
 function resetQuiz() {
   answers = {};
   currentQ = 0;
+  resetQuizData_m3();
   document.getElementById('resultsSection').classList.remove('active');
   document.getElementById('resultsSection').innerHTML = '';
   document.getElementById('quizSection').classList.add('active');
@@ -1056,8 +1073,23 @@ function resetQuiz() {
   window.scrollTo(0, 0);
 }
 
-// Init
-renderQuestion(0);
+// Init — restaurer si données sauvegardées
+(function() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY_M3);
+    if (!raw) { renderQuestion(0); return; }
+    const data = JSON.parse(raw);
+    if (data.answers) answers = data.answers;
+    if (data.profil) {
+      // Résultats déjà calculés — afficher directement
+      renderQuestion(0);
+      showResults(data.profil);
+    } else {
+      currentQ = data.currentQ || 0;
+      renderQuestion(currentQ);
+    }
+  } catch(e) { renderQuestion(0); }
+})();
 </script>
 </body>
 </html>
