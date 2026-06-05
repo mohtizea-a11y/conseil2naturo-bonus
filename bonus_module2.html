@@ -247,14 +247,20 @@ input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 22px;
 <script>
 var s={estomac:0,porosite:0,dysbiose:0,foie:0};
 var cur=1,tot=12;
+var _sel={};
+// ===== SAUVEGARDE LOCALE =====
+var _SKEY='iflam_module2';
+function _sauv(profil){try{var d={sel:_sel,cur:cur,stress:document.getElementById('ss')?document.getElementById('ss').value:5};if(profil)d.profil=profil;localStorage.setItem(_SKEY,JSON.stringify(d));}catch(e){}}
 function up(){document.getElementById('pf').style.width=(((cur-1)/tot)*100)+'%';document.getElementById('pt').textContent='Question '+cur+' sur '+tot;}
-function pick(b,c,v){b.closest('.qcard').querySelectorAll('.opt').forEach(function(x){x.classList.remove('sel');});b.classList.add('sel');b.dataset.c=c;b.dataset.v=v;var qn=b.closest('.qcard').id.replace('q','');var nb=document.getElementById('n'+qn);if(nb)nb.disabled=false;}
+function pick(b,c,v){b.closest('.qcard').querySelectorAll('.opt').forEach(function(x){x.classList.remove('sel');});b.classList.add('sel');b.dataset.c=c;b.dataset.v=v;var qn=b.closest('.qcard').id.replace('q','');_sel[qn]={c:c,v:v};if(document.getElementById('n'+qn))document.getElementById('n'+qn).disabled=false;_sauv();}
 function nxt(n){var card=document.getElementById('q'+n);var sel=card.querySelector('.opt.sel');if(!sel)return;s[sel.dataset.c]+=parseInt(sel.dataset.v);card.classList.remove('active');cur=n+1;document.getElementById('q'+cur).classList.add('active');up();window.scrollTo(0,0);}
 function bck(n){document.getElementById('q'+n).classList.remove('active');cur=n-1;document.getElementById('q'+cur).classList.add('active');up();window.scrollTo(0,0);}
 function usl(v){document.getElementById('sv').textContent=v+' / 10';}
 function showR(){
   var stress=parseInt(document.getElementById('ss').value);
   if(stress>=7){s.estomac+=2;s.porosite+=1;s.dysbiose+=1;}else if(stress>=5){s.estomac+=1;}
+  var dom=Object.keys(s).reduce(function(a,b){return s[a]>=s[b]?a:b;});
+  _sauv(dom);
   document.getElementById('qa').style.display='none';
   document.getElementById('pf').parentElement.style.display='none';
   document.getElementById('pt').style.display='none';
@@ -295,7 +301,7 @@ function showR(){
   recos.forEach(function(r,i){rb.innerHTML+='<div class="reco-item"><div class="reco-num">'+(i+1)+'</div><p class="reco-text">'+r+'</p></div>';});
 }
 function rst(){
-  Object.keys(s).forEach(function(k){s[k]=0;});cur=1;
+  Object.keys(s).forEach(function(k){s[k]=0;});cur=1;_sel={};try{localStorage.removeItem(_SKEY);}catch(e){}
   document.querySelectorAll('.opt').forEach(function(b){b.classList.remove('sel');});
   for(var i=1;i<=11;i++){var nb=document.getElementById('n'+i);if(nb)nb.disabled=true;}
   document.getElementById('ss').value=5;document.getElementById('sv').textContent='5 / 10';
@@ -307,7 +313,43 @@ function rst(){
   document.getElementById('q1').classList.add('active');
   up();window.scrollTo(0,0);
 }
-up();
+// Init — restaurer si données sauvegardées
+(function(){
+  try{
+    var raw=localStorage.getItem(_SKEY);
+    if(!raw){up();return;}
+    var data=JSON.parse(raw);
+    if(data.profil){
+      // Résultats déjà calculés : rejouer les sélections et afficher résultat
+      if(data.sel){
+        Object.keys(data.sel).forEach(function(qn){
+          var info=data.sel[qn];
+          var card=document.getElementById('q'+qn);
+          if(card){
+            var btns=card.querySelectorAll('.opt');
+            btns.forEach(function(b){
+              if(b.getAttribute('onclick')&&b.getAttribute('onclick').indexOf("'"+info.c+"'")>-1&&b.getAttribute('onclick').indexOf(','+info.v+')')>-1){
+                b.classList.add('sel');b.dataset.c=info.c;b.dataset.v=info.v;
+                s[info.c]=(s[info.c]||0)+parseInt(info.v);
+              }
+            });
+          }
+        });
+      }
+      if(data.stress&&document.getElementById('ss')){document.getElementById('ss').value=data.stress;document.getElementById('sv').textContent=data.stress+' / 10';}
+      up();showR();
+    } else if(data.sel&&Object.keys(data.sel).length>0){
+      _sel=data.sel;cur=data.cur||1;
+      for(var q=1;q<cur;q++){
+        var card=document.getElementById('q'+q);
+        if(card)card.classList.remove('active');
+      }
+      var active=document.getElementById('q'+cur);
+      if(active){active.classList.add('active');}
+      up();
+    } else{up();}
+  }catch(e){up();}
+})();
 </script>
 </body>
 </html>
