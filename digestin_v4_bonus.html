@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DIGEST-IN — Bonus Vidéo 4 — Enzymes & intolérances</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --vf:#4a5c44;--v:#7a8c72;--vp:#c8d5c2;
+  --or:#c9a84c;--orc:#e8d5a0;--cr:#f5f0e8;--crf:#ede5d5;--bl:#fdfaf5;
+  --tx:#2c2c2c;--dx:#5a5a5a;--rg:#b85545;--rgp:#f9ebe8;--am:#8a6020;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--cr);font-family:'Lato',sans-serif;color:var(--tx);max-width:880px;margin:0 auto;padding:36px 20px 80px;}
+
+.hero{background:var(--vf);border-radius:10px;padding:36px 44px;text-align:center;margin-bottom:30px;position:relative;overflow:hidden;}
+.hero::after{content:'';position:absolute;width:420px;height:420px;border-radius:50%;border:1px solid rgba(201,168,76,.09);bottom:-150px;right:-70px;pointer-events:none;}
+.h-l{font-size:10px;letter-spacing:4px;text-transform:uppercase;color:var(--or);margin-bottom:10px;}
+.h-t{font-family:'Cormorant Garamond',serif;font-size:38px;font-weight:300;color:var(--cr);line-height:1.15;}
+.h-t em{color:var(--or);font-style:italic;}
+.h-s{font-family:'Cormorant Garamond',serif;font-size:16px;font-style:italic;color:var(--vp);margin-top:10px;}
+
+.tabs{display:flex;gap:0;border-radius:8px;overflow:hidden;border:2px solid var(--vf);margin-bottom:26px;}
+.tab{flex:1;padding:12px 6px;text-align:center;font-size:11px;font-weight:700;letter-spacing:.5px;cursor:pointer;background:var(--bl);color:var(--dx);transition:all .2s;border-right:1px solid var(--vp);}
+.tab:last-child{border-right:none;}
+.tab.aq{background:var(--vf);color:white;}
+.tab.ae{background:var(--or);color:white;}
+.tab.ai{background:var(--rg);color:white;}
+.tab.as{background:#5a3a7a;color:white;}
+.page{display:none;}
+.page.on{display:block;}
+
+/* QUIZ */
+.qi{background:var(--bl);border-radius:8px;padding:16px 20px;margin-bottom:16px;font-size:13.5px;color:var(--dx);line-height:1.7;border-left:4px solid var(--or);}
+.qb{background:var(--bl);border-radius:8px;padding:16px 20px;margin-bottom:10px;}
+.qt{font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--vf);margin-bottom:10px;line-height:1.4;}
+.qo{display:flex;flex-direction:column;gap:6px;}
+.opt{display:flex;align-items:flex-start;gap:10px;padding:9px 13px;border-radius:5px;cursor:pointer;border:1.5px solid var(--crf);transition:all .18s;font-size:13px;color:var(--tx);}
+.opt:hover{border-color:var(--v);background:rgba(122,140,114,.05);}
+.opt.sel{border-color:var(--vf);background:rgba(74,92,68,.08);}
+.opt input{accent-color:var(--vf);flex-shrink:0;margin-top:2px;}
+.opt-sub{font-size:11px;color:var(--dx);margin-top:2px;font-style:italic;}
+.qbtn{background:var(--vf);color:var(--cr);border:none;padding:12px 30px;border-radius:6px;font-family:'Cormorant Garamond',serif;font-size:17px;cursor:pointer;margin-top:14px;transition:background .2s;}
+.qbtn:hover{background:#3a4c34;}
+
+/* RÉSULTAT */
+.rbox{border-radius:10px;padding:24px 28px;margin-top:18px;display:none;}
+.rbox.on{display:block;}
+.rbox.enzy{background:#fdf8ee;border:2px solid var(--or);}
+.rbox.into{background:var(--rgp);border:2px solid var(--rg);}
+.rbox.sibo{background:#f5f0f8;border:2px solid #7a4090;}
+.rbox.ok{background:#f0f5ee;border:2px solid var(--v);}
+.r-t{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600;margin-bottom:8px;}
+.r-t.enzy{color:var(--am);}
+.r-t.into{color:var(--rg);}
+.r-t.sibo{color:#5a2080;}
+.r-t.ok{color:var(--vf);}
+.r-txt{font-size:13.5px;line-height:1.7;color:var(--tx);margin-bottom:14px;}
+.rcta{display:inline-block;padding:9px 20px;border-radius:5px;font-size:13px;font-weight:700;cursor:pointer;border:none;color:white;margin-top:6px;}
+.rcta.enzy{background:var(--or);}
+.rcta.into{background:var(--rg);}
+.rcta.sibo{background:#6a3090;}
+
+/* PROTOCOLES */
+h2.pt{font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:300;color:var(--vf);margin-bottom:4px;}
+h2.pt em{color:var(--or);}
+.ol{height:2px;background:linear-gradient(90deg,var(--or),transparent);width:52px;margin-bottom:18px;}
+.ip{background:var(--bl);border-radius:8px;padding:14px 18px;margin-bottom:16px;font-size:13.5px;color:var(--dx);line-height:1.7;border-left:4px solid var(--or);}
+.ip strong{color:var(--tx);}
+.steps{display:flex;flex-direction:column;gap:12px;}
+.step{display:flex;gap:12px;align-items:flex-start;}
+.sn{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:16px;color:white;flex-shrink:0;margin-top:2px;background:var(--vf);}
+.sn.or{background:var(--or);}
+.sn.rg{background:var(--rg);}
+.sn.vl{background:#6a3090;}
+.sbody{flex:1;background:var(--bl);border-radius:8px;padding:13px 16px;}
+.st{font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:600;color:var(--vf);margin-bottom:5px;}
+.st.or{color:var(--am);}
+.st.rg{color:#7a2818;}
+.st.vl{color:#5a1080;}
+.stxt{font-size:13px;color:var(--dx);line-height:1.65;}
+.stxt strong{color:var(--tx);}
+.prod{background:var(--crf);border-radius:6px;padding:10px 13px;margin-top:8px;}
+.pnom{font-family:'Cormorant Garamond',serif;font-size:15px;font-weight:600;color:var(--vf);margin-bottom:2px;}
+.pnom.or{color:var(--am);}
+.pnom.rg{color:#7a2818;}
+.pdet{font-size:12.5px;color:var(--dx);line-height:1.6;}
+.pdet strong{color:var(--tx);}
+.pmec{font-size:11.5px;color:var(--v);font-style:italic;margin-top:3px;}
+.pci{font-size:12px;color:var(--rg);font-weight:700;margin-top:4px;}
+.al{background:var(--rgp);border-left:4px solid var(--rg);border-radius:0 6px 6px 0;padding:10px 14px;font-size:12.5px;color:#6a2a1a;line-height:1.6;margin:8px 0;}
+.al strong{font-weight:700;}
+.note{background:rgba(201,168,76,.1);border-left:4px solid var(--or);border-radius:0 6px 6px 0;padding:10px 14px;font-size:12.5px;color:#5a4010;line-height:1.6;margin:8px 0;}
+
+footer{margin-top:50px;text-align:center;font-family:'Cormorant Garamond',serif;font-size:13px;color:var(--dx);font-style:italic;padding-top:16px;border-top:1px solid var(--crf);}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="h-l">DIGEST-IN · Vidéo 4 · Bonus</div>
+  <div class="h-t">Enzymes &amp; intolérances<br><em>mon protocole personnalisé</em></div>
+  <div class="h-s">Quiz d'orientation · Protocoles complets · Produits recommandés</div>
+</div>
+
+<div class="tabs">
+  <div class="tab aq" onclick="showTab('q',this,'aq')">🔍 Mon profil</div>
+  <div class="tab" onclick="showTab('e',this,'ae')">🧡 Enzymes insuffisantes</div>
+  <div class="tab" onclick="showTab('i',this,'ai')">🔴 Intolérances</div>
+  <div class="tab" onclick="showTab('s',this,'as')">🟣 SIBO</div>
+</div>
+
+<!-- ══ QUIZ ══ -->
+<div class="page on" id="p-q">
+<div class="qi">Réponds honnêtement à ces questions en te basant sur ce que tu vis <strong>habituellement</strong>. Tu obtiens un protocole orienté vers tes symptômes dominants.</div>
+
+<div class="qb">
+  <div class="qt">1. Après un repas normal, comment tu te sens ?</div>
+  <div class="qo">
+    <label class="opt"><input type="radio" name="q1" value="enzy"> Gonflée, lourde — souvent dans l'heure qui suit</label>
+    <label class="opt"><input type="radio" name="q1" value="sibo"> Très ballonnée très rapidement, parfois dès les premières bouchées</label>
+    <label class="opt"><input type="radio" name="q1" value="ok"> Assez bien, pas de problème systématique</label>
+  </div>
+</div>
+
+<div class="qb">
+  <div class="qt">2. Ta liste d'aliments que tu "ne supportes plus"...</div>
+  <div class="qo">
+    <label class="opt"><input type="radio" name="q2" value="into"> S'allonge d'année en année — de plus en plus d'aliments posent problème<div class="opt-sub">→ Signal fort d'un terrain digestif qui se fragilise</div></label>
+    <label class="opt"><input type="radio" name="q2" value="sibo"> Je réagis surtout aux légumineuses, oignons, ail, fruits, pain<div class="opt-sub">→ Aliments fermentescibles = signal SIBO possible</div></label>
+    <label class="opt"><input type="radio" name="q2" value="ok"> Quelques aliments spécifiques mais ça ne s'aggrave pas</label>
+  </div>
+</div>
+
+<div class="qb">
+  <div class="qt">3. Tes selles...</div>
+  <div class="qo">
+    <label class="opt"><input type="radio" name="q3" value="enzy"> Flottent souvent, sont grasses ou collent aux parois<div class="opt-sub">→ Graisses non absorbées = lipase insuffisante</div></label>
+    <label class="opt"><input type="radio" name="q3" value="sibo"> Très irrégulières — parfois diarrhée, parfois constipation, imprévisibles</label>
+    <label class="opt"><input type="radio" name="q3" value="ok"> Normales, pas de problème particulier</label>
+  </div>
+</div>
+
+<div class="qb">
+  <div class="qt">4. Après manger, tu ressens souvent...</div>
+  <div class="qo">
+    <label class="opt"><input type="radio" name="q4" value="enzy"> Un coup de fatigue, somnolence — le corps mobilise tout pour digérer</label>
+    <label class="opt"><input type="radio" name="q4" value="sibo"> Des gaz, des gargouillis — parfois rapidement, parfois 2-3h après</label>
+    <label class="opt"><input type="radio" name="q4" value="into"> Des réactions cutanées, de l'eczéma, des poussées après certains repas</label>
+  </div>
+</div>
+
+<div class="qb">
+  <div class="qt">5. Tu prends des compléments (fer, vitamine D, magnésium) mais...</div>
+  <div class="qo">
+    <label class="opt"><input type="radio" name="q5" value="enzy"> Les taux ne bougent pas vraiment malgré des mois de supplémentation<div class="opt-sub">→ Problème d'absorption, pas d'apport</div></label>
+    <label class="opt"><input type="radio" name="q5" value="ok"> Ça fonctionne bien, mes taux s'améliorent</label>
+    <label class="opt"><input type="radio" name="q5" value="ok2"> Je ne prends pas de compléments en ce moment</label>
+  </div>
+</div>
+
+<div class="qb">
+  <div class="qt">6. Tu te reconnais dans cette description ?</div>
+  <div class="qo">
+    <label class="opt"><input type="radio" name="q6" value="sibo"> Je grignote souvent dans la journée ET je suis souvent ballonnée<div class="opt-sub">→ Le grignotage empêche le nettoyage naturel de l'intestin grêle</div></label>
+    <label class="opt"><input type="radio" name="q6" value="into"> J'ai supprimé le gluten, les laitages, les œufs — mais de nouveaux aliments posent problème</label>
+    <label class="opt"><input type="radio" name="q6" value="enzy"> Je digère mieux quand je mange peu et léger</label>
+    <label class="opt"><input type="radio" name="q6" value="ok"> Aucune de ces descriptions ne me correspond vraiment</label>
+  </div>
+</div>
+
+<button class="qbtn" onclick="calcResult()">Voir mon profil →</button>
+<div class="rbox" id="result"></div>
+</div>
+
+<!-- ══ ENZYMES INSUFFISANTES ══ -->
+<div class="page" id="p-e">
+  <h2 class="pt">Protocole <em>Enzymes insuffisantes</em></h2>
+  <div class="ol"></div>
+  <div class="ip">Tu te sens lourde après les repas, tu as des carences qui résistent, tes selles flottent. Avant de supplémenter en enzymes, on cherche <strong>pourquoi le pancréas sous-performe</strong> — et on corrige la cause d'abord.</div>
+
+  <div class="steps">
+    <div class="step">
+      <div class="sn">1</div>
+      <div class="sbody">
+        <div class="st">Corriger la cause en priorité</div>
+        <div class="stxt">
+          → <strong>Manger dans le calme, assis, sans écran</strong> — le nerf vague commande le signal au pancréas<br>
+          → <strong>3 repas structurés, zéro grignotage</strong> — le pancréas a besoin de se reposer<br>
+          → <strong>Protéines + bonnes graisses à chaque repas</strong> — ce sont elles qui déclenchent les enzymes<br>
+          → <strong>Vérifier l'acidité gastrique</strong> (vidéo 2) — l'estomac conditionne le pancréas
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="sn or">2</div>
+      <div class="sbody">
+        <div class="st or">🍍 Aliments enzymatiques naturels</div>
+        <div class="prod">
+          <div class="pnom">Ananas frais — bromélaïne</div>
+          <div class="pdet">Enzyme protéolytique qui aide à décomposer les protéines. <strong>Frais uniquement</strong> — en conserve, la chaleur détruit l'enzyme. À consommer en début de repas ou 30 min avant.</div>
+          <div class="pmec">La bromélaïne réduit aussi l'inflammation digestive et soutient la réparation de la muqueuse.</div>
+        </div>
+        <div class="prod" style="margin-top:6px;">
+          <div class="pnom">Papaye fraîche — papaïne</div>
+          <div class="pdet">Même action que la bromélaïne. Particulièrement utile si les protéines sont mal digérées. <strong>Fraîche uniquement.</strong></div>
+        </div>
+        <div class="prod" style="margin-top:6px;">
+          <div class="pnom">Gingembre frais</div>
+          <div class="pdet">Prokinétique — stimule la motilité digestive et favorise la sécrétion d'enzymes. En tisane fraîche avant le repas ou râpé dans les plats.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="sn rg">3</div>
+      <div class="sbody">
+        <div class="st rg">🔥 Si insuffisance confirmée — enzymes en complément</div>
+        <div class="stxt">À utiliser si les symptômes persistent malgré les étapes 1 et 2, ou si l'élastase fécale est inférieure à 200 µg/g (laboratoire Eurofin Biomnis).</div>
+        <div class="prod">
+          <div class="pnom or">Biotix 6+ — Energetica Natura</div>
+          <div class="pdet">Complexe lipase + protéase + amylase. <strong>Prendre au début du repas</strong> — pas après, pas à jeun.</div>
+          <div class="pmec">Les enzymes doivent être présentes au bon moment, quand les aliments arrivent dans l'intestin.</div>
+        </div>
+        <div class="prod" style="margin-top:6px;">
+          <div class="pnom or">Digestive Enzyme Ultra — Pure Encapsulations</div>
+          <div class="pdet">Spectre enzymatique large, formulation végétale. Même règle de prise : <strong>au début du repas.</strong> Option pour les personnes qui évitent les produits d'origine animale.</div>
+        </div>
+        <div class="note">Ces compléments soutiennent pendant que le terrain se répare. L'objectif est que le corps retrouve progressivement sa propre capacité. Ce n'est pas un traitement à vie.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ INTOLÉRANCES ══ -->
+<div class="page" id="p-i">
+  <h2 class="pt">Protocole <em>Intolérances alimentaires</em></h2>
+  <div class="ol"></div>
+  <div class="ip">Ta liste d'aliments "à éviter" s'allonge progressivement. <strong>Ce n'est pas ton corps qui décide de ne plus tolérer les aliments un par un. C'est ton terrain digestif qui se fragilise.</strong> L'éviction seule ne suffit pas — il faut réparer.</div>
+
+  <div class="steps">
+    <div class="step">
+      <div class="sn">1</div>
+      <div class="sbody">
+        <div class="st">Phase 1 — Éviction temporaire</div>
+        <div class="stxt">Retirer l'aliment ou les aliments problématiques <strong>pendant 4 à 8 semaines minimum</strong>. Pas définitivement — temporairement, pour laisser l'intestin se calmer.<br><br>Durant cette période, observer : est-ce que les symptômes s'améliorent ? Si oui, c'est le bon aliment. Si non, chercher ailleurs.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="sn or">2</div>
+      <div class="sbody">
+        <div class="st or">Phase 2 — Réparer la barrière intestinale en parallèle</div>
+        <div class="stxt">C'est l'étape que la plupart des gens sautent. Et c'est pour ça que les intolérances reviennent — ou qu'on finit par réagir à d'autres aliments.</div>
+        <div class="prod">
+          <div class="pnom">L-Glutamine</div>
+          <div class="pdet">Acide aminé qui constitue le carburant principal des entérocytes (cellules de la paroi intestinale). Essentiel pour la réparation de la barrière. <strong>Pure L-Glutamine — Nutripure.</strong> Respecter le dosage du laboratoire, de préférence à jeun le matin.</div>
+          <div class="pmec">La glutamine est le substrat énergétique préférentiel des cellules intestinales. Sans elle, la réparation est impossible.</div>
+        </div>
+        <div class="prod" style="margin-top:6px;">
+          <div class="pnom">Zinc Carnosine — Seeking Health</div>
+          <div class="pdet">Répare la muqueuse intestinale — même affinité que pour la muqueuse gastrique. Soutient les jonctions serrées. Respecter le dosage du laboratoire.</div>
+        </div>
+        <div class="prod" style="margin-top:6px;">
+          <div class="pnom">Oméga-3 (EPA/DHA)</div>
+          <div class="pdet">Anti-inflammatoires, ils réduisent l'inflammation intestinale et soutiennent la réparation. Dosage sanguin souhaitable : rapport AA/EPA &lt; 3. <strong>Nutripure Oméga-3</strong> ou équivalent de qualité.</div>
+          <div class="pmec">Les EPA/DHA sont des précurseurs des résolvines et protectines — molécules de résolution de l'inflammation.</div>
+        </div>
+        <div class="prod" style="margin-top:6px;">
+          <div class="pnom">Vitamine D3 + K2</div>
+          <div class="pdet">La vitamine D régule les jonctions serrées de l'intestin. Un déficit aggrave la perméabilité. Objectif : taux sanguin entre 60 et 80 ng/mL. Associer systématiquement à la K2 pour orienter le calcium vers les os.</div>
+        </div>
+        <div class="prod" style="margin-top:6px;">
+          <div class="pnom">Perma Royale — La Royale</div>
+          <div class="pdet">Complexe complet pour la cicatrisation intestinale : glutamine, zinc, aloe vera, oméga-3, vitamines. <strong>2 sachets par jour avant le repas.</strong> Produit de référence pour la réparation de la barrière intestinale.</div>
+          <div class="pmec">Combine tous les actifs nécessaires à la réparation en dosages suffisants.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="sn">3</div>
+      <div class="sbody">
+        <div class="st">Phase 3 — Réintroduction progressive</div>
+        <div class="stxt">Après 4 à 8 semaines de réparation, réintroduire <strong>une petite quantité de l'aliment éliminé, une fois par semaine</strong>. Observer la réaction pendant 48h. Si pas de réaction — augmenter progressivement la quantité la semaine suivante.<br><br>Si réaction — attendre encore 2-3 semaines de réparation avant de réessayer.</div>
+        <div class="note">Beaucoup de femmes qui avaient des intolérances multiples depuis des années ont pu réintroduire la plupart de ces aliments après 3 à 6 mois de travail sur le terrain. C'est possible — à condition de réparer, pas seulement d'éviter.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SIBO ══ -->
+<div class="page" id="p-s">
+  <h2 class="pt">Protocole <em>SIBO</em></h2>
+  <div class="ol"></div>
+  <div class="ip">Le SIBO (Small Intestinal Bacterial Overgrowth), c'est une prolifération anormale de bactéries dans l'intestin grêle — là où elles ne devraient pas être en grande quantité. Il crée des ballonnements importants, rapides, et souvent liés aux aliments fermentescibles.</div>
+
+  <div class="al"><strong>⚠ Attention :</strong> dans le cadre du SIBO, <strong>ne pas donner de probiotiques</strong> — ils vont aggraver les symptômes en ajoutant des bactéries dans un intestin qui en a déjà trop. Même logique pour le kéfir et les aliments très fermentés.</div>
+
+  <div class="steps">
+    <div class="step">
+      <div class="sn">1</div>
+      <div class="sbody">
+        <div class="st">Court terme — réduire les ballonnements</div>
+        <div class="stxt"><strong>Régime sans FODMAPS pendant 6 semaines</strong>, puis réintroduction progressive par catégorie.<br><br>Les FODMAPS sont des glucides fermentescibles : certains fruits, légumineuses, ail, oignon, blé, produits laitiers riches en lactose, certains édulcorants. En les retirant temporairement, on prive les bactéries en excès de leur nourriture préférée. ⏸️<br><br>Éviter aussi :<br>→ L'eau gazeuse +++<br>→ Les fruits crus en fin de repas<br>→ Le grignotage — le complexe moteur migrant (nettoyage naturel de l'intestin entre les repas) ne peut fonctionner que dans le vide digestif</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="sn rg">2</div>
+      <div class="sbody">
+        <div class="st rg">Éliminer l'excès de bactéries</div>
+        <div class="prod">
+          <div class="pnom">Complexe SIBO — Terra-Science</div>
+          <div class="pdet">Protocole plus doux, adapté en automédication. Respecter strictement le protocole du laboratoire.</div>
+          <div class="pmec">Alternative plus douce aux huiles essentielles, particulièrement pour les personnes qui ne sont pas professionnelles de santé.</div>
+        </div>
+        <div class="prod" style="margin-top:6px;">
+          <div class="pnom">HE d'origan compact — usage professionnel</div>
+          <div class="pdet">Protocole fort, pendant 3 semaines. <strong>À manier avec prudence — réservé aux professionnels de santé</strong> ou sous supervision. Renseignez-vous sur les contre-indications avant toute utilisation.</div>
+          <div class="pci">⚠ Contre-indiqué femmes enceintes · Nombreuses contre-indications médicamenteuses · Demander avis professionnel</div>
+        </div>
+        <div class="prod" style="margin-top:6px;">
+          <div class="pnom">HE d'estragon — usage externe uniquement</div>
+          <div class="pdet">4 gouttes dans une huile végétale, <strong>massage sur l'abdomen.</strong> Toujours faire un test dans le creux du coude.</div>
+          <div class="pci">⚠ Usage externe uniquement · Contre-indiqué femmes enceintes</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="sn vl">3</div>
+      <div class="sbody">
+        <div class="st vl">Traiter les causes profondes — indispensable</div>
+        <div class="stxt">Sans ce travail, le SIBO revient. Il faut impérativement investiguer et corriger :<br><br>
+        → <strong>L'hypochlorhydrie</strong> (vidéo 2) — l'acide gastrique insuffisant est l'une des premières causes du SIBO, car il ne protège plus l'intestin grêle de la colonisation bactérienne<br>
+        → <strong>La fonction hépato-biliaire</strong> (vidéo 3) — une bile insuffisante favorise la prolifération bactérienne dans l'intestin grêle<br>
+        → <strong>Le nerf vague et le stress</strong> — le complexe moteur migrant (nettoyage inter-prandial) est commandé par le nerf vague. Stress chronique = nettoyage insuffisant = terrain SIBO<br>
+        → <strong>La thyroïde</strong> si hypothyroïdie associée — ralentit la motilité digestive à tous les niveaux</div>
+        <div class="note">Le SIBO est presque toujours la conséquence d'un problème en amont dans la chaîne. Traiter le SIBO sans corriger la cause, c'est s'assurer qu'il reviendra dans les 6 à 12 mois.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="sn">4</div>
+      <div class="sbody">
+        <div class="st">Comment confirmer un SIBO ?</div>
+        <div class="stxt">Le <strong>test respiratoire à l'hydrogène</strong> — effectué à jeun en laboratoire ou structure spécialisée. La présence d'un SIBO produit une quantité anormalement élevée d'hydrogène dans les gaz expirés. <strong>Résultats toujours à confronter aux symptômes cliniques.</strong><br><br>Ce test n'est pas remboursé en routine — se renseigner auprès des laboratoires spécialisés ou des gastro-entérologues.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>DIGEST-IN · Vidéo 4 · Bonus — Angélique Noor, Naturopathe<br>
+Outil pédagogique · Ne remplace pas un bilan de terrain individualisé ni un avis médical</footer>
+
+<script>
+function showTab(id, btn, cls) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('on'));
+  document.querySelectorAll('.tab').forEach(t => { t.className = 'tab'; });
+  document.getElementById('p-' + id).classList.add('on');
+  btn.classList.add(cls);
+}
+
+document.querySelectorAll('.opt').forEach(opt => {
+  opt.addEventListener('click', function() {
+    const name = this.querySelector('input').name;
+    document.querySelectorAll(`input[name="${name}"]`).forEach(r => r.closest('.opt').classList.remove('sel'));
+    this.classList.add('sel');
+  });
+});
+
+function calcResult() {
+  const scores = { enzy: 0, into: 0, sibo: 0, ok: 0 };
+  ['q1','q2','q3','q4','q5','q6'].forEach(q => {
+    const s = document.querySelector(`input[name="${q}"]:checked`);
+    if (!s) return;
+    const v = s.value.replace(/[0-9]/g, '');
+    if (scores[v] !== undefined) scores[v]++;
+  });
+
+  const answered = Object.values(scores).reduce((a, b) => a + b, 0);
+  if (answered < 4) { alert('Réponds à au moins 4 questions pour un résultat fiable.'); return; }
+
+  const max = Math.max(scores.enzy, scores.into, scores.sibo);
+  let profil, titre, txt, cls, ctaId, ctaCls;
+
+  if (max === 0) {
+    profil = 'ok'; cls = 'ok';
+    titre = 'Peu de signaux enzymatiques ou digestifs marqués';
+    txt = 'Tes réponses ne montrent pas de profil dominant clair. Maintiens les bonnes habitudes — 3 repas structurés, calme au repas, pas de grignotage — et reste attentive à l\'évolution de tes symptômes.';
+    ctaId = ''; ctaCls = '';
+  } else if (scores.sibo >= max) {
+    profil = 'sibo'; cls = 'sibo';
+    titre = 'Profil SIBO probable';
+    txt = 'Tes signaux orientent vers une prolifération bactérienne dans l\'intestin grêle. Les ballonnements rapides, la réaction aux aliments fermentescibles, le transit très irrégulier — c\'est le tableau classique. <strong>Important : ne pas prendre de probiotiques en ce moment</strong> — ils aggraveraient les symptômes. Régime sans FODMAPS en priorité, puis traitement des causes profondes.';
+    ctaId = 's'; ctaCls = 'sibo';
+  } else if (scores.into >= max) {
+    profil = 'into'; cls = 'into';
+    titre = 'Profil intolérances multiples';
+    txt = 'Ta liste d\'aliments problématiques s\'allonge. Ce n\'est pas une condamnation définitive — c\'est un terrain qui se fragilise. La stratégie : éviction temporaire + réparation de la barrière intestinale en parallèle + réintroduction progressive. Sans réparer, les intolérances reviennent ou se déplacent vers d\'autres aliments.';
+    ctaId = 'i'; ctaCls = 'into';
+  } else {
+    profil = 'enzy'; cls = 'enzy';
+    titre = 'Profil insuffisance enzymatique';
+    txt = 'Tes signaux orientent vers des enzymes digestives insuffisantes — lourdeurs après les repas, carences résistantes, selles qui flottent. Avant de supplémenter, chercher la cause : calme au repas, 3 repas structurés, estomac fonctionnel. Si insuffisance confirmée : Biotix 6+ ou Digestive Enzyme Ultra, toujours au début du repas.';
+    ctaId = 'e'; ctaCls = 'enzy';
+  }
+
+  const r = document.getElementById('result');
+  r.className = `rbox on ${cls}`;
+  r.innerHTML = `
+    <div class="r-t ${profil}">${titre}</div>
+    <div class="r-txt">${txt}</div>
+    ${ctaId ? `<button class="rcta ${ctaCls}" onclick="goProto('${ctaId}')">Voir mon protocole →</button>` : ''}
+    <div style="margin-top:14px;font-size:11.5px;color:var(--dx);font-style:italic;border-top:1px solid var(--crf);padding-top:10px;">Résultat indicatif. Pour un protocole adapté à ton terrain complet, une consultation naturopathique individuelle reste l'outil le plus précis.</div>`;
+
+  r.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function goProto(id) {
+  const btn = document.querySelector(`.tab[onclick*="'${id}'"]`);
+  if (btn) {
+    const cls = btn.getAttribute('onclick').match(/a\w/)?.[0] || '';
+    showTab(id, btn, cls);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+}
+</script>
+</body>
+</html>
