@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DIGEST-IN — Fiche Analyses Biologiques</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+@media print {
+  body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .no-print { display: none; }
+}
+:root{--vf:#4a5c44;--v:#7a8c72;--vp:#c8d5c2;--or:#c9a84c;--cr:#f5f0e8;--crf:#ede5d5;--bl:#fdfaf5;--tx:#2c2c2c;--dx:#5a5a5a;--rg:#b85545;--rgp:#f9ebe8;--am:#8a6020;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:#f0ebe0;font-family:'Lato',sans-serif;color:var(--tx);padding:30px 20px;}
+.page{max-width:960px;margin:0 auto;background:var(--bl);border-radius:12px;overflow:hidden;box-shadow:0 4px 40px rgba(0,0,0,.12);}
+
+.header{background:var(--vf);padding:28px 40px;display:flex;align-items:center;justify-content:space-between;}
+.header-label{font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--or);margin-bottom:8px;}
+.header-title{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:300;color:var(--cr);line-height:1.15;}
+.header-title em{color:var(--or);}
+.header-sub{font-family:'Cormorant Garamond',serif;font-size:14px;font-style:italic;color:var(--vp);margin-top:6px;}
+.header-logo{font-family:'Cormorant Garamond',serif;font-size:13px;color:rgba(201,168,76,.5);letter-spacing:2px;text-align:right;}
+
+.intro{padding:18px 40px;background:rgba(201,168,76,.06);border-bottom:1px solid var(--crf);}
+.intro-txt{font-size:12.5px;color:var(--dx);line-height:1.7;}
+.intro-txt strong{color:var(--tx);}
+
+.section{padding:18px 30px;border-bottom:1px solid var(--crf);}
+.section:last-of-type{border-bottom:none;}
+.section-header{display:flex;align-items:center;gap:10px;margin-bottom:12px;}
+.section-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+.section-title{font-family:'Cormorant Garamond',serif;font-size:19px;font-weight:600;}
+
+.table{width:100%;border-collapse:collapse;font-size:12px;}
+.table th{background:var(--vf);color:var(--or);padding:8px 12px;text-align:left;font-family:'Cormorant Garamond',serif;font-size:13px;font-weight:400;}
+.table td{padding:8px 12px;border-bottom:1px solid var(--crf);vertical-align:top;line-height:1.5;}
+.table tr:nth-child(even) td{background:rgba(245,240,232,.5);}
+.table tr:hover td{background:rgba(201,168,76,.05);}
+.tag{display:inline-block;padding:2px 7px;border-radius:10px;font-size:10px;font-weight:700;margin-right:3px;}
+.tag-med{background:rgba(184,85,69,.1);color:var(--rg);}
+.tag-nat{background:rgba(74,92,68,.1);color:var(--vf);}
+.tag-lab{background:rgba(201,168,76,.15);color:var(--am);}
+.tag-info{font-size:11px;color:var(--dx);font-style:italic;}
+.normal{color:var(--vf);font-weight:700;}
+.anormal{color:var(--rg);font-weight:700;}
+
+.footnote{padding:14px 40px;background:var(--crf);}
+.footnote-txt{font-size:11px;color:var(--dx);line-height:1.6;}
+.footnote-txt strong{color:var(--tx);}
+
+.footer{background:var(--vf);padding:14px 40px;display:flex;align-items:center;justify-content:space-between;}
+.footer-txt{font-family:'Cormorant Garamond',serif;font-size:12px;font-style:italic;color:var(--vp);}
+.footer-warn{font-size:9.5px;color:rgba(201,168,76,.6);}
+
+.print-btn{position:fixed;top:20px;right:20px;background:var(--vf);color:var(--cr);border:none;padding:10px 20px;border-radius:6px;font-family:'Cormorant Garamond',serif;font-size:14px;cursor:pointer;box-shadow:0 2px 12px rgba(0,0,0,.2);}
+.print-btn:hover{background:#3a4c34;}
+</style>
+</head>
+<body>
+
+<button class="print-btn no-print" onclick="window.print()">🖨️ Imprimer / PDF</button>
+
+<div class="page">
+
+  <div class="header">
+    <div>
+      <div class="header-label">DIGEST-IN · Fiche pratique</div>
+      <div class="header-title">Analyses biologiques<br><em>fonctionnelles</em></div>
+      <div class="header-sub">Quoi demander · à quel laboratoire · ce que ça révèle</div>
+    </div>
+    <div class="header-logo">Angélique Noor<br>Naturopathe</div>
+  </div>
+
+  <div class="intro">
+    <div class="intro-txt">Ces analyses ne sont pas prescrites en routine par les médecins généralistes. Elles permettent d'<strong>objectiver ce qui se passe réellement</strong> dans chaque maillon de la chaîne digestive. Certaines peuvent être demandées directement en laboratoire, d'autres nécessitent une ordonnance. <strong>Montre cette fiche à ton médecin ou à ton naturopathe.</strong></div>
+  </div>
+
+  <!-- ESTOMAC -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-dot" style="background:var(--rg);"></div>
+      <div class="section-title" style="color:var(--rg);">Fonction gastrique</div>
+    </div>
+    <table class="table">
+      <tr><th>Analyse</th><th>Laboratoire</th><th>Ce qu'elle révèle</th><th>Valeurs orientantes</th></tr>
+      <tr>
+        <td><strong>Test au bicarbonate</strong><br><span class="tag-info">À faire soi-même à jeun</span></td>
+        <td><span class="tag tag-nat">Auto-test</span><br>Gratuit à domicile</td>
+        <td>Orientation hypochlorhydrie vs hyperchlorhydrie. Éructation tardive (&gt; 3 min) = hypo possible</td>
+        <td><span class="normal">Éructation 1-3 min = normal</span><br><span class="anormal">&gt; 3 min = hypo orienté</span></td>
+      </tr>
+      <tr>
+        <td><strong>pH-métrie œsophagienne</strong></td>
+        <td><span class="tag tag-med">Médecin spécialiste</span><br>Gastro-entérologue</td>
+        <td>Mesure précise de l'acidité gastrique et des reflux réels. Gold standard pour RGO et acidité.</td>
+        <td>Analyse par le médecin</td>
+      </tr>
+      <tr>
+        <td><strong>Sérologie Helicobacter pylori</strong></td>
+        <td><span class="tag tag-med">Ordonnance médicale</span><br>Labo de ville</td>
+        <td>Présence d'une infection à H. pylori (cause principale de gastrite — 9/10)</td>
+        <td><span class="anormal">Positif = investigation médicale</span></td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- FOIE -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-dot" style="background:var(--or);"></div>
+      <div class="section-title" style="color:var(--am);">Fonction hépato-biliaire</div>
+    </div>
+    <table class="table">
+      <tr><th>Analyse</th><th>Laboratoire</th><th>Ce qu'elle révèle</th><th>Valeurs orientantes</th></tr>
+      <tr>
+        <td><strong>Acides biliaires sanguins</strong></td>
+        <td><span class="tag tag-lab">Laboratoire LIMS</span><br>La nouvelle Biologie · Barbier</td>
+        <td>Qualité et quantité de la bile produite par le foie. Signal direct de la fonction hépato-biliaire.</td>
+        <td>Interpréter avec clinicien</td>
+      </tr>
+      <tr>
+        <td><strong>Bilan hépatique standard</strong><br>(ASAT, ALAT, GGT, bilirubine)</td>
+        <td><span class="tag tag-med">Ordonnance médicale</span><br>Labo de ville</td>
+        <td>Souffrance hépatique, inflammation. Attention : normal n'exclut pas une surcharge fonctionnelle.</td>
+        <td>Normes laboratoire</td>
+      </tr>
+      <tr>
+        <td><strong>Homocystéine plasmatique</strong></td>
+        <td><span class="tag tag-med">Ordonnance médicale</span><br>Labo de ville</td>
+        <td>Qualité de la méthylation hépatique. Élevée si carence en B9, B12, B6 ou défaut de méthylation.</td>
+        <td><span class="normal">&lt; 10 µmol/L</span><br><span class="anormal">&gt; 15 = défaut méthylation</span></td>
+      </tr>
+      <tr>
+        <td><strong>Écographie abdominale</strong></td>
+        <td><span class="tag tag-med">Ordonnance médicale</span><br>Radiologue</td>
+        <td>Visualise foie, vésicule, calculs biliaires. Indispensable avant tout protocole vésiculaire.</td>
+        <td>Analyse radiologique</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- PANCRÉAS -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-dot" style="background:var(--v);"></div>
+      <div class="section-title" style="color:var(--vf);">Fonction exocrine pancréatique</div>
+    </div>
+    <table class="table">
+      <tr><th>Analyse</th><th>Laboratoire</th><th>Ce qu'elle révèle</th><th>Valeurs orientantes</th></tr>
+      <tr>
+        <td><strong>Élastase fécale</strong></td>
+        <td><span class="tag tag-lab">Eurofin Biomnis</span><br>Sur prescription</td>
+        <td>Production d'enzymes digestives par le pancréas. Résiste au transit — mesurable dans les selles.</td>
+        <td><span class="normal">&gt; 200 µg/g = normal</span><br><span class="anormal">&lt; 200 µg/g = insuffisance</span></td>
+      </tr>
+      <tr>
+        <td><strong>IgG alimentaires</strong></td>
+        <td><span class="tag tag-lab">Laboratoire LIMS</span></td>
+        <td>Réactivité immunitaire retardée aux aliments. Orientation sur les intolérances — à croiser avec clinique.</td>
+        <td>Interpréter avec clinicien<br><span class="tag-info">IgG élevés ≠ intolérance certaine</span></td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- INTESTIN GRÊLE -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-dot" style="background:#5a3a7a;"></div>
+      <div class="section-title" style="color:#5a3a7a;">Fonction barrière intestinale &amp; microbiote</div>
+    </div>
+    <table class="table">
+      <tr><th>Analyse</th><th>Laboratoire</th><th>Ce qu'elle révèle</th><th>Valeurs orientantes</th></tr>
+      <tr>
+        <td><strong>Test BIPI Intestin</strong><br>(Biomarqueurs Intestinaux)</td>
+        <td><span class="tag tag-lab">Laboratoire LIMS</span></td>
+        <td>État de la perméabilité intestinale, inflammation de la muqueuse, statut microbiote.</td>
+        <td>Interpréter avec clinicien</td>
+      </tr>
+      <tr>
+        <td><strong>Zonuline sanguine</strong></td>
+        <td><span class="tag tag-lab">LIMS · La nouvelle Biologie</span></td>
+        <td>Marqueur direct de la perméabilité intestinale. Protéine qui régule l'ouverture des jonctions serrées.</td>
+        <td><span class="anormal">Élevée = perméabilité augmentée</span></td>
+      </tr>
+      <tr>
+        <td><strong>Rapport lactulose / mannitol</strong></td>
+        <td><span class="tag tag-lab">Laboratoire LBS</span></td>
+        <td>Test urinaire de la perméabilité intestinale. Mesure les passages anormaux à travers la barrière.</td>
+        <td>Interpréter avec clinicien</td>
+      </tr>
+      <tr>
+        <td><strong>Calprotectine fécale</strong></td>
+        <td><span class="tag tag-med">Ordonnance médicale</span><br>Labo de ville</td>
+        <td>Inflammation de la muqueuse intestinale. Élevée dans les maladies inflammatoires chroniques (MICI).</td>
+        <td><span class="normal">&lt; 50 µg/g = normal</span><br><span class="anormal">&gt; 200 = inflammation significative</span></td>
+      </tr>
+      <tr>
+        <td><strong>LPS Binding Protein</strong></td>
+        <td><span class="tag tag-lab">Laboratoire LIMS</span></td>
+        <td>Marqueur de l'endotoxémie — LPS bactériens dans le sang. Lien direct inflammation systémique.</td>
+        <td><span class="anormal">Élevée = dysbiose + perméabilité</span></td>
+      </tr>
+      <tr>
+        <td><strong>Test respiratoire à l'hydrogène</strong></td>
+        <td><span class="tag tag-med">Gastro-entérologue</span><br>Ou labo spécialisé</td>
+        <td>Confirme un SIBO (Small Intestinal Bacterial Overgrowth). À jeun, mesure H2 expiré.</td>
+        <td>Analyse spécialisée</td>
+      </tr>
+      <tr>
+        <td><strong>Gène FUT2</strong></td>
+        <td><span class="tag tag-lab">LIMS · La nouvelle Biologie</span></td>
+        <td>Sécrétion du mucus intestinal. Mutation FUT2 = moins de mucus = terrain dysbiotique.</td>
+        <td>Génétique — à croiser avec clinique</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- MICRONUTRIMENTS -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-dot" style="background:var(--vf);"></div>
+      <div class="section-title" style="color:var(--vf);">Micronutriments essentiels à la digestion</div>
+    </div>
+    <table class="table">
+      <tr><th>Analyse</th><th>Laboratoire</th><th>Ce qu'elle révèle</th><th>Objectif fonctionnel</th></tr>
+      <tr>
+        <td><strong>Vitamine D (25-OH)</strong></td>
+        <td><span class="tag tag-med">Ordonnance médicale</span></td>
+        <td>Régulation des jonctions serrées intestinales · immunité · anti-inflammatoire</td>
+        <td><span class="normal">60-80 ng/mL</span></td>
+      </tr>
+      <tr>
+        <td><strong>Magnésium érythrocytaire</strong></td>
+        <td><span class="tag tag-lab">Labo spécialisé</span></td>
+        <td>Cofacteur détox phase II · soutien nerveux · anti-inflammatoire. Plus fiable que le magnésium sérique.</td>
+        <td><span class="normal">50-60 mg/L</span></td>
+      </tr>
+      <tr>
+        <td><strong>Zinc plasmatique</strong></td>
+        <td><span class="tag tag-med">Ordonnance médicale</span></td>
+        <td>Cofacteur méthylation, réparation muqueuse, immunité, détox</td>
+        <td><span class="normal">1000-1400 µg/L</span></td>
+      </tr>
+      <tr>
+        <td><strong>Rapport AA/EPA (acides gras)</strong></td>
+        <td><span class="tag tag-lab">Labo spécialisé</span></td>
+        <td>Équilibre inflammatoire/anti-inflammatoire. AA = pro-inflammatoire, EPA = anti-inflammatoire</td>
+        <td><span class="normal">&lt; 3 (idéalement &lt; 1,5)</span></td>
+      </tr>
+      <tr>
+        <td><strong>Vitamine B12 active (holotranscobalamine)</strong></td>
+        <td><span class="tag tag-lab">Labo spécialisé</span></td>
+        <td>Absorption hépatique B12 — liée à l'acidité gastrique. Plus fiable que B12 totale.</td>
+        <td><span class="normal">&gt; 50 pmol/L</span></td>
+      </tr>
+      <tr>
+        <td><strong>Ferritine + CRP (combinés)</strong></td>
+        <td><span class="tag tag-med">Ordonnance médicale</span></td>
+        <td>Réserves de fer réelles (ferritine) + état inflammatoire (CRP). CRP élevée = ferritine faussement haute.</td>
+        <td><span class="normal">Ferritine 50-100 µg/L<br>CRP &lt; 1 mg/L</span></td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="footnote">
+    <div class="footnote-txt">
+      <strong>Comment utiliser cette fiche :</strong> Identifie d'abord ton profil dominant grâce aux bonus du module. Puis demande à ton médecin les analyses qui correspondent à ta situation. Certaines analyses fonctionnelles ne sont pas remboursées — renseigne-toi auprès des laboratoires indiqués. Cette fiche est un outil pédagogique d'orientation, pas une prescription médicale.
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-txt">DIGEST-IN · Angélique Noor, Naturopathe</div>
+    <div class="footer-warn">Outil pédagogique · Présenter à son médecin · Ne remplace pas une consultation médicale</div>
+  </div>
+
+</div>
+
+</body>
+</html>
