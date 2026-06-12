@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DIGEST-IN — Bonus V5 · V5B · V6</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+:root{--vf:#4a5c44;--v:#7a8c72;--vp:#c8d5c2;--or:#c9a84c;--orc:#e8d5a0;--cr:#f5f0e8;--crf:#ede5d5;--bl:#fdfaf5;--tx:#2c2c2c;--dx:#5a5a5a;--rg:#b85545;--rgp:#f9ebe8;--am:#8a6020;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--cr);font-family:'Lato',sans-serif;color:var(--tx);max-width:900px;margin:0 auto;padding:36px 20px 80px;}
+
+.hero{background:var(--vf);border-radius:10px;padding:34px 44px;text-align:center;margin-bottom:28px;position:relative;overflow:hidden;}
+.hero::after{content:'';position:absolute;width:400px;height:400px;border-radius:50%;border:1px solid rgba(201,168,76,.09);bottom:-150px;right:-70px;pointer-events:none;}
+.h-l{font-size:10px;letter-spacing:4px;text-transform:uppercase;color:var(--or);margin-bottom:10px;}
+.h-t{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:300;color:var(--cr);line-height:1.15;}
+.h-t em{color:var(--or);font-style:italic;}
+.h-s{font-family:'Cormorant Garamond',serif;font-size:15px;font-style:italic;color:var(--vp);margin-top:10px;}
+
+.tabs{display:flex;gap:0;border-radius:8px;overflow:hidden;border:2px solid var(--vf);margin-bottom:26px;}
+.tab{flex:1;padding:12px 6px;text-align:center;font-size:11px;font-weight:700;letter-spacing:.5px;cursor:pointer;background:var(--bl);color:var(--dx);transition:all .2s;border-right:1px solid var(--vp);}
+.tab:last-child{border-right:none;}
+.tab.a5b{background:var(--rg);color:white;}
+.tab.a5{background:var(--vf);color:white;}
+.tab.a6{background:var(--or);color:white;}
+.page{display:none;}
+.page.on{display:block;}
+
+h2.pt{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;color:var(--vf);margin-bottom:4px;}
+h2.pt em{color:var(--or);}
+.ol{height:2px;background:linear-gradient(90deg,var(--or),transparent);width:52px;margin-bottom:16px;}
+.ip{background:var(--bl);border-radius:8px;padding:13px 18px;margin-bottom:14px;font-size:13px;color:var(--dx);line-height:1.7;border-left:4px solid var(--or);}
+.ip strong{color:var(--tx);}
+
+/* Quiz */
+.qb{background:var(--bl);border-radius:8px;padding:14px 18px;margin-bottom:10px;}
+.qt{font-family:'Cormorant Garamond',serif;font-size:17px;color:var(--vf);margin-bottom:9px;line-height:1.4;}
+.qo{display:flex;flex-direction:column;gap:5px;}
+.opt{display:flex;align-items:flex-start;gap:9px;padding:8px 12px;border-radius:5px;cursor:pointer;border:1.5px solid var(--crf);transition:all .18s;font-size:12.5px;color:var(--tx);}
+.opt:hover{border-color:var(--v);background:rgba(122,140,114,.05);}
+.opt.sel{border-color:var(--vf);background:rgba(74,92,68,.08);}
+.opt input{accent-color:var(--vf);flex-shrink:0;margin-top:2px;}
+.opt-s{font-size:11px;color:var(--dx);margin-top:2px;font-style:italic;}
+.qbtn{background:var(--vf);color:var(--cr);border:none;padding:11px 28px;border-radius:6px;font-family:'Cormorant Garamond',serif;font-size:16px;cursor:pointer;margin-top:12px;}
+.qbtn:hover{background:#3a4c34;}
+.rbox{border-radius:10px;padding:22px 26px;margin-top:16px;display:none;}
+.rbox.on{display:block;}
+.rbox.rf{background:#fef3f0;border:2px solid var(--rg);}
+.rbox.rp{background:var(--rgp);border:2px solid #7a2818;}
+.rbox.rmx{background:var(--crf);border:2px solid var(--or);}
+.r-t{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:600;margin-bottom:8px;}
+.r-t.f{color:var(--am);}
+.r-t.p{color:#7a2818;}
+.r-t.mx{color:var(--am);}
+.r-txt{font-size:13px;line-height:1.7;color:var(--tx);}
+.rcta{display:inline-block;margin-top:12px;padding:9px 20px;border-radius:5px;font-size:13px;font-weight:700;cursor:pointer;border:none;color:white;background:var(--vf);}
+
+/* Protocoles */
+.steps{display:flex;flex-direction:column;gap:11px;}
+.step{display:flex;gap:11px;align-items:flex-start;}
+.sn{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:15px;color:white;flex-shrink:0;margin-top:2px;background:var(--vf);}
+.sn.or{background:var(--or);}
+.sn.rg{background:var(--rg);}
+.sbody{flex:1;background:var(--bl);border-radius:8px;padding:12px 15px;}
+.st{font-family:'Cormorant Garamond',serif;font-size:15px;font-weight:600;color:var(--vf);margin-bottom:4px;}
+.st.or{color:var(--am);}
+.st.rg{color:#7a2818;}
+.stxt{font-size:12.5px;color:var(--dx);line-height:1.65;}
+.stxt strong{color:var(--tx);}
+.prod{background:var(--crf);border-radius:6px;padding:9px 12px;margin-top:7px;}
+.pnom{font-family:'Cormorant Garamond',serif;font-size:14px;font-weight:600;color:var(--vf);margin-bottom:2px;}
+.pnom.or{color:var(--am);}
+.pdet{font-size:12px;color:var(--dx);line-height:1.6;}
+.pdet strong{color:var(--tx);}
+.pmec{font-size:11px;color:var(--v);font-style:italic;margin-top:3px;}
+.pci{font-size:11.5px;color:var(--rg);font-weight:700;margin-top:3px;}
+.al{background:var(--rgp);border-left:4px solid var(--rg);border-radius:0 6px 6px 0;padding:9px 13px;font-size:12px;color:#6a2a1a;line-height:1.6;margin:8px 0;}
+.al strong{font-weight:700;}
+.note{background:rgba(201,168,76,.1);border-left:4px solid var(--or);border-radius:0 6px 6px 0;padding:9px 13px;font-size:12px;color:#5a4010;line-height:1.6;margin:8px 0;}
+
+/* Plan 21j */
+.week{border-radius:8px;padding:16px 18px;margin-bottom:14px;}
+.week.s1{background:rgba(201,168,76,.08);border:1px solid var(--or);}
+.week.s2{background:rgba(74,92,68,.07);border:1px solid var(--vf);}
+.week.s3{background:rgba(184,85,69,.06);border:1px solid var(--rg);}
+.week-t{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;margin-bottom:10px;}
+.week-t.s1{color:var(--am);}
+.week-t.s2{color:var(--vf);}
+.week-t.s3{color:#7a2818;}
+.week-item{font-size:12.5px;color:var(--dx);line-height:1.7;margin-bottom:3px;}
+.week-item strong{color:var(--tx);}
+
+footer{margin-top:48px;text-align:center;font-family:'Cormorant Garamond',serif;font-size:13px;color:var(--dx);font-style:italic;padding-top:16px;border-top:1px solid var(--crf);}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="h-l">DIGEST-IN · Bonus V5 · V5B · V6</div>
+  <div class="h-t">Dysbioses · Perméabilité intestinale<br><em>&amp; Plan d'action 21 jours</em></div>
+  <div class="h-s">Quiz d'orientation · Protocoles complets · Feuille de route personnalisée</div>
+</div>
+
+<div class="tabs">
+  <div class="tab a5b" onclick="showTab('5b',this,'a5b')">🔴 Dysbioses (V5B)</div>
+  <div class="tab" onclick="showTab('5',this,'a5')">🟢 Perméabilité (V5)</div>
+  <div class="tab" onclick="showTab('6',this,'a6')">🟡 Plan 21 jours (V6)</div>
+</div>
+
+<!-- ═══════ BONUS V5B — DYSBIOSES ═══════ -->
+<div class="page on" id="p-5b">
+  <h2 class="pt">Mon profil <em>dysbiose</em></h2>
+  <div class="ol"></div>
+  <div class="ip">La dysbiose est un déséquilibre du microbiote du côlon. Il en existe deux types distincts, avec des signaux et des protocoles très différents. <strong>Identifier le bon profil est essentiel avant d'agir.</strong></div>
+
+  <!-- Quiz -->
+  <div class="qb">
+    <div class="qt">1. Tes gaz sont plutôt...</div>
+    <div class="qo">
+      <label class="opt"><input type="radio" name="dq1" value="f"> Abondants mais peu odorants — ventre gonflé comme un ballon<div class="opt-s">→ Fermentation des glucides dans le côlon droit</div></label>
+      <label class="opt"><input type="radio" name="dq1" value="p"> Peu abondants mais <strong>très malodorants</strong><div class="opt-s">→ Putréfaction des protéines dans le côlon gauche</div></label>
+      <label class="opt"><input type="radio" name="dq1" value="mx"> Les deux selon les jours</label>
+    </div>
+  </div>
+  <div class="qb">
+    <div class="qt">2. Ton ventre gonfle surtout après...</div>
+    <div class="qo">
+      <label class="opt"><input type="radio" name="dq2" value="f"> Pain, pâtes, riz, légumineuses, beaucoup de fruits</label>
+      <label class="opt"><input type="radio" name="dq2" value="p"> Viandes, poissons, œufs — les repas protéinés</label>
+      <label class="opt"><input type="radio" name="dq2" value="mx"> Pas de lien clair avec un aliment particulier</label>
+    </div>
+  </div>
+  <div class="qb">
+    <div class="qt">3. As-tu des douleurs articulaires ou une fatigue profonde inexpliquée ?</div>
+    <div class="qo">
+      <label class="opt"><input type="radio" name="dq3" value="p"> Oui, souvent — et ça ne s'explique pas clairement<div class="opt-s">→ LPS des bactéries de putréfaction → inflammation systémique</div></label>
+      <label class="opt"><input type="radio" name="dq3" value="f"> Non, surtout des ballonnements digestifs</label>
+    </div>
+  </div>
+  <div class="qb">
+    <div class="qt">4. Tu grignottes pendant la journée ?</div>
+    <div class="qo">
+      <label class="opt"><input type="radio" name="dq4" value="f"> Oui souvent — collations, fruits, petits trucs entre les repas</label>
+      <label class="opt"><input type="radio" name="dq4" value="p"> Non, 3 repas structurés</label>
+    </div>
+  </div>
+
+  <button class="qbtn" onclick="calcDysbiose()">Voir mon profil →</button>
+  <div class="rbox" id="dr"></div>
+
+  <!-- Protocole fermentation -->
+  <div id="proto-f" style="display:none;margin-top:24px;">
+    <h2 class="pt" style="color:var(--am);">Protocole <em>Dysbiose de fermentation</em></h2>
+    <div class="ol"></div>
+    <div class="ip">Trop de glucides non digérés arrivent dans le côlon droit. Les bactéries fermentent → gaz abondants, ventre ballon. <strong>La mastication et la digestion haute sont les premières choses à corriger.</strong></div>
+    <div class="steps">
+      <div class="step"><div class="sn">1</div><div class="sbody">
+        <div class="st">Corriger en priorité</div>
+        <div class="stxt"><strong>Mastication</strong> — les glucides commencent leur digestion en bouche. Sans mâcher, ils arrivent entiers dans le côlon.<br><strong>Stop grignotage</strong> — 3 repas, pas de collations.<br><strong>Simplifier l'assiette</strong> — moins de choses différentes par repas.<br><strong>Fruits à distance des repas</strong> — jamais en dessert.<br>Si pas d'amélioration rapide : <strong>régime sans FODMAPS pendant 4-6 semaines</strong> puis réintroduction progressive.</div>
+      </div></div>
+      <div class="step"><div class="sn or">2</div><div class="sbody">
+        <div class="st or">🌿 Plantes et compléments</div>
+        <div class="prod">
+          <div class="pnom">Tisane de fenouil</div>
+          <div class="pdet">Carminative — réduit les gaz et les spasmes digestifs. 1 tasse après le repas.</div>
+        </div>
+        <div class="prod" style="margin-top:6px;">
+          <div class="pnom">Charbon noir activé</div>
+          <div class="pdet">Absorbe les gaz intestinaux. Ponctuel, sur les épisodes aigus. <strong>2h à distance de tout médicament ou contraceptif.</strong></div>
+          <div class="pci">⚠ Interactions médicamenteuses +++ · Ne jamais prendre en même temps que médicaments ou pilule contraceptive · Demander avis médical si traitement en cours</div>
+        </div>
+        <div class="prod" style="margin-top:6px;">
+          <div class="pnom or">Macérât Bourgeon de Noyer — 21 jours</div>
+          <div class="pdet">Rééquilibre le microbiote en douceur. <strong>15 gouttes/jour dans un fond d'eau.</strong> Respecter le dosage du laboratoire.</div>
+          <div class="pmec">Action antibactérienne et antifongique naturelle — réduit les bactéries en excès sans détruire la flore bénéfique.</div>
+        </div>
+      </div></div>
+      <div class="step"><div class="sn">3</div><div class="sbody">
+        <div class="st">Rééquilibrer le microbiote (après correction)</div>
+        <div class="stxt">Une fois que la cause est en train d'être traitée — fibres prébiotiques progressivement (FOS, GOS, amidons résistants). Aliments fermentés : kéfir, yaourt de qualité, légumes lactofermentés. Et probiotiques ciblés si besoin — <strong>après la correction de la cause, pas avant.</strong></div>
+      </div></div>
+    </div>
+  </div>
+
+  <!-- Protocole putréfaction -->
+  <div id="proto-p" style="display:none;margin-top:24px;">
+    <h2 class="pt" style="color:#7a2818;">Protocole <em>Dysbiose de putréfaction</em></h2>
+    <div class="ol"></div>
+    <div class="ip">Trop de protéines non digérées arrivent dans le côlon gauche. Putréfaction → gaz malodorants → LPS → inflammation systémique. <strong>L'estomac et les enzymes pancréatiques sont la priorité absolue.</strong></div>
+    <div class="steps">
+      <div class="step"><div class="sn rg">1</div><div class="sbody">
+        <div class="st rg">Corriger la digestion haute en priorité absolue</div>
+        <div class="stxt">→ <strong>Acidité gastrique (V2)</strong> — si les protéines sont bien décomposées par l'HCl et la pepsine, elles n'arrivent plus entières dans le côlon.<br>→ <strong>Enzymes pancréatiques (V4)</strong> — protéases suffisantes pour finir le travail.<br>→ <strong>Simplifier l'assiette</strong> — ne pas sortir de table "plein à ras bord".<br>→ <strong>Investiguer la santé hormonale</strong> si symptômes associés (thyroïde notamment).</div>
+      </div></div>
+      <div class="step"><div class="sn or">2</div><div class="sbody">
+        <div class="st or">🌿 Plantes et compléments</div>
+        <div class="prod">
+          <div class="pnom">Tisane de thym</div>
+          <div class="pdet">Antibactérienne naturelle, soutient le microbiote. 1 tasse/jour pendant 21 jours.</div>
+        </div>
+        <div class="prod" style="margin-top:6px;">
+          <div class="pnom or">Chlorophylle — cure 21 jours</div>
+          <div class="pdet">Rééquilibre la flore intestinale. <strong>Atténue les odeurs liées aux troubles digestifs.</strong> Sous forme liquide ou gélule. 1 c.s. le matin à jeun. Respecter le dosage du laboratoire.</div>
+          <div class="pmec">La chlorophylle neutralise les molécules soufrées responsables des odeurs et soutient l'équilibre du microbiote.</div>
+        </div>
+        <div class="prod" style="margin-top:6px;">
+          <div class="pnom or">Macérât Bourgeon de Noyer — 21 jours</div>
+          <div class="pdet"><strong>15 gouttes/jour dans un fond d'eau.</strong> Même action que pour la fermentation — rééquilibre en douceur.</div>
+        </div>
+      </div></div>
+      <div class="step"><div class="sn">3</div><div class="sbody">
+        <div class="st">Rééquilibrer le microbiote (après correction)</div>
+        <div class="stxt">Probiotiques ciblés pour réduire les LPS : <strong>Lactobacillus plantarum GG, Bacillus subtilis HU58, S. Boulardii CNCM-I745.</strong> Oméga-3 EPA/DHA pour réduire l'inflammation liée aux LPS. Prébiotiques progressifs (FOS, GOS).</div>
+      </div></div>
+    </div>
+    <div class="al"><strong>Si les symptômes persistent malgré le travail sur la digestion haute</strong> — une analyse de selles peut être utile pour confirmer le profil bactérien. Consulter un médecin ou un naturopathe.</div>
+  </div>
+</div>
+
+<!-- ═══════ BONUS V5 — PERMÉABILITÉ ═══════ -->
+<div class="page" id="p-5">
+  <h2 class="pt">Protocole <em>Perméabilité intestinale</em></h2>
+  <div class="ol"></div>
+  <div class="ip">La barrière intestinale se répare. Les entérocytes se renouvellent tous les 3 à 5 jours. <strong>Mais pour que ce renouvellement se fasse correctement, il faut donner les bons outils — et arrêter d'agresser.</strong></div>
+
+  <!-- Checklist signaux -->
+  <div style="background:var(--bl);border-radius:8px;padding:14px 18px;margin-bottom:14px;">
+    <div style="font-family:'Cormorant Garamond',serif;font-size:17px;color:var(--vf);margin-bottom:10px;font-weight:600;">Tu te reconnais dans ces signaux ?</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+      <div style="font-size:12.5px;color:var(--dx);line-height:1.7;">
+        ☐ Intolérances qui s'aggravent progressivement<br>
+        ☐ Eczéma · psoriasis · acné adulte récurrente<br>
+        ☐ Infections à répétition · immunité basse<br>
+        ☐ Carences résistantes à la supplémentation
+      </div>
+      <div style="font-size:12.5px;color:var(--dx);line-height:1.7;">
+        ☐ Douleurs articulaires inexpliquées<br>
+        ☐ Brouillard mental · anxiété inexpliquée<br>
+        ☐ Aphtes récurrents · mycoses vaginales<br>
+        ☐ Cystites chroniques
+      </div>
+    </div>
+    <div style="margin-top:8px;font-size:12px;color:var(--dx);font-style:italic;">Si tu coches 3 signaux ou plus — la perméabilité intestinale mérite d'être adressée.</div>
+    <div style="margin-top:6px;font-size:12px;color:var(--vf);"><strong>Test disponible :</strong> BIPI Intestin — Laboratoire LIMS · Zonuline sanguine</div>
+  </div>
+
+  <div class="steps">
+    <div class="step"><div class="sn rg">1</div><div class="sbody">
+      <div class="st rg">Arrêter d'agresser d'abord</div>
+      <div class="stxt">Réduire les AINS si possible (avec accord médecin) · Stop grignotage · Réduire alcool · Corriger digestion haute (V2 V3 V4)<br><span style="font-size:11px;font-style:italic;">On ne répare pas une barrière qu'on continue d'attaquer.</span></div>
+    </div></div>
+    <div class="step"><div class="sn">2</div><div class="sbody">
+      <div class="st">Nourrir les entérocytes</div>
+      <div class="prod">
+        <div class="pnom">L-Glutamine — Nutripure</div>
+        <div class="pdet">À jeun le matin, avant le petit-déjeuner. Carburant principal des cellules intestinales. Respecter le dosage du laboratoire.</div>
+        <div class="pmec">Sans glutamine, les entérocytes ne peuvent pas se renouveler correctement — la barrière reste fragilisée.</div>
+      </div>
+      <div class="prod" style="margin-top:6px;">
+        <div class="pnom">Zinc Carnosine — Seeking Health</div>
+        <div class="pdet">Renforce les jonctions serrées, favorise la régénération de la muqueuse. Respecter le dosage.</div>
+      </div>
+      <div class="prod" style="margin-top:6px;">
+        <div class="pnom">Vitamine D3 + K2</div>
+        <div class="pdet">La vitamine D régule directement les protéines des jonctions serrées. Objectif : 60-80 ng/mL dans le sang.</div>
+      </div>
+      <div class="prod" style="margin-top:6px;">
+        <div class="pnom">Oméga-3 EPA/DHA — Nutripure</div>
+        <div class="pdet">Résolution de l'inflammation intestinale. Sans résolution, la réparation ne peut pas commencer. Min. 1g DHA/jour.</div>
+      </div>
+    </div></div>
+    <div class="step"><div class="sn or">3</div><div class="sbody">
+      <div class="st or">🔥 Perma Royale — La Royale</div>
+      <div class="stxt">Complexe complet pour la réparation intestinale : L-glutamine + zinc + aloe vera + vitamines. <strong>2 sachets/jour avant les repas.</strong> Produit de référence si perméabilité importante ou intolérances multiples.</div>
+    </div></div>
+    <div class="step"><div class="sn">4</div><div class="sbody">
+      <div class="st">Soutenir le microbiote en parallèle</div>
+      <div class="stxt">Fibres prébiotiques progressives (légumes variés, légumineuses tolérées). Aliments fermentés progressivement quand la phase aiguë est passée. Le microbiote équilibré produit du <strong>butyrate</strong> — acide gras à chaîne courte qui nourrit les cellules du côlon et renforce la barrière.</div>
+    </div></div>
+  </div>
+</div>
+
+<!-- ═══════ BONUS V6 — PLAN 21 JOURS ═══════ -->
+<div class="page" id="p-6">
+  <h2 class="pt">Mon plan <em>21 jours</em></h2>
+  <div class="ol"></div>
+  <div class="ip">Ce plan est une base personnalisable. Les semaines se cumulent — on n'arrête pas les actions de la semaine 1 en semaine 2. <strong>On ajoute, on construit, on observe.</strong></div>
+
+  <!-- Semaine 1 -->
+  <div class="week s1">
+    <div class="week-t s1">🟡 Semaine 1 — Calmer (jours 1 à 7)</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+      <div>
+        <div style="font-size:12px;font-weight:700;color:var(--am);margin-bottom:6px;">Les fondations universelles</div>
+        <div class="week-item">☐ 3 repas · zéro grignotage</div>
+        <div class="week-item">☐ Calme au repas · 3 respirations avant</div>
+        <div class="week-item">☐ Eau hors des repas (30 min avant/après)</div>
+        <div class="week-item">☐ Mâcher vraiment · assiettes simples</div>
+        <div class="week-item">☐ Fruits à distance · dîner léger avant 20h</div>
+        <div class="week-item">☐ Réduire alcool · ultra-transformés · sucres</div>
+      </div>
+      <div>
+        <div style="font-size:12px;font-weight:700;color:var(--am);margin-bottom:6px;">Actions anti-inflammatoires</div>
+        <div class="week-item">☐ <strong>Chlorophylle liquide</strong> — 1 c.s. à jeun le matin</div>
+        <div class="week-item">☐ Petits poissons gras 2-3x cette semaine</div>
+        <div class="week-item">☐ Légumes verts à chaque repas</div>
+        <div class="week-item">☐ Huile d'olive · aromates frais · curcuma</div>
+        <div style="margin-top:8px;font-size:11.5px;color:var(--dx);font-style:italic;">📓 Observer : ballonnements, sommeil, transit, ventre le soir</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Semaine 2 -->
+  <div class="week s2">
+    <div class="week-t s2">🟢 Semaine 2 — Soutenir (jours 8 à 14)</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+      <div>
+        <div style="font-size:12px;font-weight:700;color:var(--vf);margin-bottom:6px;">Selon ton profil dominant</div>
+        <div class="week-item">☐ <strong>Profil estomac →</strong> Vinaigre de cidre + Bourgeon de Figuier</div>
+        <div class="week-item">☐ <strong>Profil foie →</strong> Romarin tisane + Bouillotte foie</div>
+        <div class="week-item">☐ <strong>Profil enzymes →</strong> Biotix 6+ ou Digestive Enzyme Ultra</div>
+        <div class="week-item">☐ <strong>Profil dysbiose →</strong> Bourgeon de Noyer 15 gttes + Charbon / Fenouil / Thym selon type</div>
+      </div>
+      <div>
+        <div style="font-size:12px;font-weight:700;color:var(--vf);margin-bottom:6px;">Pour tout le monde</div>
+        <div class="week-item">☐ <strong>Vitamine D3 + K2</strong> (vérifier taux si possible)</div>
+        <div class="week-item">☐ <strong>Oméga-3 EPA/DHA</strong> — min. 1g DHA/jour</div>
+        <div class="week-item">☐ Continuer les fondations de S1</div>
+        <div style="margin-top:8px;font-size:11.5px;color:var(--dx);font-style:italic;">📓 Observer : qu'est-ce qui a changé depuis S1 ?</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Semaine 3 -->
+  <div class="week s3">
+    <div class="week-t s3">🔴 Semaine 3 — Réparer (jours 15 à 21)</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+      <div>
+        <div style="font-size:12px;font-weight:700;color:#7a2818;margin-bottom:6px;">Réparation intestinale</div>
+        <div class="week-item">☐ <strong>L-Glutamine — Nutripure</strong> (à jeun le matin)</div>
+        <div class="week-item">☐ <strong>Zinc Carnosine — Seeking Health</strong></div>
+        <div class="week-item">☐ <strong>Perma Royale — La Royale</strong> (2 sachets/jour) si perméabilité</div>
+        <div class="week-item">☐ Continuer Vitamine D + Oméga-3</div>
+      </div>
+      <div>
+        <div style="font-size:12px;font-weight:700;color:#7a2818;margin-bottom:6px;">Microbiote</div>
+        <div class="week-item">☐ Fibres prébiotiques progressives</div>
+        <div class="week-item">☐ Aliments fermentés (si pas de SIBO)</div>
+        <div class="week-item">☐ Probiotiques ciblés si dysbiose de putréfaction</div>
+        <div style="margin-top:8px;font-size:11.5px;color:var(--dx);font-style:italic;">📓 Bilan final : quels symptômes ont changé ?<br>Quels axes méritent un travail plus approfondi ?</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="note"><strong>21 jours = un démarrage.</strong> Le terrain se construit sur plusieurs semaines. Si après 3-6 semaines de pratique sérieuse les symptômes persistent — une consultation naturopathique individuelle permet d'aller plus loin avec un protocole vraiment adapté à ton terrain.</div>
+</div>
+
+<footer>DIGEST-IN · Bonus V5 · V5B · V6 — Angélique Noor, Naturopathe<br>
+Outil pédagogique · Ne remplace pas un bilan de terrain individualisé ni un avis médical</footer>
+
+<script>
+function showTab(id, btn, cls) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('on'));
+  document.querySelectorAll('.tab').forEach(t => { t.className = 'tab'; });
+  document.getElementById('p-' + id).classList.add('on');
+  btn.classList.add(cls);
+}
+
+document.querySelectorAll('.opt').forEach(opt => {
+  opt.addEventListener('click', function() {
+    const name = this.querySelector('input').name;
+    document.querySelectorAll(`input[name="${name}"]`).forEach(r => r.closest('.opt').classList.remove('sel'));
+    this.classList.add('sel');
+  });
+});
+
+function calcDysbiose() {
+  const scores = { f: 0, p: 0, mx: 0 };
+  ['dq1','dq2','dq3','dq4'].forEach(q => {
+    const s = document.querySelector(`input[name="${q}"]:checked`);
+    if (s) scores[s.value] = (scores[s.value] || 0) + 1;
+  });
+
+  const answered = Object.values(scores).reduce((a,b) => a+b, 0);
+  if (answered < 3) { alert('Réponds à au moins 3 questions pour un résultat fiable.'); return; }
+
+  const r = document.getElementById('dr');
+  let profil, cls, titre, txt;
+
+  if (scores.p >= scores.f && scores.p >= 1) {
+    profil = 'p'; cls = 'rp';
+    titre = 'Profil Dysbiose de putréfaction';
+    txt = 'Tes gaz peu abondants mais très malodorants, et les éventuelles douleurs articulaires ou fatigue profonde orientent vers une putréfaction des protéines dans le côlon gauche. <strong>Priorité absolue : corriger l\'acidité gastrique (V2) et les enzymes digestives (V4).</strong> Si les protéines sont bien digérées, les bactéries de putréfaction n\'ont plus rien à manger.';
+  } else if (scores.f >= scores.p && scores.f >= 1) {
+    profil = 'f'; cls = 'rf';
+    titre = 'Profil Dysbiose de fermentation';
+    txt = 'Tes ballonnements importants et gaz inodores après les glucides orientent vers une fermentation dans le côlon droit. <strong>Priorité : mastication, stop grignotage, simplification des assiettes.</strong> Et regarder la digestion haute — si moins de glucides arrivent non digérés dans le côlon, les bactéries ont moins à fermenter.';
+  } else {
+    profil = 'mx'; cls = 'rmx';
+    titre = 'Profil mixte';
+    txt = 'Tu sembles avoir une combinaison des deux dysbioses. Commence par le travail sur la digestion haute (estomac + enzymes) — c\'est souvent suffisant pour améliorer les deux en même temps. Puis la mastication et le stop grignotage.';
+  }
+
+  r.className = `rbox on ${cls}`;
+  r.innerHTML = `<div class="r-t ${profil}">${titre}</div><div class="r-txt">${txt}</div>
+    <button class="rcta" onclick="showProto('${profil}')">Voir mon protocole →</button>
+    <div style="margin-top:12px;font-size:11px;color:var(--dx);font-style:italic;">Résultat indicatif — à croiser avec tes observations cliniques sur plusieurs semaines.</div>`;
+  r.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function showProto(profil) {
+  document.getElementById('proto-f').style.display = 'none';
+  document.getElementById('proto-p').style.display = 'none';
+  if (profil === 'f' || profil === 'mx') {
+    document.getElementById('proto-f').style.display = 'block';
+  }
+  if (profil === 'p' || profil === 'mx') {
+    document.getElementById('proto-p').style.display = 'block';
+  }
+  document.getElementById('proto-f').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+</script>
+</body>
+</html>
