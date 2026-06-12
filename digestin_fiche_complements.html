@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DIGEST-IN — Fiche Compléments & Plantes</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+@media print {
+  body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .no-print { display: none; }
+}
+:root{--vf:#4a5c44;--v:#7a8c72;--vp:#c8d5c2;--or:#c9a84c;--cr:#f5f0e8;--crf:#ede5d5;--bl:#fdfaf5;--tx:#2c2c2c;--dx:#5a5a5a;--rg:#b85545;--rgp:#f9ebe8;--am:#8a6020;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:#f0ebe0;font-family:'Lato',sans-serif;color:var(--tx);padding:30px 20px;}
+.page{max-width:960px;margin:0 auto;background:var(--bl);border-radius:12px;overflow:hidden;box-shadow:0 4px 40px rgba(0,0,0,.12);}
+
+/* HEADER */
+.header{background:var(--vf);padding:28px 40px;display:flex;align-items:center;justify-content:space-between;}
+.header-left{}
+.header-label{font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--or);margin-bottom:8px;}
+.header-title{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:300;color:var(--cr);line-height:1.15;}
+.header-title em{color:var(--or);}
+.header-sub{font-family:'Cormorant Garamond',serif;font-size:14px;font-style:italic;color:var(--vp);margin-top:6px;}
+.header-logo{font-family:'Cormorant Garamond',serif;font-size:13px;color:rgba(201,168,76,.5);letter-spacing:2px;text-align:right;}
+
+/* SECTION */
+.section{padding:20px 30px;border-bottom:1px solid var(--crf);}
+.section:last-child{border-bottom:none;}
+.section-header{display:flex;align-items:center;gap:10px;margin-bottom:14px;}
+.section-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+.section-title{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;}
+.section-sub{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--dx);margin-left:auto;}
+
+/* GRID */
+.grid{display:grid;gap:10px;}
+.grid-2{grid-template-columns:1fr 1fr;}
+.grid-3{grid-template-columns:1fr 1fr 1fr;}
+.grid-4{grid-template-columns:1fr 1fr 1fr 1fr;}
+
+/* CARD */
+.card{background:var(--cr);border-radius:8px;padding:12px;display:flex;flex-direction:column;gap:8px;}
+.card-photo{width:100%;height:70px;border-radius:5px;background:var(--crf);border:2px dashed var(--vp);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:3px;cursor:pointer;position:relative;}
+.card-photo-dot{width:8px;height:8px;border-radius:50%;background:var(--vp);}
+.card-photo-txt{font-size:8px;color:var(--vp);letter-spacing:1px;text-transform:uppercase;}
+.card-nom{font-family:'Cormorant Garamond',serif;font-size:14px;font-weight:600;color:var(--vf);}
+.card-marque{font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--or);margin-top:-4px;}
+.card-indication{font-size:10.5px;color:var(--dx);line-height:1.5;}
+.card-prise{font-size:10px;color:var(--vf);font-weight:700;background:rgba(74,92,68,.08);padding:4px 7px;border-radius:3px;}
+.card-ci{font-size:10px;color:var(--rg);font-weight:700;}
+
+/* FOOTER */
+.footer{background:var(--vf);padding:14px 40px;display:flex;align-items:center;justify-content:space-between;}
+.footer-txt{font-family:'Cormorant Garamond',serif;font-size:12px;font-style:italic;color:var(--vp);}
+.footer-warn{font-size:9.5px;color:rgba(201,168,76,.6);}
+
+/* BOUTON PRINT */
+.print-btn{position:fixed;top:20px;right:20px;background:var(--vf);color:var(--cr);border:none;padding:10px 20px;border-radius:6px;font-family:'Cormorant Garamond',serif;font-size:14px;cursor:pointer;box-shadow:0 2px 12px rgba(0,0,0,.2);}
+.print-btn:hover{background:#3a4c34;}
+</style>
+</head>
+<body>
+
+<button class="print-btn no-print" onclick="window.print()">🖨️ Imprimer / PDF</button>
+
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-left">
+      <div class="header-label">DIGEST-IN · Fiche pratique</div>
+      <div class="header-title">Compléments &amp; Plantes<br><em>par système digestif</em></div>
+      <div class="header-sub">Tous les produits du module · marques · indications · règles de prise</div>
+    </div>
+    <div class="header-logo">Angélique Noor<br>Naturopathe</div>
+  </div>
+
+  <!-- ESTOMAC -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-dot" style="background:var(--rg);"></div>
+      <div class="section-title" style="color:var(--rg);">Estomac — Vidéo 2</div>
+      <div class="section-sub">Hypochlorhydrie · Hyperchlorhydrie · Gastrite · Gastroparésie</div>
+    </div>
+    <div class="grid grid-4">
+
+      <div class="card">
+        <div class="card-photo"><div class="card-photo-dot"></div><div class="card-photo-txt">Photo produit</div></div>
+        <div class="card-nom">Bétaïne HCl + Pepsine</div>
+        <div class="card-marque">Pure Encapsulations</div>
+        <div class="card-indication">Hypochlorhydrie marquée. Stimule la production d'HCl.</div>
+        <div class="card-prise">Avec un repas protéiné · jamais à jeun · dose progressive</div>
+        <div class="card-ci">⚠ CI : ulcère, gastrite active, AINS</div>
+      </div>
+
+      <div class="card">
+        <div class="card-photo"><div class="card-photo-dot"></div><div class="card-photo-txt">Photo produit</div></div>
+        <div class="card-nom">Swedish Bitters</div>
+        <div class="card-marque">Flora</div>
+        <div class="card-indication">Hypochlorhydrie. Tonique amer — stimule HCl, bile et enzymes pancréatiques.</div>
+        <div class="card-prise">1 c.c. dans eau avant le repas</div>
+      </div>
+
+      <div class="card">
+        <div class="card-photo"><div class="card-photo-dot"></div><div class="card-photo-txt">Photo produit</div></div>
+        <div class="card-nom">AloePure</div>
+        <div class="card-marque">Energetica Natura</div>
+        <div class="card-indication">Gastrite. Cicatrisant et anti-inflammatoire de la muqueuse gastrique.</div>
+        <div class="card-prise">1 c.s. × 3/jour avant les repas</div>
+      </div>
+
+      <div class="card">
+        <div class="card-photo"><div class="card-photo-dot"></div><div class="card-photo-txt">Photo produit</div></div>
+        <div class="card-nom">Zinc Carnosine</div>
+        <div class="card-marque">Seeking Health</div>
+        <div class="card-indication">Gastrite · Perméabilité intestinale. Répare la muqueuse gastrique et intestinale.</div>
+        <div class="card-prise">Selon dosage laboratoire</div>
+      </div>
+
+      <div class="card">
+        <div class="card-photo"><div class="card-photo-dot"></div><div class="card-photo-txt">Photo produit</div></div>
+        <div class="card-nom">Arthropure</div>
+        <div class="card-marque">Nutripure</div>
+        <div class="card-indication">Gastrite. Chondroïtine + glucosamine — soutient la production de mucus gastrique.</div>
+        <div class="card-prise">Selon dosage laboratoire</div>
+      </div>
+
+      <div class="card">
+        <div class="card-photo"><div class="card-photo-dot"></div><div class="card-photo-txt">Photo produit</div></div>
+        <div class="card-nom">Iberogast</div>
+        <div class="card-marque">Bayer</div>
+        <div class="card-indication">Gastroparésie. 9 plantes. Prokinétique validé cliniquement.</div>
+        <div class="card-prise">20 gouttes × 3/jour avant les repas</div>
+      </div>
+
+      <div class="card">
+        <div class="card-photo"><div class="card-photo-dot"></div><div class="card-photo-txt">Photo produit</div></div>
+        <div class="card-nom">Bourgeon de Figuier</div>
+        <div class="card-marque">Gemmothérapie</div>
+        <div class="card-indication">Estomac du stressé. Symptômes aggravés par les émotions.</div>
+        <div class="card-prise">15 gouttes/jour dans eau · 21 jours</div>
+      </div>
+
+      <div class="card">
+        <div class="card-photo" style="display:none;"></div>
+        <div class="card-nom">Vitamine U (SMM)</div>
+        <div class="card-marque" style="color:var(--dx);">S-méthylméthionine</div>
+        <div class="card-indication">Gastrite. Cicatrisante de la muqueuse gastrique. Souvent oubliée.</div>
+        <div class="card-prise">Selon dosage laboratoire</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- FOIE & VÉSICULE -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-dot" style="background:var(--or);"></div>
+      <div class="section-title" style="color:var(--am);">Foie &amp; Vésicule — Vidéo 3</div>
+      <div class="section-sub">Surcharge hépatique · Bile · Hormones · Détox</div>
+    </div>
+    <div class="grid grid-4">
+
+      <div class="card">
+        <div class="card-photo"><div class="card-photo-dot" style="background:var(--or);"></div><div class="card-photo-txt">Photo produit</div></div>
+        <div class="card-nom">Chardon-Marie</div>
+        <div class="card-marque">Extrait standardisé</div>
+        <div class="card-indication">Foie surchargé · médicaments · pilule. Hépato-protecteur puissant.</div>
+        <div class="card-prise">Cure 21 jours max · informer médecin si traitement</div>
+        <div class="card-ci">⚠ Interactions médicamenteuses</div>
+      </div>
+
+      <div class="card">
+        <div class="card-photo"><div class="card-photo-dot" style="background:var(--or);"></div><div class="card-photo-txt">Photo produit</div></div>
+        <div class="card-nom">Desmodium</div>
+        <div class="card-marque">Extrait standardisé</div>
+        <div class="card-indication">Foie surchargé · médicaments au long cours. Protecteur hépatique.</div>
+        <div class="card-prise">Cure 21 jours max · avis médical si traitement</div>
+      </div>
+
+      <div class="card">
+        <div class="card-photo"><div class="card-photo-dot" style="background:var(--or);"></div><div class="card-photo-txt">Photo produit</div></div>
+        <div class="card-nom">Macérât Genévrier</div>
+        <div class="card-marque">Gemmothérapie</div>
+        <div class="card-indication">Foie + pilule / hormones synthèse. Soutient l'élimination des hormones.</div>
+        <div class="card-prise">Selon dosage laboratoire · 21 jours</div>
+      </div>
+
+      <div class="card">
+        <div class="card-photo"><div class="card-photo-dot" style="background:var(--or);"></div><div class="card-photo-txt">Photo produit</div></div>
+        <div class="card-nom">Sève de Bouleau</div>
+        <div class="card-marque">Bio · cure printanière</div>
+        <div class="card-indication">Drainage doux · reminéralisant. Idéal en entretien ou après cure ciblée.</div>
+        <div class="card-prise">Cure 21 jours · printemps</div>
+      </div>
+
+      <div class="card">
+        <div class="card-photo"><div class="card-photo-dot" style="background:var(--or);"></div><div class="card-photo-txt">Photo produit</div></div>
+        <div class="card-nom">Fumeterre</div>
+        <div class="card-marque">Fumaria officinalis</div>
+        <div class="card-indication">Vésicule paresseuse + anxiété. Régule le flux biliaire (stimule si insuffisant, calme si spasmes).</div>
+        <div class="card-prise">Tisane ou extrait · 21 jours</div>
+        <div class="card-ci">⚠ CI si calculs biliaires confirmés</div>
+      </div>
+
+      <div class="card">
+        <div class="card-photo" style="background:var(--crf);border:2px dashed var(--or);border-radius:5px;height:70px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:3px;">
+          <div class="card-photo-dot" style="background:var(--or);"></div><div class="card-photo-txt" style="color:var(--or);">Photo produit</div>
+        </div>
+        <div class="card-nom">Radis noir</div>
+        <div class="card-marque">Extrait ou jus frais</div>
+        <div class="card-indication">Vésicule paresseuse. Cholérétique puissant.</div>
+        <div class="card-prise">Cure 3 semaines max</div>
+        <div class="card-ci">⚠ CONTRE-INDIQUÉ si calculs biliaires</div>
+      </div>
+
+      <div class="card">
+        <div class="card-photo"><div class="card-photo-dot" style="background:var(--or);"></div><div class="card-photo-txt">Photo produit</div></div>
+        <div class="card-nom">Bétaïne TMG</div>
+        <div class="card-marque">Donneur de méthyle</div>
+        <div class="card-indication">Dominance œstrogénique · méthylation. Soutient le recyclage hépatique des hormones.</div>
+        <div class="card-prise">Selon dosage laboratoire</div>
+      </div>
+
+      <div class="card">
+        <div class="card-photo" style="display:none;"></div>
+        <div class="card-nom">Vitamines B actives</div>
+        <div class="card-marque">B9 méthylfolate · B12 méthylcob. · B6 P5P</div>
+        <div class="card-indication">Méthylation · détox phase II · hormones. Formes actives indispensables.</div>
+        <div class="card-prise">Selon dosage laboratoire · à jeun</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- PANCRÉAS & ENZYMES -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-dot" style="background:var(--v);"></div>
+      <div class="section-title" style="color:var(--vf);">Pancréas &amp; Enzymes — Vidéo 4</div>
+      <div class="section-sub">Insuffisance enzymatique · Intolérances alimentaires</div>
+    </div>
+    <div class="grid grid-3">
+
+      <div class="card">
+        <div class="card-photo"><div class="card-photo-dot" style="background:var(--v);"></div><div class="card-photo-txt">Photo produit</div></div>
+        <div class="card-nom">Biotix 6+</div>
+        <div class="card-marque">Energetica Natura</div>
+        <div class="card-indication">Insuffisance enzymatique. Lipase + protéase + amylase.</div>
+        <div class="card-prise">Au début du repas — pas après, pas à jeun</div>
+      </div>
+
+      <div class="card">
+        <div class="card-photo"><div class="card-photo-dot" style="background:var(--v);"></div><div class="card-photo-txt">Photo produit</div></div>
+        <div class="card-nom">Digestive Enzyme Ultra</div>
+        <div class="card-marque">Pure Encapsulations</div>
+        <div class="card-indication">Insuffisance enzymatique. Spectre large, formulation végétale.</div>
+        <div class="card-prise">Au début du repas</div>
+      </div>
+
+      <div class="card">
+        <div class="card-photo" style="display:none;"></div>
+        <div class="card-nom">L-Glutamine</div>
+        <div class="card-marque">Nutripure</div>
+        <div class="card-indication">Réparation muqueuse intestinale. Carburant des entérocytes.</div>
+        <div class="card-prise">À jeun le matin avant petit-déjeuner</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- INTESTIN & MICROBIOTE -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-dot" style="background:#5a3a7a;"></div>
+      <div class="section-title" style="color:#5a3a7a;">Intestin &amp; Microbiote — Vidéo 5 · 5B</div>
+      <div class="section-sub">Perméabilité intestinale · Dysbiose · Réparation</div>
+    </div>
+    <div class="grid grid-4">
+
+      <div class="card">
+        <div class="card-photo"><div class="card-photo-dot" style="background:#5a3a7a;"></div><div class="card-photo-txt">Photo produit</div></div>
+        <div class="card-nom">Perma Royale</div>
+        <div class="card-marque">La Royale</div>
+        <div class="card-indication">Perméabilité intestinale. Complexe complet : L-glutamine + zinc + aloe vera + vitamines.</div>
+        <div class="card-prise">2 sachets/jour avant les repas</div>
+      </div>
+
+      <div class="card">
+        <div class="card-photo"><div class="card-photo-dot" style="background:#5a3a7a;"></div><div class="card-photo-txt">Photo produit</div></div>
+        <div class="card-nom">Macérât Bourgeon de Noyer</div>
+        <div class="card-marque">Gemmothérapie</div>
+        <div class="card-indication">Dysbiose (fermentation et putréfaction). Rééquilibre le microbiote en douceur.</div>
+        <div class="card-prise">15 gouttes/jour dans eau · 21 jours</div>
+      </div>
+
+      <div class="card">
+        <div class="card-photo"><div class="card-photo-dot" style="background:#5a3a7a;"></div><div class="card-photo-txt">Photo produit</div></div>
+        <div class="card-nom">Chlorophylle liquide</div>
+        <div class="card-marque">Liquide ou gélules</div>
+        <div class="card-indication">Dysbiose de putréfaction. Rééquilibre la flore, atténue les odeurs.</div>
+        <div class="card-prise">1 c.s. à jeun le matin · cure 21 jours</div>
+      </div>
+
+      <div class="card">
+        <div class="card-photo"><div class="card-photo-dot" style="background:#5a3a7a;"></div><div class="card-photo-txt">Photo produit</div></div>
+        <div class="card-nom">Charbon activé noir</div>
+        <div class="card-marque">Usage ponctuel</div>
+        <div class="card-indication">Dysbiose de fermentation. Absorbe les gaz en phase aiguë.</div>
+        <div class="card-prise">Ponctuel · 2h à distance de tout médicament</div>
+        <div class="card-ci">⚠ CI si traitement ou pilule (interactions)</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- UNIVERSELS -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-dot" style="background:var(--vf);"></div>
+      <div class="section-title" style="color:var(--vf);">Compléments universels — Pour tout le monde</div>
+      <div class="section-sub">Inflammation · Barrière intestinale · Micronutrition</div>
+    </div>
+    <div class="grid grid-4">
+
+      <div class="card">
+        <div class="card-photo"><div class="card-photo-dot"></div><div class="card-photo-txt">Photo produit</div></div>
+        <div class="card-nom">Oméga-3 EPA/DHA</div>
+        <div class="card-marque">Nutripure</div>
+        <div class="card-indication">Anti-inflammatoire. Réparation barrière intestinale. Résolution de l'inflammation.</div>
+        <div class="card-prise">Min. 1g DHA/jour · objectif AA/EPA &lt; 3</div>
+      </div>
+
+      <div class="card">
+        <div class="card-photo"><div class="card-photo-dot"></div><div class="card-photo-txt">Photo produit</div></div>
+        <div class="card-nom">Vitamine D3 + K2</div>
+        <div class="card-marque">Qualité laboratoire</div>
+        <div class="card-indication">Jonctions serrées intestinales · immunité · anti-inflammatoire.</div>
+        <div class="card-prise">Objectif : 60-80 ng/mL · vérifier taux avant</div>
+      </div>
+
+      <div class="card">
+        <div class="card-photo"><div class="card-photo-dot"></div><div class="card-photo-txt">Photo produit</div></div>
+        <div class="card-nom">Magnésium bisglycinate</div>
+        <div class="card-marque">ou glycérophosphate</div>
+        <div class="card-indication">Cofacteur détox phase II · relaxant · soutien nerveux · anti-inflammatoire.</div>
+        <div class="card-prise">300-450 mg/jour · de préférence le soir</div>
+      </div>
+
+      <div class="card">
+        <div class="card-photo"><div class="card-photo-dot"></div><div class="card-photo-txt">Photo produit</div></div>
+        <div class="card-nom">NAC (N-Acétyl-Cystéine)</div>
+        <div class="card-marque">Précurseur Glutathion</div>
+        <div class="card-indication">Détox hépatique phase II. Antioxydant majeur du foie.</div>
+        <div class="card-prise">Selon dosage laboratoire · à distance des repas</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div class="footer-txt">DIGEST-IN · Angélique Noor, Naturopathe</div>
+    <div class="footer-warn">Outil pédagogique · Pas de prescription à distance · Consulter un professionnel de santé avant tout protocole</div>
+  </div>
+
+</div>
+
+</body>
+</html>
