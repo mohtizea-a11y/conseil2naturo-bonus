@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DIGEST-IN — Bonus Vidéo 3 — Mon foie & ma vésicule</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --vf:#4a5c44;--v:#7a8c72;--vp:#c8d5c2;
+  --or:#c9a84c;--orc:#e8d5a0;--cr:#f5f0e8;--crf:#ede5d5;--bl:#fdfaf5;
+  --tx:#2c2c2c;--dx:#5a5a5a;
+  --rg:#b85545;--rgp:#f9ebe8;
+  --am:#8a6020;--vl:#7a5090;--br:#b07030;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--cr);font-family:'Lato',sans-serif;color:var(--tx);max-width:900px;margin:0 auto;padding:36px 20px 80px;}
+
+/* HERO */
+.hero{background:var(--vf);border-radius:10px;padding:36px 44px;text-align:center;margin-bottom:30px;position:relative;overflow:hidden;}
+.hero::after{content:'';position:absolute;width:440px;height:440px;border-radius:50%;border:1px solid rgba(201,168,76,.09);bottom:-160px;right:-80px;pointer-events:none;}
+.h-label{font-size:10px;letter-spacing:4px;text-transform:uppercase;color:var(--or);margin-bottom:10px;}
+.h-title{font-family:'Cormorant Garamond',serif;font-size:40px;font-weight:300;color:var(--cr);line-height:1.15;}
+.h-title em{color:var(--or);font-style:italic;}
+.h-sub{font-family:'Cormorant Garamond',serif;font-size:16px;font-style:italic;color:var(--vp);margin-top:10px;}
+
+/* TABS */
+.tabs{display:flex;gap:0;border-radius:8px;overflow:hidden;border:2px solid var(--vf);margin-bottom:26px;}
+.tab{flex:1;padding:12px 6px;text-align:center;font-size:11px;font-weight:700;letter-spacing:.5px;cursor:pointer;background:var(--bl);color:var(--dx);transition:all .2s;border-right:1px solid var(--vp);}
+.tab:last-child{border-right:none;}
+.tab.a-q{background:var(--vf);color:white;}
+.tab.a-f{background:var(--am);color:white;}
+.tab.a-v{background:var(--v);color:white;}
+.tab.a-h{background:var(--vl);color:white;}
+.tab.a-a{background:#3a6080;color:white;}
+.page{display:none;}
+.page.on{display:block;}
+
+/* QUIZ */
+.q-intro{background:var(--bl);border-radius:8px;padding:16px 20px;margin-bottom:16px;font-size:13.5px;color:var(--dx);line-height:1.7;border-left:4px solid var(--or);}
+
+.q-section{background:var(--bl);border-radius:8px;padding:18px 22px;margin-bottom:12px;}
+.q-section-title{font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:600;color:var(--vf);margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+.q-items{display:flex;flex-direction:column;gap:7px;}
+.q-item{display:flex;align-items:flex-start;gap:10px;padding:8px 12px;border-radius:5px;cursor:pointer;border:1.5px solid var(--crf);transition:all .18s;font-size:13px;color:var(--tx);}
+.q-item:hover{border-color:var(--v);background:rgba(122,140,114,.05);}
+.q-item.sel{border-color:var(--vf);background:rgba(74,92,68,.08);}
+.q-item input{accent-color:var(--vf);flex-shrink:0;margin-top:2px;}
+.q-item-sub{font-size:11px;color:var(--dx);margin-top:2px;font-style:italic;}
+
+/* Multi-select checkbox style */
+.q-item.multi{cursor:pointer;}
+.q-item.multi.sel{border-color:var(--or);background:rgba(201,168,76,.08);}
+.check-custom{width:16px;height:16px;border:2px solid var(--or);border-radius:3px;flex-shrink:0;margin-top:2px;display:flex;align-items:center;justify-content:center;transition:all .15s;}
+.q-item.multi.sel .check-custom{background:var(--or);border-color:var(--or);}
+.q-item.multi.sel .check-custom::after{content:'✓';color:white;font-size:10px;font-weight:bold;}
+
+.q-btn{background:var(--vf);color:var(--cr);border:none;padding:13px 32px;border-radius:6px;font-family:'Cormorant Garamond',serif;font-size:17px;cursor:pointer;margin-top:16px;transition:background .2s;}
+.q-btn:hover{background:#3a4c34;}
+
+/* RÉSULTAT */
+.result{display:none;margin-top:20px;}
+.result.on{display:block;}
+.result-header{border-radius:10px 10px 0 0;padding:22px 28px;}
+.result-header.foie{background:linear-gradient(135deg,#6a4a10,#8a6020);}
+.result-header.vesicule{background:linear-gradient(135deg,var(--vf),#3a5030);}
+.result-header.hormones{background:linear-gradient(135deg,#5a3070,#7a4090);}
+.result-header.charge{background:linear-gradient(135deg,#3a4a60,#4a6080);}
+.result-header.neutre{background:linear-gradient(135deg,var(--vf),#5a7050);}
+.result-profil{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;color:white;line-height:1.2;}
+.result-profil em{font-style:italic;opacity:.85;}
+.result-body{background:var(--bl);border-radius:0 0 10px 10px;padding:22px 28px;}
+.result-intro{font-family:'Cormorant Garamond',serif;font-size:16px;color:var(--dx);line-height:1.7;margin-bottom:16px;font-style:italic;}
+.result-scores{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap;}
+.score-pill{display:flex;align-items:center;gap:6px;padding:5px 12px;border-radius:20px;font-size:11px;font-weight:700;}
+.score-pill.hi{background:var(--crf);color:var(--am);}
+.score-bar{height:6px;background:var(--crf);border-radius:3px;width:60px;overflow:hidden;}
+.score-fill{height:100%;border-radius:3px;background:var(--or);}
+
+/* PROTOCOLE DANS LE RÉSULTAT */
+.proto-block{margin-bottom:16px;}
+.proto-block-title{font-family:'Cormorant Garamond',serif;font-size:19px;font-weight:600;color:var(--vf);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--crf);}
+.proto-step{display:flex;gap:12px;align-items:flex-start;margin-bottom:10px;}
+.proto-num{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:14px;color:white;flex-shrink:0;background:var(--vf);}
+.proto-num.or{background:var(--or);}
+.proto-num.rg{background:var(--rg);}
+.proto-content{flex:1;}
+.proto-title{font-family:'Cormorant Garamond',serif;font-size:15px;font-weight:600;color:var(--vf);margin-bottom:3px;}
+.proto-title.or{color:var(--am);}
+.proto-txt{font-size:12.5px;color:var(--dx);line-height:1.65;}
+.proto-txt strong{color:var(--tx);}
+.proto-mec{font-size:11.5px;color:var(--v);font-style:italic;margin-top:3px;}
+.proto-ci{font-size:11.5px;color:var(--rg);font-weight:700;margin-top:3px;}
+.al{background:var(--rgp);border-left:4px solid var(--rg);border-radius:0 6px 6px 0;padding:10px 14px;font-size:12.5px;color:#6a2a1a;line-height:1.6;margin:8px 0;}
+.note{background:rgba(201,168,76,.1);border-left:4px solid var(--or);border-radius:0 6px 6px 0;padding:10px 14px;font-size:12.5px;color:#5a4010;line-height:1.6;margin:8px 0;}
+.r-cta{display:inline-block;margin-top:14px;padding:10px 22px;border-radius:5px;font-size:13px;font-weight:700;cursor:pointer;border:none;color:white;background:var(--vf);}
+.r-cta:hover{background:#3a4c34;}
+
+/* PROTOCOLES ONGLETS */
+h2.pt{font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:300;color:var(--vf);margin-bottom:4px;}
+h2.pt em{color:var(--or);}
+.ol{height:2px;background:linear-gradient(90deg,var(--or),transparent);width:52px;margin-bottom:18px;}
+.intro-p{background:var(--bl);border-radius:8px;padding:14px 18px;margin-bottom:16px;font-size:13.5px;color:var(--dx);line-height:1.7;border-left:4px solid var(--or);}
+.intro-p strong{color:var(--tx);}
+.steps{display:flex;flex-direction:column;gap:12px;}
+.step{display:flex;gap:12px;align-items:flex-start;}
+.sn{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:16px;color:white;flex-shrink:0;margin-top:2px;}
+.sn.vf{background:var(--vf);}
+.sn.or{background:var(--or);}
+.sn.rg{background:var(--rg);}
+.sn.vl{background:var(--vl);}
+.sbody{flex:1;background:var(--bl);border-radius:8px;padding:13px 16px;}
+.st{font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:600;color:var(--vf);margin-bottom:5px;}
+.st.or{color:var(--am);}
+.st.rg{color:#7a2818;}
+.stxt{font-size:13px;color:var(--dx);line-height:1.65;}
+.stxt strong{color:var(--tx);}
+.prod{background:var(--crf);border-radius:6px;padding:10px 13px;margin-top:8px;}
+.pnom{font-family:'Cormorant Garamond',serif;font-size:15px;font-weight:600;color:var(--vf);margin-bottom:2px;}
+.pnom.or{color:var(--am);}
+.pdet{font-size:12.5px;color:var(--dx);line-height:1.6;}
+.pdet strong{color:var(--tx);}
+.pmec{font-size:11.5px;color:var(--v);font-style:italic;margin-top:3px;}
+.pci{font-size:12px;color:var(--rg);font-weight:700;margin-top:4px;}
+
+/* ALIMENTS */
+.food-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:4px;}
+.food-card{background:var(--bl);border-radius:8px;padding:14px 16px;}
+.food-card.bon{border-top:3px solid var(--v);}
+.food-card.mauvais{border-top:3px solid var(--rg);}
+.food-title{font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:600;margin-bottom:8px;}
+.food-title.bon{color:var(--vf);}
+.food-title.mauvais{color:#7a2818;}
+.food-item{font-size:12.5px;color:var(--dx);line-height:1.7;display:flex;gap:6px;margin-bottom:4px;}
+.food-why{font-size:11px;color:var(--v);font-style:italic;}
+
+footer{margin-top:50px;text-align:center;font-family:'Cormorant Garamond',serif;font-size:13px;color:var(--dx);font-style:italic;padding-top:16px;border-top:1px solid var(--crf);}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="h-label">DIGEST-IN · Vidéo 3 · Bonus</div>
+  <div class="h-title">Mon foie, ma vésicule<br><em>mon protocole personnalisé</em></div>
+  <div class="h-sub">Quiz complet · Protocole sur-mesure · Plantes & micronutriments</div>
+</div>
+
+<div class="tabs">
+  <div class="tab a-q" onclick="showTab('q',this,'a-q')">🔍 Mon profil</div>
+  <div class="tab" onclick="showTab('f',this,'a-f')">🟡 Foie surchargé</div>
+  <div class="tab" onclick="showTab('v',this,'a-v')">🟢 Vésicule</div>
+  <div class="tab" onclick="showTab('h',this,'a-h')">🟣 Hormones</div>
+  <div class="tab" onclick="showTab('a',this,'a-a')">🥦 Alimentation</div>
+</div>
+
+<!-- ═══════════ QUIZ ═══════════ -->
+<div class="page on" id="p-q">
+<div class="q-intro">
+  Réponds honnêtement à toutes les sections. Plus tu es précise, plus le résultat sera pertinent. Ce quiz t'orientera vers <strong>ton protocole personnalisé</strong> — pas un protocole générique, mais une combinaison adaptée à ce que ton corps te dit en ce moment.
+</div>
+
+<!-- Section 1 : Signaux foie -->
+<div class="q-section">
+  <div class="q-section-title">🟡 Section 1 — Signaux du foie</div>
+  <p style="font-size:12px;color:var(--dx);margin-bottom:10px;font-style:italic;">Coche tous les signaux que tu observes régulièrement (au moins 2-3 fois par semaine)</p>
+  <div class="q-items" id="foie-checks">
+    <div class="q-item multi" onclick="toggleCheck(this,'foie',2)"><div class="check-custom"></div><div><div>Migraines fréquentes — surtout temporales, au-dessus des yeux ou en barre</div><div class="q-item-sub">Le foie est souvent en cause dans les migraines frontales et temporales</div></div></div>
+    <div class="q-item multi" onclick="toggleCheck(this,'foie',2)"><div class="check-custom"></div><div><div>Yeux sensibles à la lumière — les phares la nuit t'éblouissent plus que les autres</div><div class="q-item-sub">Sensibilité oculaire classiquement associée à la surcharge hépatique</div></div></div>
+    <div class="q-item multi" onclick="toggleCheck(this,'foie',2)"><div class="check-custom"></div><div><div>Bouche pâteuse, amère ou mauvaise haleine au réveil</div><div class="q-item-sub">Signe de détox hépatique nocturne surchargée</div></div></div>
+    <div class="q-item multi" onclick="toggleCheck(this,'foie',1)"><div class="check-custom"></div><div><div>Brouillard mental — difficultés de concentration en milieu de matinée</div></div></div>
+    <div class="q-item multi" onclick="toggleCheck(this,'foie',2)"><div class="check-custom"></div><div><div>Réveils nocturnes entre 1h et 3h du matin sans raison apparente</div><div class="q-item-sub">En médecine traditionnelle et en physiologie : l'heure de pic d'activité du foie</div></div></div>
+    <div class="q-item multi" onclick="toggleCheck(this,'foie',1)"><div class="check-custom"></div><div><div>Mauvaise tolérance à l'alcool — même une coupe te fait mal à la tête</div></div></div>
+    <div class="q-item multi" onclick="toggleCheck(this,'foie',1)"><div class="check-custom"></div><div><div>Constipation ancienne, rebelle — fibres et probiotiques ne changent pas grand chose</div><div class="q-item-sub">La bile a un rôle lubrifiant sur le transit. Constipation résistante = souvent hépatique</div></div></div>
+    <div class="q-item multi" onclick="toggleCheck(this,'foie',1)"><div class="check-custom"></div><div><div>Fatigue chronique, surtout en matinée, qui ne s'explique pas par le sommeil</div></div></div>
+  </div>
+</div>
+
+<!-- Section 2 : Signaux vésicule -->
+<div class="q-section">
+  <div class="q-section-title">🟢 Section 2 — Signaux de la vésicule biliaire</div>
+  <div class="q-items">
+    <div class="q-item multi" onclick="toggleCheck(this,'vesicule',3)"><div class="check-custom"></div><div><div>Lourdeurs ou nausées après les repas gras — saumon, fromages, fritures, oméga-3</div><div class="q-item-sub">Signal fort de vésicule paresseuse ou bile de mauvaise qualité</div></div></div>
+    <div class="q-item multi" onclick="toggleCheck(this,'vesicule',2)"><div class="check-custom"></div><div><div>Selles qui flottent ou grasses qui collent aux parois de la cuvette</div><div class="q-item-sub">Graisses non émulsifiées → bile insuffisante</div></div></div>
+    <div class="q-item multi" onclick="toggleCheck(this,'vesicule',2)"><div class="check-custom"></div><div><div>Selles pâles, beiges ou grises de façon régulière</div><div class="q-item-sub">Bile insuffisante dans l'intestin — à explorer avec ton médecin</div></div></div>
+    <div class="q-item multi" onclick="toggleCheck(this,'vesicule',2)"><div class="check-custom"></div><div><div>Douleurs ou gêne sous les côtes droites après un repas copieux</div></div></div>
+    <div class="q-item multi" onclick="toggleCheck(this,'vesicule',1)"><div class="check-custom"></div><div><div>Carences en vitamines D, A, E ou K qui résistent malgré la supplémentation</div><div class="q-item-sub">Vitamines liposolubles — leur absorption dépend entièrement de la bile</div></div></div>
+    <div class="q-item multi" onclick="toggleCheck(this,'vesicule',1)"><div class="check-custom"></div><div><div>Transit très variable — alternance constipation / diarrhée sans raison claire</div></div></div>
+  </div>
+</div>
+
+<!-- Section 3 : Signaux hormonaux -->
+<div class="q-section">
+  <div class="q-section-title">🟣 Section 3 — Signaux hormonaux potentiellement liés au foie</div>
+  <div class="q-items">
+    <div class="q-item multi" onclick="toggleCheck(this,'hormones',2)"><div class="check-custom"></div><div><div>Syndrome prémenstruel marqué — irritabilité, gonflements, douleurs les jours avant les règles</div><div class="q-item-sub">Dominance œstrogénique fréquente quand le foie recycle mal les hormones</div></div></div>
+    <div class="q-item multi" onclick="toggleCheck(this,'hormones',2)"><div class="check-custom"></div><div><div>Seins douloureux, gonflés — surtout en deuxième partie de cycle</div></div></div>
+    <div class="q-item multi" onclick="toggleCheck(this,'hormones',2)"><div class="check-custom"></div><div><div>Règles abondantes ou douloureuses</div></div></div>
+    <div class="q-item multi" onclick="toggleCheck(this,'hormones',3)"><div class="check-custom"></div><div><div>Endométriose ou fibromes diagnostiqués</div><div class="q-item-sub">Très souvent associés à une dominance œstrogénique — le foie est une pièce centrale</div></div></div>
+    <div class="q-item multi" onclick="toggleCheck(this,'hormones',1)"><div class="check-custom"></div><div><div>Symptômes d'hypothyroïdie (fatigue, frilosité, prise de poids) avec TSH "normale"</div><div class="q-item-sub">La conversion T4 → T3 active se fait en partie dans le foie</div></div></div>
+    <div class="q-item multi" onclick="toggleCheck(this,'hormones',1)"><div class="check-custom"></div><div><div>Tu prends ou as pris la pilule contraceptive plus de 2 ans</div><div class="q-item-sub">Les hormones de synthèse sollicitent fortement le foie pour être dégradées</div></div></div>
+  </div>
+</div>
+
+<!-- Section 4 : Charge hépatique -->
+<div class="q-section">
+  <div class="q-section-title">🔵 Section 4 — Ce qui charge ton foie au quotidien</div>
+  <div class="q-items">
+    <div class="q-item multi" onclick="toggleCheck(this,'charge',2)"><div class="check-custom"></div><div><div>Alcool régulier — même modéré (1-2 verres plusieurs fois par semaine)</div></div></div>
+    <div class="q-item multi" onclick="toggleCheck(this,'charge',2)"><div class="check-custom"></div><div><div>Alimentation ultra-transformée fréquente — plats préparés, fast food, additifs</div></div></div>
+    <div class="q-item multi" onclick="toggleCheck(this,'charge',2)"><div class="check-custom"></div><div><div>Médicaments au long cours — IPP, pilule, antidouleurs réguliers, antidépresseurs</div></div></div>
+    <div class="q-item multi" onclick="toggleCheck(this,'charge',1)"><div class="check-custom"></div><div><div>Stress chronique intense et prolongé</div><div class="q-item-sub">Le cortisol en excès charge le foie et perturbe la détox de phase II</div></div></div>
+    <div class="q-item multi" onclick="toggleCheck(this,'charge',1)"><div class="check-custom"></div><div><div>Exposition professionnelle ou domestique à des produits chimiques, peintures, solvants</div></div></div>
+    <div class="q-item multi" onclick="toggleCheck(this,'charge',1)"><div class="check-custom"></div><div><div>Alimentation pauvre en légumes crucifères (brocoli, chou, chou-fleur, radis)</div><div class="q-item-sub">Ces légumes fournissent les cofacteurs essentiels à la phase II de détox</div></div></div>
+  </div>
+</div>
+
+<button class="q-btn" onclick="calcResult()">Voir mon profil &amp; mon protocole →</button>
+<div class="result" id="result"></div>
+</div>
+
+<!-- ═══════════ FOIE SURCHARGÉ ═══════════ -->
+<div class="page" id="p-f">
+  <h2 class="pt">Protocole <em>Foie surchargé</em></h2>
+  <div class="ol"></div>
+  <div class="intro-p"><strong>Principe fondamental :</strong> on ne draine jamais agressivement un foie surchargé sur un organisme épuisé. On commence par nourrir les deux phases de détox avec les bons micronutriments, puis on soutient doucement avec les plantes. Dans cet ordre, jamais l'inverse.</div>
+
+  <div class="steps">
+    <div class="step">
+      <div class="sn vf">1</div>
+      <div class="sbody">
+        <div class="st">Réduire les charges hépatiques — priorité absolue</div>
+        <div class="stxt">Alcool · médicaments inutiles · aliments ultra-transformés · pilule si possible et si envisageable. <strong>Moins de charge = plus de capacité de filtration pour ce qui reste.</strong><br><br>La bouillotte chaude sur le foie (côté droit sous les côtes) 20 minutes après le repas — favorise la production et le flux de bile, relance la circulation hépatique. Geste simple, gratuit, très efficace.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="sn vf">2</div>
+      <div class="sbody">
+        <div class="st">Nourrir les phases I et II de la détox — AVANT les plantes</div>
+        <div class="stxt">Les phases de détox hépatique sont gourmandes en micronutriments. Si ces cofacteurs manquent, on active la phase I sans pouvoir terminer la phase II — et on crée plus de toxicité qu'on n'en élimine.</div>
+        <div class="prod">
+          <div class="pnom">Vitamines du groupe B — B2, B6, B9, B12</div>
+          <div class="pdet">Indispensables à la phase II (méthylation, acetylation). Complément B-complexe de qualité ou via alimentation : foie de volaille, légumes verts foncés, œufs.</div>
+          <div class="pmec">Méthylation : le groupe méthyle neutralise les hormones usagées, les métaux lourds, l'histamine. Sans B vitamines, cette voie est bloquée.</div>
+        </div>
+        <div class="prod" style="margin-top:6px;">
+          <div class="pnom">Glutathion (ou N-Acétyl-Cystéine — précurseur)</div>
+          <div class="pdet">Principal antioxydant hépatique. La NAC est souvent préférable au glutathion oral pour une meilleure biodisponibilité. Respecter le dosage du laboratoire.</div>
+          <div class="pmec">Conjugue les métabolites toxiques de la phase I pour les rendre éliminables. Sans glutathion, les intermédiaires de phase I s'accumulent.</div>
+        </div>
+        <div class="prod" style="margin-top:6px;">
+          <div class="pnom">Magnésium bisglycinate ou glycérophosphate</div>
+          <div class="pdet">Cofacteur de la phase II et relaxant du système nerveux. <strong>300 à 450 mg/jour.</strong> À prendre en soirée de préférence.</div>
+        </div>
+        <div class="prod" style="margin-top:6px;">
+          <div class="pnom">Sélénium + Zinc</div>
+          <div class="pdet">Sélénium : cofacteur essentiel du glutathion-peroxydase. Zinc : indispensable à la neutralisation des radicaux libres hépatiques et à la méthylation. Respecter les dosages — sélénium = risque de toxicité si excès.</div>
+        </div>
+        <div class="prod" style="margin-top:6px;">
+          <div class="pnom">Vitamine C</div>
+          <div class="pdet">Antioxydant qui soutient la régénération du glutathion. Aliments : poivrons crus, kiwi, persil frais, acérola. Complément si besoin : 500-1000 mg/jour.</div>
+        </div>
+        <div class="note">S'assurer qu'il n'y a pas de carences dans ces micronutriments <strong>avant</strong> d'introduire les plantes drainantes. Un bilan sanguin peut aider à cibler.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="sn or">3</div>
+      <div class="sbody">
+        <div class="st or">🌿 Plantes hépatiques — dans l'ordre et selon le profil</div>
+        <div class="prod">
+          <div class="pnom">Romarin — tisane, cure de 21 jours</div>
+          <div class="pdet"><strong>1 tasse par jour pendant 21 jours max.</strong> Plante hépato-protectrice et drainante douce. Stimule la production de bile et favorise la digestion des graisses. Idéale pour commencer — douce, bien tolérée.</div>
+          <div class="pmec">L'acide rosmarinique et les diterpènes du romarin soutiennent la phase II de détox et protègent les cellules hépatiques du stress oxydatif.</div>
+        </div>
+        <div class="prod" style="margin-top:6px;">
+          <div class="pnom">Chardon-Marie (Silybum marianum)</div>
+          <div class="pdet">Hépato-protecteur puissant. <strong>Cure de 21 jours maximum.</strong> Indiqué si prise de médicaments au long cours, pilule, exposition aux toxiques. Toujours informer ton médecin si traitement en cours — interaction possible.</div>
+          <div class="pmec">La silymarine (principe actif) protège les hépatocytes contre l'oxydation et favorise leur régénération. Elle inhibe aussi l'entrée de certaines toxines dans les cellules hépatiques.</div>
+        </div>
+        <div class="prod" style="margin-top:6px;">
+          <div class="pnom">Desmodium (Desmodium adscendens)</div>
+          <div class="pdet">Effet protecteur du foie, particulièrement intéressant si traitements médicamenteux au long cours. <strong>Cure de 21 jours max.</strong> Toujours demander l'avis de ton médecin dans ce cas.</div>
+        </div>
+        <div class="prod" style="margin-top:6px;">
+          <div class="pnom">Macérât de Genévrier (gemmothérapie)</div>
+          <div class="pdet">Particulièrement indiqué si prise de pilule contraceptive ou traitement hormonal. Soutient l'élimination des hormones de synthèse par le foie. Respecter le dosage du laboratoire.</div>
+        </div>
+        <div class="prod" style="margin-top:6px;">
+          <div class="pnom">Sève de Bouleau — cure printanière</div>
+          <div class="pdet">Reminéralisante et drainante à la fois. <strong>Cure de 21 jours maximum, de préférence au printemps.</strong> Douce, idéale pour entretenir le foie après une cure plus ciblée.</div>
+        </div>
+        <div class="al"><strong>Ne jamais faire plusieurs cures drainantes en même temps</strong> — 1 plante ciblée à la fois, 21 jours, puis pause. Le foie a besoin de temps pour éliminer ce qu'on mobilise.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ VÉSICULE ═══════════ -->
+<div class="page" id="p-v">
+  <h2 class="pt">Protocole <em>Vésicule biliaire</em></h2>
+  <div class="ol"></div>
+  <div class="intro-p">La vésicule stocke et concentre la bile produite par le foie, puis la libère dans l'intestin grêle à chaque repas gras. Quand elle est paresseuse ou que la bile est trop visqueuse (<em>bile lithogène</em>), les graisses ne sont pas émulsifiées correctement — et toute l'absorption des vitamines liposolubles en souffre.</div>
+
+  <div class="al"><strong>⚠ Avant tout protocole vésiculaire</strong> — s'assurer de l'absence de calculs biliaires (lithiase vésiculaire). Une échographie abdominale est recommandée. <strong>Le radis noir, l'artichaut à dose élevée et le chardon-marie à haute dose sont contre-indiqués en présence de calculs.</strong> Ils peuvent provoquer une contraction vésiculaire sur des calculs et déclencher une colique hépatique.</div>
+
+  <div class="steps" style="margin-top:16px;">
+    <div class="step">
+      <div class="sn vf">1</div>
+      <div class="sbody">
+        <div class="st">Production et qualité des acides biliaires — les cofacteurs</div>
+        <div class="stxt">La production d'acides biliaires de bonne qualité nécessite des cofacteurs précis.</div>
+        <div class="prod">
+          <div class="pnom">Fer + Vitamine B3 (niacine) + antioxydants</div>
+          <div class="pdet">Cofacteurs des cytochromes P450 impliqués dans la synthèse des acides biliaires à partir du cholestérol. Un déficit en fer ou B3 réduit directement la qualité et la quantité de bile produite.</div>
+          <div class="pmec">La conversion du cholestérol en acides biliaires primaires (acide cholique, acide chénodésoxycholique) dépend de ces enzymes.</div>
+        </div>
+        <div class="prod" style="margin-top:6px;">
+          <div class="pnom">Glycine + Taurine — conjugaison biliaire</div>
+          <div class="pdet">Les acides biliaires primaires doivent être conjugués (associés à la glycine ou la taurine) pour être actifs et solubles. La taurine est particulièrement importante chez les personnes ayant une alimentation pauvre en protéines animales.</div>
+          <div class="pmec">La bile conjuguée est 10 à 100 fois plus efficace pour l'émulsification des graisses que la bile non conjuguée.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="sn vf">2</div>
+      <div class="sbody">
+        <div class="st">🌿 Stimuler la vidange vésiculaire — plantes cholérétiques</div>
+        <div class="stxt"><strong>À n'utiliser qu'en l'absence de calculs confirmés.</strong></div>
+        <div class="prod">
+          <div class="pnom">Artichaut (Cynara scolymus)</div>
+          <div class="pdet">Cholérétique et cholagogue — stimule la production de bile et sa libération. En extrait standardisé ou tisane avant les repas.</div>
+          <div class="pmec">La cynarine (principe actif) augmente la sécrétion biliaire et favorise le flux de bile vers le duodénum.</div>
+          <div class="pci">⚠ Doses élevées contre-indiquées si calculs biliaires</div>
+        </div>
+        <div class="prod" style="margin-top:6px;">
+          <div class="pnom">Pissenlit (Taraxacum officinale)</div>
+          <div class="pdet">Cholagogue et hépato-drainant doux. Tisane de feuilles ou de racines. Bien toléré, peut être utilisé sur des durées plus longues.</div>
+        </div>
+        <div class="prod" style="margin-top:6px;">
+          <div class="pnom">Radis noir — <strong>SI et seulement SI pas de calculs</strong></div>
+          <div class="pdet">Cholérétique puissant. Jus frais ou complément standardisé. Cure de 3 semaines maximum.</div>
+          <div class="pci">⚠ CONTRE-INDIQUÉ si calculs biliaires · Vérifier impérativement avant utilisation</div>
+        </div>
+        <div class="prod" style="margin-top:6px;">
+          <div class="pnom">Fumeterre (Fumaria officinalis) — si vésicule paresseuse + anxiété</div>
+          <div class="pdet">Plante régulatrice du flux biliaire — unique en cela qu'elle <strong>régule</strong> (stimule si insuffisant, calme si spasmes). Particulièrement indiquée si la vésicule paresseuse s'accompagne d'anxiété, de tension ou de spasmes digestifs. <strong>Cure de 21 jours.</strong></div>
+          <div class="pmec">La fumarique et les alcaloïdes de la fumeterre ont une action antispasmodique sur les voies biliaires et un effet régulateur sur la motilité vésiculaire — sans forcer la contraction.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="sn or">3</div>
+      <div class="sbody">
+        <div class="st or">La bouillotte — geste quotidien incontournable</div>
+        <div class="stxt"><strong>20 minutes après le repas principal</strong>, bouillotte chaude côté droit sous les côtes. Ce geste simple favorise la production de bile, soutient la circulation hépatique et aide à fluidifier une bile trop visqueuse. Aucun produit ne peut le remplacer — c'est l'un des gestes les plus efficaces du protocole hépatique.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ HORMONES ═══════════ -->
+<div class="page" id="p-h">
+  <h2 class="pt">Foie &amp; <em>hormones</em></h2>
+  <div class="ol"></div>
+  <div class="intro-p">Le foie recycle les œstrogènes après leur utilisation. Quand ce recyclage se fait mal, les œstrogènes recirculent et créent une <strong>dominance œstrogénique</strong> — un excès relatif d'œstrogènes par rapport à la progestérone. Ce n'est pas toujours une production excessive d'œstrogènes. C'est souvent une élimination insuffisante. Et c'est là que le foie est central.</div>
+
+  <div class="steps">
+    <div class="step">
+      <div class="sn vf">1</div>
+      <div class="sbody">
+        <div class="st">Soutenir la méthylation des œstrogènes</div>
+        <div class="stxt">La méthylation est la voie principale de dégradation des œstrogènes dans le foie. Elle nécessite des donneurs de méthyle.</div>
+        <div class="prod">
+          <div class="pnom">Vitamines B9 (folate) + B12 + B6</div>
+          <div class="pdet">Donneurs de méthyle indispensables. Privilégier les formes actives : <strong>méthylfolate (B9), méthylcobalamine (B12), pyridoxal-5-phosphate (B6)</strong> — particulièrement important en cas de polymorphisme MTHFR.</div>
+          <div class="pmec">Le cycle de méthylation transforme les œstrogènes actifs (E2) en métabolites inactifs (2-OH-E2) qui peuvent être éliminés via la bile.</div>
+        </div>
+        <div class="prod" style="margin-top:6px;">
+          <div class="pnom">Bétaïne (TMG — triméthylglycine)</div>
+          <div class="pdet">Donneur de méthyle naturel. Présente dans les épinards, la betterave, le quinoa. En complément si apports insuffisants.</div>
+        </div>
+        <div class="prod" style="margin-top:6px;">
+          <div class="pnom">DIM (Di-indolyl-méthane) — dérivé des légumes crucifères</div>
+          <div class="pdet">Favorise la métabolisation des œstrogènes vers les métabolites 2-OH (protecteurs) plutôt que vers les 16-OH (pro-inflammatoires). <strong>En complément ou via consommation régulière de brocoli, choux, chou-fleur, radis crus.</strong></div>
+          <div class="pmec">Oriente le catabolisme des œstrogènes vers la voie 2-hydroxylation — voie protectrice plutôt que la voie 16-alpha-hydroxylation pro-inflammatoire.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="sn vf">2</div>
+      <div class="sbody">
+        <div class="st">Soutenir l'élimination des œstrogènes via les selles</div>
+        <div class="stxt">Les œstrogènes dégradés par le foie sont excrétés dans la bile puis dans les selles. Si le transit est lent, ces œstrogènes sont réabsorbés dans le côlon — ce qu'on appelle la recirculation entéro-hépatique.</div>
+        <div class="prod">
+          <div class="pnom">Fibres solubles — psyllium, pommes, poires, légumineuses</div>
+          <div class="pdet">Les fibres solubles se lient aux œstrogènes dans l'intestin et empêchent leur réabsorption. <strong>Transit régulier = élimination des œstrogènes complète.</strong></div>
+          <div class="pmec">La constipation est un facteur aggravant majeur de la dominance œstrogénique souvent sous-estimé.</div>
+        </div>
+        <div class="prod" style="margin-top:6px;">
+          <div class="pnom">Microbiote sain — réduire les bêta-glucuronidases</div>
+          <div class="pdet">Certaines bactéries du microbiote produisent une enzyme (bêta-glucuronidase) qui déconjugue les œstrogènes dans l'intestin et permet leur réabsorption. Un microbiote équilibré réduit cette réabsorption.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="sn or">3</div>
+      <div class="sbody">
+        <div class="st or">🌿 Plantes pour le terrain hormono-hépatique</div>
+        <div class="prod">
+          <div class="pnom or">Chardon-Marie + Romarin — le duo de base</div>
+          <div class="pdet">Chardon-Marie pour protéger et soutenir les hépatocytes dans leur travail de recyclage hormonal. Romarin pour stimuler la bile et la détox douce. <strong>Cure de 21 jours, alternée, pas simultanée.</strong></div>
+        </div>
+        <div class="prod" style="margin-top:6px;">
+          <div class="pnom">Gattilier (Vitex agnus-castus) — si SPM dominant</div>
+          <div class="pdet">Rééquilibre le rapport progestérone/œstrogènes en soutenant la production de progestérone. S'utilise en deuxième partie de cycle. <strong>À ne pas utiliser si prise de pilule.</strong></div>
+          <div class="pci">⚠ Ne pas utiliser si traitement hormonal ou pilule · Demander avis médical</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ ALIMENTATION ═══════════ -->
+<div class="page" id="p-a">
+  <h2 class="pt">Alimentation <em>hépatoprotectrice</em></h2>
+  <div class="ol"></div>
+  <div class="intro-p">Ce qu'on mange est la première intervention hépatique. Avant les plantes, avant les compléments. <strong>Un foie qu'on continue de charger avec une alimentation inflammatoire ne bénéficiera pas pleinement des plantes drainantes.</strong></div>
+
+  <div class="food-grid">
+    <div class="food-card bon">
+      <div class="food-title bon">✓ Ce qui soutient le foie</div>
+      <div class="food-item">🥦 <div><strong>Légumes crucifères</strong> — brocoli, chou, chou-fleur, chou de Bruxelles, radis<br><span class="food-why">Fournissent le DIM et l'indole-3-carbinol → soutien de la méthylation des œstrogènes</span></div></div>
+      <div class="food-item">🧅 <div><strong>Ail, oignon, poireau</strong><br><span class="food-why">Riches en soufre → cofacteurs de la phase II (sulfatation et méthylation)</span></div></div>
+      <div class="food-item">🫐 <div><strong>Baies, myrtilles, grenade</strong><br><span class="food-why">Polyphénols antioxydants qui protègent les hépatocytes du stress oxydatif</span></div></div>
+      <div class="food-item">🥚 <div><strong>Œufs, foie de volaille</strong><br><span class="food-why">Choline — cofacteur du transport des graisses hors du foie. Réduit le risque de stéatose</span></div></div>
+      <div class="food-item">🫒 <div><strong>Huile d'olive extra-vierge</strong><br><span class="food-why">Oleuropéine anti-inflammatoire, favorise la production de bile</span></div></div>
+      <div class="food-item">🌿 <div><strong>Aromates frais</strong> — persil, coriandre, curcuma<br><span class="food-why">Curcumine : anti-inflammatoire hépatique, soutien de la phase II</span></div></div>
+      <div class="food-item">💧 <div><strong>Eau suffisante — hors repas</strong><br><span class="food-why">L'élimination des déchets via les reins nécessite une bonne hydratation</span></div></div>
+    </div>
+
+    <div class="food-card mauvais">
+      <div class="food-title mauvais">✗ Ce qui charge le foie</div>
+      <div class="food-item">🍷 <div><strong>Alcool</strong> — même modéré<br><span class="food-why">L'acétaldéhyde (métabolite toxique de l'alcool) détruit les hépatocytes et épuise le glutathion</span></div></div>
+      <div class="food-item">🍔 <div><strong>Aliments ultra-transformés</strong><br><span class="food-why">Additifs, émulsifiants, huiles hydrogénées → surcharge les voies de détox hépatique</span></div></div>
+      <div class="food-item">🍭 <div><strong>Sucres raffinés en excès</strong><br><span class="food-why">Fructose en excès → stéatose hépatique non alcoolique (foie gras). Perturbation du métabolisme lipidique</span></div></div>
+      <div class="food-item">🌽 <div><strong>Huiles végétales industrielles</strong> — tournesol, maïs<br><span class="food-why">Riches en oméga-6 pro-inflammatoires → favorisent l'inflammation hépatique</span></div></div>
+      <div class="food-item">🥛 <div><strong>Produits laitiers de vache industriels en excès</strong><br><span class="food-why">Sur terrain sensible : hormones résiduelles + acide arachidonique → charge hépatique</span></div></div>
+      <div class="food-item">☕ <div><strong>Café en excès</strong> — plus de 2-3/jour<br><span class="food-why">Stimule le foie sur le court terme mais l'épuise sur le long terme sur terrain fragile</span></div></div>
+    </div>
+  </div>
+
+  <div class="note" style="margin-top:16px;"><strong>Rituel détox quotidien simple :</strong> le matin à jeun, un grand verre d'eau chaude avec le jus d'un demi-citron. Stimule la production de bile, active la péristaltisme, alcalinise légèrement. Pas révolutionnaire seul, mais comme geste d'ancrage d'une hygiène hépatique quotidienne, c'est un excellent point de départ.</div>
+</div>
+
+<footer>DIGEST-IN · Vidéo 3 · Bonus — Angélique Noor, Naturopathe<br>
+Outil pédagogique · Ne remplace pas un bilan de terrain individualisé ni un avis médical · Toujours informer ton médecin si traitement en cours</footer>
+
+<script>
+// Scores
+const scores = {foie:0, vesicule:0, hormones:0, charge:0};
+
+function toggleCheck(el, cat, val) {
+  el.classList.toggle('sel');
+  if (el.classList.contains('sel')) {
+    scores[cat] = (scores[cat] || 0) + val;
+  } else {
+    scores[cat] = Math.max(0, (scores[cat] || 0) - val);
+  }
+}
+
+function showTab(id, btn, cls) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('on'));
+  document.querySelectorAll('.tab').forEach(t => { t.className = 'tab'; });
+  document.getElementById('p-' + id).classList.add('on');
+  btn.classList.add(cls);
+}
+
+function calcResult() {
+  const f = scores.foie || 0;
+  const v = scores.vesicule || 0;
+  const h = scores.hormones || 0;
+  const c = scores.charge || 0;
+  const total = f + v + h + c;
+
+  if (total < 3) {
+    showResult('neutre', f, v, h, c);
+  } else {
+    showResult('complet', f, v, h, c);
+  }
+}
+
+function showResult(type, f, v, h, c) {
+  const r = document.getElementById('result');
+  r.className = 'result on';
+
+  const fMax = 12, vMax = 11, hMax = 11, cMax = 9;
+  const fPct = Math.min(Math.round(f/fMax*100), 100);
+  const vPct = Math.min(Math.round(v/vMax*100), 100);
+  const hPct = Math.min(Math.round(h/hMax*100), 100);
+  const cPct = Math.min(Math.round(c/cMax*100), 100);
+
+  // Déterminer profil dominant
+  const max = Math.max(f, v, h);
+  let profil, headerClass, profilTitre, profilIntro, protocoles;
+
+  if (max === 0) {
+    profil = 'neutre';
+    headerClass = 'neutre';
+    profilTitre = 'Peu de signaux hépatiques détectés';
+    profilIntro = 'Tu observes peu de signaux hépatiques en ce moment. C\'est une bonne nouvelle. L\'objectif est maintenant d\'entretenir cet équilibre et d\'adopter les habitudes hépatoprotectrices au quotidien — alimentation, hydratation, bouillotte, légumes crucifères.';
+    protocoles = `<div class="proto-block">
+      <div class="proto-block-title">👍 Ce que tu fais maintenant</div>
+      <p style="font-size:13px;color:var(--dx);line-height:1.7;">Adopte les fondations alimentaires hépatoprotectrices (onglet 🥦), ajoute la bouillotte après les repas si tu veux soutenir ton foie de façon préventive, et introduis une cure légère de romarin (tisane 21j) au printemps. Pas besoin de protocole lourd pour le moment.</p>
+    </div>`;
+  } else if (h >= f && h >= v && h >= 4) {
+    profil = 'hormones';
+    headerClass = 'hormones';
+    profilTitre = 'Profil foie + dominance œstrogénique';
+    profilIntro = 'Tes signaux hormonaux sont dominants. Avant d\'attaquer un protocole hormonal pur, il est essentiel de travailler le recyclage hépatique des œstrogènes. Un foie qui ne méthyle pas bien les hormones usagées crée une recirculation d\'œstrogènes — et tout protocole hormonal sera moins efficace si le foie ne fait pas son travail d\'élimination.';
+    protocoles = buildHormonesProto(f, v, c);
+  } else if (v >= f && v >= 4) {
+    profil = 'vesicule';
+    headerClass = 'vesicule';
+    profilTitre = 'Profil vésicule biliaire';
+    profilIntro = 'Tes signaux pointent vers une vésicule paresseuse ou une bile de mauvaise qualité. L\'émulsification des graisses est compromise — ce qui explique les lourdeurs, les selles grasses, et potentiellement des carences en vitamines liposolubles qui ne se corrigent pas malgré la supplémentation. Avant toute chose : vérifier l\'absence de calculs biliaires par échographie.';
+    protocoles = buildVesiculeProto(f, c);
+  } else if (f >= 3) {
+    profil = 'foie';
+    headerClass = 'foie';
+    profilTitre = 'Profil foie surchargé';
+    profilIntro = 'Tes signaux indiquent un foie qui travaille sous charge. Il ne crie pas — il murmure à travers tes migraines, ta sensibilité à la lumière, ta bouche amère au réveil. L\'approche est progressive : on réduit les charges, on nourrit les phases de détox, puis on soutient doucement avec les plantes ciblées.';
+    protocoles = buildFoieProto(v, h, c);
+  } else {
+    profil = 'foie';
+    headerClass = 'charge';
+    profilTitre = 'Charge hépatique élevée — prévention prioritaire';
+    profilIntro = 'Même si tes symptômes hépatiques ne sont pas encore très marqués, ta charge hépatique quotidienne (alcool, médicaments, alimentation, stress) est élevée. Agir maintenant, avant que les signaux s\'installent, est la stratégie la plus intelligente.';
+    protocoles = buildChargeProto();
+  }
+
+  r.innerHTML = `
+    <div class="result-header ${headerClass}">
+      <div class="result-profil">${profilTitre}<br><em>Voici ton protocole personnalisé</em></div>
+    </div>
+    <div class="result-body">
+      <div class="result-scores">
+        ${f > 0 ? `<div class="score-pill hi">🟡 Foie <div class="score-bar"><div class="score-fill" style="width:${fPct}%"></div></div></div>` : ''}
+        ${v > 0 ? `<div class="score-pill hi">🟢 Vésicule <div class="score-bar"><div class="score-fill" style="width:${vPct}%"></div></div></div>` : ''}
+        ${h > 0 ? `<div class="score-pill hi">🟣 Hormones <div class="score-bar"><div class="score-fill" style="width:${hPct}%"></div></div></div>` : ''}
+        ${c > 0 ? `<div class="score-pill hi">🔵 Charge <div class="score-bar"><div class="score-fill" style="width:${cPct}%"></div></div></div>` : ''}
+      </div>
+      <div class="result-intro">${profilIntro}</div>
+      ${protocoles}
+      <div style="margin-top:16px;font-size:11.5px;color:var(--dx);font-style:italic;border-top:1px solid var(--crf);padding-top:12px;">Ce résultat est un outil pédagogique d'orientation. Pour un protocole précis et adapté à ton terrain complet — en tenant compte de tous tes paramètres de santé, tes antécédents, tes traitements en cours — une consultation naturopathique individuelle reste indispensable.</div>
+      <button class="r-cta" onclick="window.scrollTo({top:0,behavior:'smooth'})">Consulter les protocoles détaillés ↑</button>
+    </div>`;
+
+  r.scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+function buildFoieProto(v, h, c) {
+  return `<div class="proto-block">
+    <div class="proto-block-title">Étape 1 — Réduire les charges en priorité</div>
+    <div class="proto-step"><div class="proto-num">→</div><div class="proto-content">
+      <div class="proto-txt">Bouillotte chaude côté droit, <strong>20 min après le repas principal</strong>. ${c >= 3 ? '<strong>Réduire l\'alcool et les aliments ultra-transformés — charge hépatique élevée détectée.</strong>' : 'Maintenir une alimentation hépatoprotectrice.'} Légumes crucifères 3-4 fois par semaine.</div>
+    </div></div>
+  </div>
+  <div class="proto-block">
+    <div class="proto-block-title">Étape 2 — Nourrir les phases de détox</div>
+    <div class="proto-step"><div class="proto-num vf">→</div><div class="proto-content">
+      <div class="proto-txt"><strong>Vitamines B (B2, B6, B9, B12)</strong> · <strong>Magnésium bisglycinate</strong> 300-450 mg/soir · <strong>Vitamine C</strong> 500-1000 mg · <strong>Sélénium + Zinc</strong>.<br>Si carences documentées : NAC (précurseur du glutathion) selon dosage laboratoire.</div>
+      <div class="proto-mec">Ces micronutriments sont indispensables à la phase II. Sans eux, les cures drainantes créent plus de toxicité qu'elles n'en éliminent.</div>
+    </div></div>
+  </div>
+  <div class="proto-block">
+    <div class="proto-block-title">Étape 3 — Plantes selon ton terrain</div>
+    <div class="proto-step"><div class="proto-num or">→</div><div class="proto-content">
+      <div class="proto-txt"><strong>Romarin en tisane — 1 tasse/jour, 21 jours.</strong> Point de départ idéal — doux, bien toléré, stimule la bile.<br><br>${h >= 3 ? '<strong>Macérât de Genévrier</strong> si tu prends ou as pris la pilule — élimine les hormones de synthèse hépatiques.<br><br>' : ''}<strong>Chardon-Marie</strong> si médicaments au long cours — cure 21 jours max, informer le médecin.<br><br><strong>Sève de Bouleau</strong> au printemps — reminéralisante et drainante douce.</div>
+      <div class="proto-mec">1 plante ciblée à la fois · 21 jours · Pause · Jamais simultanément</div>
+    </div></div>
+  </div>
+  ${v >= 3 ? `<div class="al"><strong>Signaux vésiculaires présents également.</strong> Après le protocole foie, envisager un soutien vésiculaire (onglet 🟢) — mais vérifier l'absence de calculs biliaires par échographie d'abord.</div>` : ''}`;
+}
+
+function buildVesiculeProto(f, c) {
+  return `<div class="proto-block">
+    <div class="proto-block-title">⚠ Avant tout — vérifier l'absence de calculs</div>
+    <div class="proto-step"><div class="proto-num rg">!</div><div class="proto-content">
+      <div class="proto-txt">Demander une <strong>échographie abdominale</strong> à ton médecin. Le radis noir, l'artichaut à dose élevée et le chardon-marie sont contre-indiqués en présence de calculs biliaires.</div>
+    </div></div>
+  </div>
+  <div class="proto-block">
+    <div class="proto-block-title">Protocole vésicule (si pas de calculs)</div>
+    <div class="proto-step"><div class="proto-num vf">1</div><div class="proto-content">
+      <div class="proto-txt"><strong>Bouillotte 20 min après le repas</strong> — geste quotidien fondamental pour fluidifier la bile et soutenir la vidange vésiculaire.</div>
+    </div></div>
+    <div class="proto-step"><div class="proto-num vf">2</div><div class="proto-content">
+      <div class="proto-txt"><strong>Cofacteurs des acides biliaires :</strong> Fer + Vitamine B3 · Glycine + Taurine (particulièrement si alimentation pauvre en protéines animales).</div>
+      <div class="proto-mec">La conjugaison biliaire avec la taurine est essentielle pour une bile efficace.</div>
+    </div></div>
+    <div class="proto-step"><div class="proto-num or">3</div><div class="proto-content">
+      <div class="proto-txt"><strong>Plantes cholérétiques :</strong><br>• Artichaut en extrait avant les repas<br>• Pissenlit en tisane — bien toléré, peut s'utiliser en entretien<br>• <strong>Fumeterre si anxiété associée</strong> — régule le flux biliaire sans forcer la contraction · 21 jours<br>• Radis noir SI calculs écartés — cure 3 semaines max</div>
+    </div></div>
+  </div>
+  ${f >= 3 ? `<div class="note"><strong>Signaux hépatiques présents également.</strong> Commencer par le protocole foie (onglet 🟡) avant d'attaquer le protocole vésiculaire — le foie doit fonctionner correctement pour que la bile produite soit de qualité.</div>` : ''}`;
+}
+
+function buildHormonesProto(f, v, c) {
+  return `<div class="proto-block">
+    <div class="proto-block-title">Étape 1 — Soutenir la méthylation des œstrogènes</div>
+    <div class="proto-step"><div class="proto-num vf">→</div><div class="proto-content">
+      <div class="proto-txt"><strong>Formes actives des vitamines B :</strong> méthylfolate (B9) · méthylcobalamine (B12) · P5P (B6 active).<br><strong>Bétaïne (TMG)</strong> — donneur de méthyle naturel · Épinards, betterave, quinoa.<br><strong>Légumes crucifères 3-4x/semaine</strong> — brocoli, chou, chou-fleur → DIM naturel.</div>
+      <div class="proto-mec">La méthylation transforme les œstrogènes actifs en métabolites 2-OH inactifs et éliminables. Sans cofacteurs B, cette voie est bloquée.</div>
+    </div></div>
+  </div>
+  <div class="proto-block">
+    <div class="proto-block-title">Étape 2 — Soutenir l'élimination intestinale</div>
+    <div class="proto-step"><div class="proto-num vf">→</div><div class="proto-content">
+      <div class="proto-txt">Transit régulier indispensable — <strong>la constipation aggrave la dominance œstrogénique</strong> en favorisant la réabsorption des œstrogènes dans le côlon.<br>Fibres solubles · hydratation suffisante · bouillotte foie.</div>
+    </div></div>
+  </div>
+  <div class="proto-block">
+    <div class="proto-block-title">Étape 3 — Plantes</div>
+    <div class="proto-step"><div class="proto-num or">→</div><div class="proto-content">
+      <div class="proto-txt"><strong>Chardon-Marie + Romarin</strong> — cure alternée 21 jours. Soutien du recyclage hormonal hépatique.<br>${c >= 2 ? '<strong>Macérât de Genévrier</strong> — si pilule ou traitement hormonal en cours ou passé récent.<br>' : ''}<strong>Bouillotte foie quotidienne.</strong></div>
+    </div></div>
+  </div>
+  <div class="al"><strong>Le gattilier (Vitex agnus-castus)</strong> peut être envisagé pour rééquilibrer progestérone/œstrogènes — mais uniquement sans contraception hormonale et idéalement avec suivi naturopathique.</div>`;
+}
+
+function buildChargeProto() {
+  return `<div class="proto-block">
+    <div class="proto-block-title">Protocole prévention — réduire la charge et nourrir</div>
+    <div class="proto-step"><div class="proto-num vf">1</div><div class="proto-content">
+      <div class="proto-txt"><strong>Réductions prioritaires :</strong> alcool · aliments ultra-transformés · sucres raffinés en excès. Pas besoin d'être parfaite — réduire de 50% fait déjà une différence mesurable pour le foie.</div>
+    </div></div>
+    <div class="proto-step"><div class="proto-num vf">2</div><div class="proto-content">
+      <div class="proto-txt"><strong>Introduire :</strong> légumes crucifères 3-4x/semaine · ail et oignon réguliers · bouillotte foie après le repas principal · eau citron chaud le matin à jeun.</div>
+    </div></div>
+    <div class="proto-step"><div class="proto-num or">3</div><div class="proto-content">
+      <div class="proto-txt"><strong>Cure légère de romarin</strong> — tisane 1 tasse/jour, 21 jours. Douce et bien adaptée en prévention. Idéalement au printemps.</div>
+    </div></div>
+  </div>`;
+}
+</script>
+</body>
+</html>
